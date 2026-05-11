@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Dreaming launchd job template — Partner AI Kit
+
+  Replace [USER] with the macOS username (e.g. "danieljnielsen") and
+  [AI_NAME] with the lowercase AI name (e.g. "watney") before installing.
+
+  Install:
+    1. Save as: ~/Library/LaunchAgents/com.[user].[ai-name].dreaming.plist
+    2. Run: launchctl load ~/Library/LaunchAgents/com.[user].[ai-name].dreaming.plist
+    3. Verify: launchctl list | grep dreaming
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.[USER].[AI_NAME].dreaming</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>-c</string>
+        <string>cd "$HOME/Documents/[AI_NAME]" &amp;&amp; /opt/homebrew/bin/claude -p "Run the dreaming skill — compress today's daily memory into long-term memory." 2&gt;&gt; "$HOME/Documents/[AI_NAME]/logs/dreaming.err"</string>
+    </array>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>HOME</key>
+        <string>/Users/[USER]</string>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>2</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/[USER]/Documents/[AI_NAME]/logs/dreaming.out</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/[USER]/Documents/[AI_NAME]/logs/dreaming.err</string>
+</dict>
+</plist>
