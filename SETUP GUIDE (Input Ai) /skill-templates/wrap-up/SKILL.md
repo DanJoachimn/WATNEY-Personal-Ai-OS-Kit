@@ -347,3 +347,43 @@ fi
 - "Drop it" / "stop nudging" → `touch "$DISABLED"` and `rm "$PENDING"`. Confirm: *"Got it — won't bring up the 1Password upgrade again unless you ask. Default `.env` pattern stays."*
 
 **Cap:** max one 1Password nudge per wrap-up run. If a voice nudge already fired this run, skip the 1Password one. (Hard rule: never stack two upgrade nudges in the same sweep — feels nagging.)
+
+### Substack nudge (the fourth job)
+
+A one-time, post-value invitation. Fires after [PARTNER_NAME] has clearly gotten value from the kit — meaning kick-off is complete AND the first real session has happened. The goal: extend an invitation when value is fresh, not pitch them during install.
+
+**Condition:** `.first-run-complete` exists AND `.first-task-shipped` exists (set by kick-off Section E when the first real task ships) AND `.substack-shared` does NOT exist (means the nudge already happened) AND `.substack-nudge-disabled` does NOT exist AND at least 24 hours have passed since `.first-task-shipped` was created.
+
+The 24-hour delay matters. Pitching the Substack immediately after the first task ships feels transactional — *"thanks for using me, now sign up."* Waiting until the NEXT wrap-up sweep means the user has had at least one more productive session, has more reason to want updates, and the invitation lands as *"now that you're flowing"* rather than *"as a closing pitch."*
+
+```bash
+FIRST_RUN="$HOME/Documents/[ai-name]/.first-run-complete"
+FIRST_TASK="$HOME/Documents/[ai-name]/.first-task-shipped"
+SHARED="$HOME/Documents/[ai-name]/.substack-shared"
+DISABLED="$HOME/Documents/[ai-name]/.substack-nudge-disabled"
+
+if [ -f "$FIRST_RUN" ] && [ -f "$FIRST_TASK" ] && [ ! -f "$SHARED" ] && [ ! -f "$DISABLED" ]; then
+    AGE_HOURS=$(( ($(date +%s) - $(stat -f "%m" "$FIRST_TASK")) / 3600 ))
+    if [ "$AGE_HOURS" -ge 24 ]; then
+        # Offer the nudge
+    fi
+fi
+```
+
+**The offer:**
+
+> "One last thing before you go — and then I'll drop it for good either way. Now that we've worked together a couple of times, there's a `STAY_IN_TOUCH.md` file in the kit folder. The Substack — *The ROXIE Stacked* — is where the builder posts about what other operators are doing with this kit, new skills as they ship, and tactical playbooks. Weekly-ish. Free.
+>
+> If you'd like to see it, say *'show me'* and I'll open the link. If not, say *'skip'* and I'll never bring it up again. Either way, the kit's yours."
+
+**Responses:**
+- "Show me" / "yes" / "open it" → `open "https://theroxiestacked.substack.com"` AND `touch "$SHARED"`. Confirm: *"Opened in your browser. Subscribing is a single click on their page — totally up to you."*
+- "Skip" / "no" / "not interested" → `touch "$SHARED"` AND `touch "$DISABLED"`. Confirm: *"Got it. Won't bring it up again."*
+- "Maybe later" → just `touch "$SHARED"`. Confirm: *"OK — won't auto-surface again, but if you ever want it, the link's in `STAY_IN_TOUCH.md` at the root of your kit folder."*
+
+**Hard rules for the Substack nudge:**
+- **Fires exactly once.** Either the user sees it (and either subscribes or skips) or they explicitly opt out. After that, the file flag stops it from re-surfacing.
+- **Never fire during install.** The kick-off skill is for getting set up, not for being pitched. This nudge only fires AFTER first-task-shipped + 24 hours.
+- **Cap (combined with other nudges):** max one upgrade-or-substack nudge per wrap-up run. Priority order: voice > 1Password > Substack. If any earlier nudge already fired this sweep, skip Substack — don't stack.
+- **Honor the flag forever.** `.substack-shared` means the invitation happened. We don't re-invite. If the user wants the link later, they read `STAY_IN_TOUCH.md` directly.
+- **The link opens in the browser.** Don't try to paste subscribe forms into chat. The Substack subscribe flow is one click on their site.

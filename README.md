@@ -131,6 +131,18 @@ MIT — fork it, modify it, sell something built on top of it, give it to your f
 
 ---
 
+## Stay in touch
+
+I publish a free Substack — **The ROXIE Stacked** — about what other operators are building with AI, new skills as they ship, and tactical playbooks. Originally for HYROX Training Club operators; the lessons translate broadly.
+
+→ [https://theroxiestacked.substack.com](https://theroxiestacked.substack.com)
+
+Full details + a couple of other ways to find me are in [`STAY_IN_TOUCH.md`](./STAY_IN_TOUCH.md).
+
+No email required to install. No tracking. The Substack is just there if you want it.
+
+---
+
 ## Help, feedback, bug reports
 
 Open a [GitHub issue](https://github.com/DanJoachimn/Partner-Ai-Kit-Personal/issues) if something breaks during install or if you have a question.

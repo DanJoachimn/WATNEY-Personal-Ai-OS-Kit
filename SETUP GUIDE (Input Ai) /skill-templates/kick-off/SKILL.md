@@ -391,6 +391,15 @@ After it ships:
 
 > "That's the dynamic. You hand me messy, I hand you clean. You tweak, I rewrite, we ship. Faster every week."
 
+**Mark first-task-shipped:**
+
+```bash
+touch ~/Documents/[ai-name]/.first-task-shipped
+date -Iseconds > ~/Documents/[ai-name]/.first-task-shipped-date
+```
+
+The wrap-up skill reads this flag — it's the trigger for the Substack invitation that fires 24+ hours after the first real task, never during install itself. The user has earned the campfire mention by getting actual value from the kit.
+
 ---
 
 ### Section F — Going forward (1 min)
@@ -403,7 +412,9 @@ After it ships:
 >
 > 3. **Tell me when something is recurring.** If you find yourself asking me to do the same thing every week, say *'can we make this a one-button thing?'* I'll turn it into a skill. The system gets sharper every time you do that.
 >
-> That's it. We're set up. Welcome to working with me."
+> That's it. We're set up. Welcome to working with me.
+>
+> Oh — one optional thing: there's a `STAY_IN_TOUCH.md` file in the kit folder if you ever want to see what else the person who built me is putting out. Free Substack, weekly-ish, about how operators like you are actually using AI. Totally optional — no email required to install, no email required to use me. Just there if you want it."
 
 ---
 
