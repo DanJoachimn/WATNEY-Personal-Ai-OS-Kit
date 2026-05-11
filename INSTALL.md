@@ -25,15 +25,122 @@ Open with warmth. Set expectations. Get permission to proceed.
 
 Recommended opening:
 
-> "Hi! I'm about to set up your Partner AI Kit. Before I start, here's what's going to happen over the next ~25 minutes:
+> "Hi! I'm about to set up your Partner AI Kit. Before I start, here's what's going to happen over the next ~27 minutes:
 >
-> 1. I'll set up a home folder for your AI on your Mac (5 min)
-> 2. I'll install a few small pieces of infrastructure — things like a memory layer and a backup system (5 min)
-> 3. Then we'll have a 15-min conversation where I get to know you — your voice, your projects, your taste. That's what makes me actually useful instead of generic.
+> 1. **Security check (~2 min)** — I'll do a security audit of the kit before installing anything. Reading from open source without checking is how non-developers get burned, and I want you to be sure this is safe.
+> 2. **Setup (~10 min)** — folder, memory layer, scheduled jobs, recovery files. All under-the-hood; you'll just watch checkmarks fly.
+> 3. **Kick-off conversation (~15 min)** — I get to know you. Voice, projects, taste. That's what makes me actually useful instead of generic.
 >
-> Total: ~25 min. You'll be doing nothing technical. I'll show you screenshots and walk you through anything you need to click. Sound good?"
+> Total: ~27 min. You'll be doing nothing technical. I'll show you screenshots and walk you through anything you need to click. Sound good?"
 
 Wait for confirmation. If they hesitate or ask questions, answer briefly. Don't proceed until you have a clear go-ahead.
+
+---
+
+## Stage 0.5 — Security audit (~2 min, BEFORE any install steps)
+
+**This is non-negotiable.** Before doing ANY install action, audit the kit's content for security risks. The user is downloading and running open-source code from the internet on their own Mac. They deserve a careful read-through by their own AI before anything executes.
+
+### Tell the user what's about to happen
+
+> "Quick safety check before I install anything. I'm going to clone the kit's files to a sandbox folder, read every file, and look for anything suspicious. Then I'll tell you in plain English whether it's safe to install. ~2 minutes — and we only proceed if the audit comes back clean."
+
+### Clone to a sandbox (write-isolated)
+
+```bash
+SANDBOX="$HOME/.partner-ai-kit-audit-$$"
+mkdir -p "$SANDBOX"
+git clone https://github.com/DanJoachimn/Partner-Ai-Kit-Personal.git "$SANDBOX/kit"
+```
+
+Use `$$` (the process PID) in the sandbox path to ensure uniqueness across concurrent installs and to avoid stomping on any prior audit attempt.
+
+### Run the audit
+
+Read every file in `$SANDBOX/kit/`. Specifically scan for:
+
+1. **Files reaching outside the install scope.** The kit's legitimate write scope is:
+   - `~/Documents/[AI_NAME]/` (the AI's home folder)
+   - `~/.claude/skills/` (Claude Code's skill folder)
+   - `~/Library/LaunchAgents/com.[user].[ai-name].*.plist` (scheduled jobs)
+   - `~/.config/[ai-name]/` (config + .env files)
+   - `~/.partner-ai-kit-audit-*` (this sandbox itself)
+   
+   Anything touching `~/.ssh/`, `~/Library/Keychains/`, `~/.aws/`, `/etc/`, `~/.gnupg/`, system files, or other users' folders is a **red flag**.
+
+2. **Network calls.** Outbound URLs should only point to:
+   - github.com / raw.githubusercontent.com (kit source)
+   - anthropic.com / claude.com / claude.ai (Claude services)
+   - api.openai.com (Whisper transcription, if user wires it later)
+   - api.elevenlabs.io (voice replies, if user wires it later)
+   - api.telegram.org (Telegram bridge, if user wires it later)
+   - granola.ai (Granola, if user wires it later)
+   - apple.com / icloud.com (Apple services)
+   - 1password.com (1Password upgrade path)
+   
+   Any other outbound URL is a **red flag**.
+
+3. **Privilege escalation.** Any `sudo` command, any `chmod 777`, any attempt to read `/etc/passwd` or write `/usr/local/`. The kit's legitimate `chmod` is `chmod 600` (lock down secrets) — nothing higher.
+
+4. **Obfuscation.** Base64-encoded shell strings being `eval`'d, escaped command pipes that hide intent, dynamically constructed URLs from non-obvious fragments. **Red flag.**
+
+5. **Persistent backdoors.** launchd plists that fetch external URLs at runtime (instead of just calling `claude -p` with a static prompt). Cron jobs that run external scripts. Anything that maintains hidden background activity. **Red flag.**
+
+6. **Credential exfiltration patterns.** Scripts that read `.env` files or environment variables AND make outbound network calls to non-trusted domains in the same flow. Legitimate: read .env → pass to a wrapper that calls a service API (OpenAI, ElevenLabs) directly. Suspicious: read .env → POST to arbitrary URL.
+
+7. **Hardcoded credentials.** Any place where an actual API key, password, or token is committed in plaintext (vs. a placeholder like `OPENAI_API_KEY=` with empty value). **Red flag.**
+
+8. **Git hooks in the cloned repo.** Look for `$SANDBOX/kit/.git/hooks/` — should be empty or contain only the `.sample` defaults. Anything custom is a **red flag**.
+
+9. **Hidden execution.** `.command` files, `.app` bundles, unexpected `.sh` scripts in non-obvious locations.
+
+### Report the verdict in plain English
+
+**If clean:**
+
+> "✅ Security check complete. Here's what I found:
+>
+> - Every shell command in the kit stays within your AI's home folder (`~/Documents/[ai-name]/`) and Claude Code's skill folder (`~/.claude/skills/`). Nothing reaches into your SSH keys, your keychain, your AWS credentials, or any system files.
+> - The only outbound URLs in the kit point to GitHub (where the kit lives), Anthropic (Claude itself), and a few optional services you'd wire up later — OpenAI for voice transcription, ElevenLabs for voice replies, Telegram, Granola. All standard.
+> - No `sudo` (no privilege escalation), no `chmod 777` (no permission opening), no system-level changes.
+> - No obfuscated code. No base64-encoded shell strings. Nothing hidden.
+> - The scheduled jobs (your AI's nightly memory routine) only call the `claude` CLI with static prompts — they don't fetch and run arbitrary code at runtime.
+> - The recovery file is a checklist of API key names (`OPENAI_API_KEY=`, etc.) with empty values — it never asks for or stores actual secrets.
+>
+> **In case you're wondering if it's safe: I did a read-through and can confirm this kit is safe to install. No red flags. Want me to proceed?**"
+
+**If concerns found:**
+
+> "⚠️ Security check found something worth flagging. Specifically:
+>
+> [List specific findings in plain English. Quote the suspicious code with file:line. Explain why it's concerning in terms the user understands.]
+>
+> **Verdict:** This may be intentional [reason if any], but I want you to see it before any file gets written on your Mac. Choose:
+> - **(a)** Proceed anyway — I've reviewed and I'm OK with it
+> - **(b)** Skip the suspicious parts and install the rest
+> - **(c)** Stop install entirely — let's not run this kit"
+
+### Wait for explicit user confirmation
+
+Do not proceed past Stage 0.5 without an explicit *"proceed"* / *"safe"* / *"go ahead"* / *"install it"* from the user.
+
+### Clean up the sandbox after audit
+
+Whether the user proceeds or stops:
+
+```bash
+rm -rf "$SANDBOX"
+```
+
+The sandbox was for inspection only. The actual install (Stage 4 onward) will re-clone fresh to the final location `~/Documents/[AI_NAME]/.kit/`.
+
+### Hard rules for the audit
+
+- **Never silently skip.** Even on the 100th install, the audit happens.
+- **Never bypass even if the user says "just install."** Always audit, always report, always wait for explicit confirmation. The user can choose to proceed despite findings, but the audit always runs.
+- **Be specific about findings.** Don't say "looks fine." Say what was checked and what was found, like the example above.
+- **Plain English only.** No security jargon. Translate every concern into something a non-technical user can decide on.
+- **The audit is fresh every install.** This is the first-install protocol. The `/update` skill has its own diff-based audit (only audits what changed).
 
 ---
 

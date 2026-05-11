@@ -45,12 +45,20 @@ Please:
 1. Fetch the live installer from
    https://raw.githubusercontent.com/DanJoachimn/Partner-Ai-Kit-Personal/main/INSTALL.md
 2. Read it carefully — it has the full install playbook.
-3. Walk me through every step like you're talking to a friend who has
-   never used Claude Code. Show screenshots when you can. Open System
-   Settings for me when you need me to toggle something. Confirm before
-   you write any file. Use checkmarks so I can see progress.
-4. When something needs me to do a physical action (download an app,
-   click a button), wait for me to confirm before you continue.
+3. BEFORE installing ANYTHING, do a security audit of the kit. Clone the
+   repo to a sandbox folder, read through every file, and look for:
+   files touching paths outside the install scope, suspicious network
+   calls, hidden or obfuscated code, privilege escalation, credential
+   exfiltration patterns, or anything else a careful reader would flag
+   for a non-developer downloading from open source. Report back in
+   plain English: "safe to install" or "here's what's concerning."
+   Wait for me to confirm before any other step.
+4. After I confirm the audit's clean, walk me through the install like
+   you're talking to a friend who has never used Claude Code. Show
+   screenshots, open System Settings for me when needed, confirm before
+   each file write, use checkmarks for progress.
+5. When something needs me to do a physical action (download an app,
+   click a button), pause and wait for me to say "done."
 
 Start now.
 ```
