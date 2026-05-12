@@ -226,6 +226,10 @@ A working example: `[the canonical AI's vault]/AI_Personality_Guide.md` (Watney'
 
 The user wants a "professional assistant" feel and personality would feel forced. Some workflows (legal, finance, medical) benefit from neutral tone. In that case, write a 200-word voice guide directly into the CLAUDE.md instead.
 
+### Advanced — personality from someone else's content
+
+For users who want the AI to channel a specific person's voice (their own, or a creator they admire) — see [`notes/personality-from-content.md`](./notes/personality-from-content.md). Workflow: collect long-form content from the personality → ask Claude to write a trait report → save as the AI's default personality file. ~30-60 min once you have the source material.
+
 ---
 
 ## Phase 3 — CLAUDE.md (the operating manual)
