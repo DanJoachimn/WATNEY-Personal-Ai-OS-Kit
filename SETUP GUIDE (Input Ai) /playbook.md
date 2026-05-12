@@ -115,7 +115,7 @@ Inside `~/Documents/[ai-name]/.claude/skills/kick-off/SKILL.md`, ship a "first-c
 
 The kick-off skill is **auto-triggered** by the AI on first invocation when `.first-run-complete` doesn't exist. The user doesn't say a magic phrase — the AI just starts the flow when they type "hi."
 
-**Reference implementation:** `~/Desktop/Partner AI Kit/_kit/` (the canonical [PARTNER_NAME] kit, kept synced with [AI_NAME]'s deployed copy). For any new partner, **copy this entire folder + find-replace `[AI_NAME]` → new name + adapt the brand-voice / context sections to the new partner's domain.** Everything else (infrastructure verification, expectations, first task, voice rules, wrap-up auto-trigger, proactive opportunity-spotting) is already generic and works as-is.
+**Reference implementation:** `<repo-root>/SETUP GUIDE (Input Ai)/` (the canonical [PARTNER_NAME] kit, kept synced with [AI_NAME]'s deployed copy). For any new partner, **copy this entire folder + find-replace `[AI_NAME]` → new name + adapt the brand-voice / context sections to the new partner's domain.** Everything else (infrastructure verification, expectations, first task, voice rules, wrap-up auto-trigger, proactive opportunity-spotting) is already generic and works as-is.
 
 The AI's `CLAUDE.md` must include a top-of-file "first-run check" section that says:
 
@@ -274,8 +274,8 @@ After the first real conversation, read the AI's reply aloud. If it sounds like 
 
 ### Templates
 
-- Generic structure: `~/Desktop/Partner AI Kit/_kit/claude-md-template.md`
-- Filled real example ([AI_NAME] for [PARTNER_NAME]/[BRAND]): `~/Desktop/Partner AI Kit/_kit/CLAUDE.md`
+- Generic structure: `<repo-root>/SETUP GUIDE (Input Ai)/claude-md-template.md`
+- Filled real example ([AI_NAME] for [PARTNER_NAME]/[BRAND]): `<repo-root>/SETUP GUIDE (Input Ai)/CLAUDE.md`
 - Watney's: `[the canonical AI's folder]/CLAUDE.md`
 
 ---
@@ -306,7 +306,7 @@ Don't pre-install a fourth. Wait until the user notices a recurring task that do
 ### Install steps
 
 1. Create `~/[ai-name]/.claude/agents/` (the `.claude` folder is hidden — `Cmd+Shift+.` in Finder reveals it).
-2. Copy templates from `~/Desktop/Partner AI Kit/_kit/subagent-templates/` into that folder.
+2. Copy templates from `<repo-root>/SETUP GUIDE (Input Ai)/subagent-templates/` into that folder.
 3. Edit each one — fill `[USER_CONTEXT]`, `[BUSINESS_TYPE]`, etc.
 
 ### Test
@@ -426,7 +426,7 @@ Architecture:
 - Auto-nudge — when a new message lands, the poller `tmux send-keys` a prompt into the AI's tmux session telling it to process the inbox.
 - A `check-telegram` skill at `~/[ai-name]/.claude/skills/check-telegram/SKILL.md` — tells the AI how to read inbox files, reply via `curl` on `sendMessage`, mark messages processed.
 
-Full kit at `~/Desktop/Partner AI Kit/_kit/telegram-kit/` (poll-telegram.sh, plist template, skill, SETUP.md).
+Full kit at `<repo-root>/SETUP GUIDE (Input Ai)/telegram-kit/` (poll-telegram.sh, plist template, skill, SETUP.md).
 
 ### Setup steps (Path B)
 
@@ -544,7 +544,7 @@ Every time the user says *"I decided X two weeks ago"* and the AI says *"remind 
 
 #### Simplified (default for most users)
 
-Eight files/folders, no rules besides "two levels deep, max." Pre-built starter at `~/Desktop/Partner AI Kit/SETUP GUIDE (Input Ai)/vault-scaffold/starter/`:
+Eight files/folders, no rules besides "two levels deep, max." Pre-built starter at `<repo-root>/SETUP GUIDE (Input Ai)/vault-scaffold/starter/`:
 
 ```
 [Their vault]/
@@ -1148,4 +1148,4 @@ When you're handing over the keys, paraphrase but hit these notes:
 
 ---
 
-*This guide lives at: `~/Desktop/Partner AI Kit/_kit/playbook.md`. Update it after each new partner setup — every surprise is a future lesson for the next install.*
+*This guide lives at: `<repo-root>/SETUP GUIDE (Input Ai)/playbook.md`. Update it after each new partner setup — every surprise is a future lesson for the next install.*
