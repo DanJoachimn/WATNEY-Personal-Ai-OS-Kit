@@ -348,51 +348,8 @@ fi
 
 **Cap:** max one 1Password nudge per wrap-up run. If a voice nudge already fired this run, skip the 1Password one. (Hard rule: never stack two upgrade nudges in the same sweep — feels nagging.)
 
-### Substack nudge (the fourth job — SAFETY NET ONLY)
+### No Substack nudge — intentional
 
-A safety-net invitation that **only fires if the kick-off's end-of-setup popup never happened** (e.g., osascript permissions blocked it, the user was on a mid-install Mac restart, or the popup got dismissed without engagement).
+The wrap-up skill does **not** pitch any specific Substack or community subscription. The kit's free-distribution model means anyone running it could be a non-developer, an HTC operator, a consultant deploying for a client, or someone forking the kit for a different purpose. Embedding an active subscribe pitch into the install/wrap-up flow would be inappropriate across that range of users.
 
-**Most users will never see this nudge** — they'll have already encountered the popup at the end of kick-off (Section F+) and either subscribed, picked "remind me in a week" (which fires a one-shot launchd reminder), or skipped permanently. This wrap-up nudge is the rare-edge-case fallback.
-
-**Condition:** `.first-run-complete` exists AND `.first-task-shipped` exists AND `.substack-shared` does NOT exist (means NO popup ever fired or completed) AND `.substack-nudge-disabled` does NOT exist AND at least 48 hours have passed since `.first-task-shipped` was created.
-
-(Note: the threshold is now 48 hours, not 24 — gives the launchd-scheduled follow-up at 7 days room to fire first if it was scheduled. If a user picked "remind me in a week," that popup fires on day 7 and sets `.substack-shared` — this wrap-up nudge will then skip permanently. The wrap-up nudge only catches users who got NO popup at all.)
-
-The 24-hour delay matters. Pitching the Substack immediately after the first task ships feels transactional — *"thanks for using me, now sign up."* Waiting until the NEXT wrap-up sweep means the user has had at least one more productive session, has more reason to want updates, and the invitation lands as *"now that you're flowing"* rather than *"as a closing pitch."*
-
-```bash
-FIRST_RUN="$HOME/Documents/[ai-name]/.first-run-complete"
-FIRST_TASK="$HOME/Documents/[ai-name]/.first-task-shipped"
-SHARED="$HOME/Documents/[ai-name]/.substack-shared"
-DISABLED="$HOME/Documents/[ai-name]/.substack-nudge-disabled"
-
-if [ -f "$FIRST_RUN" ] && [ -f "$FIRST_TASK" ] && [ ! -f "$SHARED" ] && [ ! -f "$DISABLED" ]; then
-    AGE_HOURS=$(( ($(date +%s) - $(stat -f "%m" "$FIRST_TASK")) / 3600 ))
-    if [ "$AGE_HOURS" -ge 24 ]; then
-        # Offer the nudge
-    fi
-fi
-```
-
-**The offer:**
-
-> "One last thing before you go — and then I'll drop it for good either way. There's a Substack called *The ROXIE Stacked* you might actually want:
->
-> - First word when new skills ship to your kit
-> - Tactical playbooks for retention, content batching, race-anchored programming, member onboarding
-> - Real reports from other operators — what's working, what's not, what you can copy
-> - New ways to grow + operate a modern training club
->
-> Free, weekly-ish. If you'd like to see it, say *'show me'* and I'll open it. If not, say *'skip'* and I'll never bring it up again. Either way, the kit's yours."
-
-**Responses:**
-- "Show me" / "yes" / "open it" → `open "https://theroxiestacked.substack.com"` AND `touch "$SHARED"`. Confirm: *"Opened in your browser. Subscribing is a single click on their page — totally up to you."*
-- "Skip" / "no" / "not interested" → `touch "$SHARED"` AND `touch "$DISABLED"`. Confirm: *"Got it. Won't bring it up again."*
-- "Maybe later" → just `touch "$SHARED"`. Confirm: *"OK — won't auto-surface again, but if you ever want it, the link's in `STAY_IN_TOUCH.md` at the root of your kit folder."*
-
-**Hard rules for the Substack nudge:**
-- **Fires exactly once.** Either the user sees it (and either subscribes or skips) or they explicitly opt out. After that, the file flag stops it from re-surfacing.
-- **Never fire during install.** The kick-off skill is for getting set up, not for being pitched. This nudge only fires AFTER first-task-shipped + 24 hours.
-- **Cap (combined with other nudges):** max one upgrade-or-substack nudge per wrap-up run. Priority order: voice > 1Password > Substack. If any earlier nudge already fired this sweep, skip Substack — don't stack.
-- **Honor the flag forever.** `.substack-shared` means the invitation happened. We don't re-invite. If the user wants the link later, they read `STAY_IN_TOUCH.md` directly.
-- **The link opens in the browser.** Don't try to paste subscribe forms into chat. The Substack subscribe flow is one click on their site.
+The builder's Substack (if any) is mentioned **passively only** — in the repo's `README.md` and `STAY_IN_TOUCH.md`. Anyone who wants to know what the builder publishes can read those files. The kit's job is to install and tune the Partner AI cleanly. It is not a promotional vehicle.
