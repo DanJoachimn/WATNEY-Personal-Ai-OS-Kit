@@ -28,11 +28,18 @@ fi
 RESPONSE=$(osascript <<'EOF' 2>>"$LOG"
 tell application "System Events"
     activate
-    set theResult to display dialog "Hey — a week ago you said 'remind me later' about The ROXIE Stacked Substack.
+    set theResult to display dialog "A week ago you said 'remind me later' about The ROXIE Stacked.
 
-This is that reminder. Last time I'll ask either way.
+This is that reminder. Last one either way.
 
-Free, weekly-ish, written for operators like you." buttons {"Subscribe now", "Skip permanently"} default button 1 with title "The ROXIE Stacked — final reminder" with icon note
+What you'd actually get:
+
+  •  First word when new skills ship to your kit
+  •  Tactical playbooks for retention, content, programming
+  •  Real operator reports — what's working, what's not
+  •  New ways to grow + operate a modern training club
+
+Free. Weekly-ish." buttons {"Subscribe now", "Skip permanently"} default button 1 with title "The ROXIE Stacked — final reminder" with icon note
     set buttonChoice to button returned of theResult
     return buttonChoice
 end tell

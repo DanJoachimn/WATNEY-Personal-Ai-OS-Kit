@@ -133,13 +133,18 @@ MIT — fork it, modify it, sell something built on top of it, give it to your f
 
 ## Stay in touch
 
-I publish a free Substack — **The ROXIE Stacked** — about what other operators are building with AI, new skills as they ship, and tactical playbooks. Originally for HYROX Training Club operators; the lessons translate broadly.
+I publish a free Substack — **The ROXIE Stacked** — that you might actually want:
+
+- **First word when new skills ship to your kit** — you'll know before the silent `/update` does
+- **Tactical playbooks** — retention systems, content batching, race-anchored programming, member onboarding sequences
+- **Real operator reports** — what's working, what flopped, what you can copy
+- **New ways to grow + operate** a modern training club without becoming a button-pushing prompt monkey
+
+Free now. Paid tier coming with community access + monthly office hours + early skill drops.
 
 → [https://theroxiestacked.substack.com](https://theroxiestacked.substack.com)
 
-Full details + a couple of other ways to find me are in [`STAY_IN_TOUCH.md`](./STAY_IN_TOUCH.md).
-
-No email required to install. No tracking. The Substack is just there if you want it.
+Full details in [`STAY_IN_TOUCH.md`](./STAY_IN_TOUCH.md). No email required to install. No tracking.
 
 ---
 

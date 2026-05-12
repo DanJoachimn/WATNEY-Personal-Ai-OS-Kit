@@ -432,7 +432,18 @@ tell application "System Events"
   activate
   set theResult to display dialog "One optional thing before we finish.
 
-I publish a free Substack — The ROXIE Stacked — about what operators like you are actually building with AI. Weekly-ish. No fluff.
+I publish a free Substack — The ROXIE Stacked — that you'll actually want:
+
+  •  First word when new skills ship to your kit
+  •  Tactical playbooks for running a modern training club —
+      retention, content batching, race-anchored programming,
+      member onboarding sequences
+  •  Real reports from other operators: what's working,
+      what flopped, what you can copy
+  •  New ways to grow + operate without becoming
+      a button-pushing prompt monkey
+
+Free. Weekly-ish. Written for operators like you.
 
 Want to take a look?" buttons {"Subscribe now", "Remind me in a week", "Skip permanently"} default button 1 with title "Stay in touch?" with icon note
   set buttonChoice to button returned of theResult
