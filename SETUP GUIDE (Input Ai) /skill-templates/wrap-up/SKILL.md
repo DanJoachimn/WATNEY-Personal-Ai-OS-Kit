@@ -348,11 +348,15 @@ fi
 
 **Cap:** max one 1Password nudge per wrap-up run. If a voice nudge already fired this run, skip the 1Password one. (Hard rule: never stack two upgrade nudges in the same sweep — feels nagging.)
 
-### Substack nudge (the fourth job)
+### Substack nudge (the fourth job — SAFETY NET ONLY)
 
-A one-time, post-value invitation. Fires after [PARTNER_NAME] has clearly gotten value from the kit — meaning kick-off is complete AND the first real session has happened. The goal: extend an invitation when value is fresh, not pitch them during install.
+A safety-net invitation that **only fires if the kick-off's end-of-setup popup never happened** (e.g., osascript permissions blocked it, the user was on a mid-install Mac restart, or the popup got dismissed without engagement).
 
-**Condition:** `.first-run-complete` exists AND `.first-task-shipped` exists (set by kick-off Section E when the first real task ships) AND `.substack-shared` does NOT exist (means the nudge already happened) AND `.substack-nudge-disabled` does NOT exist AND at least 24 hours have passed since `.first-task-shipped` was created.
+**Most users will never see this nudge** — they'll have already encountered the popup at the end of kick-off (Section F+) and either subscribed, picked "remind me in a week" (which fires a one-shot launchd reminder), or skipped permanently. This wrap-up nudge is the rare-edge-case fallback.
+
+**Condition:** `.first-run-complete` exists AND `.first-task-shipped` exists AND `.substack-shared` does NOT exist (means NO popup ever fired or completed) AND `.substack-nudge-disabled` does NOT exist AND at least 48 hours have passed since `.first-task-shipped` was created.
+
+(Note: the threshold is now 48 hours, not 24 — gives the launchd-scheduled follow-up at 7 days room to fire first if it was scheduled. If a user picked "remind me in a week," that popup fires on day 7 and sets `.substack-shared` — this wrap-up nudge will then skip permanently. The wrap-up nudge only catches users who got NO popup at all.)
 
 The 24-hour delay matters. Pitching the Substack immediately after the first task ships feels transactional — *"thanks for using me, now sign up."* Waiting until the NEXT wrap-up sweep means the user has had at least one more productive session, has more reason to want updates, and the invitation lands as *"now that you're flowing"* rather than *"as a closing pitch."*
 

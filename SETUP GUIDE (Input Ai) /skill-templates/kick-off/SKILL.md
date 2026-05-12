@@ -412,9 +412,116 @@ The wrap-up skill reads this flag — it's the trigger for the Substack invitati
 >
 > 3. **Tell me when something is recurring.** If you find yourself asking me to do the same thing every week, say *'can we make this a one-button thing?'* I'll turn it into a skill. The system gets sharper every time you do that.
 >
-> That's it. We're set up. Welcome to working with me.
->
-> Oh — one optional thing: there's a `STAY_IN_TOUCH.md` file in the kit folder if you ever want to see what else the person who built me is putting out. Free Substack, weekly-ish, about how operators like you are actually using AI. Totally optional — no email required to install, no email required to use me. Just there if you want it."
+> That's it. We're set up. Welcome to working with me."
+
+---
+
+### Section F+ — The optional Substack invitation (~30 sec, popup)
+
+After the going-forward speech, fire ONE native macOS popup. This is the optional opt-in moment. Three buttons, three paths, never asked again automatically (except for the "remind in a week" branch).
+
+**Skip this section entirely if any of these flags exist** (the user already opted in or out previously, e.g. on a reinstall):
+- `~/Documents/[AI_NAME]/.substack-shared` (already saw the popup)
+- `~/Documents/[AI_NAME]/.substack-nudge-disabled` (permanently opted out)
+
+**Otherwise, run:**
+
+```bash
+RESPONSE=$(osascript <<'EOF' 2>/dev/null
+tell application "System Events"
+  activate
+  set theResult to display dialog "One optional thing before we finish.
+
+I publish a free Substack — The ROXIE Stacked — about what operators like you are actually building with AI. Weekly-ish. No fluff.
+
+Want to take a look?" buttons {"Subscribe now", "Remind me in a week", "Skip permanently"} default button 1 with title "Stay in touch?" with icon note
+  set buttonChoice to button returned of theResult
+  return buttonChoice
+end tell
+EOF
+)
+```
+
+The `$RESPONSE` variable will be `"Subscribe now"`, `"Remind me in a week"`, or `"Skip permanently"`.
+
+**Branch on response:**
+
+#### Branch A — "Subscribe now"
+
+Open the Substack subscribe page in their default browser:
+
+```bash
+open "https://theroxiestacked.substack.com/subscribe"
+touch ~/Documents/[AI_NAME]/.substack-shared
+```
+
+Tell them in chat:
+
+> "Opened in your browser. The subscribe form should be right there — drop your email and you're in. The kit's still yours either way."
+
+#### Branch B — "Remind me in a week"
+
+Schedule a one-shot launchd job to re-prompt in 7 days. Render the plist template + a small follow-up script the plist will execute:
+
+```bash
+USER=$(whoami)
+SCRIPT_TEMPLATE="$HOME/.claude/skills/kick-off/substack-followup.sh.template"
+PLIST_TEMPLATE="$HOME/.claude/skills/kick-off/substack-followup.plist.template"
+SCRIPT_DST="$HOME/Documents/[AI_NAME]/scripts/substack-followup.sh"
+PLIST_DST="$HOME/Library/LaunchAgents/com.${USER}.[AI_NAME].substack-followup.plist"
+
+mkdir -p "$HOME/Documents/[AI_NAME]/scripts"
+
+# Render the script (replace [AI_NAME] placeholder)
+sed "s/\[AI_NAME\]/[AI_NAME]/g" "$SCRIPT_TEMPLATE" > "$SCRIPT_DST"
+chmod +x "$SCRIPT_DST"
+
+# Calculate the fire date: today + 7 days
+FIRE_YEAR=$(date -v+7d +%Y)
+FIRE_MONTH=$(date -v+7d +%-m)
+FIRE_DAY=$(date -v+7d +%-d)
+
+# Render the plist with the fire date + user/ai placeholders
+sed -e "s/\[USER\]/$USER/g" \
+    -e "s/\[AI_NAME\]/[AI_NAME]/g" \
+    -e "s/\[FIRE_YEAR\]/$FIRE_YEAR/g" \
+    -e "s/\[FIRE_MONTH\]/$FIRE_MONTH/g" \
+    -e "s/\[FIRE_DAY\]/$FIRE_DAY/g" \
+    "$PLIST_TEMPLATE" > "$PLIST_DST"
+
+# Load it
+launchctl load "$PLIST_DST"
+```
+
+Tell them in chat:
+
+> "Got it. I'll surface this once more in a week — and only once. After that, no auto-prompts. The kit's yours either way."
+
+Don't set `.substack-shared` yet — that flag gets set when the follow-up actually fires.
+
+#### Branch C — "Skip permanently"
+
+```bash
+touch ~/Documents/[AI_NAME]/.substack-shared
+touch ~/Documents/[AI_NAME]/.substack-nudge-disabled
+```
+
+Tell them in chat:
+
+> "No problem — I won't bring it up again. Welcome to working with me."
+
+#### Branch D — Popup cancelled / error (rare)
+
+If `osascript` returns empty or errors (user dismissed the dialog without clicking, or System Events permissions weren't granted):
+
+```bash
+# Treat as "Remind in a week" — they didn't say no, they just didn't engage
+# Falls through to Branch B logic
+```
+
+This is the gentle default. Don't punish a missed click with permanent opt-out.
+
+---
 
 ---
 

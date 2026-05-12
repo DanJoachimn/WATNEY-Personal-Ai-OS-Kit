@@ -1,0 +1,68 @@
+#!/bin/bash
+# substack-followup.sh — fires 7 days after kick-off if user picked "Remind in a week"
+#
+# Shows a 2-button native dialog. Self-disables after firing regardless of choice.
+# This is the SECOND and FINAL automatic touchpoint. After this fires, no more popups
+# unless the user explicitly says "subscribe me to the Substack" in chat.
+
+set -uo pipefail
+
+LOG="$HOME/Documents/[AI_NAME]/logs/substack-followup.log"
+PLIST="$HOME/Library/LaunchAgents/com.$(whoami).[AI_NAME].substack-followup.plist"
+SHARED_FLAG="$HOME/Documents/[AI_NAME]/.substack-shared"
+DISABLED_FLAG="$HOME/Documents/[AI_NAME]/.substack-nudge-disabled"
+
+mkdir -p "$HOME/Documents/[AI_NAME]/logs"
+echo "[$(date -Iseconds)] Substack follow-up firing." >> "$LOG"
+
+# Bail early if user already opted in/out via some other path
+if [ -f "$SHARED_FLAG" ] || [ -f "$DISABLED_FLAG" ]; then
+    echo "[$(date -Iseconds)] Already shared or disabled — skipping." >> "$LOG"
+    launchctl unload "$PLIST" 2>>"$LOG"
+    rm -f "$PLIST"
+    rm -- "$0"
+    exit 0
+fi
+
+# Fire the dialog
+RESPONSE=$(osascript <<'EOF' 2>>"$LOG"
+tell application "System Events"
+    activate
+    set theResult to display dialog "Hey — a week ago you said 'remind me later' about The ROXIE Stacked Substack.
+
+This is that reminder. Last time I'll ask either way.
+
+Free, weekly-ish, written for operators like you." buttons {"Subscribe now", "Skip permanently"} default button 1 with title "The ROXIE Stacked — final reminder" with icon note
+    set buttonChoice to button returned of theResult
+    return buttonChoice
+end tell
+EOF
+)
+
+echo "[$(date -Iseconds)] User chose: $RESPONSE" >> "$LOG"
+
+case "$RESPONSE" in
+    "Subscribe now")
+        open "https://theroxiestacked.substack.com/subscribe"
+        touch "$SHARED_FLAG"
+        osascript -e 'display notification "Opened in your browser — subscribe form is right there." with title "The ROXIE Stacked"'
+        ;;
+    "Skip permanently")
+        touch "$SHARED_FLAG"
+        touch "$DISABLED_FLAG"
+        ;;
+    *)
+        # Dialog dismissed or errored — treat as soft-no. Mark shared but not disabled,
+        # so the wrap-up safety-net nudge can still surface once at most.
+        touch "$SHARED_FLAG"
+        ;;
+esac
+
+# Self-disable: unload the plist, delete the plist file, delete this script
+echo "[$(date -Iseconds)] Self-disabling." >> "$LOG"
+launchctl unload "$PLIST" 2>>"$LOG"
+rm -f "$PLIST"
+rm -- "$0"
+
+echo "[$(date -Iseconds)] Done." >> "$LOG"
+exit 0
