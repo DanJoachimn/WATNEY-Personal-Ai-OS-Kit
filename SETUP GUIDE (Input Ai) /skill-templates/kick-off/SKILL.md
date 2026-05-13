@@ -410,7 +410,7 @@ The wrap-up skill reads this flag — it's the trigger for the Substack invitati
 >
 > 2. **Tell me when something matters — that's how I remember.** Like I said at the start: I forget when the conversation ends. The folder is my memory. So if you decide a brand rule, a customer fact, a launch date — say *'add to notes: [BRAND] never uses the word X'* and I'll write it down. Next session I read it back and it's still there. The thing you say out loud is the thing that survives.
 >
-> 3. **Tell me when something is recurring.** If you find yourself asking me to do the same thing every week, say *'can we make this a one-button thing?'* I'll turn it into a skill. The system gets sharper every time you do that.
+> 3. **Tell me when something is recurring.** Behind me are four digital employees — one for content, one for research, one for code, one for daily admin. They handle work in the background. If you find yourself asking me to do the same thing every week, say *'can we teach one of them to do this on their own?'* and we'll turn it into a one-button task. That's how the team gets sharper over time — they learn your operation by doing it with you.
 >
 > That's it. We're set up. Welcome to working with me."
 

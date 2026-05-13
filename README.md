@@ -14,7 +14,7 @@ What you walk away with:
 - **A second brain** that remembers across sessions, so you never re-explain context
 - **Voice notes both ways** — talk to your AI, hear it talk back
 - **An always-on body** reachable from your phone via Telegram
-- **Specialist subagents** for drafting, research, and admin
+- **Four digital employees** — one for content/drafting, one for research, one for code, one for daily admin. You talk to the chief of staff; they dispatch the right one.
 - **A learnings loop** that makes your AI sharper every week from your feedback
 
 You install it by talking. No terminal, no command line, no editing files. The AI does all of that for you.
@@ -116,7 +116,7 @@ Hard rule: updates **never silently overwrite** a skill you've tuned via the lea
 
 This is the generic Personal version. There's a HYROX-flavored version at [Partner AI Kit (Training Clubs)](https://github.com/DanJoachimn/Partner-Ai-Kit-Training-Club) with:
 
-- 4 HTC-specific subagents (Coaching, Community, Marketing, Ops)
+- HTC-specific framing on your digital employees (same four, tuned for gym ops)
 - Day-1 skills tuned for gym operators (weekly-retention-review, weekly-content-batch, block-builder, member-checkin-draft)
 - Vault scaffold for gym ops (Members/, Coaches/, Programming/, Events/)
 - HYROX brand context layer + race calendar awareness
