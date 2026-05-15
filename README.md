@@ -4,6 +4,28 @@
 
 ---
 
+## Why this exists
+
+Staying current on AI is a full-time job. New models, new tools, new patterns every week. Most people fall behind, then the catch-up feels like a mountain.
+
+This kit does the staying-current part once, so you don't have to. Claude Code-native, lives on your Mac, and **you own it forever.** No SaaS, no monthly seat, no vendor managing your data. Open-source. Yours.
+
+And it doesn't stay generic. It learns your work — your voice, your projects, your taste, your patterns. After a few weeks it stops feeling like a tool and starts feeling like the chief of staff you've been meaning to hire. One who's on duty 24/7, wearing the exec assistant, researcher, content drafter, and ops coordinator hats you've been wanting to bring on.
+
+---
+
+## Is this safe to install?
+
+Fair question. Three things you should know:
+
+**The kit checks itself before doing anything.** When you paste the install prompt, your AI first reads every file and tells you in plain English whether it's safe. If anything looks off, it stops. You don't have to know what to look for. Your AI does.
+
+**Your passwords stay on your Mac.** They live in a file on your computer, not on someone else's server. Want to remove access? Delete the file.
+
+**You can stop it any time.** It's just files on your Mac. No subscription to cancel. Uninstall is *drag the folder to the trash*.
+
+---
+
 ## What this is
 
 A complete install pack for setting up a Personal AI on your Mac using Claude Code. Open-source, free, MIT-licensed. Built by [All Gravy Agency](https://allgravyagency.com) — given away because the world is better with more people who have a real AI partner instead of a generic chatbot.
@@ -116,9 +138,9 @@ Hard rule: updates **never silently overwrite** a skill you've tuned via the lea
 
 This is the generic Personal version. There's a HYROX-flavored version at [Partner AI Kit (Training Clubs)](https://github.com/DanJoachimn/Partner-Ai-Kit-Training-Club) with:
 
-- HTC-specific framing on your digital employees (same four, tuned for gym ops)
-- Day-1 skills tuned for gym operators (weekly-retention-review, weekly-content-batch, block-builder, member-checkin-draft)
-- Vault scaffold for gym ops (Members/, Coaches/, Programming/, Events/)
+- HTC-specific framing on your digital employees (same four, tuned for Training Club ops)
+- Day-1 skills tuned for Training Club operators (weekly-retention-review, weekly-content-batch, block-builder, member-checkin-draft)
+- Vault scaffold for Training Club ops (Members/, Coaches/, Programming/, Events/)
 - HYROX brand context layer + race calendar awareness
 
 Same install pattern. Different overlay.
@@ -128,6 +150,28 @@ Same install pattern. Different overlay.
 ## License
 
 MIT — fork it, modify it, sell something built on top of it, give it to your friends. The only thing we ask: if you publish something that builds on this, link back so people can find the source.
+
+---
+
+## Stay in touch — The All Gravy Times
+
+A free weekly newsletter from the person who built this kit. Entrepreneurship + AI, written from the trenches.
+
+> *"Your weekly record of one man, one robot, and zero credentials."*
+
+Building a dream with nothing but an AI co-founder (Watney), ADHD, caffeinated optimism, and whatever the opposite of venture capital is.
+
+**What you'll find:**
+- **Unedited build journey** of this kit + what comes next (Claude-Claw, Churn Radar, the bigger picture)
+- **Tactical patterns** for solo operators using AI as a co-founder, not a chatbot
+- **Weekly field reports** — what worked, what flopped, what you can copy
+- **Sundays, 7 AM CET.** No spam. No fluff. All Gravy.
+
+→ **[allgravytimes.com](https://allgravytimes.com)** — free, one click to subscribe.
+
+Full details in [`STAY_IN_TOUCH.md`](./STAY_IN_TOUCH.md). No email required to install. No tracking.
+
+![The All Gravy Times — Bootstrap Edition](./assets/screenshots/tagt-hero.png)
 
 ---
 
