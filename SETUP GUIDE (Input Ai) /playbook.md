@@ -645,6 +645,31 @@ When a skill needs to talk to an external service (calendar, GitHub, Gmail, anyt
 
 Once a skill is solid, the user can copy it to `~/Desktop/Claude's Office/[shared-skills]/` and another partner can install it in their AI by copying the folder. This is how the network compounds.
 
+### The three-scenario test — quality bar for every skill
+
+**Every skill in the kit must pass the three-scenario test before being marked production-grade.** This is the kit's standard QA discipline; the `SKILL.md.tmpl` at repo root includes the section every new skill should populate.
+
+The three scenarios:
+
+| # | Scenario | What it tests | Why it matters |
+|---|---|---|---|
+| 1 | **Happy path** | Normal, straightforward input — the 80% case | Most use looks like this. If the skill can't handle this, it's not a skill yet. |
+| 2 | **Edge case** | Weird, unusual, or incomplete input — missing data, conflicting info, unusual format | Real users send messy inputs constantly. The skill must degrade gracefully — handle, ask, or skip cleanly. Never fabricate, never crash. |
+| 3 | **Stress test** | Biggest, messiest, most complex version of the task | Reveals whether the skill scales or only works on simple inputs. Most "production-grade" claims fall apart here. |
+
+**Pass all three → mark production-grade in the skill's frontmatter:**
+
+```yaml
+production_grade: true
+last_qa: YYYY-MM-DD
+```
+
+**Any fails → the failure tells you exactly what instruction to add.** The article that surfaced this discipline put it well: *"If your Skill passes all three scenarios with output you would be comfortable showing to a client, it is production-grade. If it fails any scenario, the failure tells you exactly what instruction to add."*
+
+**Re-run the test whenever the skill's instructions change meaningfully.** Drop the production-grade marker if a scenario regresses. The wrap-up skill's `learnings.md` loop catches real-use failures between QA runs.
+
+**Why this is now a kit standard:** without it, every skill's quality drifts with whoever last touched it. The three-scenario test forces an explicit before-shipping check. It's the difference between "I tested it on the one input I had" and "I tested it on the inputs that matter."
+
 ---
 
 ## Phase 11 — Operational OS (the compounding layer)

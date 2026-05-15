@@ -16,7 +16,9 @@ And it doesn't stay generic. It learns your work — your voice, your projects, 
 
 ## Is this safe to install?
 
-Fair question. Three things you should know:
+Fair question. The kit is an "outfit" your main AI (Claude, in most cases) puts on to work inside your world — your files, your voice, your projects, your scheduled tasks. Without it, Claude is generic. With it, Claude is yours.
+
+Three things you should know about safety:
 
 **The kit checks itself before doing anything.** When you paste the install prompt, your AI first reads every file and tells you in plain English whether it's safe. If anything looks off, it stops. You don't have to know what to look for. Your AI does.
 
@@ -28,7 +30,7 @@ Fair question. Three things you should know:
 
 ## What this is
 
-A complete install pack for setting up a Personal AI on your Mac using Claude Code. Open-source, free, MIT-licensed. Built by [All Gravy Agency](https://allgravyagency.com) — given away because the world is better with more people who have a real AI partner instead of a generic chatbot.
+A complete install pack for setting up a Personal AI on your Mac using Claude Code. Free to install for your own use. Built by [All Gravy Agency](https://allgravyagency.com) — given away because the world is better with more people who have a real AI partner instead of a generic chatbot.
 
 What you walk away with:
 

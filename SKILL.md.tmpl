@@ -1,0 +1,131 @@
+---
+name: kebab-case-skill-name
+description: One paragraph. Aggressive. Lists every trigger phrase the user might say. Specifies when this skill should AND should NOT activate. Specific enough that the AI can decide in 2 seconds whether to fire. Example trigger phrases live here, not in the body.
+---
+
+# [Skill Name in Plain English]
+
+## Purpose
+
+One paragraph. What this skill does, in plain operator language. Why it exists — what failure mode it fixes or what manual work it replaces.
+
+## When to use
+
+### Explicit triggers ([PARTNER_NAME] says it)
+
+- "exact phrase one"
+- "exact phrase two"
+- "exact phrase three"
+- (list 5+ realistic phrases the user actually says — not made-up sounding ones)
+
+### Auto-triggers (AI fires it without being asked)
+
+- Specific signal one
+- Specific signal two
+- (only include if the skill is meant to auto-fire; not all skills are)
+
+### When NOT to use
+
+- Specific case where this skill is the wrong tool
+- Another wrong-tool case
+- (this section saves both the user and the AI from misfires — keep it sharp)
+
+## How it works (steps)
+
+Step 1 — clear action.
+
+Step 2 — clear action.
+
+Step 3 — clear action.
+
+(use as many steps as needed; one clear action per step; no "and then handle appropriately" — always specific)
+
+## Inputs
+
+What the skill receives. File paths, conversation context, user-provided values.
+
+## Outputs
+
+What the skill produces. File paths it writes to. What it returns to the user in chat. Format of the output.
+
+## Hard rules
+
+- Rule one (non-negotiable)
+- Rule two (non-negotiable)
+- (typically 3-6 rules; these are the things that must NEVER happen, like "never write to user's vault without consent")
+
+## Three-scenario test (production-grade standard)
+
+**EVERY skill in this kit must pass this test before being marked production-ready.** Run all three scenarios. If any fails, the failure tells you exactly what instruction to add to the skill.
+
+### Scenario 1 — Happy path
+
+A normal, straightforward input that represents 80% of real use cases.
+
+**Test input:** [describe the test input — specific, realistic, ready to paste]
+
+**Expected output:** [describe what the AI should produce — specific, testable]
+
+**Pass criteria:** [what makes this pass — output you'd be comfortable shipping to a real user]
+
+### Scenario 2 — Edge case
+
+A weird, unusual, or incomplete input that tests the boundaries. Missing data. Unusual formatting. Conflicting information.
+
+**Test input:** [describe the edge case input]
+
+**Expected output:** [describe what the AI should do — usually: handle gracefully, ask for clarification, or skip cleanly]
+
+**Pass criteria:** [the AI doesn't crash, doesn't fabricate, doesn't silently drop data]
+
+### Scenario 3 — Stress test
+
+The biggest, messiest, most complex version of the task. Reveals whether the skill scales or only works on simple inputs.
+
+**Test input:** [describe the stress test — large file, complex case, multiple branches, etc.]
+
+**Expected output:** [describe what success looks like at scale]
+
+**Pass criteria:** [output stays useful + correct under load; AI doesn't blur into generality]
+
+### Marking production-grade
+
+Add to this skill's frontmatter once all three scenarios pass:
+
+```yaml
+production_grade: true
+last_qa: YYYY-MM-DD
+```
+
+Re-run the three-scenario test whenever the skill's instructions change meaningfully. Drop `production_grade: true` if a scenario regresses.
+
+## Common failures + fixes
+
+If during real use the skill produces something off, the wrap-up skill writes the correction to this skill's `learnings.md`. Periodically review `learnings.md` and promote recurring corrections into the SKILL.md proper (so new installs benefit too, not just your customized copy).
+
+| Failure mode | Fix | Date observed |
+|---|---|---|
+| (example) Skill ignored user's voice guide and produced generic output | Add explicit "read vault/Brand/Voice guide.md before drafting" as Step 1 | YYYY-MM-DD |
+
+## Companion skills
+
+- `[related-skill-name]` — relationship (upstream / sister / downstream)
+- `[related-skill-name]` — relationship
+
+## Notes for the AI (the partner running this skill)
+
+Things the AI needs to know that don't fit elsewhere. Tone, defaults, edge cases that aren't tests, quirks of the tool layer.
+
+---
+
+## ⚠️ Kit conventions every skill must follow
+
+1. **`description:` field is aggressive and trigger-rich.** The AI uses this to auto-decide whether to fire. Vague descriptions = skill never fires when needed.
+2. **Under ~500 lines.** If a skill is longer, split into a parent skill + a `scripts/` folder with deterministic helpers.
+3. **No vague language.** "Format nicely" / "handle appropriately" / "be careful" are banned. Every instruction is specific + testable.
+4. **Three-scenario test required** before marking production-grade.
+5. **`learnings.md` siblings the SKILL.md** for skills that get used regularly — the wrap-up loop writes corrections there.
+6. **Placeholders use bracketed-uppercase:** `[AI_NAME]`, `[PARTNER_NAME]`, `[BRAND]`. The kick-off skill replaces these per install.
+7. **Hybrid Rule compliance** — if the skill writes inside a vault, every file gets `generated_by: claude-code` frontmatter so reflection commands filter it out.
+
+*Template last updated: 2026-05-15. Bump when conventions change.*
