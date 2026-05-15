@@ -1,0 +1,88 @@
+Partner AI Kit License v1
+Copyright (c) 2026 All Gravy Agency / Daniel Joachim Nielsen
+Last updated: 2026-05-15
+
+═══════════════════════════════════════════════════════════════════════════
+PLAIN-ENGLISH SUMMARY
+═══════════════════════════════════════════════════════════════════════════
+
+You can install this kit, modify it, and use it for your own personal use
+or your own business operations. You can read every file, fork it for
+your own purposes, and share what you learn from using it.
+
+You can't repackage this kit and sell it as a product, host it as a
+service for others to use, or distribute a competing kit derived from
+this one. Those rights are reserved.
+
+═══════════════════════════════════════════════════════════════════════════
+FORMAL TERMS
+═══════════════════════════════════════════════════════════════════════════
+
+1. PERMITTED USE
+
+   You may install, modify, and use the Partner AI Kit (and any
+   derivative work based on it) for any of the following:
+
+   a) Your own personal use.
+   b) Your own organization's internal operations, including
+      commercial operations of your own business.
+   c) Educational, research, and learning purposes.
+   d) Sharing your install experience publicly (blog posts, social
+      media, video walkthroughs) provided you credit the source per
+      Section 3.
+
+2. RESTRICTED USE
+
+   Without prior written permission from All Gravy Agency, you may NOT:
+
+   a) Sell, sublicense, or otherwise distribute the Partner AI Kit
+      (or any derivative work) as a standalone product or kit.
+   b) Provide the Partner AI Kit (or any derivative work) as a hosted
+      service, SaaS offering, or managed agent product to third
+      parties.
+   c) Use the "Partner AI Kit" name, branding, or trade dress in any
+      product or service you distribute.
+   d) Distribute a competing product or kit that is substantially
+      derived from this work.
+
+   For clarity: a Training Club, freelancer, agency, or other business
+   using the Partner AI Kit internally — even as part of a commercial
+   operation — is permitted under Section 1(b). The restrictions apply
+   only to redistribution, resale, hosting-for-others, and competing
+   distribution.
+
+3. ATTRIBUTION
+
+   Any public reference to or derivative work based on the Partner AI
+   Kit must include a credit linking back to the original source:
+
+      https://github.com/DanJoachimn/Partner-Ai-Kit-Personal
+
+4. NO WARRANTY
+
+   This kit is provided "as is" without warranty of any kind, express
+   or implied. The authors and copyright holders are not liable for
+   any damages, data loss, system issues, or other claims arising from
+   the use of this kit.
+
+5. UPDATES TO THIS LICENSE
+
+   This license may be updated. Updates apply only to versions of the
+   Partner AI Kit released after the update date. Versions you have
+   already installed under earlier license terms remain governed by
+   those terms.
+
+6. CONTACT
+
+   For commercial licensing inquiries, partnership requests, or
+   permission to operate outside these terms:
+
+      daniel@allgravyagency.com
+
+═══════════════════════════════════════════════════════════════════════════
+
+This license is a plain-English source-available license. It is not an
+OSI-approved open-source license (e.g., MIT, Apache 2.0). The intent is
+to keep the kit freely installable and usable by individuals and
+businesses for their own work, while protecting against repackaging and
+competing distribution.

@@ -1,51 +1,56 @@
-# INSTALL.md — Live install playbook for the Partner AI Kit (Personal)
+# INSTALL.md — Part 1 (Foundation) install playbook
 
-> **This file is read by an AI agent (Claude Code) at install time.** A non-technical user has just pasted a prompt asking you to install the Partner AI Kit for them. They've never used Claude Code before. They're not a developer. Your job is to walk them through setup like you're talking to a friend who's smart but new — using screenshots, native dialogs, and plain English.
+> **This file is read by an AI agent (Claude Code) at install time.** A non-technical user has just pasted the magic prompt asking you to install the Partner AI Kit. They're not a developer. They want this working, not configured. They're on Claude Pro ($20/mo) plan unless they say otherwise.
+>
+> **This is Part 1 — Foundation.** Fits in a single Pro plan session (~45 min, ~25-40 messages). Ends with an automatic voice-note from the user's AI delivered to their phone via Telegram. Part 2 (Reach) is a separate later session.
 
 ---
 
 ## Read this carefully before doing anything
 
-You're talking to a non-developer. They want their AI working, not configured. Every choice you make should reduce their cognitive load.
+**Hard rules for this install:**
 
-**Hard rules for the install conversation:**
-
-1. **No jargon without translation.** First time you mention `launchd`, say *"launchd — the Mac's built-in scheduler. It's how your AI runs jobs in the background, like a Mac calendar entry."* Same for git, MCP, vault, subagent, plist, env file.
-2. **Confirm before every write.** *"I'm about to create the folder `~/Documents/[ai-name]/`. OK to proceed?"* Wait for yes.
-3. **Show, don't tell.** When the user has to click something, show them the screenshot from `assets/screenshots/`. When they have to toggle a system setting, open the right pane via `osascript` so they don't navigate menus.
-4. **Visible progress.** After each step, confirm with a checkmark line: `✅ Created Documents/[ai-name]/`. The user should see motion every 10-20 seconds.
-5. **No raw error output.** If something fails, translate the error to plain English. Never paste a stack trace into the chat unless the user explicitly asks.
-6. **Pause for physical actions.** When you need them to download an app, click a system prompt, or copy a value from a website — wait for them to confirm "done" before continuing.
+1. **No jargon without translation.** First time you mention `launchd`, say *"launchd — the Mac's built-in scheduler. It runs jobs in the background, like a Mac calendar entry."* Same for git, MCP, vault, subagent, plist, env file.
+2. **Confirm before every write.** Wait for yes.
+3. **Show, don't tell.** Show screenshots from `assets/screenshots/` when relevant. Open System Settings via `osascript` so the user doesn't navigate menus.
+4. **Visible progress.** Checkmark after each step. The user should see motion every 10-30 seconds.
+5. **No raw error output.** Translate every error to plain English. Never paste a stack trace unless the user explicitly asks.
+6. **Pause for physical actions.** When you need them to download an app, click a system prompt, or copy a value — wait for them to say "done."
+7. **Log every stage to `install.log`.** Bash one-liner at the end of each stage: `echo "$(date -Iseconds) — STAGE_NAME — completed" >> ~/Documents/[AI_NAME]/logs/install.log`. Captures the audit trail.
 
 ---
 
-## Stage 0 — Greeting + tone-setting (~30 sec)
+## Stage 0 — Greeting + tone-setting (~1 min)
 
 Open with warmth. Set expectations. Get permission to proceed.
 
-Recommended opening:
-
-> "Hi! I'm about to set up your Partner AI Kit. Before I start, here's what's going to happen over the next ~27 minutes:
+> "Hi! I'm about to install your Partner AI Kit — **Part 1: Foundation**. Here's the deal:
 >
-> 1. **Security check (~2 min)** — I'll do a security audit of the kit before installing anything. Reading from open source without checking is how non-developers get burned, and I want you to be sure this is safe.
-> 2. **Setup (~10 min)** — folder, memory layer, scheduled jobs, recovery files. All under-the-hood; you'll just watch checkmarks fly.
-> 3. **Kick-off conversation (~15 min)** — I get to know you. Voice, projects, taste. That's what makes me actually useful instead of generic.
+> 1. **Security check** — I'll audit every file in the kit before I write anything to your Mac (~3 min)
+> 2. **Foundation setup** — folder, memory, four digital employees, scheduled jobs. Most of this is automatic (~5 min)
+> 3. **Quick kick-off** — three questions so I know your name, your tone, and one project you're working on (~8 min)
+> 4. **Telegram + voice** — wire up your phone so your AI is in your pocket (~17 min)
+> 5. **The proof** — your AI sends you an automatic voice note on Telegram. You hear it on your phone. *(~3 min)*
 >
-> Total: ~27 min. You'll be doing nothing technical. I'll show you screenshots and walk you through anything you need to click. Sound good?"
+> Total: ~35-40 min. You'll do nothing technical. Sound good?
+>
+> Quick question first: are you on **Claude Pro** ($20/mo) or **Claude Max** ($100+/mo)? It changes how I pace this. If unsure, default Pro — it's the safer play."
 
-Wait for confirmation. If they hesitate or ask questions, answer briefly. Don't proceed until you have a clear go-ahead.
+**If user says Pro:** Continue with Part 1 only. Defer everything optional to Part 2. Stay lean on messages.
+
+**If user says Max:** Same Part 1, but you can offer to continue into Part 2 in the same session if they have time. Still keep Part 1 as the focused unit.
+
+**If user is unsure:** Default Pro. Better to under-promise.
 
 ---
 
-## Stage 0.5 — Security audit (~2 min, BEFORE any install steps)
+## Stage 0.5 — Security audit (~3 min, BEFORE any install steps)
 
-**This is non-negotiable.** Before doing ANY install action, audit the kit's content for security risks. The user is downloading and running open-source code from the internet on their own Mac. They deserve a careful read-through by their own AI before anything executes.
+**This is non-negotiable.** Before doing ANY install action, audit the kit. The user is downloading and running open-source code from the internet. They deserve a careful read-through by their own AI before anything executes.
 
-### Tell the user what's about to happen
+> "Quick safety check before I install anything. I'm going to clone the kit's files to a sandbox folder, read every file, and look for anything suspicious. Then I'll tell you in plain English whether it's safe. ~2 minutes — and we only proceed if the audit comes back clean."
 
-> "Quick safety check before I install anything. I'm going to clone the kit's files to a sandbox folder, read every file, and look for anything suspicious. Then I'll tell you in plain English whether it's safe to install. ~2 minutes — and we only proceed if the audit comes back clean."
-
-### Clone to a sandbox (write-isolated)
+### Clone to sandbox (write-isolated)
 
 ```bash
 SANDBOX="$HOME/.partner-ai-kit-audit-$$"
@@ -53,379 +58,400 @@ mkdir -p "$SANDBOX"
 git clone https://github.com/DanJoachimn/Partner-Ai-Kit-Personal.git "$SANDBOX/kit"
 ```
 
-Use `$$` (the process PID) in the sandbox path to ensure uniqueness across concurrent installs and to avoid stomping on any prior audit attempt.
-
 ### Run the audit
 
-Read every file in `$SANDBOX/kit/`. Specifically scan for:
+Read every file in `$SANDBOX/kit/`. Scan for the 9 categories of red flags documented previously (kept here briefly — full detail in audit-protocol.md):
 
-1. **Files reaching outside the install scope.** The kit's legitimate write scope is:
-   - `~/Documents/[AI_NAME]/` (the AI's home folder)
-   - `~/.claude/skills/` (Claude Code's skill folder)
-   - `~/Library/LaunchAgents/com.[user].[ai-name].*.plist` (scheduled jobs)
-   - `~/.config/[ai-name]/` (config + .env files)
-   - `~/.partner-ai-kit-audit-*` (this sandbox itself)
-   
-   Anything touching `~/.ssh/`, `~/Library/Keychains/`, `~/.aws/`, `/etc/`, `~/.gnupg/`, system files, or other users' folders is a **red flag**.
+1. Files touching paths outside the install scope (legitimate: `~/Documents/[AI_NAME]/`, `~/.claude/skills/`, `~/Library/LaunchAgents/com.[user].[ai-name].*.plist`, `~/.config/[ai-name]/`, sandbox)
+2. Network calls to non-trusted domains (legitimate: github.com, anthropic.com, claude.com, api.openai.com, api.elevenlabs.io, api.telegram.org, granola.ai, apple.com, icloud.com, 1password.com)
+3. Privilege escalation (`sudo`, `chmod 777`, reading `/etc/passwd`)
+4. Obfuscation (base64 `eval`, escaped pipes, hidden URL construction)
+5. Persistent backdoors (launchd fetching external URLs at runtime)
+6. Credential exfiltration patterns (read `.env` + outbound to non-trusted domain in same flow)
+7. Hardcoded credentials (any actual key/token in plaintext)
+8. Git hooks in cloned repo (should be empty or `.sample` only)
+9. Hidden execution (`.command` files, `.app` bundles, unexpected `.sh` in non-obvious locations)
 
-2. **Network calls.** Outbound URLs should only point to:
-   - github.com / raw.githubusercontent.com (kit source)
-   - anthropic.com / claude.com / claude.ai (Claude services)
-   - api.openai.com (Whisper transcription, if user wires it later)
-   - api.elevenlabs.io (voice replies, if user wires it later)
-   - api.telegram.org (Telegram bridge, if user wires it later)
-   - granola.ai (Granola, if user wires it later)
-   - apple.com / icloud.com (Apple services)
-   - 1password.com (1Password upgrade path)
-   
-   Any other outbound URL is a **red flag**.
-
-3. **Privilege escalation.** Any `sudo` command, any `chmod 777`, any attempt to read `/etc/passwd` or write `/usr/local/`. The kit's legitimate `chmod` is `chmod 600` (lock down secrets) — nothing higher.
-
-4. **Obfuscation.** Base64-encoded shell strings being `eval`'d, escaped command pipes that hide intent, dynamically constructed URLs from non-obvious fragments. **Red flag.**
-
-5. **Persistent backdoors.** launchd plists that fetch external URLs at runtime (instead of just calling `claude -p` with a static prompt). Cron jobs that run external scripts. Anything that maintains hidden background activity. **Red flag.**
-
-6. **Credential exfiltration patterns.** Scripts that read `.env` files or environment variables AND make outbound network calls to non-trusted domains in the same flow. Legitimate: read .env → pass to a wrapper that calls a service API (OpenAI, ElevenLabs) directly. Suspicious: read .env → POST to arbitrary URL.
-
-7. **Hardcoded credentials.** Any place where an actual API key, password, or token is committed in plaintext (vs. a placeholder like `OPENAI_API_KEY=` with empty value). **Red flag.**
-
-8. **Git hooks in the cloned repo.** Look for `$SANDBOX/kit/.git/hooks/` — should be empty or contain only the `.sample` defaults. Anything custom is a **red flag**.
-
-9. **Hidden execution.** `.command` files, `.app` bundles, unexpected `.sh` scripts in non-obvious locations.
-
-### Report the verdict in plain English
+### Report verdict in plain English
 
 **If clean:**
 
-> "✅ Security check complete. Here's what I found:
+> "✅ Security check complete. Read every file. Here's what I found:
 >
-> - Every shell command in the kit stays within your AI's home folder (`~/Documents/[ai-name]/`) and Claude Code's skill folder (`~/.claude/skills/`). Nothing reaches into your SSH keys, your keychain, your AWS credentials, or any system files.
-> - The only outbound URLs in the kit point to GitHub (where the kit lives), Anthropic (Claude itself), and a few optional services you'd wire up later — OpenAI for voice transcription, ElevenLabs for voice replies, Telegram, Granola. All standard.
-> - No `sudo` (no privilege escalation), no `chmod 777` (no permission opening), no system-level changes.
-> - No obfuscated code. No base64-encoded shell strings. Nothing hidden.
-> - The scheduled jobs (your AI's nightly memory routine) only call the `claude` CLI with static prompts — they don't fetch and run arbitrary code at runtime.
-> - The recovery file is a checklist of API key names (`OPENAI_API_KEY=`, etc.) with empty values — it never asks for or stores actual secrets.
+> - Every shell command stays within your AI's home folder + Claude Code's skill folder. Nothing touches SSH keys, keychain, AWS credentials, or system files.
+> - The only outbound URLs point to GitHub, Anthropic, and optional services (OpenAI, ElevenLabs, Telegram, Granola) you'd wire up later if you want.
+> - No `sudo`, no privilege escalation, no system changes.
+> - No obfuscated code, no hidden execution.
+> - The scheduled job (overnight memory compression) only calls Claude with a static prompt — never fetches external code at runtime.
+> - The recovery file lists API key names with empty values — checklist only, no secrets stored.
 >
-> **In case you're wondering if it's safe: I did a read-through and can confirm this kit is safe to install. No red flags. Want me to proceed?**"
+> **In case you're wondering if it's safe: I did the read-through and can confirm this kit is safe to install. No red flags. Want me to proceed?**"
 
-**If concerns found:**
-
-> "⚠️ Security check found something worth flagging. Specifically:
->
-> [List specific findings in plain English. Quote the suspicious code with file:line. Explain why it's concerning in terms the user understands.]
->
-> **Verdict:** This may be intentional [reason if any], but I want you to see it before any file gets written on your Mac. Choose:
-> - **(a)** Proceed anyway — I've reviewed and I'm OK with it
-> - **(b)** Skip the suspicious parts and install the rest
-> - **(c)** Stop install entirely — let's not run this kit"
-
-### Wait for explicit user confirmation
-
-Do not proceed past Stage 0.5 without an explicit *"proceed"* / *"safe"* / *"go ahead"* / *"install it"* from the user.
-
-### Clean up the sandbox after audit
-
-Whether the user proceeds or stops:
+### Clean up sandbox after audit
 
 ```bash
 rm -rf "$SANDBOX"
 ```
 
-The sandbox was for inspection only. The actual install (Stage 4 onward) will re-clone fresh to the final location `~/Documents/[AI_NAME]/.kit/`.
+The sandbox was for inspection only. Actual install (Stage 4 onward) re-clones fresh to the final location.
 
-### Hard rules for the audit
+### Wait for explicit user confirmation
 
-- **Never silently skip.** Even on the 100th install, the audit happens.
-- **Never bypass even if the user says "just install."** Always audit, always report, always wait for explicit confirmation. The user can choose to proceed despite findings, but the audit always runs.
-- **Be specific about findings.** Don't say "looks fine." Say what was checked and what was found, like the example above.
-- **Plain English only.** No security jargon. Translate every concern into something a non-technical user can decide on.
-- **The audit is fresh every install.** This is the first-install protocol. The `/update` skill has its own diff-based audit (only audits what changed).
+Don't proceed past Stage 0.5 without an explicit *"proceed" / "safe" / "go ahead" / "install it"*.
 
 ---
 
 ## Stage 1 — Choose the AI's name (~2 min)
 
-Ask:
-
 > "First — what should I call myself? Three patterns that work:
 >
-> - **Named after someone you admire** — real or fictional. *Watney* (from The Martian), *Coco* (Chanel), *Atticus* (To Kill A Mockingbird). The reference does a lot of personality work.
-> - **Named for a vibe** — *Mira* for clarity, *Coco* for warmth, *Echo* for resonance.
-> - **Named for the role** — *Coach*, *Atlas*, *Cornerman*. Boring but sometimes right.
+> - **Named after someone you admire** — real or fictional. *Watney* (The Martian), *Coco* (Chanel), *Atticus* (To Kill A Mockingbird).
+> - **Named for a vibe** — *Mira* for clarity, *Echo* for resonance.
+> - **Named for the role** — *Coach*, *Atlas*, *Cornerman*.
 >
-> Whatever you pick is your AI's name forever, so 5 min on this is worth it. Renamed AIs feel like tools; AIs that grew into their name feel like partners."
+> Whatever you pick is your AI's name forever. Renamed AIs feel like tools; AIs that grew into their name feel like partners. ~5 minutes on this is worth it."
 
-Wait for the name. Confirm spelling. Use lowercase-no-spaces for the folder (e.g., "Watney" → `~/Documents/watney/`).
+Capture the name. Confirm spelling. Use the lowercased-no-spaces version for folder paths (e.g., "Watney" → `~/Documents/watney/`).
 
-From this point forward, **address yourself by the chosen name in every message** — *"OK, I'm Coco now. Setting up Coco's home folder..."*
-
-Save the name to a variable in your working memory. Refer to it as `[AI_NAME]` in this playbook.
+From here, address yourself by the chosen name. Use `[AI_NAME]` in this playbook to refer to the name.
 
 ---
 
-## Stage 2 — Verify Claude Code Desktop is installed (~1 min)
+## Stage 2 — Verify prerequisites (~1 min)
 
-Check if Claude Code Desktop exists:
+Quickly check:
+- macOS 14+ (`sw_vers -productVersion`)
+- Claude Code Desktop installed at `/Applications/Claude Code.app`
+- git available (`which git` — if missing, prompt `xcode-select --install`)
 
-```bash
-ls -la "/Applications/Claude Code.app" 2>/dev/null
-```
-
-If found → proceed to Stage 3.
-If not found → STOP and surface:
-
-> "Quick check — I need Claude Code Desktop installed on your Mac. (You're already using it to talk to me, but I want to make sure it's the right install.) Run this in your terminal:
->
-> `ls -la '/Applications/Claude Code.app'`
->
-> If you see a line that mentions Claude Code.app, you're good. If you get "No such file," download it from https://claude.com/code — drag to Applications — re-launch and re-paste the install prompt. Tell me when you see it."
+If any missing → surface in plain English with a one-line fix. Wait for them to confirm before proceeding.
 
 ---
 
-## Stage 3 — Verify iCloud Drive is on (~2 min, includes user action)
-
-Run a quick check:
+## Stage 3 — iCloud Drive check (~2 min)
 
 ```bash
 defaults read MobileMeAccounts Accounts 2>/dev/null | grep -c "AccountID" || echo 0
 ```
 
-If output is `0` or no Apple ID is signed in → STOP and surface:
+If 0:
 
-> "I need iCloud Drive on so your AI's memory survives a Mac swap or factory reset. Opening System Settings to the right spot now..."
-
-Then run:
+> "iCloud Drive is off. Your AI's memory won't survive a Mac swap without it. Opening System Settings for you to toggle it on..."
 
 ```bash
 open "x-apple.systempreferences:com.apple.preferences.AppleIDPrefPane"
 ```
 
-Show this screenshot (fetch from `https://raw.githubusercontent.com/DanJoachimn/Partner-Ai-Kit-Personal/main/assets/screenshots/icloud-drive-toggle.png`):
+Show the screenshot (fetch from repo's `assets/screenshots/icloud-drive-toggle.png`) and wait for confirmation.
 
-> "Settings just opened to your Apple ID pane. Click **iCloud Drive** in the list. Make sure both the main toggle AND 'Desktop & Documents Folders' are green. Tell me when both are on."
-
-Wait for confirmation. If user says it's already on, proceed.
-
-If user pushes back ("I don't want iCloud / I don't have an Apple ID") → continue install with a warning logged in `~/Documents/[ai-name]/_recovery/WARNINGS.md`: *"iCloud Drive not enabled at install time. AI's memory will not survive a Mac swap. Re-enable later by toggling in System Settings → Apple ID → iCloud Drive."*
+If they decline → log warning, continue. Don't block.
 
 ---
 
-## Stage 4 — Create the home folder + clone the repo (~30 sec)
+## Stage 4 — Foundation install via `setup.sh` (~5 min, mostly automatic)
 
-Run:
+This is where the kit installs itself. **Bash handles all file mechanics — minimal AI tokens, fast, idempotent.**
 
-```bash
-mkdir -p "$HOME/Documents/[AI_NAME]"
-cd "$HOME/Documents/[AI_NAME]"
-git clone https://github.com/DanJoachimn/Partner-Ai-Kit-Personal.git .kit
-```
+Ask the user once:
 
-If `git clone` fails (no git installed) → install Xcode Command Line Tools:
+> "What name should I call you by? First name is fine. I'll use it in the AI's notes and drafts."
 
-```bash
-xcode-select --install
-```
+Capture as `[PARTNER_NAME]`.
 
-Wait for the popup. Tell the user:
-
-> "A macOS popup just appeared asking to install Command Line Tools — that's the basic dev kit your Mac needs to run things like git. Click 'Install,' wait ~5 min, then tell me when it says 'Done.'"
-
-Retry the clone after install completes.
-
-Confirm with checkmark:
-
-> "✅ Created `~/Documents/[ai-name]/.kit/` and fetched the latest version of the kit."
-
----
-
-## Stage 5 — Build the vault scaffold (~10 sec)
-
-Copy the vault scaffold from `.kit/SETUP GUIDE (Input Ai)/vault-scaffold/starter/` into `~/Documents/[ai-name]/vault/`:
+Now run the foundation:
 
 ```bash
-cp -R "$HOME/Documents/[AI_NAME]/.kit/SETUP GUIDE (Input Ai)/vault-scaffold/starter/" \
-      "$HOME/Documents/[AI_NAME]/vault/"
+cd "$SANDBOX/kit" 2>/dev/null || \
+  git clone https://github.com/DanJoachimn/Partner-Ai-Kit-Personal.git ~/.partner-ai-kit-staging
+
+# Run the deterministic foundation installer
+cd ~/.partner-ai-kit-staging
+./setup.sh "[AI_NAME]" "[PARTNER_NAME]" "https://github.com/DanJoachimn/Partner-Ai-Kit-Personal.git"
 ```
 
-Substitute placeholders in the copied files. Replace every occurrence of:
-- `[AI_NAME]` → the actual name
-- `[PARTNER_NAME]` → ask user: *"What name should I call you by? First name is fine."*
-- `[BRAND]` → leave for now, kick-off conversation fills it
-- `YYYY-MM-DD` in frontmatter → today's date
+The script:
+- Clones the kit to `~/Documents/[AI_NAME]/.kit/`
+- Builds the vault scaffold at `~/Documents/[AI_NAME]/vault/`
+- Installs 7 core skills to `~/.claude/skills/`
+- Installs 4 digital employee subagents (Content, Research, Developer, Assistant) to `~/Documents/[AI_NAME]/.claude/agents/`
+- Loads the nightly memory-compression launchd job
+- Creates `_recovery/env-template.txt`
+- Wires up `~/Documents/[AI_NAME]/CLAUDE.md`
+- Logs every stage to `~/Documents/[AI_NAME]/logs/install.log`
 
-Use a single sed run:
+**Watch the script's output. Each step prints `✅` as it completes.** If the script fails, the error is specific and the log file shows what went wrong.
 
-```bash
-find "$HOME/Documents/[AI_NAME]/vault/" -type f -name "*.md" -exec \
-  perl -i -pe "s/\[AI_NAME\]/[AI_NAME]/g; s/\[PARTNER_NAME\]/[PARTNER_NAME]/g;" {} \;
-```
-
-Confirm:
-
-> "✅ Built your vault — folders for Brand, Projects, Memory, People, Companies, Notes, and Meetings. Empty for now; we'll fill the important parts in the kick-off interview."
-
-Show a mermaid diagram of what was just created:
+When it finishes, show the user a quick visual:
 
 ```mermaid
 graph LR
-    A[~/Documents/[AI_NAME]] --> B[vault/]
-    A --> C[.kit/]
-    A --> D[_recovery/]
-    B --> E[Brand/]
-    B --> F[Memory/]
-    B --> G[Projects/]
-    B --> H[People/]
-    B --> I[Notes/]
+    HOME[~/Documents/[AI_NAME]/] --> KIT[.kit/<br/>kit source]
+    HOME --> VAULT[vault/]
+    HOME --> AGENTS[.claude/agents/<br/>4 digital employees]
+    HOME --> RECOVERY[_recovery/]
+    HOME --> LOGS[logs/]
+    VAULT --> BRAND[Brand/]
+    VAULT --> MEM[Memory/]
+    VAULT --> PROJ[Projects/]
 ```
+
+> "✅ Foundation in place. Folder, vault, four digital employees (Content, Research, Developer, Assistant), nightly memory routine all wired up. Now let me get to know you."
 
 ---
 
-## Stage 6 — Install user-level skills (~10 sec)
+## Stage 5 — Lightweight kick-off (~8 min, 3 questions only)
 
-Copy the kit's skill templates to `~/.claude/skills/`:
+**This is NOT the full kick-off interview.** That's deferred to Part 2.
 
-```bash
-SKILLS_SRC="$HOME/Documents/[AI_NAME]/.kit/SETUP GUIDE (Input Ai)/skill-templates"
-SKILLS_DST="$HOME/.claude/skills"
+For Part 1, ask only the three questions that let the aha-moment in Stage 8 land:
 
-mkdir -p "$SKILLS_DST"
+### Question 1 — Name + tone
 
-for skill in kick-off wrap-up dreaming voice-compile update; do
-  cp -R "$SKILLS_SRC/$skill" "$SKILLS_DST/$skill"
-  # Substitute placeholders
-  find "$SKILLS_DST/$skill" -type f -name "*.md" -exec \
-    perl -i -pe "s/\[AI_NAME\]/[AI_NAME]/g; s/\[PARTNER_NAME\]/[PARTNER_NAME]/g;" {} \;
-done
-```
+> "**How should I sound?** Not a long answer — three words or one sentence. Examples: *'warm-direct, no fluff'* / *'sharp colleague, push back on me'* / *'friendly, never corporate.'* What works for you?"
 
-Confirm:
+Save to `~/Documents/[AI_NAME]/vault/Brand/Voice guide.md` as the starter voice doc. Note this is intentionally thin — Part 2's 5-Q deepens it.
 
-> "✅ Installed 5 core skills: kick-off (the first-conversation interview), wrap-up (end-of-session learnings), dreaming (overnight memory compression), voice-compile (turns voice interview transcripts into a portable voice file), and update (fetches kit updates from GitHub when I tell you so)."
+### Question 2 — Active project
 
----
+> "**One project you're working on right now** — anything. Could be a launch, a deal, a piece you're writing, a problem you're stuck on. Two sentences max. Just enough that I know what you're heads-down on."
 
-## Stage 7 — Install scheduled jobs (launchd) (~10 sec)
+Save to `~/Documents/[AI_NAME]/vault/Projects/[project name].md` with frontmatter.
 
-For each scheduled skill (dreaming is the only one in the base kit), render the plist template and load it:
+### Question 3 — Working style preference
 
-```bash
-USER=$(whoami)
-PLIST_SRC="$HOME/.claude/skills/dreaming/dreaming.plist.template"
-PLIST_DST="$HOME/Library/LaunchAgents/com.${USER}.[AI_NAME].dreaming.plist"
+> "**When I'm working with you, do you want me to push back when I disagree, or just deliver what you asked for?** No wrong answer — operators split about 50/50 on this."
 
-mkdir -p "$HOME/Library/LaunchAgents"
-mkdir -p "$HOME/Documents/[AI_NAME]/logs"
-
-sed -e "s/\[USER\]/$USER/g" -e "s/\[AI_NAME\]/[AI_NAME]/g" "$PLIST_SRC" > "$PLIST_DST"
-
-launchctl load "$PLIST_DST"
-launchctl list | grep dreaming
-```
-
-Confirm:
-
-> "✅ Wired up the overnight memory routine. Every night at 02:00, your AI will compress that day's memory while you sleep. You can also trigger it manually anytime by saying 'run dreaming.'"
+Save to `~/Documents/[AI_NAME]/vault/Working style.md` (one-line note).
 
 ---
 
-## Stage 8 — Create the recovery file (~5 sec)
+## Stage 6 — Telegram bridge (~12 min, user does some hands-on work)
+
+This is where the kit reaches off the Mac and into the user's pocket.
+
+### 6a — User creates a Telegram bot via @BotFather
+
+> "OK, time to give me a phone. Open Telegram on your phone, search for **@BotFather**, and send it `/newbot`. It'll ask for a name (something like *'My Partner AI'*) and a username (must end in `bot`, e.g. *'mypartner_ai_bot'*). It'll spit out a token — looks like `7234567890:AAH...`. Copy that token to your clipboard."
+
+Wait for them to confirm: *"got the token."*
+
+### 6b — User pastes the token (clipboard pattern, never in chat)
+
+> "Open the file at `~/.config/[ai-name]/telegram/.env`. I just created it — it's empty. Paste your bot token into it like this:
+>
+> ```
+> TELEGRAM_BOT_TOKEN=YOUR_TOKEN_HERE
+> ```
+>
+> Save the file. Then come back here and say 'done.' (I'm not asking you to paste the token into chat — keeps it out of the conversation log.)"
+
+The AI creates the empty `.env` file with chmod 600 before asking the user to paste.
+
+### 6c — Install the Telegram poller
 
 ```bash
-mkdir -p "$HOME/Documents/[AI_NAME]/_recovery"
-cat > "$HOME/Documents/[AI_NAME]/_recovery/env-template.txt" <<'EOF'
-# Recovery template — copy back to ~/.config/[ai-name]/.env on a new Mac.
-# Get the actual secret values from your password manager or 1Password vault.
-OPENAI_API_KEY=
-ELEVENLABS_API_KEY=
-ELEVENLABS_VOICE_ID=
-TELEGRAM_BOT_TOKEN=
-EOF
+cp "~/Documents/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /telegram-kit/poll-telegram.sh" \
+   "~/Documents/[AI_NAME]/scripts/poll-telegram.sh"
+chmod +x ~/Documents/[AI_NAME]/scripts/poll-telegram.sh
+
+# Render + load the launchd plist for the poller
+sed -e "s/\[USER\]/$(whoami)/g" -e "s/\[AI_NAME\]/[AI_NAME]/g" \
+    "~/Documents/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /telegram-kit/com.telegram-poller.plist.template" \
+    > "~/Library/LaunchAgents/com.$(whoami).[AI_NAME].telegram-poller.plist"
+
+launchctl load "~/Library/LaunchAgents/com.$(whoami).[AI_NAME].telegram-poller.plist"
 ```
+
+### 6d — Verify
 
 Tell the user:
 
-> "I created a recovery file at `~/Documents/[ai-name]/_recovery/env-template.txt`. It's a checklist of what API keys you'll have once you wire up things like voice replies and Telegram. If your Mac ever dies, you'll see what to re-paste from your password manager. You can ignore it for now."
+> "Send a quick test message from your phone to your bot — anything, like 'hello'. I'll watch the inbox."
+
+Wait. Check `~/Documents/[AI_NAME]/inbox/` for incoming message. When it lands:
+
+> "✅ Got it. Your AI just received its first message from your phone. Bridge is live."
 
 ---
 
-## Stage 9 — Set up the AI's CLAUDE.md (~5 sec)
+## Stage 7 — Voice (~5 min, free Mac voices)
 
-The CLAUDE.md template was copied as part of the vault scaffold. Now wire it into the AI's home folder so every new Claude Code session in `~/Documents/[ai-name]/` reads it first:
+> "Now I'll set up voice. Default is free — your Mac already has voices built in. (You can upgrade to ElevenLabs premium voices later in Part 2 if you want; today's setup uses what's free and works.)"
+
+The setup is mostly automatic:
 
 ```bash
-# CLAUDE.md should already exist in vault/. Symlink at home root so Claude Code finds it.
-ln -sf "$HOME/Documents/[AI_NAME]/vault/CLAUDE.md" "$HOME/Documents/[AI_NAME]/CLAUDE.md"
+cp "~/Documents/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /voice-io-kit/say-to-mac.sh" \
+   "~/Documents/[AI_NAME]/scripts/say-to-mac.sh"
+
+cp "~/Documents/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /voice-io-kit/send-voice-note.sh" \
+   "~/Documents/[AI_NAME]/scripts/send-voice-note.sh"
+
+chmod +x ~/Documents/[AI_NAME]/scripts/say-to-mac.sh \
+         ~/Documents/[AI_NAME]/scripts/send-voice-note.sh
 ```
 
-Confirm:
+Quick voice picker:
 
-> "✅ Wired up your AI's operating manual. From now on, any Claude Code session opened from `~/Documents/[ai-name]/` will load it automatically and behave consistently."
+> "Mac has a few voices to pick from. My defaults: **Samantha** (the standard female voice, clearest), **Daniel** (UK male), or **Karen** (Australian female). Or you can pick your own — say 'show me the list' and I'll print them."
+
+Capture the pick. Save to `~/Documents/[AI_NAME]/.config/voice-preference`.
 
 ---
 
-## Stage 10 — Hand off to the kick-off interview (~15 min)
+## Stage 8 — ⭐ The aha-moment: automatic voice note from your AI (~3 min)
 
-The hard infrastructure is done. Now run the conversational onboarding — voice, brand, projects, working style.
+This is the climax of Part 1. **The user does NOT prompt this. The AI delegates to its Content subagent automatically, drafts a personal greeting referencing the project the user just shared, renders it to voice, and sends it to their phone unbidden.**
 
-Trigger the kick-off skill:
+### What you do (the AI in this playbook)
 
-> "OK — the technical stuff is in place. From here, it's just us talking. The next ~15-25 minutes is the kick-off conversation: I get to know you, your brand, your projects, and your voice. That's what makes me actually useful instead of generic.
+1. Delegate to the **Content subagent** via the `Task` tool. Prompt:
+
+   ```
+   You are the Content subagent. Draft a voice-note script for [PARTNER_NAME]'s
+   new AI partner ([AI_NAME]) to send to them via Telegram. This is the AI's
+   first message to them after install.
+
+   Context to use:
+   - [PARTNER_NAME]'s name
+   - [PARTNER_NAME]'s tone preference: [from Stage 5 Q1]
+   - The project they shared: [from Stage 5 Q2]
+
+   Structure:
+   1. Open with: "Good to be onboard my friend." (verbatim — this is the signature opener)
+   2. 2-3 sentences about the project they shared, written in [PARTNER_NAME]'s
+      tone, sounding like a colleague who just heard about it and has an
+      angle to bring. Reference something specific from what they said.
+   3. Close with one forward-looking line — something like "talk soon" or
+      "looking forward to digging in." Make it sound like a real person.
+
+   If no project was shared (Stage 5 Q2 was skipped or vague), substitute with:
+   "Just wanted to say hi from your pocket. Whenever you're ready, throw me
+   something — a draft, a question, a task you've been putting off. Talk soon."
+
+   Keep total length to ~25-40 seconds spoken (roughly 75-120 words).
+   Match the tone preference exactly. No corporate fluff. No "exciting opportunities."
+   Just one person leaving a voice note for another person.
+
+   Output: the voice-note script, plain text, ready to render to TTS.
+   ```
+
+2. Once Content returns the script, render to audio:
+
+   ```bash
+   ~/Documents/[AI_NAME]/scripts/say-to-mac.sh \
+     "[script from Content subagent]" \
+     /tmp/aha-moment.mp3
+   ```
+
+3. Send via Telegram to the user's bot:
+
+   ```bash
+   source ~/.config/[AI_NAME]/telegram/.env
+   CHAT_ID="$(cat ~/Documents/[AI_NAME]/.config/telegram-chat-id)"
+
+   curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendVoice" \
+     -F "chat_id=${CHAT_ID}" \
+     -F "voice=@/tmp/aha-moment.mp3"
+   ```
+
+4. In chat, tell the user:
+
+   > "Check your phone."
+
+   Then wait. Don't say anything else until they respond.
+
+### What the user experiences
+
+Their phone buzzes. They open Telegram. They see a voice note from their AI. They tap. They hear (in the voice they picked):
+
+> *"Good to be onboard my friend. [2-3 sentences about their project, in their tone, sounding like a colleague.] Talk soon."*
+
+90 seconds after install ends, they have a personal message from a digital employee they didn't ask for. **The kit just earned the install.**
+
+### After they confirm they heard it
+
+> "That's the moment. You sent zero prompts for that — I delegated to Content, which read your project context, drafted in your tone, rendered to voice, sent to your phone. That's how the team works. You talk to me, I dispatch the right specialist behind the scenes.
 >
-> Want to start now, or take a break first?"
+> ✅ **Part 1 complete.**"
 
-If start now → invoke `~/.claude/skills/kick-off/SKILL.md`. The kick-off skill takes over.
+---
 
-If break → set a flag file so kick-off auto-fires next session:
+## Stage 9 — Value-prop close + Part 2 invitation (~3 min)
+
+Read this verbatim (adapt slightly to fit the user's actual project):
+
+> "Here's what just happened over the past ~35 minutes:
+>
+> **What you have now:**
+> - A working AI partner that knows your name, your tone, and your project
+> - Four digital employees in the background — Content (writing), Research (deep-dives), Developer (anything code), Assistant (admin)
+> - A voice channel from your phone — send a voice note, get a voice note back
+> - A folder on your Mac that's now your AI's home and memory
+> - An overnight routine that compresses what we discussed each day into long-term memory
+>
+> **What this means for you, in plain terms:**
+> - Ask for a draft of something while walking the dog. Voice in, voice out, draft saved to your Mac.
+> - Your AI remembers what you said today the next time you talk to it. No re-explaining.
+> - The team grows over time — every time you correct something, the right digital employee learns it and won't make that mistake again.
+>
+> **Example use cases that work TODAY:**
+> - *'Draft a follow-up email about [project] — keep it short'* → Content drafts, you tweak, send
+> - *'What's the most useful thing I could spend 15 minutes on right now?'* → Assistant reads your projects, suggests
+> - *'I'm stuck on [thing]. Talk it through with me.'* → AI thinks out loud with you in your tone
+>
+> **What's next:** Part 2 is when I learn you deeper — a 5-question voice interview, premium voices if you want them, meeting capture for your calls, optional integrations. When you've used Part 1 for a few days and want more, just say **'run Part 2'**."
+
+Mark Part 1 complete:
 
 ```bash
-touch "$HOME/Documents/[AI_NAME]/.kick-off-pending"
+touch ~/Documents/[AI_NAME]/.part-1-complete
+date -Iseconds > ~/Documents/[AI_NAME]/.part-1-date
+echo "$(date -Iseconds) — PART 1 COMPLETE — total: $(wc -l ~/Documents/[AI_NAME]/logs/install.log | awk '{print $1}') log entries" \
+  >> ~/Documents/[AI_NAME]/logs/install.log
 ```
 
-Tell them:
+If user is on Max plan and wants to continue immediately:
 
-> "All set. Next time you open Claude Code in `~/Documents/[ai-name]/`, I'll greet you and we'll pick up where we left off."
+> "You're on Max — we have headroom. Want to roll into Part 2 right now, or take a break first?"
+
+Otherwise: end the session warmly.
 
 ---
 
 ## Failure recovery
 
-If anything in Stages 4-9 fails halfway through:
+If anything in Stages 4-7 fails halfway through:
 
-1. Log the failure with timestamp + stage to `~/Documents/[ai-name]/_recovery/install-log.txt`
-2. Tell the user in plain English what went wrong and what they can do:
-   > "Something didn't go to plan at Stage [X]. The good news: nothing's broken on your Mac. The fix: [specific one-liner]. Once you've done that, tell me 'try again' and I'll pick up where I stopped."
-3. Make every failure resumable — re-running the install from Stage 4 should skip stages that already completed (check if `~/Documents/[ai-name]/vault/` already exists, etc.)
+1. The install.log shows exactly which stage stopped
+2. Tell the user in plain English: *"Stopped at Stage X. The good news: nothing's broken on your Mac. The fix is [specific one-liner]. Once you've done that, say 'try again' and I'll pick up from where I stopped."*
+3. Re-running setup.sh is idempotent — safe to run twice
+4. Make every failure resumable. Check `.setup-sh-complete` flag at start to know if Stage 4 already finished.
 
 ---
 
-## Visual treatment reference
+## What this playbook does NOT do (deferred to Part 2 or later)
 
-Throughout install, use these techniques (full library in `assets/snippets/macos-dialogs.md`):
+- 5-question deep voice interview (Section B-Express full)
+- ElevenLabs premium voice upgrade
+- Granola meeting capture
+- Siri & Apple Watch integration (LAST in Part 2)
+- 100-question deluxe voice interview (always its own dedicated session)
+- Optional skills (Hyperframes, Video Use, content-pipeline, document-transformations, etc.)
+- People/Companies vault scaffolding deep-fill
+- Goals + Constraints capture
 
-| Moment | Technique |
-|---|---|
-| Need user to confirm a yes/no | `osascript -e 'display dialog "..." buttons {"Yes", "No"} default button 1'` |
-| Open a System Settings pane | `open "x-apple.systempreferences:com.apple.preferences.AppleIDPrefPane"` |
-| Notify them something's done | `osascript -e 'display notification "..." with title "[AI_NAME]"'` |
-| Show a screenshot inline | Markdown image from `https://raw.githubusercontent.com/DanJoachimn/Partner-Ai-Kit-Personal/main/assets/screenshots/[name].png` |
-| Show structural diagram | Mermaid block in chat (Claude Code Desktop renders) |
-
-Use these liberally. The user's experience of install is mostly the visual layer.
+All available in **Part 2** at `~/Documents/[AI_NAME]/.kit/INSTALL-PART-2.md` — user invokes with `"run Part 2"`.
 
 ---
 
 ## Variables this playbook expects
 
-| Placeholder | When set | Example |
-|---|---|---|
-| `https://raw.githubusercontent.com/DanJoachimn/Partner-Ai-Kit-Personal/main` | Pre-fill before pushing repo | `https://raw.githubusercontent.com/dani/partner-ai-kit-personal/main` |
-| `https://github.com/DanJoachimn/Partner-Ai-Kit-Personal.git` | Pre-fill before pushing repo | `https://github.com/dani/partner-ai-kit-personal.git` |
-| `[AI_NAME]` | Stage 1 user answer | `watney`, `coco`, `atticus` |
-| `[PARTNER_NAME]` | Stage 5 user answer | `Dani`, `Sam`, `Anna` |
-
-The two `[REPO_*]` placeholders need a single search-and-replace before the repo is pushed for the first time. Do this in this file AND in `README.md` AND in `UPDATE.md`.
+| Placeholder | Source |
+|---|---|
+| `[AI_NAME]` | Set in Stage 1 (user's chosen AI name) |
+| `[PARTNER_NAME]` | Set in Stage 4 (user's first name) |
 
 ---
 
-*This file is the live install playbook. Update it when the install flow changes; the next user's install will get the new version automatically.*
+*Part 1 of 2 — Foundation. Part 2 (Reach) is a separate playbook the user invokes when they're ready.*

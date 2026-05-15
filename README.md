@@ -58,7 +58,26 @@ Then:
 1. Open Claude Code Desktop
 2. Paste the prompt below
 3. Hit Enter
-4. Answer the questions your new AI asks you (~25 minutes total)
+4. Answer the questions your new AI asks you
+
+### Install runs in two parts
+
+Split for $20 Claude Pro users — Part 1 fits comfortably in a single Pro session without burning your usage allowance.
+
+**Part 1 — Foundation (~40 min, single session)** ends with your AI sending you a personal voice note via Telegram. By the time it's done, you have:
+- A named AI partner that knows your name, tone, and one active project
+- Four digital employees (Content, Research, Developer, Assistant) behind the scenes
+- A voice channel from your phone — voice in, voice out
+- An overnight memory routine that compresses what you discuss into long-term memory
+
+**Part 2 — Reach (~30 min, separate session days later)** deepens the kit:
+- 5-question voice interview that sharpens your AI's drafts
+- Premium voices (ElevenLabs) — optional
+- Meeting auto-capture (Granola) — optional
+- Extra skills (animation, video editing, content pipelines, more) — pick what you want
+- Siri + Apple Watch hands-free control — optional, last
+
+You can stop after Part 1 and have a fully-working partner. Part 2 is opt-in when you're ready.
 
 ### The install prompt
 
@@ -151,7 +170,9 @@ Same install pattern. Different overlay.
 
 ## License
 
-MIT — fork it, modify it, sell something built on top of it, give it to your friends. The only thing we ask: if you publish something that builds on this, link back so people can find the source.
+Source-available. You can install, modify, and use this kit for your own needs (personal or your own business). You can't repackage it for sale, host it as a service for others, or distribute a competing kit derived from it.
+
+Full terms in [LICENSE](./LICENSE). For commercial licensing inquiries: daniel@allgravyagency.com
 
 ---
 
