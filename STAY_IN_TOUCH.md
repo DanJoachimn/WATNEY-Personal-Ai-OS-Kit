@@ -2,7 +2,7 @@
 
 You installed the kit. You have a working partner AI. If you want to see how the person who built this thing uses an AI co-founder to actually ship products — and how this kit evolves over the coming months — there's a free weekly newsletter for that.
 
-![The All Gravy Times — Bootstrap Edition](./assets/screenshots/tagt-hero.png)
+![The All Gravy Times — Bootstrap Edition](./assets/screenshots/tagt-hero.jpg)
 
 ---
 
