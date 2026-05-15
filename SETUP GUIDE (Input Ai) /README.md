@@ -12,7 +12,7 @@
 | **`claude-md-template.md`** | Template for the `CLAUDE.md` file every partner AI gets. Has placeholders like `[AI_NAME]`, `[PARTNER_NAME]` that get filled in during install. |
 | **`user-manual-template.md`** | Template for the `USER_MANUAL.md` every partner gets. Includes the portability/recovery section. |
 | **`kick-off-pattern-reference.md`** | Quick-reference doc on the kick-off flow. The numbered guide `06 - The Kick-off Flow` is the user-facing version. |
-| **`subagent-templates/`** | Four generic subagent templates: **content** (drafting), **research** (web/sources), **ops** (admin/inbox), **developer** (technical work — optional). Get copied into a new partner's `.claude/agents/` and tuned to their domain. |
+| **`subagent-templates/`** | Five generic subagent templates: **content** (drafting), **research** (web/sources), **assistant** (admin/inbox), **developer** (technical work — optional), **design** (visual/UX work — Refero-grounded, anti-slop). Get copied into a new partner's `.claude/agents/` and tuned to their domain. |
 | **`telegram-kit/`** | Standalone Telegram poller (for power users with multi-session setups). Includes the bash poller, the launchd plist template, and the check-telegram skill. |
 | **`vault-scaffold/`** | Simplified Obsidian vault starter (6 folders + Brand/ templates). Copy into a new partner's vault to give them a working structure. |
 | **`voice-io-kit/`** | Whisper transcription script + voice-io skill template. For Phase 7 voice setup. |
@@ -26,7 +26,7 @@
 3. **Copy the templates in:**
    - `claude-md-template.md` → `~/Documents/[ai-name]/CLAUDE.md`
    - `user-manual-template.md` → `~/Documents/[ai-name]/USER_MANUAL.md`
-   - `subagent-templates/` → `~/Documents/[ai-name]/.claude/agents/` (rename to .md files; pick which agents to include — typically content/research/ops, add developer for technical users)
+   - `subagent-templates/` → `~/Documents/[ai-name]/.claude/agents/` (rename to .md files; pick which agents to include — typically content/research/assistant/design, add developer for technical users)
 4. **Find-replace placeholders:** `[AI_NAME]`, `[PARTNER_NAME]`, `[BUSINESS]`, `[BRAND]` etc. with the partner's specifics.
 5. **Adapt the brand sections** in CLAUDE.md to the partner's actual voice/positioning/banned-words. The kick-off flow will refine this further on first run.
 6. **Add the kick-off + wrap-up skills** at `~/Documents/[ai-name]/.claude/skills/` so the partner gets the auto-onboarding + auto-learnings-sweep behavior from day one.

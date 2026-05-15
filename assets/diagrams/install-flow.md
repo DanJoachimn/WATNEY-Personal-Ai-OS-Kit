@@ -56,15 +56,16 @@ graph TB
 
 ---
 
-## The four subagents (show during kick-off Section A intro)
+## The five subagents (show during kick-off Section A intro)
 
 ```mermaid
 graph TB
     YOU[You] -->|talk to| ORCH[Me — the orchestrator]
     ORCH --> R[Research<br/>subagent<br/>deep-dives, sources]
     ORCH --> C[Content<br/>subagent<br/>drafts, copy]
-    ORCH --> Q[QA<br/>subagent<br/>fresh-eyes review]
+    ORCH --> A[Assistant<br/>subagent<br/>inbox, admin, follow-ups]
     ORCH --> D[Developer<br/>subagent<br/>scripts, technical builds]
+    ORCH --> DS[Design<br/>subagent<br/>visual, UX, anti-slop]
     style YOU fill:#fff5e6,stroke:#cc7a00
     style ORCH fill:#e6f0ff,stroke:#0052cc
 ```

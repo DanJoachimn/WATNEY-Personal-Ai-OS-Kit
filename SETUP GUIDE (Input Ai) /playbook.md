@@ -292,20 +292,21 @@ The main AI is a generalist. Subagents are specialists — narrower jobs, separa
 
 **Why it matters:** keeps the main conversation tidy. Subagents go off, do the task, come back with a clean answer.
 
-### The default three (good for most users)
+### The default four (good for most users)
 
 | Subagent | Tools | When to use |
 |---|---|---|
 | **Research** | WebFetch, WebSearch, Read | Any "find me X" task — competitors, sources, supplier comparisons, guest vetting |
 | **Content** | Read, Write, Edit | Any drafting — emails, captions, newsletters, supplier comms |
-| **Ops** | Read, Write, Edit, Grep | Inbox triage, meeting notes, scheduling logic, recurring admin |
+| **Assistant** | Read, Write, Edit, Grep | Inbox triage, meeting notes, scheduling logic, recurring admin |
+| **Design** | Read, Write, Edit, Glob, Grep, WebFetch | Visual / UX work — landing pages, product photography direction, podcast cover art, email design, social graphics, design critique. Refero-grounded (if available) and anti-slop by default. |
 
-### Add a fourth only when justified
+### Add a fifth only when justified
 
 - **Developer** (for technical users) — Bash, Edit, Read. For code work.
 - **Coach** (for personal-development users) — narrowly scoped, conversational only.
 
-Don't pre-install a fourth. Wait until the user notices a recurring task that doesn't fit the default three, then build it.
+Don't pre-install a fifth. Wait until the user notices a recurring task that doesn't fit the default four, then build it.
 
 ### Install steps
 
@@ -1107,7 +1108,7 @@ For someone setting up their nth partner AI, this is the actual order of operati
 
 [ ] PHASE 4 — Subagents (30 min)
 [ ] ~/[ai-name]/.claude/agents/ created
-[ ] research.md, content.md, ops.md installed + tuned
+[ ] research.md, content.md, assistant.md, design.md installed + tuned
 [ ] Delegation test passes
 
 [ ] PHASE 5 — Persistence (30 min)
