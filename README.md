@@ -47,11 +47,15 @@ You install it by talking. No terminal, no command line, no editing files. The A
 
 ## How to install
 
-You need three things first:
+You need five things first. The first three are obvious. The last two aren't, but they make the install dramatically smoother:
 
 1. **A Mac** running macOS 14 or later
 2. **A Claude subscription** (any tier — Pro covers it)
 3. **Claude Code Desktop** installed → [download here](https://claude.com/code)
+4. **"Computer use" turned ON inside Claude Code Desktop** — so your AI can open System Settings for you, screenshot to verify things are wired up, and click through native apps during install. Toggle is in Claude Code's settings under *Capabilities* (look for "Computer use" or "Control my computer"). Without this, you'll have to do those steps by hand and tell the AI what you saw.
+5. **The Claude Chrome extension** installed and connected — so your AI can fill out web forms for you (Telegram bot creation, ElevenLabs signup, Granola onboarding, etc.) instead of asking you to navigate and copy-paste yourself. [Install it from the Chrome Web Store](https://chromewebstore.google.com/search/Claude). After installing, click the extension icon once in Chrome so it pairs with Claude Code.
+
+If you skip 4 and 5, the install still works — you'll just be doing more clicking and typing yourself. The AI will tell you what to do step by step either way.
 
 Then:
 

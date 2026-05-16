@@ -47,6 +47,44 @@ When in doubt, add the gate. The friction is small; the cost of a wrong-send is 
 
 ---
 
+## Stage 0a — Capability check (~1 min, BEFORE the greeting)
+
+**Before anything else**, verify two Claude capabilities are available. These aren't required, but they make the install much smoother for a non-developer user. Most rookie users don't know to turn them on.
+
+### Check 1 — computer use (so you can open System Settings + screenshot for the user)
+
+Attempt a no-op screenshot via the `computer-use` MCP. If it succeeds → computer use is on. If it returns a "not available" / "permission denied" / "MCP not connected" error → computer use is off.
+
+If off, tell the user:
+
+> "Quick capability check before we start. I'd like to enable two things so this install is much smoother for you:
+>
+> **1. Computer use** — lets me open System Settings, take screenshots to verify things are wired up, and click through native apps for you. Without it, I'll have to ask you to do those steps by hand and describe what you see, which is slower and more error-prone.
+>
+> To turn it on: in Claude Code Desktop, open **Settings → Capabilities** (or Settings → Features depending on your version) and toggle **Computer use** (sometimes labelled *'Control my computer'*) to ON. You may need to grant Screen Recording + Accessibility permissions when first asked. Let me know when it's on, or say 'skip' if you'd rather not."
+
+If user enables it → confirm via a fresh screenshot attempt before moving on. If user skips → continue, but warn them at every visual-confirmation step that you'll be asking them to describe what they see manually.
+
+### Check 2 — Chrome extension (so you can fill web forms for the user)
+
+Attempt `mcp__claude-in-chrome__list_connected_browsers` (or equivalent). If it returns a connected browser → extension is installed + paired. If it errors → not installed or not paired.
+
+If not connected, tell the user:
+
+> "**2. Claude Chrome extension** — lets me fill out web forms for you (Telegram bot creation, ElevenLabs signup, anything browser-based) instead of asking you to navigate and copy-paste yourself. Saves you a LOT of clicking later in this install.
+>
+> To install: open Chrome → go to the [Chrome Web Store, search 'Claude'](https://chromewebstore.google.com/search/Claude), and add the official Claude extension. After installing, click the extension icon once in Chrome to pair it with this Claude Code session. Tell me when it's done, or say 'skip' if you'd rather not."
+
+If user installs → verify pairing via another `list_connected_browsers` call. If user skips → continue, but warn at web-form steps that you'll be giving them step-by-step instructions to do it manually.
+
+### Why ask both upfront, not later
+
+Asking at install time, after the user has already committed to running the kit, surfaces these capabilities at the moment they're cheapest to enable. Asking mid-install (at Stage 5 or Stage 6) is too late — the user's already in the middle of something and toggling Claude settings derails the flow.
+
+If both are skipped, the install still works — just with more manual user actions. Don't gate the install behind these. Don't nag if they say no.
+
+---
+
 ## Stage 0 — Greeting + tone-setting (~1 min)
 
 Open with warmth. Set expectations. Get permission to proceed.
