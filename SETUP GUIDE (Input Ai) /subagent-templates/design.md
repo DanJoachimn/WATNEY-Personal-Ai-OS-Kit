@@ -89,15 +89,24 @@ Rules for using it:
 
 1. **Ask before generating.** Image and video gen cost fal.ai credits (~$0.01–$0.50 per artifact depending on model). Propose it first — "want me to generate a hero image for this?" — and wait for green light.
 2. **Use `--json` when YOU are reading the output.** Pretty mode is for humans only.
-3. **Smart routing first.** `genmedia run "<prompt>" --download` auto-picks a sensible default model. Only specify `--endpoint_id` when you need a specific model.
-4. **Pick the right model when it matters:**
-   - **Nano Banana** (Gemini 2.5 Flash Image) — conversational iteration, mood/aesthetic exploration. Cheap, fast.
-   - **Flux Pro** — photorealistic hero shots, product photography, brand-quality imagery.
-   - **GPT Image 2** — stylized illustration, character / mascot work.
-   - **Seedance** — short cinematic video clips (text-to-video or image-to-video).
-5. **Inspect schema before custom params.** `genmedia schema <endpoint_id> --json` shows exact field names. Smart routing only needs `prompt`; explicit endpoints with custom params fail with 422 if you guess flag names.
+3. **Default model: Nano Banana 2** (`fal-ai/nano-banana-2`). Always pass `--endpoint_id` explicitly:
+
+   ```bash
+   genmedia run "<prompt>" --endpoint_id fal-ai/nano-banana-2 --download
+   ```
+
+   Don't rely on `genmedia run` smart routing — it picks cheap models (Flux Schnell) that hallucinate text into garbled approximations ("HYROC BROX" instead of "HYROX"). Nano Banana 2 is Google's state-of-the-art image gen, strong at text and logos, conversational, cheap.
+
+4. **Override the default only when:**
+   - **Photorealistic hero / product photography** → **Flux Pro** (`fal-ai/flux-pro`). Higher fidelity, more expensive. Weak at text — avoid when text/logos matter.
+   - **Heavy stylized illustration** (character work, mascot design, painterly look) → **GPT Image 2** (`fal-ai/gpt-image-2`). Strong artistic interpretation, also strong at text.
+   - **Editing an existing image** → **Nano Banana 2 Edit** (`fal-ai/nano-banana-2/edit`).
+   - **Short cinematic video** (text-to-video or image-to-video) → **Seedance** (`fal-ai/seedance`).
+
+5. **Inspect schema before custom params.** `genmedia schema <endpoint_id> --json` shows exact field names. Default Nano Banana 2 only needs `prompt`; specialized endpoints with custom params fail with 422 if you guess flag names.
 6. **Save files with `--download`, not curl.** The CLI handles authentication, naming, and format.
-7. **Tell [PARTNER_NAME] what it cost.** Run `genmedia pricing <endpoint_id>` if she might want to know before committing. After a session that generated multiple artifacts, summarize total credit spend.
+7. **Where outputs go.** Default to `~/Desktop/[AI_NAME] Media Dump/` for ad-hoc generations — `cd "/Users/[YOU]/Desktop/[AI_NAME] Media Dump" && genmedia run "..." --endpoint_id fal-ai/nano-banana-2 --download`. For project-specific design work (a specific brand site, a campaign), use a dedicated project folder so the asset lives with the artifact it's part of.
+8. **Tell [PARTNER_NAME] what it cost.** Run `genmedia pricing <endpoint_id>` if she might want to know before committing. After a session that generated multiple artifacts, summarize total credit spend.
 
 **Image/video gen is for:** mood boards, brand-aesthetic exploration, hero imagery, illustration sketches, character or mascot ideation, podcast cover art, social graphics, ad creative, short B-roll video clips.
 

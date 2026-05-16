@@ -1027,7 +1027,15 @@ Mirror the skill to `~/.claude/skills/` so Claude Code's primary skill discovery
 cp -r ~/.agents/skills/genmedia ~/.claude/skills/genmedia
 ```
 
-##### Step 5 — Verify
+##### Step 5 — Create the media dump folder
+
+```bash
+mkdir -p "$HOME/Desktop/[AI_NAME] Media Dump"
+```
+
+This is where ad-hoc / exploratory media generations land by default. The AI uses it as the "throwaway" output folder for testing iterations, mood sketches, and one-off images. Content tied to a specific draft (newsletter header, podcast episode art) goes to that draft's folder instead — this Media Dump is for exploration, not for keepers.
+
+##### Step 6 — Verify
 
 ```bash
 genmedia models --json | head -20
@@ -1035,13 +1043,16 @@ genmedia models --json | head -20
 
 Should return a JSON list of available endpoints. If that works, you're connected.
 
-Test generation with a cheap model:
+**Default model is Nano Banana 2** (`fal-ai/nano-banana-2`) — Google's state-of-the-art image gen, strong at text/logos, cheap. The AI should always pass `--endpoint_id` explicitly instead of relying on smart routing (which picks cheap models that hallucinate text).
+
+Test generation with the default:
 
 ```bash
-genmedia run "a friendly golden retriever sitting in soft afternoon light" --download
+cd "$HOME/Desktop/[AI_NAME] Media Dump"
+genmedia run "a friendly golden retriever sitting in soft afternoon light" --endpoint_id fal-ai/nano-banana-2 --download
 ```
 
-Costs ~$0.02. Should drop a `.png` in the current directory within 30 seconds. Show the partner the file landing — that's the "oh, it works" moment that anchors the install.
+Costs ~$0.02. Should drop a `.jpg` in the Media Dump folder within 30 seconds. Show the partner the file landing — that's the "oh, it works" moment that anchors the install.
 
 ##### Confirm with the partner
 

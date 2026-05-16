@@ -68,16 +68,25 @@ Quick rules:
 
 1. **Ask first.** Image / video gen costs fal.ai credits (~$0.01–$0.50 per artifact). Propose it — "want me to generate a hero image to go with this?" — and wait for green light.
 2. **Use `--json`** in any genmedia call YOU are reading the output of.
-3. **Smart routing first:** `genmedia run "<prompt>" --download` picks a sensible default. Don't specify endpoints unless you have a reason.
-4. **Pick the right model when it matters:**
-   - **Nano Banana** — fast iteration, conversational refinement. Default for ideation.
-   - **Flux Pro** — photorealistic hero shots, product imagery.
-   - **GPT Image 2** — stylized illustration, character work.
-   - **Seedance** — short cinematic video clips.
+3. **Default model: Nano Banana 2** (`fal-ai/nano-banana-2`). Always pass `--endpoint_id` explicitly:
+
+   ```bash
+   genmedia run "<prompt>" --endpoint_id fal-ai/nano-banana-2 --download
+   ```
+
+   Don't rely on smart routing — it picks cheap models that hallucinate text into garbled approximations. Nano Banana 2 is strong at text/logos and cheap.
+
+4. **Override the default only when:**
+   - Photorealistic hero / product photography → **Flux Pro** (`fal-ai/flux-pro`). Weak at text.
+   - Stylized illustration / character work → **GPT Image 2** (`fal-ai/gpt-image-2`). Also strong at text.
+   - Editing an existing image → **Nano Banana 2 Edit** (`fal-ai/nano-banana-2/edit`).
+   - Short cinematic video → **Seedance** (`fal-ai/seedance`).
 
 **Companion skill:** `~/.claude/skills/genmedia/SKILL.md` — full reference, auto-loads when triggered.
 
-**Save assets:** alongside the draft, in the same folder. Reference the image path in the draft's frontmatter so [PARTNER_NAME]'s pipeline can find it later.
+**Save assets:**
+- **Content-attached** (newsletter header, social graphic tied to a specific draft, podcast episode art) → alongside the text draft, same folder. Reference the image path in the draft's frontmatter so [PARTNER_NAME]'s pipeline can find it later.
+- **Ad-hoc / exploratory** (mood test, idea sketch, throwaway iteration) → `~/Desktop/[AI_NAME] Media Dump/`. Disposable folder. Move to a project location only if [PARTNER_NAME] decides the artifact is keeper-worthy.
 
 **If genmedia isn't installed**, say so once and suggest she runs Phase 12E from her playbook. Don't pester — it's optional.
 
