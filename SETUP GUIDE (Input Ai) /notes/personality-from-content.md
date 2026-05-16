@@ -62,4 +62,4 @@ LLMs are surprisingly good at extracting voice signals from large amounts of tex
 
 ---
 
-*Filed by: Dani. Captured 2026-05-12 as part of HTC-tier Partner AI Kit development. Updated as users surface what works and what doesn't.*
+*Filed by: Dani. Captured 2026-05-12 as part of Training Club-tier Partner AI Kit development. Updated as users surface what works and what doesn't.*

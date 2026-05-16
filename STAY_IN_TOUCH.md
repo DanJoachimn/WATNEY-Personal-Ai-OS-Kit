@@ -12,7 +12,7 @@ You installed the kit. You have a working partner AI. If you want to see how the
 
 **URL:** [allgravytimes.com](https://allgravytimes.com)
 
-**What it is:** A personal newsletter about entrepreneurship + AI from Dani at All Gravy Agency. Building a dream with nothing but an AI co-founder (Watney), ADHD, caffeinated optimism, and whatever the opposite of venture capital is.
+**What it is:** A personal newsletter about entrepreneurship + AI from Dani — the person who built this kit. Building a dream with nothing but an AI co-founder (Watney), ADHD, caffeinated optimism, and whatever the opposite of venture capital is.
 
 **What you'll find:**
 
@@ -42,15 +42,14 @@ If you ever want to see how the kit evolves, hear what's working for other solo 
 
 ## Other ways to find the builder
 
-- **All Gravy Agency** — [allgravyagency.com](https://allgravyagency.com)
 - **GitHub** — [github.com/DanJoachimn](https://github.com/DanJoachimn) (star the repo if it was useful — helps other operators find it)
 
-### If you run a HYROX Training Club
+### If you run a Training Club
 
 There's a separate kit + community for you:
 
 - **Partner AI Kit (Training Clubs)** — [github.com/DanJoachimn/Partner-Ai-Kit-Training-Club](https://github.com/DanJoachimn/Partner-Ai-Kit-Training-Club)
-- **The ROXIE Stacked** — the HTC operator community Substack (paid tier coming with monthly office hours + early skill drops)
+- **The ROXIE Stacked** — the Training Club operator community Substack (paid tier coming with monthly office hours + early skill drops)
 
 ---
 

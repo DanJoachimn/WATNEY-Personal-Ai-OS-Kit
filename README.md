@@ -30,7 +30,7 @@ Three things you should know about safety:
 
 ## What this is
 
-A complete install pack for setting up a Personal AI on your Mac using Claude Code. Free to install for your own use. Built by [All Gravy Agency](https://allgravyagency.com) — given away because the world is better with more people who have a real AI partner instead of a generic chatbot.
+A complete install pack for setting up a Personal AI on your Mac using Claude Code. Free to install for your own use. Built and open-sourced by [Daniel Joachim Nielsen](https://github.com/DanJoachimn) — given away because the world is better with more people who have a real AI partner instead of a generic chatbot.
 
 What you walk away with:
 
@@ -155,11 +155,11 @@ Hard rule: updates **never silently overwrite** a skill you've tuned via the lea
 
 ---
 
-## For HYROX Training Club owners
+## For Training Club operators
 
-This is the generic Personal version. There's a HYROX-flavored version at [Partner AI Kit (Training Clubs)](https://github.com/DanJoachimn/Partner-Ai-Kit-Training-Club) with:
+This is the generic Personal version. There's a Training Club-flavored version at [Partner AI Kit (Training Clubs)](https://github.com/DanJoachimn/Partner-Ai-Kit-Training-Club) with:
 
-- HTC-specific framing on your digital employees (same four, tuned for Training Club ops)
+- Training Club-specific framing on your digital employees (same four, tuned for Training Club ops)
 - Day-1 skills tuned for Training Club operators (weekly-retention-review, weekly-content-batch, block-builder, member-checkin-draft)
 - Vault scaffold for Training Club ops (Members/, Coaches/, Programming/, Events/)
 - HYROX brand context layer + race calendar awareness
@@ -172,7 +172,7 @@ Same install pattern. Different overlay.
 
 Source-available. You can install, modify, and use this kit for your own needs (personal or your own business). You can't repackage it for sale, host it as a service for others, or distribute a competing kit derived from it.
 
-Full terms in [LICENSE](./LICENSE). For commercial licensing inquiries: daniel@allgravyagency.com
+Full terms in [LICENSE](./LICENSE). For commercial licensing inquiries: open an issue on [GitHub](https://github.com/DanJoachimn/Partner-Ai-Kit-Personal/issues) and I'll be in touch.
 
 ---
 
@@ -208,7 +208,7 @@ Tell your AI about a bug too — it can often diagnose itself and propose a fix.
 
 ## Who built this
 
-[All Gravy Agency](https://allgravyagency.com). We work with HYROX Training Clubs on retention, content, and AI-augmented operations. This kit is the install foundation we use for every client engagement, given away free because the world needs more partners and fewer chatbots.
+I work with Training Clubs on retention, content, and AI-augmented operations. This kit is the install foundation I use for every client engagement, given away free because the world needs more partners and fewer chatbots.
 
 If you want help setting yours up beyond what your AI can do, or if you want a custom-built version for your business, get in touch.
 

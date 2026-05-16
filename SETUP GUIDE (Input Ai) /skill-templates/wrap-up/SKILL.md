@@ -350,6 +350,6 @@ fi
 
 ### No Substack nudge — intentional
 
-The wrap-up skill does **not** pitch any specific Substack or community subscription. The kit's free-distribution model means anyone running it could be a non-developer, an HTC operator, a consultant deploying for a client, or someone forking the kit for a different purpose. Embedding an active subscribe pitch into the install/wrap-up flow would be inappropriate across that range of users.
+The wrap-up skill does **not** pitch any specific Substack or community subscription. The kit's free-distribution model means anyone running it could be a non-developer, a Training Club operator, a consultant deploying for a client, or someone forking the kit for a different purpose. Embedding an active subscribe pitch into the install/wrap-up flow would be inappropriate across that range of users.
 
 The builder's Substack (if any) is mentioned **passively only** — in the repo's `README.md` and `STAY_IN_TOUCH.md`. Anyone who wants to know what the builder publishes can read those files. The kit's job is to install and tune the Partner AI cleanly. It is not a promotional vehicle.

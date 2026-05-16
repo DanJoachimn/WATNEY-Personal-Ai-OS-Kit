@@ -73,7 +73,7 @@ Each file gets frontmatter:
 ---
 date: 2026-05-05
 attendees: [[Sam]], [[Anna]]
-client: HYROX Training Clubs
+client: Acme Corp
 project: Membership Launch
 tags: [client-work]
 granola_id: abc123
@@ -110,7 +110,7 @@ needs_tagging: false
        },
        "event_keywords": {
            # If meeting title contains this keyword, tag accordingly
-           "hyrox": ("HYROX Training Clubs", None),
+           "acme": ("Acme Corp", None),
        },
    }
    ```

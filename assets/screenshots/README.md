@@ -47,7 +47,7 @@ These improve the experience but the kit works without them:
 |---|---|
 | `1password-cli-link.png` | 1Password app → Settings → Developer → "Integrate with 1Password CLI" toggle |
 | `1password-create-vault.png` | The "New Vault" dialog in 1Password app |
-| `flexybox-api-key.png` | Flexybox admin panel showing where the API key is generated (only needed for HTC repo) |
+| `flexybox-api-key.png` | Flexybox admin panel showing where the API key is generated (only needed for the Training Club repo) |
 | `telegram-botfather-token.png` | Telegram chat with @BotFather showing where the bot token appears after `/newbot` |
 
 ---
@@ -85,7 +85,7 @@ Shooting these one-at-a-time during install drags out development. Doing them in
 3. Means the kit can launch the moment screenshots land — no per-feature blocker
 
 Recommended order:
-1. Start with a fresh Mac account (or close to it) so screenshots look like what an HTC owner will actually see
+1. Start with a fresh Mac account (or close to it) so screenshots look like what a Training Club operator will actually see
 2. Walk through the install yourself, screenshotting at each visual moment
 3. Save each file directly into this folder with the right filename
 4. Run the compression command at the end

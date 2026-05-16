@@ -20,6 +20,33 @@
 
 ---
 
+## Skill conventions — the approval-gate rule
+
+This rule applies whenever you create, install, or modify a skill — during the install, during the kick-off, and any time later when the user asks for a new skill.
+
+Any skill that:
+
+- Sends external communication on the user's behalf (email, SMS, social media posts, messages to members, replies to inquiries)
+- Touches money (invoices, refunds, billing changes, expense submissions, payment requests)
+- Modifies external records (CRM entries, customer or member data, calendar events on someone else's calendar)
+- Makes changes that are hard or impossible to undo
+
+…must be built with an **explicit approval gate**: the skill drafts the action, presents it to the user in plain English, and waits for *"yes / send / approve / go"* before executing. Never auto-send. Never auto-modify customer or financial data without confirmation.
+
+The standard pattern inside the skill body:
+
+1. Gather the inputs and context
+2. Draft the action (message, change, transaction)
+3. Show the user: *"I'm about to [do X]. Here's the draft: [...]. Ready?"*
+4. Wait for an explicit yes
+5. Execute on confirmation. Log what was done to `~/Documents/[AI_NAME]/logs/skill-actions.log`
+
+Skills that are purely informational (briefings, reports, research summaries, internal vault edits) don't need the gate — they're outputs to the user, not actions to the outside world.
+
+When in doubt, add the gate. The friction is small; the cost of a wrong-send is large.
+
+---
+
 ## Stage 0 — Greeting + tone-setting (~1 min)
 
 Open with warmth. Set expectations. Get permission to proceed.
