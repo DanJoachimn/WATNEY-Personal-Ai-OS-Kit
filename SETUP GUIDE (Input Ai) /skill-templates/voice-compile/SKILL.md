@@ -266,3 +266,42 @@ A user's voice ISN'T just style. It's their decisions, their refusals, their tas
 Without this skill: the 100-Q interview's value evaporates because the raw archive is unusable in practice.
 
 With this skill: the interview's value compounds — the compressed file loads instantly, the AI sounds like the user from the first message of every session, and [PARTNER_NAME] can take their voice file to any AI on the planet.
+
+---
+
+## Three-scenario test (production-grade standard)
+
+Run all three before marking the skill production-grade. If any fails, the failure tells you exactly what instruction to add.
+
+### Scenario 1 — Happy path
+
+**Test input:** A complete `~/Documents/[ai-name]/vault/Voice/voice-archive.md` with all 100 Q&A pairs from the kick-off Section B-Deluxe interview. Answers vary in length (some 1-sentence, some 3-paragraph). User's voice is consistent across the archive — no contradictions, clear taste signals.
+
+**Expected output:** Compressed `about-me.md` ≤2 pages organized into 7 sections (beliefs, mechanics, aesthetic, tone, structure, hard nos, red flags). Every claim in the compressed file traces back to at least one Q&A in the archive (no fabrications). Direct quotes from the user appear where they capture voice most precisely — never paraphrased into generic language. File loads cleanly as context in a fresh chat and produces drafts that pass the verify-in-fresh-session test.
+
+**Pass criteria:** Compression ratio ≥ 10:1 (archive averages 200-500 lines; compressed file ≤50 lines plus quotes). Zero fabrications. The 7-section structure is present. Direct user quotes appear in at least 5 of the 7 sections. Fresh-session test: a draft generated against this file alone sounds like the user, not generic.
+
+### Scenario 2 — Edge case
+
+**Test input:** A `voice-archive.md` that's only 60% complete — user bailed at Q60 of the interview. Sections like "structural preferences" and "red flags" got 1-2 answers; "beliefs" and "writing mechanics" got 10+ each.
+
+**Expected output:** Skill compiles what's actually there. Under-populated sections explicitly say *"[PARTNER_NAME] hasn't fully answered this yet — current best read is X, refresh when more data lands."* No silently inventing answers to fill gaps. No averaging across categories. Skill suggests at the end: *"You bailed at Q60. The sections below marked [thin] would meaningfully sharpen if you ran another 20 questions sometime. Want a 15-min top-up later?"*
+
+**Pass criteria:** No fabrication for thin sections. Honest annotation of what's missing. Recovery path offered to the user. Compressed file still useful for sections that ARE populated.
+
+### Scenario 3 — Stress test
+
+**Test input:** A `voice-archive.md` with internal contradictions — user said *"I never use exclamation marks"* in Q14 but Q67 has them praising punctuation maximalism. Plus: archive includes raw Whisper transcription artifacts (filler words, false starts, *"um,"* *"so basically,"* corrected re-takes). Plus: previous compiled `about-me.md` already exists from an earlier interview that the new archive should override but not silently destroy (keep a backup).
+
+**Expected output:** Skill (a) flags the Q14/Q67 contradiction explicitly to the user in chat before writing — *"two answers disagree on exclamation marks. Which is the actual rule?"* — and waits for resolution. (b) Strips transcription artifacts during compression but preserves them in the raw archive (never edit the archive itself). (c) Renames the existing `about-me.md` to `about-me.YYYY-MM-DD-prior.md` before writing the new one — never silently overwrites. (d) Notes the prior file's existence in a one-line audit trail at the bottom of the new file.
+
+**Pass criteria:** Contradictions surface BEFORE the file is written, not after. Archive remains immutable. Prior version is backed up with timestamp. New file's audit trail mentions the backup path. No data loss.
+
+### Marking production-grade
+
+Once all three scenarios pass, add to frontmatter:
+
+```yaml
+production_grade: true
+last_qa: YYYY-MM-DD
+```

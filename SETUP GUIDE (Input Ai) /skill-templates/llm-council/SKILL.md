@@ -219,3 +219,42 @@ If [PARTNER_NAME] says yes → run. If no → drop it, don't re-offer.
 ## Original credit
 
 Adapted from Andrej Karpathy's LLM Council methodology. Karpathy dispatches queries to multiple different model providers. This adaptation uses Claude sub-agents with different thinking lenses instead. Both approaches answer the same question: "what if I asked five thoughtful people who disagree about everything?"
+
+---
+
+## Three-scenario test (production-grade standard)
+
+Run all three before marking the skill production-grade. If any fails, the failure tells you exactly what instruction to add.
+
+### Scenario 1 — Happy path
+
+**Test input:** *"Council this: should I take a $5K retainer client whose project starts next week, or hold the slot for a $15K project that's 70% likely to close in 3 weeks?"*
+
+**Expected output:** Five advisors spawned in parallel, each with a distinct lens (e.g., risk-adjusted finance, opportunity cost, cash-flow discipline, relationship capital, opportunity-creation under scarcity). Each writes a brief recommendation. Peer review fires — reviewers blind to advisor identity. Chairman synthesizes into one recommendation that names the strongest argument from each side, picks a side with reasoning, and acknowledges what would change the verdict. Output is ≤2 screens of markdown in chat.
+
+**Pass criteria:** Advisors spawned in parallel, not sequentially. Advisor takes are genuinely distinct (not five paraphrases of the same answer). Peer review is anonymized. Chairman picks a side rather than punting with *"depends on…"*. The runtime fits in ~3 minutes.
+
+### Scenario 2 — Edge case
+
+**Test input:** *"Council this: should I keep going."* (Vague, no context, no decision frame.)
+
+**Expected output:** Skill detects the input is too thin for a council run. Asks one clarifying question before spawning advisors: *"This sounds like a real moment but I need 30 seconds of context first — keep going with what, and what's the alternative you're weighing? One sentence each is enough."* Does NOT spawn advisors against ambiguous input.
+
+**Pass criteria:** Skill refuses to waste 5 parallel advisor calls on a question without a decision. Refusal is warm, not procedural. Asks for the minimum context needed, not a 5-question intake.
+
+### Scenario 3 — Stress test
+
+**Test input:** A multi-part decision with 3 interlocking sub-decisions, deep prior context the user has already shared in the same session (e.g., 8 messages of context about a product launch — budget constraints, partner dynamics, regulatory question, timeline pressure). User then says *"OK now council the whole thing."*
+
+**Expected output:** Skill summarizes the multi-part decision back to user as a 3-bullet decision brief *before* spawning advisors — confirms it captured the question correctly. User says go. Advisors receive the brief, not the raw 8-message context (avoid token bloat + keep advisors focused). Advisors handle the interlocking nature: e.g., one might say *"sub-decision A locks sub-decision C — solve A first."* Chairman synthesizes acknowledging the dependency structure rather than treating sub-decisions independently. Optionally writes a transcript file because the decision is significant.
+
+**Pass criteria:** Skill never spawns advisors on unconfirmed context. Decision brief stays ≤200 words. Chairman handles interdependency rather than three parallel verdicts. Transcript saved with `generated_by: claude-code` frontmatter to `~/Documents/[ai-name]/_council/YYYY-MM-DD-{slug}.md` (operational area — agents may write).
+
+### Marking production-grade
+
+Once all three scenarios pass, add to frontmatter:
+
+```yaml
+production_grade: true
+last_qa: YYYY-MM-DD
+```

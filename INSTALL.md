@@ -434,6 +434,21 @@ Mark Part 1 complete:
 ```bash
 touch ~/Documents/[AI_NAME]/.part-1-complete
 date -Iseconds > ~/Documents/[AI_NAME]/.part-1-date
+
+# Voice progression flag — tier 1 of 3 (3-Q foundation → 5-Q express → 100-Q deluxe)
+# Read by the kick-off skill so it knows not to re-run the foundation interview.
+touch ~/Documents/[AI_NAME]/.voice-foundation-3q-complete
+
+# Block the kick-off skill's auto-run on next session.
+# (Part 2 explicitly re-invokes voice deepening when the user opts in.)
+touch ~/Documents/[AI_NAME]/.first-run-complete
+cat > ~/Documents/[AI_NAME]/.first-run-log.txt <<EOF
+First-run completed via Part 1 install: $(date -Iseconds)
+Voice tier: 3-Q foundation (Part 1 lightweight)
+Pending: Part 2 (5-Q express + premium voice + meeting capture + optional skills)
+User invokes Part 2 when ready: "run Part 2"
+EOF
+
 echo "$(date -Iseconds) — PART 1 COMPLETE — total: $(wc -l ~/Documents/[AI_NAME]/logs/install.log | awk '{print $1}') log entries" \
   >> ~/Documents/[AI_NAME]/logs/install.log
 ```

@@ -139,12 +139,43 @@ Don't dwell on these. They're infrastructure, not interview material.
 
 ### Section B — Voice interview (THE high-leverage section)
 
-This is what makes the AI sound genuinely like [PARTNER_NAME] instead of generically helpful. Two paths based on time + commitment:
+This is what makes the AI sound genuinely like [PARTNER_NAME] instead of generically helpful.
 
-- **Deluxe (90 min, default):** the 100-question Voice Interview + Compression — produces a high-fidelity portable `<about_me>` file
-- **Express (8 min, fallback):** 5 quick questions — produces a useful-but-thin Voice guide
+#### The 3-tier voice progression (kit-wide)
 
-**Always offer Deluxe first.** Be honest about the time. Fall back to Express only if they're time-pressed. Tell them the wrap-up skill will nudge them monthly to do the deluxe later.
+The kit deliberately stages voice fidelity in three tiers, each higher-resolution than the last. The user is **never expected to do the deepest tier on day one** — each tier is honest about its limitations and points at the next one:
+
+| Tier | Where it lives | Time | Output |
+|---|---|---|---|
+| **Foundation (3-Q)** | Inlined in Part 1's INSTALL.md Stage 5 | ~5 min | Three-sentence Voice guide. Enough to land the Part 1 aha-moment. NOT in this skill — Part 1's playbook owns it. |
+| **Express (5-Q)** | Section B-Express below | ~8 min | Voice guide + Reference brands + Do-not-use list. Default for Part 2. |
+| **Deluxe (100-Q)** | Section B-Deluxe below | ~90 min | High-fidelity portable `about-me.md`. Best done as its own session, never wedged into install. |
+
+#### Flag handshake (read these BEFORE deciding which path to run)
+
+```bash
+# Has Part 1's 3-Q foundation already happened?
+ls ~/Documents/[ai-name]/.voice-foundation-3q-complete 2>/dev/null
+
+# Has the 5-Q express already happened?
+ls ~/Documents/[ai-name]/.voice-express-complete 2>/dev/null
+
+# Has the 100-Q deluxe already happened?
+ls ~/Documents/[ai-name]/.voice-interview-complete 2>/dev/null
+```
+
+**Decision tree for Section B:**
+
+- **No flags exist** → user is brand-new (no Part 1, no manual `interview me`). Offer Deluxe first; fall back to Express; never silently downgrade.
+- **Only `.voice-foundation-3q-complete` exists** → user just finished Part 1. If invoked from Part 2 or `interview me`, offer Express (5-Q) as the upgrade. If user picks deluxe instead, route straight to B-Deluxe.
+- **`.voice-express-complete` exists, no deluxe** → offer Deluxe as the next tier. Don't re-run Express.
+- **`.voice-interview-complete` exists** → don't run B at all. Tell user *"voice is already at the deepest tier — nothing to do here. The wrap-up skill will offer a yearly refresh."*
+
+**Why this matters:** without flag-aware routing, a Part 2 session would ambush a Part 1-completed user with the full deluxe interview when they were expecting the 5-Q upgrade. Or worse, re-run questions they already answered. The flag handshake keeps the progression honest and never redoes work.
+
+#### Framing the choice (use the right script for the user's state)
+
+**If no flags exist** (brand-new user, no Part 1, manual `interview me` invocation):
 
 > "OK, the next part is the one that actually makes me sound like you instead of generically helpful. I'll be straight with you — there are two ways.
 >
@@ -153,6 +184,20 @@ This is what makes the AI sound genuinely like [PARTNER_NAME] instead of generic
 > **Express (8 min):** 5 questions. Gets us to ~30% of deluxe. I'll need a lot more iteration to draft well in your voice.
 >
 > Pick one. Honest recommendation: deluxe if you have 90 min today or this week. We can also do deluxe later — I'll nudge once a month until you do it (or tell me to stop)."
+
+**If `.voice-foundation-3q-complete` exists** (Part 2 invocation, default path):
+
+> "In Part 1 we did a quick 3-question voice baseline — enough for me to start sounding less generic, but thin. Now's the upgrade. Two options:
+>
+> **5 quick questions (8 min, recommended):** the next tier up. Sharper Voice guide, plus reference brands and a do-not-use list. Standard for Part 2.
+>
+> **Deluxe (90 min):** the full 100-question interview. Most people save this for a quiet afternoon when they can sit with it. Not the right move if you've got 30 minutes today.
+>
+> Default to 5-Q unless you want to commit the time to deluxe."
+
+**If `.voice-express-complete` exists** (return user upgrading further):
+
+> "You've already done the 5-question version. The only deeper tier is the 100-question deluxe interview — 90 min, best as its own session. Want to do it now, or save for later?"
 
 Wait for pick. Branch:
 
@@ -486,3 +531,44 @@ With kick-off:
 - Brand files have actual content from day one
 - 2–5 projects already on the AI's radar
 - The partnership feels real on day one
+
+---
+
+## Three-scenario test (production-grade standard)
+
+Run all three before marking the skill production-grade. If any fails, the failure tells you exactly what instruction to add.
+
+### Scenario 1 — Happy path
+
+**Test input:** A brand-new user opens Claude Code in the AI folder for the first time. `.first-run-complete` doesn't exist. User types *"hi"* (or anything innocuous).
+
+**Expected output:** Kick-off auto-triggers with the warm opening line. User picks deluxe voice. Skill walks through Sections A → B-Deluxe → C → D → E → F in order, captures answers verbatim, writes correct files to the correct paths, sets all completion flags, ends with a first task shipped and the value-prop close.
+
+**Pass criteria:** Section A completes in ≤4 min (infrastructure invisible). Voice interview completes Q1-Q100 without bailout. All Brand/, Projects/, People/, etc. files exist and are non-empty. `.first-run-complete` and `.voice-interview-complete` flags both written. First task ships actual user-readable output, not a placeholder.
+
+### Scenario 2 — Edge case
+
+**Test input:** User mid-way through Section B-Deluxe (around Q40) says *"I need to stop, this is too much."* Or: user during Section A says *"my iCloud is off and I don't want to turn it on."*
+
+**Expected output:** Skill accepts gracefully. Writes `.voice-interview-incomplete` flag with a note about which question was last answered. Marks `.first-run-complete` with a log entry showing which sections were skipped/partial. Tells user *"saved everything we did get. We can pick up where we left off anytime you say 'continue the voice interview' — I'll start at Q41."*
+
+**Pass criteria:** Skill never argues. Never silently drops captured answers. Always leaves a resumable state. Always sets a completion-with-notes flag rather than leaving the system half-onboarded.
+
+### Scenario 3 — Stress test
+
+**Test input:** User picks deluxe (100-Q) AND volunteers extreme breadth in answers (long, multi-paragraph replies with 3-4 reference brands per question, contradicting themselves between Q12 and Q47, dictating via voice with transcription artifacts). Plus: user has Part 1 already done, so `.voice-foundation-3q-complete` exists and Voice guide.md has 3-Q content that should NOT be silently overwritten.
+
+**Expected output:** Skill detects existing 3-Q flag → routes to "you're upgrading from 3-Q to 100-Q" framing per the flag handshake. Captures the long answers verbatim to `voice-archive.md` (raw archive can be huge). Calls out the Q12-vs-Q47 contradiction in the moment per Interview Rule #4. Cleans transcription artifacts only at compression stage, not capture stage. Compressed `about-me.md` preserves the user's actual voice, not a sanitized version. Existing 3-Q content in Voice guide.md is **merged** with the new fidelity, not silently replaced.
+
+**Pass criteria:** Raw archive preserves every answer verbatim. Compressed file is ≤2 pages but voice-recognizable. Contradictions surface to the user in-conversation, not after the fact. No data loss from the 3-Q tier. Verify-in-fresh-session step actually runs (skill doesn't claim done before user confirms voice match).
+
+### Marking production-grade
+
+Once all three scenarios pass, add to frontmatter:
+
+```yaml
+production_grade: true
+last_qa: YYYY-MM-DD
+```
+
+Drop `production_grade: true` if any scenario regresses. The wrap-up skill periodically re-prompts re-testing.
