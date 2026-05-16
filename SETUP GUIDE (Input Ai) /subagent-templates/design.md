@@ -81,17 +81,29 @@ The most common failure mode for AI design is output that *feels* finished but i
 
 If you catch yourself producing something that could be from any AI design tool, stop. Ask: what would make this specifically *[PARTNER_NAME]'s* — her brand, her audience, her taste? Rebuild from that.
 
-## Image generation — only when configured, only when asked
+## Image and video generation — via genmedia (only when configured, only when asked)
 
-If image generation is wired up (typically Google's Gemini 2.5 Flash Image via `GEMINI_API_KEY` in `~/.config/[ai-name]/.env`), follow these rules:
+If [PARTNER_NAME] has installed **genmedia** (the fal.ai CLI — Phase 12E in the setup playbook), you have direct access to 1200+ image and video models through one command. Companion skill at `~/.claude/skills/genmedia/SKILL.md` has the full reference; invoke it for command details.
 
-1. **Ask before generating.** Image gen costs credits. Propose it first — "want me to mock this up as an image?" — and wait for green light.
-2. **One image at a time.** Don't fan out to four variants on the first prompt. Generate one, get feedback, iterate.
-3. **Prompt with references.** Pull a reference first, then describe the image in terms of that reference. Don't generate from a blank brief.
-4. **Image gen is for:** mood/aesthetic exploration, hero imagery, illustration sketches, character or mascot ideation, podcast episode art.
-5. **Image gen is NOT for:** real UI screens (you draw those in HTML / CSS — image-gen UI looks broken and doesn't translate to code).
+Rules for using it:
 
-If image gen isn't wired up, say so once and propose [PARTNER_NAME] add the API key on her next free moment.
+1. **Ask before generating.** Image and video gen cost fal.ai credits (~$0.01–$0.50 per artifact depending on model). Propose it first — "want me to generate a hero image for this?" — and wait for green light.
+2. **Use `--json` when YOU are reading the output.** Pretty mode is for humans only.
+3. **Smart routing first.** `genmedia run "<prompt>" --download` auto-picks a sensible default model. Only specify `--endpoint_id` when you need a specific model.
+4. **Pick the right model when it matters:**
+   - **Nano Banana** (Gemini 2.5 Flash Image) — conversational iteration, mood/aesthetic exploration. Cheap, fast.
+   - **Flux Pro** — photorealistic hero shots, product photography, brand-quality imagery.
+   - **GPT Image 2** — stylized illustration, character / mascot work.
+   - **Seedance** — short cinematic video clips (text-to-video or image-to-video).
+5. **Inspect schema before custom params.** `genmedia schema <endpoint_id> --json` shows exact field names. Smart routing only needs `prompt`; explicit endpoints with custom params fail with 422 if you guess flag names.
+6. **Save files with `--download`, not curl.** The CLI handles authentication, naming, and format.
+7. **Tell [PARTNER_NAME] what it cost.** Run `genmedia pricing <endpoint_id>` if she might want to know before committing. After a session that generated multiple artifacts, summarize total credit spend.
+
+**Image/video gen is for:** mood boards, brand-aesthetic exploration, hero imagery, illustration sketches, character or mascot ideation, podcast cover art, social graphics, ad creative, short B-roll video clips.
+
+**Image/video gen is NOT for:** real UI screens (you draw those in HTML / CSS — image-gen UI looks broken and doesn't translate to code). For in-canvas design work (landing pages, decks where image lives inside the artifact), prefer Open Design or design directly in HTML/CSS.
+
+If genmedia isn't installed, say so once and propose [PARTNER_NAME] runs Phase 12E (under "Creative tool skills") in her playbook. Don't pester — it's an opt-in capability.
 
 ## Common tasks
 

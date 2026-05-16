@@ -946,6 +946,120 @@ Two installed frameworks worth knowing about:
 
 **When to install:** these are specialist craft skills — install one when the partner has a specific writing/positioning challenge. Don't install all of them; pick by domain need.
 
+#### 12E — Media generation (image + video, standalone artifacts)
+
+**`genmedia`** — fal.ai's agent-first CLI. Gives the AI direct access to 1200+ image and video generation models — Nano Banana (Gemini 2.5 Flash Image), Flux Pro / Schnell / Dev, GPT Image 2, Seedance (text-to-video and image-to-video), and many more — through one command. Both Content and Design subagents can call it directly to generate standalone artifacts (newsletter headers, social graphics, podcast cover art, product hero imagery, short cinematic clips).
+
+**Not the same as Open Design or Hyperframes.** Open Design generates images *inside a larger design project* (a hero photo for the landing page you're building). Hyperframes generates HTML→MP4 motion graphics. **genmedia is for standalone deliverables** — the image / video file IS the output, not a component of a larger artifact.
+
+**When to install:** the partner produces content that needs hero imagery, social graphics, or short video clips on a regular cadence — newsletters with custom headers, podcasts with episode-specific art, social campaigns with original visuals. Skip if her content is mostly text-only.
+
+##### Cost transparency (tell the partner upfront)
+
+genmedia routes to fal.ai's hosted models. Each call costs credits:
+
+- **Cheap models** (Nano Banana, Flux Schnell): ~$0.01–$0.04 per image
+- **Mid-tier** (Flux Dev, GPT Image 2): ~$0.05–$0.15 per image
+- **Premium** (Flux Pro): ~$0.20–$0.40 per image
+- **Video** (Seedance 15s clip): ~$0.30–$0.50 per clip
+
+Practical math: $5–10 of credits gets a partner ~50–200 artifacts depending on model mix. Most partners burn through credits faster than expected once they realize what it can do. Lead with that expectation — partners hate surprise spend.
+
+##### Install steps (~10 minutes)
+
+**Step 1 — Sign up at fal.ai (browser-only step, ~3 min)**
+
+> "Quick browser detour: go to **fal.ai**, sign up for a free account, then head to **fal.ai/dashboard/keys** and click 'Add Key.' Name it something like `[ai-name]-cli`. Copy the key — you'll need it in a sec. Top up your account with $5 or $10 while you're there; you'll need credits to actually generate anything."
+
+Wait for the partner to confirm they have the key in their clipboard.
+
+##### Step 2 — Install the genmedia binary
+
+```bash
+curl https://genmedia.sh/install -fsS | bash
+```
+
+This installs genmedia to `~/.genmedia/bin/genmedia` (about 67 MB) and prints PATH instructions. It does NOT require sudo or touch system files.
+
+Append the binary path to the user's shell rc so future sessions find it:
+
+```bash
+echo 'export PATH="$HOME/.genmedia/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+Verify with `genmedia --version`. Should print `0.6.2` or higher.
+
+##### Step 3 — Configure the API key
+
+```bash
+genmedia setup
+```
+
+Interactive prompt asks for the fal.ai API key. The partner pastes the value they copied from Step 1. Accept defaults for everything else.
+
+**Where the key gets stored:** `~/.genmedia/config.json` (chmod 600). Out of scope for `~/.config/[ai-name]/.env` — genmedia uses its own config file.
+
+**Recommend a password manager for safekeeping.** If [PARTNER_NAME] doesn't have one, suggest:
+
+- **1Password** (paid, polished, mainstream — $36/year personal) — recommended for most partners
+- **Bitwarden** (free tier, open-source — $40/year for Family) — solid free alternative
+- **Apple Passwords** (built into macOS, free, syncs via iCloud) — fine for Apple-only setups
+
+Tell the partner to also save the fal.ai API key in her password manager so she can rotate / restore it later. The genmedia config is the runtime copy; her password manager is the source of truth.
+
+##### Step 4 — Install the genmedia skill globally
+
+This is what makes the AI aware of how to use the CLI properly. Without this step, the AI knows the binary exists but doesn't know best practices.
+
+```bash
+cd ~ && ~/.genmedia/bin/genmedia skills install genmedia
+```
+
+This writes:
+- `~/.agents/skills/genmedia/SKILL.md` (the agent-facing skill — the AI's reference for proper genmedia usage)
+- `~/.cursor/rules/genmedia.mdc` (Cursor rule — irrelevant if partner doesn't use Cursor)
+- `~/AGENTS.md` (appended block — also irrelevant for Claude Code)
+
+Mirror the skill to `~/.claude/skills/` so Claude Code's primary skill discovery finds it:
+
+```bash
+cp -r ~/.agents/skills/genmedia ~/.claude/skills/genmedia
+```
+
+##### Step 5 — Verify
+
+```bash
+genmedia models --json | head -20
+```
+
+Should return a JSON list of available endpoints. If that works, you're connected.
+
+Test generation with a cheap model:
+
+```bash
+genmedia run "a friendly golden retriever sitting in soft afternoon light" --download
+```
+
+Costs ~$0.02. Should drop a `.png` in the current directory within 30 seconds. Show the partner the file landing — that's the "oh, it works" moment that anchors the install.
+
+##### Confirm with the partner
+
+> "✅ genmedia installed and connected to your fal.ai account. Your AI can now generate images and short videos through one command. Each artifact costs roughly $0.01–$0.50 depending on the model. The AI will always ask before generating anything and tell you the rough cost. When the credits run out, head back to **fal.ai/dashboard/billing** to top up."
+
+##### Update the subagent templates
+
+If the partner has Content and Design subagents installed (Phase 4), their templates already mention genmedia and check for its availability. No additional template edit needed — they'll auto-detect.
+
+If subagents were installed BEFORE Phase 12E, the templates still work (they check for genmedia at runtime and gracefully fall back if not installed).
+
+##### Hard rules for Phase 12E
+
+- **Opt-in only.** Same posture as Phase 7 (Voice I/O). Never install during initial onboarding — wait for the partner to produce content that needs imagery.
+- **Cost transparency is mandatory.** The partner sees actual numbers before paying. No hidden charges.
+- **Never paste the API key into chat.** Use the interactive `genmedia setup` prompt or have the partner export it to her environment herself.
+- **Don't auto-generate without confirmation.** The skill includes this rule but it's worth restating: every `genmedia run` call must follow a partner's explicit green light.
+
 ### Install rule
 
 **Never pre-install creative skills "just in case."** Wait for the user to hit the work, ask the AI for help, then install the relevant skill collaboratively. The AI guides them through:
