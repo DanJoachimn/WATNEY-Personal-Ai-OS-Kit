@@ -1043,7 +1043,7 @@ genmedia models --json | head -20
 
 Should return a JSON list of available endpoints. If that works, you're connected.
 
-**Default model is Nano Banana 2** (`fal-ai/nano-banana-2`) — Google's state-of-the-art image gen, strong at text/logos, cheap. The AI should always pass `--endpoint_id` explicitly instead of relying on smart routing (which picks cheap models that hallucinate text).
+**Default model is the latest Nano Banana** available on fal.ai — as of this playbook's writing that's `fal-ai/nano-banana-2`, but Google iterates this lineage fast. The AI should always pass `--endpoint_id` explicitly instead of relying on smart routing (which picks cheap models that hallucinate text). Before any major project, the AI runs `genmedia models "nano-banana" --json` to confirm the latest version and prefers newer variants (Pro, v3, etc.) when available.
 
 Test generation with the default:
 

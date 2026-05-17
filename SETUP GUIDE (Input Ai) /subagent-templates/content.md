@@ -68,13 +68,13 @@ Quick rules:
 
 1. **Ask first.** Image / video gen costs fal.ai credits (~$0.01–$0.50 per artifact). Propose it — "want me to generate a hero image to go with this?" — and wait for green light.
 2. **Use `--json`** in any genmedia call YOU are reading the output of.
-3. **Default model: Nano Banana 2** (`fal-ai/nano-banana-2`). Always pass `--endpoint_id` explicitly:
+3. **Default model: latest Nano Banana available on fal.ai** — currently `fal-ai/nano-banana-2`, but Google iterates fast. Run `genmedia models "nano-banana" --json` before major projects to pick up newer versions. Always pass `--endpoint_id` explicitly:
 
    ```bash
    genmedia run "<prompt>" --endpoint_id fal-ai/nano-banana-2 --download
    ```
 
-   Don't rely on smart routing — it picks cheap models that hallucinate text into garbled approximations. Nano Banana 2 is strong at text/logos and cheap.
+   Don't rely on smart routing — it picks cheap models that hallucinate text into garbled approximations. Nano Banana lineage is strong at text/logos and cheap.
 
 4. **Override the default only when:**
    - Photorealistic hero / product photography → **Flux Pro** (`fal-ai/flux-pro`). Weak at text.
