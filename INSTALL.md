@@ -47,41 +47,69 @@ When in doubt, add the gate. The friction is small; the cost of a wrong-send is 
 
 ---
 
-## Stage 0a — Capability check (~1 min, BEFORE the greeting)
+## Stage 0a — Agent capability check (~2 min, BEFORE the greeting)
 
-**Before anything else**, verify two Claude capabilities are available. These aren't required, but they make the install much smoother for a non-developer user. Most rookie users don't know to turn them on.
+**Before anything else**, verify the two capabilities that turn this kit from a chatbot install into an agent install: **computer use** + **Claude Chrome extension**.
 
-### Check 1 — computer use (so you can open System Settings + screenshot for the user)
+These are not install conveniences. They are **half the magic.** The user is about to spend 45 minutes installing a "Partner AI." The first time the AI opens System Settings for them, or fills out a BotFather form, or takes a screenshot to confirm the toggle they just enabled — that's the aha-moment compounding *throughout* the install, not just at the voice-note climax. Without these, the user finishes Part 1 with a smart chatbot. With them, the user finishes Part 1 *feeling* the partnership for the first time.
 
-Attempt a no-op screenshot via the `computer-use` MCP. If it succeeds → computer use is on. If it returns a "not available" / "permission denied" / "MCP not connected" error → computer use is off.
+### Probe both capabilities silently first
 
-If off, tell the user:
+```
+- Attempt a no-op `computer-use` screenshot. Success = on. Error = off.
+- Attempt `mcp__claude-in-chrome__list_connected_browsers`. Returns browser = paired. Error = not paired.
+```
 
-> "Quick capability check before we start. I'd like to enable two things so this install is much smoother for you:
+Branch on the four states:
+
+| Computer use | Chrome ext | Action |
+|---|---|---|
+| ON | PAIRED | Brief celebration. Proceed to Stage 0 greeting. |
+| ON | NOT PAIRED | Show the Chrome pitch only. |
+| OFF | PAIRED | Show the computer-use pitch only. |
+| OFF | NOT PAIRED | Show both pitches together, computer-use first. |
+
+### The pitch (use this verbatim or close to it — it sets the tone for the whole install)
+
+> "Quick thing before we start — and this isn't a checkbox, it's actually important.
 >
-> **1. Computer use** — lets me open System Settings, take screenshots to verify things are wired up, and click through native apps for you. Without it, I'll have to ask you to do those steps by hand and describe what you see, which is slower and more error-prone.
+> You're about to install a 'Partner AI Kit.' The word *partner* does a lot of work. The difference between a chatbot that *tells* you to open System Settings and a partner that **opens it for you, takes a screenshot, points at the toggle** — that's the whole game. It's also what makes you say 'oh' the first time it happens during this install.
 >
-> To turn it on: in Claude Code Desktop, open **Settings → Capabilities** (or Settings → Features depending on your version) and toggle **Computer use** (sometimes labelled *'Control my computer'*) to ON. You may need to grant Screen Recording + Accessibility permissions when first asked. Let me know when it's on, or say 'skip' if you'd rather not."
+> Two things unlock that. They take ~2 minutes to turn on and they shape every aha-moment from here:"
 
-If user enables it → confirm via a fresh screenshot attempt before moving on. If user skips → continue, but warn them at every visual-confirmation step that you'll be asking them to describe what they see manually.
+Then show whichever capabilities aren't yet enabled:
 
-### Check 2 — Chrome extension (so you can fill web forms for the user)
+**Computer use** (if OFF):
 
-Attempt `mcp__claude-in-chrome__list_connected_browsers` (or equivalent). If it returns a connected browser → extension is installed + paired. If it errors → not installed or not paired.
-
-If not connected, tell the user:
-
-> "**2. Claude Chrome extension** — lets me fill out web forms for you (Telegram bot creation, ElevenLabs signup, anything browser-based) instead of asking you to navigate and copy-paste yourself. Saves you a LOT of clicking later in this install.
+> "**1. Computer use** — lets me open System Settings, screenshot what I see, click toggles, navigate native apps for you. Used at least 5 times in this install: iCloud check, Screen Recording permissions, voice picker, Telegram desktop check, and the final aha-moment when I confirm your phone received the voice note.
 >
-> To install: open Chrome → go to the [Chrome Web Store, search 'Claude'](https://chromewebstore.google.com/search/Claude), and add the official Claude extension. After installing, click the extension icon once in Chrome to pair it with this Claude Code session. Tell me when it's done, or say 'skip' if you'd rather not."
+> Turn on: **Claude Code Desktop → Settings → Capabilities → Computer use** (may be labeled *'Control my computer'*). Grant Screen Recording + Accessibility when prompted. Tell me when it's on."
 
-If user installs → verify pairing via another `list_connected_browsers` call. If user skips → continue, but warn at web-form steps that you'll be giving them step-by-step instructions to do it manually.
+**Chrome extension** (if NOT PAIRED):
 
-### Why ask both upfront, not later
+> "**2. Claude Chrome extension** — lets me fill out web forms for you. Used in Stage 6 (Telegram BotFather flow — saves you ~10 manual clicks and a copy-paste of a token), and in Part 2 for ElevenLabs signup, Granola onboarding, anything web.
+>
+> Install: open Chrome → [Chrome Web Store, search 'Claude'](https://chromewebstore.google.com/search/Claude) → Add to Chrome → click the extension icon once to pair it with this session. Tell me when it's installed."
 
-Asking at install time, after the user has already committed to running the kit, surfaces these capabilities at the moment they're cheapest to enable. Asking mid-install (at Stage 5 or Stage 6) is too late — the user's already in the middle of something and toggling Claude settings derails the flow.
+### Verify after the user says they've done it
 
-If both are skipped, the install still works — just with more manual user actions. Don't gate the install behind these. Don't nag if they say no.
+- Computer use → attempt another screenshot. If it works, say *"got it, screen access live."* If still failing, walk through the macOS permission dance (System Settings → Privacy & Security → Screen Recording / Accessibility → check Claude Code).
+- Chrome extension → re-run `list_connected_browsers`. If paired, say *"Chrome paired."* If not, the most common cause is they installed but forgot to click the extension icon to pair — ask them to click it.
+
+### If user says skip
+
+Accept it. Don't push twice. But say once, plainly:
+
+> "Got it. We can still install everything. You'll just be doing more of the clicking yourself — every time I need to verify something visual, I'll ask you to look and tell me. It'll work; it'll just feel less like a partner. If you change your mind later, you can enable either of these anytime and the rest of the kit immediately benefits."
+
+Then continue to Stage 0.
+
+### Hard rules for this stage
+
+- **Don't gate the install on either capability.** Some users (corporate Macs, no Chrome installed, locked-down IT environments) genuinely can't enable them.
+- **Don't nag.** Surface once with the right framing. If they say no, drop it.
+- **Don't pretend they're optional polish.** They're not — say so when explaining.
+- **Verify after enabling.** Don't trust user reports without a probe — they may have toggled the wrong thing.
 
 ---
 
