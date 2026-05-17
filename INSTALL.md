@@ -113,6 +113,67 @@ Then continue to Stage 0.
 
 ---
 
+## Stage 0b — Connect a few apps to your AI (~5 min, BEFORE the greeting)
+
+Computer use + Chrome ext are the agent's hands. **Connectors are the agent's reach** — they let your AI read your inbox, see your calendar, look at your docs, take notes. Same theme as Stage 0a: this is the difference between a smart chatbot and an agent that actually lives in your stack.
+
+Surface the four starter connectors before the install proper. Each takes ~1 minute. Massive payoff per minute spent.
+
+### Probe what's already connected (silently first)
+
+Inspect the available tool list for known connector suffixes:
+
+| Service | Tool suffix to look for |
+|---|---|
+| Gmail | `__search_threads`, `__list_labels`, `__create_draft` |
+| Google Calendar | `__list_events`, `__create_event`, `__list_calendars` |
+| Google Drive | `__list_recent_files`, `__read_file_content`, `__search_files` |
+| Apple Notes | `__add_note`, `__get_note_content`, `__list_notes` |
+
+If a connector is already wired → skip its pitch. If missing → include it in the pitch list.
+
+### The pitch (verbatim or close)
+
+> "While we're still in setup mode, four quick connector adds — your AI's reach into the apps you already live in. Each takes about a minute. Skip any you don't actually use.
+>
+> | App | What you'll be able to ask after connecting |
+> |---|---|
+> | **Gmail** | *'what important emails am I dodging?'* / *'draft a reply to Sarah's last message'* |
+> | **Calendar** (Google or Apple) | *'what's on my plate today?'* / *'find 30 min next week with Anders'* |
+> | **Drive** (Google or iCloud) | *'summarize the doc I shared with Lina yesterday'* / *'find the proposal I drafted last month'* |
+> | **Apple Notes** | *'read my note about the supplier call'* / *'add a note: [content]'* |
+>
+> How to add each: in Claude Code Desktop, click your profile (top right) → **Settings → Connectors** (sometimes labeled *'MCP servers'*). Tap **Add** on each one you want. When a browser tab opens for the Google OAuth screen, I'll watch through the Chrome extension and confirm when each is paired."
+
+### Walk it through
+
+For each connector the user wants to add:
+1. Tell them which menu item to click ("Connect Gmail" / "Connect Calendar" / etc.)
+2. When the browser OAuth tab opens, use the Chrome extension to confirm the page loaded; remind them to pick the right Google account if they have multiple
+3. After OAuth, attempt a no-op call (`list_labels` / `list_calendars` / `list_recent_files` / `list_notes`) to verify the connector returns data
+4. Confirm in chat: *"Gmail connected. I can see your labels."*
+
+If a connector errors out → suggest they re-run the Connect flow once; if it errors again, mark deferred and move on.
+
+### If user skips some or all
+
+> "Got it. The install runs fine without these. After we're done, just say *'connect my Gmail'* (or *'…my calendar'*, etc.) anytime and I'll walk you through it then. Doesn't have to be today."
+
+Log which were deferred so the wrap-up skill can nudge once after a few days:
+
+```bash
+echo "connectors-deferred: $LIST_OF_SKIPPED" >> ~/Documents/[AI_NAME]/.first-run-log.txt
+```
+
+### Hard rules for this stage
+
+- **Don't gate the install on connectors.** Some users don't use Gmail, don't have Google accounts, work-Mac restrictions, etc.
+- **Pick what the user uses, not what's "complete."** No point connecting Gmail if they live in iCloud Mail.
+- **One nudge max post-install.** Wrap-up skill checks the deferred log once after 3 days, suggests adding any still-missing, then never again.
+- **Verify each connector after enabling** via a no-op call. Don't trust "I clicked the thing" without a probe.
+
+---
+
 ## Stage 0 — Greeting + tone-setting (~1 min)
 
 Open with warmth. Set expectations. Get permission to proceed.

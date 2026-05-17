@@ -69,6 +69,8 @@ Without computer use + Chrome extension: you still get a working Partner AI, but
 
 If you genuinely can't enable them (corporate-locked Mac, no Chrome), the install will still complete — just in manual mode. But if you can enable them, do.
 
+**Plus: connectors (the agent's reach).** During install your AI will offer to connect 4 starter apps in ~5 minutes: **Gmail, Calendar (Google or Apple), Drive (Google or iCloud), Apple Notes.** Each one unlocks a whole class of things you can ask for after the install — *"what important emails am I dodging?"*, *"what's on my plate today?"*, *"summarize the doc I shared with Lina yesterday."* Skip any you don't use. Don't worry about getting them ready before install — your AI will walk you through each.
+
 Then:
 
 1. Open Claude Code Desktop
