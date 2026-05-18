@@ -231,10 +231,38 @@ stage_complete() {
     echo "==============================================="
 }
 
+# ---------- Stage 0: System dependencies ----------
+#
+# Hard dependencies the kit needs in Part 1. Checked + installed first so later
+# stages never fail with a cryptic "command not found." Verified by Install #1
+# (Julie, 2026-05-18) where ffmpeg was a silent hidden dependency for Telegram
+# voice transcription — symptom was Whisper failing to decode .ogg files.
+
+stage_deps() {
+    # Homebrew — non-negotiable. Installed before this script runs in a clean
+    # macOS, but verify.
+    if ! command -v brew >/dev/null 2>&1; then
+        bail "0-DEPS" "Homebrew not installed. Install first: /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+    fi
+
+    # ffmpeg — required for Telegram voice notes (voice IN: decoding .ogg from
+    # Telegram for transcription; voice OUT: mp3 → ogg/opus conversion for
+    # sendVoice API). Without it, the voice-note aha-moment in Stage 8 silently
+    # fails. Hyperframes / Video Use need the heavier `ffmpeg-full` (subtitle
+    # support); they swap it themselves if/when those skills are installed.
+    if ! command -v ffmpeg >/dev/null 2>&1; then
+        log_stage "0-DEPS" "ffmpeg not found — installing via Homebrew (~30 sec)"
+        brew install ffmpeg --quiet >/dev/null 2>&1 || bail "0-DEPS" "ffmpeg install failed — try 'brew install ffmpeg' manually then re-run setup.sh"
+    fi
+
+    log_stage "0-DEPS" "system dependencies verified (brew, ffmpeg)"
+}
+
 # ---------- Run all stages ----------
 
 START_TIME=$(date +%s)
 
+stage_deps
 stage_clone
 stage_vault
 stage_skills

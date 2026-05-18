@@ -383,6 +383,10 @@ Save to `~/Documents/[AI_NAME]/vault/Working style.md` (one-line note).
 
 This is where the kit reaches off the Mac and into the user's pocket.
 
+> **Pre-flight dependency (already handled by setup.sh):** `ffmpeg` must be installed. It's used to (a) convert mp3 → ogg/opus for the `sendVoice` API (voice OUT in Stage 8) and (b) decode .ogg voice messages from the user's phone for Whisper transcription (voice IN, when the user replies with a voice note). Without ffmpeg, the voice flow silently fails — the Telegram message arrives but transcription returns nothing usable.
+>
+> setup.sh's Stage 0-DEPS installs `ffmpeg` via Homebrew if missing. If you're reading this and the install didn't go through setup.sh, run `brew install ffmpeg` before continuing. Common failure surfaced by Install #1 (Julie, 2026-05-18) — it used to be a hidden dependency only documented in playbook.md.
+
 ### 6a — User creates a Telegram bot via @BotFather
 
 > "OK, time to give me a phone. Open Telegram on your phone, search for **@BotFather**, and send it `/newbot`. It'll ask for a name (something like *'My Partner AI'*) and a username (must end in `bot`, e.g. *'mypartner_ai_bot'*). It'll spit out a token — looks like `7234567890:AAH...`. Copy that token to your clipboard."
