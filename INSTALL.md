@@ -174,6 +174,53 @@ echo "connectors-deferred: $LIST_OF_SKIPPED" >> ~/Documents/[AI_NAME]/.first-run
 
 ---
 
+## Stage 0c — Voice discipline (~30 sec, BEFORE the greeting)
+
+This stage doesn't require the user to do anything — it's a 20-second framing the AI delivers in plain language so the user understands what they're getting from minute one. The skill itself (`anti-ai-writing`) auto-installs via setup.sh's CORE_SKILLS list; this stage tells the user it's there and why it matters.
+
+This completes the agent activation triad:
+- **Stage 0a — Hands** (computer use + Chrome ext)
+- **Stage 0b — Reach** (Gmail / Calendar / Drive / Notes connectors)
+- **Stage 0c — Voice** (anti-ai-writing discipline)
+
+Without any one of the three, the user gets a smart chatbot. With all three, the user gets an agent that acts, reaches, and writes like them.
+
+### Tell the user this — once, plainly
+
+> "Last thing before we start the install proper. There's a skill bundled in this kit called **anti-AI-writing discipline**. It fires on every single draft I produce for you — emails, posts, captions, essays, replies. It removes about 250 patterns that signal AI-generated text (em dashes everywhere, *'It's not X, it's Y'* contrast framing, *'Moreover'* / *'Furthermore'*, *'serves as'* instead of *'is'*, the rule of three, the *'despite challenges'* skeleton, etc.) — and then adds personality back in via a framework called POP (Personal, Observational, Playful, Vignette).
+>
+> Most AI assistants give you generated-sounding output and expect you to clean it up. This kit flips that. The cleanup runs automatically, on every draft, from day one. As you use me, the skill specializes — you tell me *'don't ever use the word [X]'* or *'I never start sentences with [Y]'* and it gets added to my permanent voice rules.
+>
+> The reason I'm telling you this now, before we install anything: in about 30 minutes I'll draft something for you (the aha-moment voice note in Stage 8). That draft will already be running through this discipline. You'll hear the difference in the voice note — it'll sound like a real person, not a chatbot. That's not a one-time thing for the demo. That's the default for everything I write for you, forever.
+>
+> Sound good? Cool. Moving on."
+
+No action required from the user. The AI just states this and moves on to Stage 0 greeting.
+
+### What the skill does on the AI side (reference for the install playbook)
+
+The bundled `anti-ai-writing` skill auto-activates on every drafting task. It reads:
+- The user's Brand voice guide (populated during Stage 5 kick-off)
+- The user's Do-not-use list (populated during Stage 5 kick-off B5)
+- Its own `learnings.md` (accumulates user-specific rules over time)
+
+Then runs every output through:
+1. **24 hard rules** (no em dashes, no rule of three, no contrast framing, no copula avoidance, etc.)
+2. **Banned-word substitution** (~250 entries across transitions, adjectives, adverbs, abstract nouns, verbs, phrases)
+3. **Pattern check** (rule-of-three sweeps, "It's not X, it's Y" sweeps, "despite challenges" formula detector)
+4. **POP framework** for adding personality back (Personal, Observational, Playful, Vignette)
+
+Full reference at `~/.claude/skills/anti-ai-writing/SKILL.md` after install. User can read it anytime. User can tune it anytime by saying *"add this to my voice rules: never write [X]"* and the wrap-up skill folds it into the SKILL.md.
+
+### Hard rules for this stage
+
+- **Don't skip mentioning anti-ai-writing.** It's not optional polish — it's the kit's "your AI sounds like you, not ChatGPT" promise. Skipping the mention robs the user of understanding what they're getting.
+- **Don't oversell.** Don't list all 24 rules. Don't drop the full banned-word table. One paragraph, one specific example, move on.
+- **Don't gate.** Skill installs automatically; user doesn't toggle it on/off. If they later want to disable a specific rule, they tune via wrap-up.
+- **The aha-moment voice note in Stage 8 is the first proof.** When the user hears Em's voice on their phone in Stage 8 saying something specific, warm, human — that draft was already cleaned by this skill. Don't break the suspense by re-explaining mid-install.
+
+---
+
 ## Stage 0 — Greeting + tone-setting (~1 min)
 
 Open with warmth. Set expectations. Get permission to proceed.

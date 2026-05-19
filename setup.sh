@@ -112,8 +112,11 @@ stage_skills() {
     local SKILL_SRC="$KIT_DIR/SETUP GUIDE (Input Ai) /skill-templates"
     mkdir -p "$SKILLS_DIR"
 
-    # Core skills installed for every Partner AI
-    local CORE_SKILLS="kick-off wrap-up dreaming voice-compile update auto-update-check llm-council"
+    # Core skills installed for every Partner AI. anti-ai-writing is the
+    # voice discipline that fires on every written output — core to the kit's
+    # "your AI sounds like you, not generated" promise. Don't move it to
+    # optional; it's foundational.
+    local CORE_SKILLS="anti-ai-writing kick-off wrap-up dreaming voice-compile update auto-update-check llm-council"
 
     for skill in $CORE_SKILLS; do
         if [ -d "$SKILL_SRC/$skill" ]; then
