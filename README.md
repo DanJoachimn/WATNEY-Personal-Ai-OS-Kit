@@ -1,6 +1,8 @@
 # Partner AI Kit (Personal)
 
-> Give yourself a Partner AI. 25 minutes from first paste to your AI knowing your voice, your projects, and your taste — installed entirely by talking to it.
+> Give yourself a Partner AI. From first paste to your AI knowing your voice, your projects, and your taste — installed entirely by talking to it like a nerdy friend.
+
+"Mate, explain this to me like we're back in 8th grade." 
 
 ---
 
