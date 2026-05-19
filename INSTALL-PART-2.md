@@ -115,7 +115,35 @@ Mark complete: `touch ~/Documents/[AI_NAME]/.granola-configured`
 
 ---
 
+## Stage 3.5 — Obsidian Web Clipper (browser → vault, ~3 min)
+
+Vault feeder #2. Granola pumps meetings into the vault automatically. The Obsidian Web Clipper pumps the open web — articles, blog posts, YouTube pages, anything readable in a browser — into the vault as clean markdown, in one click.
+
+Combined with the AI's vault-awareness, this means *"summarize what I've clipped this week"*, *"find the article I clipped about retention"*, or *"pull the strongest arguments from my last 3 clippings on X"* all just work — without the user ever copy-pasting an article body into chat.
+
+> "Want to add the Obsidian Web Clipper? It's the cleanest way to feed articles, transcripts, and pages from the open web straight into your vault. ~3 min to install."
+
+If yes:
+
+1. Open Chrome (or Edge / Firefox / Safari) → install the **Obsidian Web Clipper** extension from the browser's store. Direct link: https://obsidian.md/clipper
+2. Click the extension icon → it asks where your vault is. Point it at `~/Documents/[AI_NAME]/vault/`.
+3. Recommend a folder inside the vault for clips: `vault/Clippings/` (Web Clipper creates it if missing). This matches the Hab schema convention for raw source material.
+4. Pick the default template — the bundled "Default" template handles most cases (articles, blog posts, news). Templates for recipes, papers, and YouTube exist for users with specific use cases.
+5. Test: open any article in the browser, click the Web Clipper icon, save. Confirm a new markdown file appears in `~/Documents/[AI_NAME]/vault/Clippings/`.
+
+Mark complete:
+
+```bash
+touch ~/Documents/[AI_NAME]/.obsidian-clipper-configured
+```
+
+After install: the AI reads everything in `vault/Clippings/` as context — same way it reads the rest of the vault. User clips, AI absorbs, queries spanning "what's in my head + what I've been reading" become trivial.
+
+---
+
 ## Stage 4 — Optional skills menu (varies)
+
+### Optional skills
 
 > "These are skills you can install now or anytime later. Each is independent. Tell me which interest you and I'll install just those — or say 'skip' and we move on.
 >
@@ -126,6 +154,28 @@ Mark complete: `touch ~/Documents/[AI_NAME]/.granola-configured`
 > - **Book mirror** — turns books you've read (via Readwise highlights) into chapter-by-chapter synthesis docs (~5 min)."
 
 Install only what user picks. Each installs via the standard skill pattern — copy template, substitute placeholders, optionally load launchd job.
+
+### Optional MCP server additions
+
+MCPs are different from skills — they're external servers that expose tools to the AI. One MCP server, one capability. Installed via Claude Code Settings → MCP servers → Add new → paste the server's command from its README.
+
+> "Two MCP servers worth considering at this stage:
+>
+> - **youtube-transcript MCP** — fetches transcripts from any YouTube video by URL. Lets your AI summarize a video, fact-check claims in it, or pull quotes — without copy-paste. Pairs nicely with the Obsidian Web Clipper (clip the video page, fetch the transcript, ask for a synthesis). ~3 min to install. Search the Anthropic MCP registry or upstream for the current canonical package."
+
+If the user adds youtube-transcript MCP, verify it works:
+
+```
+Test query: "Pull the transcript of this video: https://www.youtube.com/watch?v=<id>"
+```
+
+The AI should return the full transcript text without scraping issues.
+
+Mark complete:
+
+```bash
+touch ~/Documents/[AI_NAME]/.youtube-transcript-mcp-configured
+```
 
 ---
 
