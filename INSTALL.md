@@ -174,24 +174,34 @@ echo "connectors-deferred: $LIST_OF_SKIPPED" >> ~/Documents/[AI_NAME]/.first-run
 
 ---
 
-## Stage 0c — Voice discipline (~30 sec, BEFORE the greeting)
+## Stage 0c — Anti-AI writing discipline (public-output cleanup, ~30 sec)
 
-This stage doesn't require the user to do anything — it's a 20-second framing the AI delivers in plain language so the user understands what they're getting from minute one. The skill itself (`anti-ai-writing`) auto-installs via setup.sh's CORE_SKILLS list; this stage tells the user it's there and why it matters.
+This stage doesn't require the user to do anything — it's a 20-second framing the AI delivers in plain language so the user understands what they're getting from minute one. The skill itself (`anti-ai-writing`) auto-installs via setup.sh's CORE_SKILLS list; this stage just tells the user it's there and why it matters.
 
 This completes the agent activation triad:
-- **Stage 0a — Hands** (computer use + Chrome ext)
-- **Stage 0b — Reach** (Gmail / Calendar / Drive / Notes connectors)
-- **Stage 0c — Voice** (anti-ai-writing discipline)
+- **Stage 0a — Hands** (computer use + Chrome ext — what the agent can DO)
+- **Stage 0b — Reach** (Gmail / Calendar / Drive / Notes connectors — where the agent can GO)
+- **Stage 0c — Public-output cleanup** (anti-AI writing discipline — how the agent's writing SHOWS UP to outsiders)
 
-Without any one of the three, the user gets a smart chatbot. With all three, the user gets an agent that acts, reaches, and writes like them.
+Without any one of the three, the user gets a smart chatbot. With all three, the user gets an agent that acts, reaches, and produces public-grade output by default.
+
+### What this is — and isn't
+
+This skill is **separate from voice**. Voice = the user's signature (beliefs, taste, banned words, sentence patterns, reference brands) — captured later via the kick-off interview (Stage 5 in Part 1 = lightweight 3-Q foundation; Part 2 = 5-Q express; deluxe = 100-Q) and stored in `Brand/Voice guide.md` + (if deluxe) `Voice/about-me.md`.
+
+Anti-AI writing is **a cleanup filter on public-facing output**. It READS the voice files (once they exist) and APPLIES the rules to every external draft, then strips ~250 universal AI tells on top. Two different things, working together: voice is the *signature*, anti-AI writing is the *filter that enforces the signature + removes AI tells on every public draft*.
+
+Public-facing = anything the user will publish, send, or sign their name to: emails, social posts, captions, essays, replies, marketing copy, decks, pitches. NOT internal AI reasoning, NOT code, NOT scratch outlines.
 
 ### Tell the user this — once, plainly
 
-> "Last thing before we start the install proper. There's a skill bundled in this kit called **anti-AI-writing discipline**. It fires on every single draft I produce for you — emails, posts, captions, essays, replies. It removes about 250 patterns that signal AI-generated text (em dashes everywhere, *'It's not X, it's Y'* contrast framing, *'Moreover'* / *'Furthermore'*, *'serves as'* instead of *'is'*, the rule of three, the *'despite challenges'* skeleton, etc.) — and then adds personality back in via a framework called POP (Personal, Observational, Playful, Vignette).
+> "Last thing before we start the install proper. There's a skill bundled in this kit called **anti-AI writing discipline**. It fires on every single public-facing draft I produce for you — emails, posts, captions, replies, anything you'd send to another human. It does two things: (1) strips about 250 patterns that signal AI-generated text (em dashes everywhere, *'It's not X, it's Y'* contrast framing, *'Moreover'* / *'Furthermore'*, *'serves as'* instead of *'is'*, the rule of three, etc.), and (2) adds personality back in via a framework called POP (Personal, Observational, Playful, Vignette).
 >
-> Most AI assistants give you generated-sounding output and expect you to clean it up. This kit flips that. The cleanup runs automatically, on every draft, from day one. As you use me, the skill specializes — you tell me *'don't ever use the word [X]'* or *'I never start sentences with [Y]'* and it gets added to my permanent voice rules.
+> Important distinction: this isn't your voice. Your voice — how you specifically think and sound — gets captured later in our kick-off conversation. THIS skill is the cleanup layer that runs on top of your voice rules every time I draft something you'd send to another person. Voice = your signature. Anti-AI writing = the filter that makes sure every public draft enforces your signature AND doesn't read as machine-generated.
 >
-> The reason I'm telling you this now, before we install anything: in about 30 minutes I'll draft something for you (the aha-moment voice note in Stage 8). That draft will already be running through this discipline. You'll hear the difference in the voice note — it'll sound like a real person, not a chatbot. That's not a one-time thing for the demo. That's the default for everything I write for you, forever.
+> Most AI assistants give you generated-sounding output and expect you to clean it up. This kit flips that. The cleanup runs automatically, on every public draft, from day one. As we go, the skill specializes — you tell me *'don't ever use the word [X]'* and it gets added to my permanent rules.
+>
+> In about 30 minutes I'll draft something for you (the aha-moment voice note in Stage 8). That draft will already be running through this cleanup. You'll hear the difference. That's the default for everything I write for you, forever.
 >
 > Sound good? Cool. Moving on."
 
@@ -199,25 +209,28 @@ No action required from the user. The AI just states this and moves on to Stage 
 
 ### What the skill does on the AI side (reference for the install playbook)
 
-The bundled `anti-ai-writing` skill auto-activates on every drafting task. It reads:
-- The user's Brand voice guide (populated during Stage 5 kick-off)
+The bundled `anti-ai-writing` skill auto-activates on every public-output drafting task. It reads:
+- The user's Brand voice guide (populated during Stage 5 kick-off, deepened in Part 2)
 - The user's Do-not-use list (populated during Stage 5 kick-off B5)
+- The user's `about-me.md` (if Part 2 deluxe interview was run)
 - Its own `learnings.md` (accumulates user-specific rules over time)
 
-Then runs every output through:
+Then runs every public draft through:
 1. **24 hard rules** (no em dashes, no rule of three, no contrast framing, no copula avoidance, etc.)
 2. **Banned-word substitution** (~250 entries across transitions, adjectives, adverbs, abstract nouns, verbs, phrases)
 3. **Pattern check** (rule-of-three sweeps, "It's not X, it's Y" sweeps, "despite challenges" formula detector)
 4. **POP framework** for adding personality back (Personal, Observational, Playful, Vignette)
+5. **User-specific overrides** from the voice files + learnings.md
 
-Full reference at `~/.claude/skills/anti-ai-writing/SKILL.md` after install. User can read it anytime. User can tune it anytime by saying *"add this to my voice rules: never write [X]"* and the wrap-up skill folds it into the SKILL.md.
+Full reference at `~/.claude/skills/anti-ai-writing/SKILL.md` after install. User can read it anytime. User can tune it anytime by saying *"add this to my rules: never write [X]"* and the wrap-up skill folds it into the SKILL.md.
 
 ### Hard rules for this stage
 
-- **Don't skip mentioning anti-ai-writing.** It's not optional polish — it's the kit's "your AI sounds like you, not ChatGPT" promise. Skipping the mention robs the user of understanding what they're getting.
+- **Don't skip mentioning anti-ai-writing.** It's not optional polish — it's the kit's "your AI's public output sounds like you, not ChatGPT" promise.
+- **Don't conflate it with voice.** Voice is the user's signature (captured via interview). This skill is the cleanup filter on public-facing output. Different concepts, both important, in sequence.
 - **Don't oversell.** Don't list all 24 rules. Don't drop the full banned-word table. One paragraph, one specific example, move on.
-- **Don't gate.** Skill installs automatically; user doesn't toggle it on/off. If they later want to disable a specific rule, they tune via wrap-up.
-- **The aha-moment voice note in Stage 8 is the first proof.** When the user hears Em's voice on their phone in Stage 8 saying something specific, warm, human — that draft was already cleaned by this skill. Don't break the suspense by re-explaining mid-install.
+- **Don't gate.** Skill installs automatically; user doesn't toggle it on/off.
+- **The aha-moment voice note in Stage 8 is the first proof.** When the user hears Em's voice on their phone — that draft was already cleaned by this skill. Don't break the suspense by re-explaining mid-install.
 
 ---
 

@@ -41,7 +41,7 @@ What you walk away with:
 - **Voice notes both ways** — talk to your AI, hear it talk back
 - **An always-on body** reachable from your phone via Telegram
 - **Four digital employees** — one for content/drafting, one for research, one for code, one for daily admin. You talk to the chief of staff; they dispatch the right one.
-- **Anti-AI writing discipline baked in** — every draft (emails, posts, captions, replies) auto-runs through a 24-rule pattern check + 250-word banned list + the POP voice framework. Your AI sounds like you from day one, not like ChatGPT.
+- **Anti-AI writing discipline baked in** — every public-facing draft (emails, posts, captions, replies, anything you'd send to another person) auto-runs through a 24-rule AI-tell removal pass + 250-word banned list + the POP framework. Separate from your voice (which gets captured via interview later) — this is the cleanup filter that runs on top of your voice rules so public output never reads as AI-generated.
 - **A learnings loop** that makes your AI sharper every week from your feedback
 
 You install it by talking. No terminal, no command line, no editing files. The AI does all of that for you.

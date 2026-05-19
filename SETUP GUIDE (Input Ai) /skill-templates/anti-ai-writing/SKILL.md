@@ -1,11 +1,20 @@
 ---
 name: anti-ai-writing
-description: Voice discipline that fires on EVERY written output for [PARTNER_NAME]. Removes ~250 patterns that signal AI generation (em dashes, rule of three, contrast framing, copula avoidance, synonym cycling, "despite challenges" formula, banned word list) then adds personality via the POP framework (Personal / Observational / Playful / Vignette). Auto-activates on any drafting task — emails, posts, captions, essays, briefs, replies, social, even short messages. Combines Ruben Hassid's framework + Wikipedia's AI cleanup project + David Perell's POP framework. The single most important skill in the kit — without it, the AI sounds generated; with it, the AI sounds like [PARTNER_NAME].
+description: Public-output cleanup layer that fires on EVERY external-facing draft for [PARTNER_NAME]. Removes ~250 patterns that signal AI generation (em dashes, rule of three, contrast framing, copula avoidance, synonym cycling, "despite challenges" formula, banned-word list) and adds personality via the POP framework (Personal / Observational / Playful / Vignette). Reads [PARTNER_NAME]'s Brand voice guide + Do-not-use list to layer user-specific rules on top of the universal cleanup. Auto-activates on emails, posts, captions, essays, briefs, replies, social — anything [PARTNER_NAME] will publish, send, or sign their name to. Distinct from voice capture (which happens via the kick-off interview and lives in `Brand/Voice guide.md` + `Voice/about-me.md`) — THIS skill is the cleanup mechanism that applies the voice rules + universal AI-tell removal to every public draft. Combines Ruben Hassid's framework + Wikipedia's AI cleanup project + David Perell's POP framework.
 ---
 
 # Anti-AI Writing Skill
 
-This skill fires on every written output the user will read or send. The discipline is non-negotiable. If the user later tunes the rules (adding personal banned words, relaxing one rule, etc.), updates go in `learnings.md` next to this file and the wrap-up skill folds them in.
+This skill is the cleanup layer for anything [PARTNER_NAME] will publish, send, or sign their name to. It runs every public-facing draft through universal AI-tell removal AND [PARTNER_NAME]'s personal voice rules. Discipline is non-negotiable. If [PARTNER_NAME] later tunes the rules (adding personal banned words, relaxing one rule, etc.), updates go in `learnings.md` next to this file and the wrap-up skill folds them in.
+
+## What this is NOT
+
+This is **not** the voice-capture mechanism. [PARTNER_NAME]'s voice (their beliefs, taste, banned words, sentence patterns, reference brands) is captured separately via the kick-off interview — the 3-Q foundation in Part 1, the 5-Q express in Part 2, or the 100-Q deluxe later — and stored in `Brand/Voice guide.md` + (if deluxe was run) `Voice/about-me.md`.
+
+This skill READS those voice files and APPLIES their rules. The voice files are the *signature*; this skill is the *filter that enforces the signature on every public draft + strips AI tells on top*. Two different things, both important, in a clear sequence:
+
+1. **Voice capture** (kick-off interview) → `Brand/Voice guide.md` + `Voice/about-me.md`
+2. **Anti-AI writing skill** (this file) → applies the voice rules + universal AI-tell removal on every public-facing draft
 
 ## When this fires
 
