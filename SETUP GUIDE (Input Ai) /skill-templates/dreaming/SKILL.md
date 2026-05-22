@@ -124,7 +124,7 @@ When this skill is first installed during the kit's Phase 11 setup, the AI:
 1. Manually add 2-3 test entries to `daily-memory.md` under `## Active (unprocessed)`:
    ```
    2026-05-09 14:23 — TEST: Decided coffee at noon is the productivity peak.
-   2026-05-09 14:24 — TEST: Sam from HYROX confirmed Q3 retention dashboard scope.
+   2026-05-09 14:24 — TEST: Marketing lead confirmed Q3 launch scope.
    ```
 2. Manually invoke: *"run dreaming"*
 3. Verify:

@@ -94,7 +94,7 @@ The `dreaming` skill (fires at 02:00 nightly via launchd) will pick these entrie
 Look back across this session. Identify:
 
 1. **Which skills were used or referenced.** Both directly invoked
-   (`morning-brief`, `clauefi`, etc.) and indirectly informed
+   (any drafting or brief-generating skill) and indirectly informed
    (`anti-ai-writing` rules applied to a draft).
 2. **Which skills were tuned.** Tunings are signals like:
    - [PARTNER_NAME] asked for a behavior change ("under 200 words", "stop opening with X")
@@ -168,7 +168,7 @@ For each approved skill:
 
 Default: `~/.claude/skills/[skill-name]/learnings.md`
 
-For project-scoped skills (e.g. the partner AI's `~/watney/.claude/skills/check-telegram/`),
+For project-scoped skills (e.g. a partner AI's `~/[ai-name]/.claude/skills/[skill-name]/`),
 write to that skill's directory.
 
 If the file doesn't exist yet, create it with this seed:
@@ -203,8 +203,7 @@ If the file doesn't exist yet, create it with this seed:
 - **Respect skills that aren't yours to touch.** Some skills (`/closeday`,
   `/graduate`, `/today`, etc. — Vin's reflection commands) are reflective, not
   operational. Don't append learnings there. Only add learnings to skills with
-  operational outputs (clauefi, morning-brief, hyrox-daily-brief, granola-sync,
-  check-telegram, etc.).
+  operational outputs (drafting skills, brief generators, sync skills, etc.).
 - **Don't re-edit a SKILL.md** the wrap-up doesn't own. If the SKILL.md was
   already updated during the session, note it in action_taken and move on.
 
@@ -219,15 +218,17 @@ Run wrap-up at the end of a real session. The output should be:
 ## Skills that should have a learnings.md (audit, not a mandate)
 
 The skills most likely to benefit from a learnings loop, based on output
-frequency + [PARTNER_NAME]'s iteration patterns:
+frequency + how often [PARTNER_NAME] iterates on them:
 
-- **morning-brief** — Already seeded. First experiment.
-- **clauefi** — High-output, frequent iteration on tone/sections
-- **hyrox-daily-brief** — High-output, frequent feedback on sources/angles
-- **granola-sync** — Quieter; only log when something actually changes
-- **check-telegram** (in `~/watney/`) — Voice rules, reply length, etc.
-- **ingest-meeting** — Notability gate tuning, citation format
-- **anti-ai-writing** — Cross-cutting rules, evolves slowly
+- **anti-ai-writing** — Cross-cutting rules. Picks up [PARTNER_NAME]'s
+  banned-word additions and personal voice rules as they emerge.
+- **kick-off** — Edge cases [PARTNER_NAME] encounters during a partial
+  re-run of onboarding (e.g. *"don't ask about projects this time, I
+  already filed them"*).
+- Any high-output skill [PARTNER_NAME] runs frequently (e.g. drafting
+  skills, brief generators, sync skills). The pattern: if [PARTNER_NAME]
+  iterates on a skill's output more than twice in a week, that skill
+  earns a learnings.md.
 
 Don't pre-seed all of these. Let the wrap-up surface "this skill needs a
 learnings.md but doesn't have one — should I create it?" the first time it

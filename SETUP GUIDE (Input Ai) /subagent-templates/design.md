@@ -95,7 +95,7 @@ Rules for using it:
    genmedia run "<prompt>" --endpoint_id fal-ai/nano-banana-2 --download
    ```
 
-   Don't rely on `genmedia run` smart routing — it picks cheap models (Flux Schnell) that hallucinate text into garbled approximations ("HYROC BROX" instead of "HYROX"). Nano Banana lineage is Google's state-of-the-art image gen, strong at text and logos, conversational, cheap.
+   Don't rely on `genmedia run` smart routing — it picks cheap models (Flux Schnell) that hallucinate text into garbled approximations of brand names and logos. Nano Banana lineage is Google's state-of-the-art image gen, strong at text and logos, conversational, cheap.
 
 4. **Override the default only when:**
    - **Photorealistic hero / product photography** → **Flux Pro** (`fal-ai/flux-pro`). Higher fidelity, more expensive. Weak at text — avoid when text/logos matter.
