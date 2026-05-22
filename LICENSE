@@ -1,4 +1,4 @@
-Partner AI Kit License v1
+WATNEY: Personal AI Kit License v1
 Copyright (c) 2026 Daniel Joachim Nielsen
 Last updated: 2026-05-15
 
@@ -20,7 +20,7 @@ FORMAL TERMS
 
 1. PERMITTED USE
 
-   You may install, modify, and use the Partner AI Kit (and any
+   You may install, modify, and use WATNEY (and any
    derivative work based on it) for any of the following:
 
    a) Your own personal use.
@@ -35,26 +35,25 @@ FORMAL TERMS
 
    Without prior written permission from the copyright holder, you may NOT:
 
-   a) Sell, sublicense, or otherwise distribute the Partner AI Kit
+   a) Sell, sublicense, or otherwise distribute WATNEY
       (or any derivative work) as a standalone product or kit.
-   b) Provide the Partner AI Kit (or any derivative work) as a hosted
+   b) Provide WATNEY (or any derivative work) as a hosted
       service, SaaS offering, or managed agent product to third
       parties.
-   c) Use the "Partner AI Kit" name, branding, or trade dress in any
+   c) Use the "WATNEY" name, branding, or trade dress in any
       product or service you distribute.
    d) Distribute a competing product or kit that is substantially
       derived from this work.
 
    For clarity: a Training Club, freelancer, agency, or other business
-   using the Partner AI Kit internally — even as part of a commercial
+   using WATNEY internally — even as part of a commercial
    operation — is permitted under Section 1(b). The restrictions apply
    only to redistribution, resale, hosting-for-others, and competing
    distribution.
 
 3. ATTRIBUTION
 
-   Any public reference to or derivative work based on the Partner AI
-   Kit must include a credit linking back to the original source:
+   Any public reference to or derivative work based on the WATNEY must include a credit linking back to the original source:
 
       https://github.com/DanJoachimn/Partner-Ai-Kit-Personal
 
@@ -68,7 +67,7 @@ FORMAL TERMS
 5. UPDATES TO THIS LICENSE
 
    This license may be updated. Updates apply only to versions of the
-   Partner AI Kit released after the update date. Versions you have
+   WATNEY released after the update date. Versions you have
    already installed under earlier license terms remain governed by
    those terms.
 

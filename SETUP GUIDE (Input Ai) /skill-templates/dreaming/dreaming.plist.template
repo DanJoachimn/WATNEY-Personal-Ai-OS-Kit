@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Dreaming launchd job template — Partner AI Kit
+  Dreaming launchd job template — WATNEY
 
   Replace [USER] with the macOS username (e.g. "danieljnielsen") and
   [AI_NAME] with the lowercase AI name (e.g. "watney") before installing.

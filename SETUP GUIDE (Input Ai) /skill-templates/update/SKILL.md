@@ -1,9 +1,9 @@
 ---
 name: update
-description: Fetches the latest version of the Partner AI Kit from GitHub, compares it to what's installed, and reconciles changes — applying skill updates, offering new skills/vault layers, preserving the user's tunings. Triggered by `/update`, "update my kit", "update my AI", "check for kit updates", "are there new skills?", or any equivalent. Reads the live UPDATE.md playbook from the repo so reconciliation logic is always fresh.
+description: Fetches the latest version of WATNEY (the Personal AI Kit) from GitHub, compares it to what's installed, and reconciles changes — applying skill updates, offering new skills/vault layers, preserving the user's tunings. Triggered by `/update`, "update my kit", "update my AI", "check for kit updates", "are there new skills?", or any equivalent. Reads the live UPDATE.md playbook from the repo so reconciliation logic is always fresh.
 ---
 
-# Update Skill — fetch and reconcile Partner AI Kit updates
+# Update Skill — fetch and reconcile WATNEY updates
 
 ## Purpose
 
@@ -18,7 +18,7 @@ The skill is intentionally thin — most of the reconciliation logic lives in `U
 - `/update`
 - "update my AI"
 - "update my kit"
-- "update the Partner AI Kit"
+- "update WATNEY"
 - "check for kit updates"
 - "are there new skills available?"
 - "anything new in the kit?"
@@ -156,4 +156,4 @@ Without `/update`: kit improvements stall on users' machines. The first install 
 
 With `/update`: improvements compound across the user base. Bug fixes propagate. New skills become available organically. The kit evolves and so does every install.
 
-This is the same shape as `brew update` or `npm update` — except for a Partner AI Kit instead of a code dependency. The mental model the user has: *"I run /update once a month, my AI gets new tricks."*
+This is the same shape as `brew update` or `npm update` — except WATNEY is the dependency. The mental model the user has: *"I run /update once a month, my AI gets new tricks."*

@@ -7,7 +7,7 @@ description: Silent background check for kit updates from GitHub. Runs at the st
 
 ## Purpose
 
-The Partner AI Kit gets better over time. Without auto-update, every installer is frozen at whatever version they pulled on install day. Bug fixes shipped a month later never reach them. Every user becomes a fork.
+WATNEY gets better over time. Without auto-update, every installer is frozen at whatever version they pulled on install day. Bug fixes shipped a month later never reach them. Every user becomes a fork.
 
 This skill keeps the kit current automatically — with strict safety bounds so the user's work is never broken.
 

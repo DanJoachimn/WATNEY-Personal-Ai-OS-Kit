@@ -11,7 +11,7 @@ A pattern for handing API keys (ElevenLabs, OpenAI, etc.) to your agent without 
 There's nothing to install for this guide — it's a behavioral pattern. But you can ask your agent to commit to it:
 
 ```
-Adopt the API key handling pattern in ~/Desktop/Partner AI Kit/03 - API Key Hygiene.md. From now on, when I need to give you an API key or other secret, default to the clipboard transfer method. Don't ask me to paste secrets in chat unless I explicitly insist.
+Adopt the API key handling pattern in ~/Desktop/WATNEY/03 - API Key Hygiene.md. From now on, when I need to give you an API key or other secret, default to the clipboard transfer method. Don't ask me to paste secrets in chat unless I explicitly insist.
 ```
 
 ---

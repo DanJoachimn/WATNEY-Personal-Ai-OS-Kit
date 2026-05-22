@@ -7,7 +7,7 @@ description: First-conversation onboarding flow with [PARTNER_NAME]. Auto-runs O
 
 ## Purpose
 
-[PARTNER_NAME] shouldn't have to know the Partner AI Kit playbook exists. They shouldn't memorize iCloud settings, remember to create recovery files, manually fill in brand voice templates, or know that their AI even has subagents.
+[PARTNER_NAME] shouldn't have to know the WATNEY install playbook exists. They shouldn't memorize iCloud settings, remember to create recovery files, manually fill in brand voice templates, or know that their AI even has subagents.
 
 The kick-off does all of it for them — in plain language, conversationally, in one ~25-minute first session. By the end, the AI is fully set up with:
 

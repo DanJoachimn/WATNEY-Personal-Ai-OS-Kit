@@ -11,7 +11,7 @@ Decisions to lock in BEFORE you record â€” aspect ratio, format, length, audio â
 Nothing to install. Tell your agent to follow these rules:
 
 ```
-Adopt the pre-production rules in ~/Desktop/Partner AI Kit/04 - Pre-Production Rules.md. Before I record anything for video output, ask me about format and target platform. If I want output for a platform that doesn't match my source format, flag the constraint and offer alternatives.
+Adopt the pre-production rules in ~/Desktop/WATNEY/04 - Pre-Production Rules.md. Before I record anything for video output, ask me about format and target platform. If I want output for a platform that doesn't match my source format, flag the constraint and offer alternatives.
 ```
 
 ---

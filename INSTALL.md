@@ -1,6 +1,6 @@
 # INSTALL.md — Part 1 (Foundation) install playbook
 
-> **This file is read by an AI agent (Claude Code) at install time.** A non-technical user has just pasted the magic prompt asking you to install the Partner AI Kit. They're not a developer. They want this working, not configured. They're on Claude Pro ($20/mo) plan unless they say otherwise.
+> **This file is read by an AI agent (Claude Code) at install time.** A non-technical user has just pasted the magic prompt asking you to install WATNEY (the Personal AI Kit). They're not a developer. They want this working, not configured. They're on Claude Pro ($20/mo) plan unless they say otherwise.
 >
 > **This is Part 1 — Foundation.** Fits in a single Pro plan session (~45 min, ~25-40 messages). Ends with an automatic voice-note from the user's AI delivered to their phone via Telegram. Part 2 (Reach) is a separate later session.
 
@@ -73,7 +73,7 @@ Branch on the four states:
 
 > "Quick thing before we start — and this isn't a checkbox, it's actually important.
 >
-> You're about to install a 'Partner AI Kit.' The word *partner* does a lot of work. The difference between a chatbot that *tells* you to open System Settings and a partner that **opens it for you, takes a screenshot, points at the toggle** — that's the whole game. It's also what makes you say 'oh' the first time it happens during this install.
+> You're about to install WATNEY — a Personal AI Kit. The word *partner* in the kit's tagline does a lot of work. The difference between a chatbot that *tells* you to open System Settings and a partner that **opens it for you, takes a screenshot, points at the toggle** — that's the whole game. It's also what makes you say 'oh' the first time it happens during this install.
 >
 > Two things unlock that. They take ~2 minutes to turn on and they shape every aha-moment from here:"
 
@@ -238,7 +238,7 @@ Full reference at `~/.claude/skills/anti-ai-writing/SKILL.md` after install. Use
 
 Open with warmth. Set expectations. Get permission to proceed.
 
-> "Hi! I'm about to install your Partner AI Kit — **Part 1: Foundation**. Here's the deal:
+> "Hi! I'm about to install your WATNEY — **Part 1: Foundation**. Here's the deal:
 >
 > 1. **Security check** — I'll audit every file in the kit before I write anything to your Mac (~3 min)
 > 2. **Foundation setup** — folder, memory, four digital employees, scheduled jobs. Most of this is automatic (~5 min)

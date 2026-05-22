@@ -1,8 +1,18 @@
-# Partner AI Kit (Personal)
+# WATNEY: Personal AI Kit
 
 > Give yourself a Partner AI. From first paste to your AI knowing your voice, your projects, and your taste — installed entirely by talking to it like a nerdy friend.
 
-"Mate, explain this to me like we're back in 8th grade." 
+"Mate, explain this to me like we're back in 8th grade."
+
+---
+
+## What's WATNEY?
+
+**WATNEY is the kit's name** — homage to *The Martian* (the Mark Watney you'd want stranded on your Mac instead of Mars: practical, resourceful, doesn't quit, makes the best of what's there).
+
+It's not the name of your AI. The AI you install with this kit gets whatever name **you** pick during kick-off — Em, Jarvis, Maya, Sage, whatever feels right. You name the partner; WATNEY is the kit that ships it.
+
+If you've heard the kit referred to as "Partner AI Kit (Personal)" anywhere — same thing, new name. We renamed it to WATNEY after the first real install proved the pattern works.
 
 ---
 
@@ -103,7 +113,7 @@ You can stop after Part 1 and have a fully-working partner. Part 2 is opt-in whe
 ### The install prompt
 
 ```
-You're about to install the Partner AI Kit for me. I'm not a developer.
+You're about to install WATNEY (the Personal AI Kit) for me. I'm not a developer.
 
 Please:
 1. Fetch the live installer from
@@ -178,7 +188,7 @@ Hard rule: updates **never silently overwrite** a skill you've tuned via the lea
 
 ## For Training Club operators
 
-This is the generic Personal version. There's a Training Club-flavored version at [Partner AI Kit (Training Clubs)](https://github.com/DanJoachimn/Partner-Ai-Kit-Training-Club) with:
+WATNEY is the generic Personal version. There's a Training Club-flavored sibling kit called **PACER** at [PACER: Partner AI Kit for Training Clubs](https://github.com/DanJoachimn/Partner-Ai-Kit-Training-Club) with:
 
 - Training Club-specific framing on your digital employees (same four, tuned for Training Club ops)
 - Day-1 skills tuned for Training Club operators (weekly-retention-review, weekly-content-batch, block-builder, member-checkin-draft)

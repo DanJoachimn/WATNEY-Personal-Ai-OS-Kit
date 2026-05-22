@@ -38,7 +38,7 @@ With Granola + the sync script:
 
 - Mac running macOS 14+ (Granola's minimum)
 - A Granola account (free trial available, paid afterward)
-- The Partner AI Kit Phase 1+9 done (your AI's folder exists with a vault inside)
+- WATNEY Part 1 install complete (your AI's folder exists with a vault inside)
 - ~10 minutes for setup
 
 ---
@@ -148,7 +148,7 @@ Pulls the last 24 hours of meeting notes into your daily log. Open the daily log
 
 Files important meetings into your AI's `_Brain/` knowledge graph (people, companies, concepts). The AI then references those facts forever after.
 
-These skills are pre-installed by the Partner AI Kit. Granola is the input pipe that makes them useful.
+These skills are pre-installed by WATNEY. Granola is the input pipe that makes them useful.
 
 ---
 

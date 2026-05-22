@@ -48,7 +48,7 @@ If you ever want to see how the kit evolves, hear what's working for other solo 
 
 There's a separate kit + community for you:
 
-- **Partner AI Kit (Training Clubs)** — [github.com/DanJoachimn/Partner-Ai-Kit-Training-Club](https://github.com/DanJoachimn/Partner-Ai-Kit-Training-Club)
+- **PACER (Partner AI Kit for Training Clubs)** — [github.com/DanJoachimn/Partner-Ai-Kit-Training-Club](https://github.com/DanJoachimn/Partner-Ai-Kit-Training-Club)
 - **The ROXIE Stacked** — the Training Club operator community Substack (paid tier coming with monthly office hours + early skill drops)
 
 ---

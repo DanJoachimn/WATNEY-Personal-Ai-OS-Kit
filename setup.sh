@@ -1,5 +1,5 @@
 #!/bin/bash
-# setup.sh — Partner AI Kit deterministic foundation installer
+# setup.sh — WATNEY deterministic foundation installer
 #
 # Runs the mechanical file-system work that previously consumed AI tokens
 # in Stages 4-9 of INSTALL.md. Bash handles it deterministically.

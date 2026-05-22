@@ -116,6 +116,6 @@ It can read its own files, check its own config, and walk you through fixes. Mos
 
 ## Where to find more detail
 
-- **Full canonical playbook** (developer-friendly, exhaustive): `~/Desktop/Partner AI Kit/_kit/playbook.md`
-- **Filled example kit** ([AI_NAME] for [PARTNER_NAME]/[BRAND]): `~/Desktop/Partner AI Kit/_kit/`
-- **Per-topic deep dives:** the other folders in this Partner AI Kit directory.
+- **Full canonical playbook** (developer-friendly, exhaustive): `~/Desktop/WATNEY/_kit/playbook.md`
+- **Filled example kit** ([AI_NAME] for [PARTNER_NAME]/[BRAND]): `~/Desktop/WATNEY/_kit/`
+- **Per-topic deep dives:** the other folders in this WATNEY directory.

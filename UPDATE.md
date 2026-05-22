@@ -1,6 +1,6 @@
-# UPDATE.md — Live update playbook for the Partner AI Kit (Personal)
+# UPDATE.md — Live update playbook for WATNEY (Personal AI Kit)
 
-> **This file is read by an AI agent when the user says "update my Partner AI Kit" or invokes the `/update` skill.** It walks the AI through fetching the latest version of the kit from GitHub, reconciling changes, and announcing what's new — without breaking the user's existing setup.
+> **This file is read by an AI agent when the user says "update my WATNEY" or invokes the `/update` skill.** It walks the AI through fetching the latest version of the kit from GitHub, reconciling changes, and announcing what's new — without breaking the user's existing setup.
 
 ---
 
@@ -9,7 +9,7 @@
 The user says any of:
 - `/update`
 - "update my AI"
-- "update the Partner AI Kit"
+- "update WATNEY"
 - "check for kit updates"
 - "are there new skills available?"
 

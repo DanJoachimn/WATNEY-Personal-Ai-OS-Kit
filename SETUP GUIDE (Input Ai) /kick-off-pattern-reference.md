@@ -137,4 +137,4 @@ Skip it for any partner and they'll never lean in fully. Install it, and they're
 
 ---
 
-*This file lives at `~/Desktop/Partner AI Kit/_kit/kick-off-pattern-reference.md`. Update it whenever the kick-off pattern evolves — keep it the canonical reference for the first-run experience.*
+*This file lives at `~/Desktop/WATNEY/_kit/kick-off-pattern-reference.md`. Update it whenever the kick-off pattern evolves — keep it the canonical reference for the first-run experience.*

@@ -40,10 +40,10 @@
 
 The numbered guides (01–08) at the parent level are user-facing — those appear first in Finder. This kit folder appears after them, signaling "system / internal — the AI reads this; the user can usually ignore."
 
-When this whole `Partner AI Kit` folder gets shipped to someone new, they see:
+When this whole `WATNEY` folder gets shipped to someone new, they see:
 
 ```
-Partner AI Kit/
+WATNEY/
 ├── README.md                              ← they read this
 ├── 01 - Hyperframes/                      ← they read these
 ├── 02 - Video Use/
