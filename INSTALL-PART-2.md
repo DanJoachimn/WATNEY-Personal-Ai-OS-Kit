@@ -179,17 +179,46 @@ touch ~/Documents/[AI_NAME]/.youtube-transcript-mcp-configured
 
 ---
 
-## Stage 5 — Siri & Apple Watch (~10 min, LAST — non-essential)
+## Stage 5 — Siri & Apple Watch (EXPERIMENTAL — untested by kit author, ~10 min, LAST)
 
-⚠️ **This is the kit's most fragile stage.** It depends on iOS Shortcuts behavior that changes between Apple releases. Save for last in case anything else broke.
+🚧 **Honest disclosure up front:** this stage has **not been verified by the kit author**.
 
-> "Last optional step. Want to add Siri voice control + Apple Watch support? Means you can say 'Hey Siri, [AI_NAME], what's on my plate?' from your watch hands-free.
+- The **Siri path** is based on Apple's documented Shortcuts patterns and reads like it should work, but it hasn't been tested end-to-end on a real install yet. Scheduled for first real verification soon.
+- The **Apple Watch path** is fully untested. The kit author does not own an Apple Watch. The instructions here are extrapolated from Shortcuts documentation, not from a working install.
+
+If you try this stage, you're beta-testing it. Capture anything that breaks and we'll fold it into the kit's Common Failures section.
+
+### Tell the user this — once, plainly
+
+> "Last optional step, and I want to be straight with you: this one is experimental. The Siri integration looks like it should work based on how Apple's Shortcuts framework is designed, but I haven't tested it end-to-end yet on a real install. The Apple Watch piece is even less verified — the kit's author doesn't own a Watch, so those instructions are based on Apple's docs, not on a working setup.
 >
-> Setup is ~10 min: you import a Siri Shortcut, grant a few permissions, test once. Skip if you'd rather not deal with it — everything else works without this."
+> If you want to try it, great — you're beta-testing. If something breaks, tell me what you saw and we'll feed it back to the kit. If you'd rather skip until this is verified, totally fine — everything else in your install works without it. Want to try, or skip?"
 
-If yes: walk through guides/09-siri-apple-watch-integration.md.
+If user wants to try → walk through `guides/09-siri-apple-watch-integration.md`. Pause at every step. If anything fails, **log it and stop** — don't push through with workarounds that haven't been verified either.
 
-Mark complete: `touch ~/Documents/[AI_NAME]/.siri-configured`
+If user skips → mark deferred:
+
+```bash
+touch ~/Documents/[AI_NAME]/.siri-deferred-until-verified
+```
+
+If user successfully completes the setup (rare until first verified install lands):
+
+```bash
+touch ~/Documents/[AI_NAME]/.siri-configured
+echo "$(date -Iseconds) — Siri configured (UNVERIFIED PATH, user is first-mover)" >> ~/Documents/[AI_NAME]/logs/install.log
+```
+
+### Kit author's commitment
+
+Siri path will be tested by the kit author "soon" (commit date 2026-05-18). Once verified, this stage gets downgraded from EXPERIMENTAL to "tested on macOS X / iOS Y." The Watch path stays EXPERIMENTAL until someone with a Watch contributes a verified walkthrough.
+
+### Hard rules for this stage
+
+- **Never present this stage as a "feature" the user is getting.** It's an experiment they're opting into.
+- **Never claim "Apple Watch hands-free" works** — the author can't promise that. Frame as theoretical.
+- **If something fails, stop and log.** Don't improvise workarounds that haven't been verified.
+- **Capture friction in detail** — this is the highest-value friction log entry possible because it's the first real test of an untested stage.
 
 ---
 

@@ -96,7 +96,7 @@ Split for $20 Claude Pro users — Part 1 fits comfortably in a single Pro sessi
 - Premium voices (ElevenLabs) — optional
 - Meeting auto-capture (Granola) — optional
 - Extra skills (animation, video editing, content pipelines, more) — pick what you want
-- Siri + Apple Watch hands-free control — optional, last
+- Siri + Apple Watch hands-free control — **experimental, untested by kit author**, last
 
 You can stop after Part 1 and have a fully-working partner. Part 2 is opt-in when you're ready.
 
@@ -145,7 +145,7 @@ Ten guides, each ships value on its own:
 | 06 | The Kick-off Flow | What your AI does on first contact — 25-min onboarding that handles all setup decisions you shouldn't have to remember. |
 | 07 | Portability and Recovery | iCloud Drive setup + recovery sequence so a Mac death doesn't erase months of work. |
 | 08 | The Learnings Loop | The compounding mechanism — the AI gets sharper every week from your feedback, automatically. |
-| 09 | Siri & Apple Watch Integration | "Hey Siri, [AI_NAME]" — talk to your Partner AI from your phone or watch, hands-free. ~10 min setup. |
+| 09 | Siri & Apple Watch Integration | **🚧 Experimental.** Siri path untested end-to-end; Watch path fully untested (author doesn't own one). Based on Apple's documented Shortcuts patterns. If you try it, you're beta-testing for the kit. |
 | 10 | Meeting Capture with Granola | Auto-record + transcribe every meeting. Notes flow into your AI's vault twice daily. |
 
 ---
