@@ -1,9 +1,9 @@
 ---
 name: wrap-up
-description: End-of-session sweep that turns observed friction + iterations during the day into persistent learnings for the affected skills. Use when [PARTNER_NAME] says "wrap up", "wrap up the session", "close session", "end of day", "log learnings", or "let's sweep". Reviews what was used, what got tuned, drafts a per-skill update, asks [PARTNER_NAME] to approve, then appends to each skill's learnings.md and (if approved) updates the SKILL.md. Never writes without approval.
+description: End-of-session sweep that turns observed friction + iterations during the day into persistent learnings for the affected skills, PLUS a pattern-observation pass that catches recurring friction across multiple sessions ([PARTNER_NAME] doesn't have to notice; the skill notices). Use when [PARTNER_NAME] says "wrap up", "wrap up the session", "close session", "end of day", "log learnings", "let's sweep", "any patterns", "what have you noticed", "should anything be tuned". Reviews what was used, what got tuned in this session, scans patterns-log for cross-session patterns crossing the 3-instances-over-7-days threshold, drafts a per-skill update for each, asks [PARTNER_NAME] to approve, then appends to each skill's learnings.md and (if approved) updates the SKILL.md. Never writes without approval. The recursive self-improvement loop for [PARTNER_NAME]'s kit — runs on [PARTNER_NAME]'s own Mac, observes only [PARTNER_NAME]'s own work, never sends data anywhere.
 ---
 
-# Wrap-Up Skill — The Learnings Sweep
+# Wrap-Up Skill — The Learnings Sweep (with Pattern Observation)
 
 ## Purpose
 
@@ -89,6 +89,48 @@ If the session genuinely produced nothing memorable, log nothing here. Empty day
 
 The `dreaming` skill (fires at 02:00 nightly via launchd) will pick these entries up and integrate them into long-term memory while [PARTNER_NAME] sleeps. This is the working-memory layer; the learnings sweep below is the per-skill-tuning layer. They run in series, share a session, but write to different files.
 
+### Step 0.5 — Pattern observation pass (cross-session friction)
+
+This is the recursive-improvement loop the kit ships with. [PARTNER_NAME] doesn't have to notice friction — this pass notices it across sessions and surfaces what's worth fixing.
+
+**Where the patterns live:** `~/.claude/skills/wrap-up/patterns-log.md` — an append-only rolling 7-day buffer of observed friction. Read this at the start of every wrap-up.
+
+**What counts as a pattern observation:**
+
+1. **Repeated iteration on the same skill output.** [PARTNER_NAME] asks for a draft from the same skill, then corrects it, then asks again. If this happens 3+ times across the rolling window with the same correction direction, that's a pattern.
+
+2. **Silent edits to drafts.** [PARTNER_NAME] takes a draft I produced and edits it before using it. If I can see the edited version (in chat, in a Gmail draft, in a vault file), the diff is a signal.
+
+3. **Explicit corrections.** *"Stop opening with X,"* *"don't use the word Y,"* *"keep replies under 200 words."* Direct training signals. Capture verbatim.
+
+4. **Skill output failures with the same root cause.** Same skill produces empty / wrong / truncated output multiple times. Pattern signal.
+
+5. **Recurring questions [PARTNER_NAME] has to re-ask across sessions.** Memory failure pattern — the fix may be a vault edit, not a SKILL.md edit.
+
+**Pattern thresholds (don't fire on noise):**
+
+- **3 instances minimum** before considering a pattern actionable. One-off corrections aren't patterns.
+- **7-day rolling window** for cross-session patterns. Older = stale signal.
+- **Confidence threshold:** if <70% sure the pattern is real, log it but don't surface. False positives erode [PARTNER_NAME]'s trust in the sweep faster than missed signals erode value.
+
+**Patterns-log entry format (append-only):**
+
+```markdown
+### YYYY-MM-DD HH:MM — [skill or domain]
+[1-2 line description of what happened]
+Signal type: [iteration | silent-edit | explicit | failure | recurring-question]
+Confidence: [low | medium | high]
+```
+
+When a pattern crosses threshold (3+ instances of the same signal in the window), it gets promoted from observation to candidate-fix in Step 2 below. Sub-threshold observations stay in the log; cycle out after 7 days.
+
+**What this pass does NOT do:**
+
+- **Never sends data anywhere.** This is local-only. The patterns-log lives in `~/.claude/skills/wrap-up/` on [PARTNER_NAME]'s Mac and never leaves it.
+- **Never runs continuously during a session.** Observation happens only during wrap-up runs (at session end or when [PARTNER_NAME] explicitly invokes). This keeps the token cost negligible (~200-500 tokens per wrap-up).
+- **Never modifies skills autonomously.** Cross-session patterns surface as candidate fixes in Step 2, alongside the in-session learnings. Same approval gate.
+- **Never accumulates indefinitely.** Patterns older than 7 days roll off the log unless they've been promoted to an active learnings.md entry.
+
 ### Step 1 — Inventory what happened
 
 Look back across this session. Identify:
@@ -131,25 +173,42 @@ a one-line entry like:
 
 ### Step 3 — Surface to [PARTNER_NAME] for approval
 
-Present the sweep in this shape, in chat:
+Present the sweep in this shape, in chat. **Two sections** — in-session tunings (from this session's friction) and cross-session patterns (from the patterns-log threshold pass). Either or both can be empty; surface only what's real.
 
 ```
-Wrap-up sweep — N skills affected today:
+Wrap-up sweep — [N] in-session tunings + [M] cross-session patterns
 
-1. [skill-name] — [one-line summary]
+== In-session tunings (from today's friction) ==
+
+1. [skill-name] — [one-line summary of what got tuned today]
    Active tuning: "[the one-liner]"
    Full entry: [show the YYYY-MM-DD section content]
 
 2. [skill-name] — ...
 
+== Cross-session patterns (3+ instances over rolling 7 days) ==
+
+P1. [skill-name] — pattern crossed threshold
+    Pattern: [one-line description] (N instances, confidence: high/medium)
+    Proposed fix: [show the diff — what line is added/changed/removed]
+    
+P2. [skill-name] — ...
+
 Approve all? Edit any? Skip any?
 ```
 
 Wait for [PARTNER_NAME]'s response. [PARTNER_NAME] can:
-- "approve all" / "ship it" / "yes" → write everything
-- "skip #2" / "drop the second one" → skip that entry
-- "edit #1: change [X] to [Y]" → tweak then write
-- "no, drop everything" → write nothing
+- "approve all" / "ship it" / "yes" → write everything (both sections)
+- "skip P2" / "drop the second pattern" → skip that pattern, keep others
+- "skip #1" / "drop the first tuning" → skip in-session tuning, keep others
+- "edit P1: change [X] to [Y]" → tweak then write
+- "approve in-session, skip patterns" → write in-session only
+- "approve patterns, skip in-session" → write patterns only
+- "no, drop everything" → write nothing (but pattern observations stay in patterns-log for next sweep)
+
+**Max 3 patterns surfaced at once.** Cognitive overload defeats the purpose. If more than 3 patterns are above threshold, present the top 3 by impact (most-used skill first, highest-confidence next) and note *"M more sub-threshold patterns logged but not surfaced."* [PARTNER_NAME] can ask *"show me the rest"* and get them.
+
+**Patterns [PARTNER_NAME] has skipped 5+ times** stop surfacing — those aren't patterns, those are [PARTNER_NAME]'s preference. Skill quietly retires that pattern from future sweeps.
 
 ### Step 4 — Write the approved updates
 
