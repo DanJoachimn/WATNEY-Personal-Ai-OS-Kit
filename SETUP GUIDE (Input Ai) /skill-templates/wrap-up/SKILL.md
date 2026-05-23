@@ -95,17 +95,35 @@ This is the recursive-improvement loop the kit ships with. [PARTNER_NAME] doesn'
 
 **Where the patterns live:** `~/.claude/skills/wrap-up/patterns-log.md` — an append-only rolling 7-day buffer of observed friction. Read this at the start of every wrap-up.
 
-**What counts as a pattern observation:**
+**What counts as a pattern observation — the 8-dimension taxonomy:**
 
-1. **Repeated iteration on the same skill output.** [PARTNER_NAME] asks for a draft from the same skill, then corrects it, then asks again. If this happens 3+ times across the rolling window with the same correction direction, that's a pattern.
+> Taxonomy borrowed from Jack Roberts' AI OS dreaming framework (2026-05-18 triage). Cleaner than ad-hoc pattern hunting — gives the observation pass a structured checklist. Walk through all 8 buckets every wrap-up; only surface patterns that crossed threshold in each.
 
-2. **Silent edits to drafts.** [PARTNER_NAME] takes a draft I produced and edits it before using it. If I can see the edited version (in chat, in a Gmail draft, in a vault file), the diff is a signal.
+**1. CONVERSATION** — *"Repeated chats become skills."*
+Things [PARTNER_NAME] keeps asking me to do manually. If the same shape of task came up 3+ times in the window (*"draft a check-in for [member]"*, *"research [competitor]"*, *"summarize [thing]"*), that's a candidate skill. Pattern signal: *"this should be a skill, not a recurring conversation."*
 
-3. **Explicit corrections.** *"Stop opening with X,"* *"don't use the word Y,"* *"keep replies under 200 words."* Direct training signals. Capture verbatim.
+**2. COST** — *"Stop overpaying."*
+Token waste patterns. *"60% of [skill]'s output was file-reads — could swap to Haiku."* *"Long context windows where the actual question only needed the last 5K tokens."* Relevant only for Max plan / API users; Pro plan users get a flat fee. Track but don't surface unless on Max.
 
-4. **Skill output failures with the same root cause.** Same skill produces empty / wrong / truncated output multiple times. Pattern signal.
+**3. SKILLS** — *"Kill what isn't firing."*
+Skills that haven't been used in 30+ days. Skills that always run together but aren't chained. Skills whose output [PARTNER_NAME] always edits before using. Pattern signal: *"this skill is dead, or this skill should chain with another, or this skill's defaults are wrong."*
 
-5. **Recurring questions [PARTNER_NAME] has to re-ask across sessions.** Memory failure pattern — the fix may be a vault edit, not a SKILL.md edit.
+**4. MEMORY** — *"Catch the docs that lie."*
+Vault context that's gone stale. CLAUDE.md or `_context/` files that haven't been updated in 30+ days but are being read by skills. Pattern signal: *"the AI is operating on outdated info — this doc needs a refresh."* (Connects to `regenerate-doc` skill.)
+
+**5. SESSION** — *"Stop context rot."*
+Sessions running past 100K-150K tokens where retrieval quality drops noticeably. Sessions where [PARTNER_NAME] had to re-explain context the AI should have had. Pattern signal: *"session got too long — split next time, or pull this context into a permanent file."*
+
+**6. WORKFLOW** — *"One keystroke replaces five."*
+Multi-step manual sequences [PARTNER_NAME] runs frequently — *"opened tools A → B → C in this order 14x this week."* Candidate for a chained skill / shortcut. Pattern signal: *"this is a workflow, not a sequence of separate tasks."*
+
+**7. EXTERNAL** — *"New tools worth adopting."*
+Tools [PARTNER_NAME] uses (or could use) that have shipped meaningful updates [PARTNER_NAME] is missing. Manual things being done that an external tool now handles. Pattern signal: *"the tool space moved past your current setup — worth a look."* (Lighter signal than the others; surfaces less often. Requires the AI to occasionally check changelogs of tools in tools.md.)
+
+**8. BUSINESS** — *"Real ROI per workflow."*
+Skills that fire often but rarely produce output [PARTNER_NAME] actually uses. *"/deep-research ran 8× this week — only 3 outputs cited."* Pattern signal: *"this skill's perceived value is higher than its real value — fix or retire."*
+
+**Walk all 8 every wrap-up.** Most will produce nothing on a given week — that's fine. The discipline is the walk-through. Patterns crossing the 3-instance + 7-day threshold get promoted to candidate fixes in Step 2.
 
 **Pattern thresholds (don't fire on noise):**
 

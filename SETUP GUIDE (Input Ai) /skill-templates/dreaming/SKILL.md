@@ -80,11 +80,57 @@ In `daily-memory.md`:
 
 **Never delete daily-memory entries.** History is permanent. Long-term.md is the synthesis; daily-memory.md is the audit trail.
 
+### Step 4.5 — Web-search enrichment (optional, off by default)
+
+> **Inspired by Jack Roberts' AI OS dreaming pattern (2026-05-18 triage).** The idea: when the dreaming pass detects [PARTNER_NAME] grinding on the same problem across multiple daily-memory entries, optionally hit the web for enrichment — *"Dani spent 3 hours on TCC/launchd today, let me see what others have said."* Result lands in long-term memory as an enrichment layer, never replaces [PARTNER_NAME]'s own synthesis.
+
+**Enable via flag.** Off by default. Activates only if one of:
+- `~/Documents/[ai-name]/.dreaming-enrich-web` flag file exists (set once by user)
+- Wrap-up skill explicitly approved a recurring "[PARTNER_NAME] keeps grinding on X — want me to look it up overnight?" pattern
+
+**What it does when on:**
+
+1. **Identify the day's heavy-cost themes.** From today's unprocessed daily-memory entries, find the 1-2 topics that appear in 3+ entries. These are the questions [PARTNER_NAME] is actively wrestling with.
+
+2. **Hit the web for each.** One WebFetch per theme, scoped to a short focused query (e.g., *"macOS TCC launchd background job Documents folder"*). Read the top 1-2 results. Do not flood — single focused query per theme, max 2 themes per night.
+
+3. **Synthesize the enrichment.** For each theme, compress what the web added into 2-4 sentences. Format:
+   ```markdown
+   ## Web enrichment (added during dreaming YYYY-MM-DD)
+   
+   ### [Theme]
+   [2-4 sentence synthesis of what the web added, with the most useful 1-2 source URLs cited inline]
+   ```
+
+4. **Append to long-term.md** under a new "Web enrichments" section (below Active threads, above Settled facts). Keep this section tight — older enrichments roll off after 30 days unless [PARTNER_NAME] promotes them.
+
+**Hard rules for this step:**
+
+- **Never replace [PARTNER_NAME]'s thinking.** Web enrichments are additions, not substitutions. The Active threads, Settled facts, Patterns sections stay as [PARTNER_NAME]'s synthesis. Web stays in its own section.
+- **Never enrich on private themes.** If today's daily-memory mentions specific clients, members, internal projects by name — skip the web search for that theme. Privacy by default.
+- **Never spam the web.** Max 2 themes per night. If more themes qualify, pick the 2 with the highest signal (most entries + most explicit "I'm stuck on X" framing).
+- **Always cite the source URL.** Enrichment without provenance is fabrication. If the web search returned nothing useful, log *"no useful results"* and skip — don't pad.
+- **Token budget cap.** Web enrichment adds ~3-8K tokens per night when it fires. If a typical dreaming run is ~10K, enrichment doubles it. That's fine occasionally; ensure it doesn't fire on quiet days.
+
+If `[PARTNER_NAME]` wants to enable this:
+
+```bash
+touch ~/Documents/[AI_NAME]/.dreaming-enrich-web
+```
+
+To disable:
+
+```bash
+rm ~/Documents/[AI_NAME]/.dreaming-enrich-web
+```
+
+Wrap-up skill nudges once when it notices 3+ days in a row of the same recurring theme: *"want me to set dreaming to enrich via web on themes you grind on? takes 5 sec to toggle on or off."* — but only nudges once. No repeat.
+
 ### Step 5 — Log the run
 
 Append one line to `~/Documents/[ai-name]/logs/dreaming.log`:
 ```
-YYYY-MM-DD HH:MM — Processed N entries. Long-term updated: [list of sections changed]. Runtime: Xs.
+YYYY-MM-DD HH:MM — Processed N entries. Long-term updated: [list of sections changed]. Web enrichment: [yes/no, N themes if yes]. Runtime: Xs.
 ```
 
 If anything went wrong, log the error and exit non-zero so launchd knows.
