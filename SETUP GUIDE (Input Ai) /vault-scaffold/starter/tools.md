@@ -8,6 +8,10 @@ updated: YYYY-MM-DD
 # Tools Inventory — what [AI_NAME] has access to
 
 > Single source-of-truth list of every CLI, MCP server, and API [AI_NAME] can use. Read at the start of every session so [AI_NAME] knows what's actually wired up. **Whenever a new tool is installed, [PARTNER_NAME] says *"add this to your tools.md"* and the AI appends an entry below.**
+>
+> **Companion folder:** `tools/` (next to this file) contains a compressed-docs `.md` per tool. This file is *"do I have this?"*; the tools/ folder is *"how do I actually use it in [PARTNER_NAME]'s stack?"*. When you add a tool here, also create `tools/[tool-name].md` with the compressed reference. See `tools/README.md` for the template + workflow.
+>
+> **Companion folder:** `tools/` (next to this file) contains a compressed-docs `.md` per tool. This file is *"do I have this?"*; the tools/ folder is *"how do I actually use it in [PARTNER_NAME]'s stack?"*. When you add a tool here, also create `tools/[tool-name].md` with the compressed reference. See `tools/README.md` for the template + workflow.
 
 ---
 

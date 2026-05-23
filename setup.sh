@@ -116,7 +116,7 @@ stage_skills() {
     # voice discipline that fires on every written output — core to the kit's
     # "your AI sounds like you, not generated" promise. Don't move it to
     # optional; it's foundational.
-    local CORE_SKILLS="anti-ai-writing kick-off wrap-up dreaming voice-compile update auto-update-check llm-council"
+    local CORE_SKILLS="anti-ai-writing kick-off wrap-up dreaming voice-compile update auto-update-check llm-council monitoring-agent regenerate-doc"
 
     for skill in $CORE_SKILLS; do
         if [ -d "$SKILL_SRC/$skill" ]; then
@@ -261,6 +261,72 @@ stage_deps() {
     log_stage "0-DEPS" "system dependencies verified (brew, ffmpeg)"
 }
 
+# ---------- Stage 5b: Tools cache scaffold ----------
+#
+# Scaffold a starter `tools/[name].md` per installed CLI dependency. These get
+# read on-demand when the AI is about to use the tool — separate from
+# `tools.md` which is the inventory read every session. Pattern inspired by
+# Nate Herk's tools.md + /tools/ approach (and YC's "make everything legible
+# to AI" framing).
+
+stage_tools_cache() {
+    local TOOLS_DIR="$VAULT_DIR/tools"
+    mkdir -p "$TOOLS_DIR"
+
+    # Auto-scaffold tools/ffmpeg.md if ffmpeg was just installed and the file
+    # doesn't already exist. AI fills it in over time as $PARTNER_NAME actually
+    # uses ffmpeg patterns.
+    if command -v ffmpeg >/dev/null 2>&1 && [ ! -f "$TOOLS_DIR/ffmpeg.md" ]; then
+        cat > "$TOOLS_DIR/ffmpeg.md" <<'EOF'
+---
+type: tool-reference
+generated_by: claude-code
+created: YYYY-MM-DD
+updated: YYYY-MM-DD
+---
+
+# ffmpeg
+
+## What it is
+
+The free audio/video swiss-army knife. Used by [AI_NAME] primarily for Telegram voice
+(converting .ogg ↔ mp3, decoding voice notes for Whisper transcription) and by
+Hyperframes/Video Use skills if those are installed.
+
+## Auth + setup
+
+No auth required. Installed via Homebrew during setup.sh stage_deps. Plain
+`ffmpeg` is sufficient for Telegram voice. Hyperframes/Video Use need
+`ffmpeg-full` (subtitle filter support) and swap if/when installed.
+
+## The commands [PARTNER_NAME] actually uses
+
+*— Empty starter. [AI_NAME] fills this in as it uses ffmpeg in real sessions. Examples
+that will land here:*
+- `ffmpeg -i in.mp3 -c:a libopus -b:a 32k -f ogg out.ogg` (Telegram voice-out conversion)
+- Specific scale/crop/concat patterns [PARTNER_NAME] uses
+
+## Failure modes [PARTNER_NAME] has hit
+
+*— Empty starter. Append-only as failures surface.*
+
+## When to use ffmpeg vs alternatives
+
+- For Telegram voice (in or out) — ffmpeg is the only choice
+- For video editing — Hyperframes (animations) and Video Use (cuts) wrap ffmpeg
+  with task-specific logic; reach for those rather than raw ffmpeg unless the
+  job is one-off
+- For audio extraction from video — raw ffmpeg is fine
+
+## Upstream
+
+- Official: https://ffmpeg.org/documentation.html
+- Cheatsheet: https://gist.github.com/protrolium/e0dbd4bb0f1a396fcb55
+EOF
+        log_stage "5b-TOOLS" "scaffolded tools/ffmpeg.md (compressed reference)"
+    fi
+}
+
 # ---------- Run all stages ----------
 
 START_TIME=$(date +%s)
@@ -270,6 +336,7 @@ stage_clone
 stage_vault
 stage_skills
 stage_agents
+stage_tools_cache
 stage_launchd
 stage_recovery
 stage_claude_md

@@ -207,6 +207,44 @@ If the file doesn't exist yet, create it with this seed:
 - **Don't re-edit a SKILL.md** the wrap-up doesn't own. If the SKILL.md was
   already updated during the session, note it in action_taken and move on.
 
+## Tools-cache companion file (new tools that emerged during the session)
+
+If a new CLI / MCP / API was used during the session that isn't already in
+`vault/tools.md`, the wrap-up sweep handles it in two parts:
+
+1. **Inventory entry** — add a row to `vault/tools.md` under the right section
+   (CLIs / MCP servers / APIs direct). Use the standard entry format:
+   - Installed date
+   - Path
+   - Auth
+   - What [AI_NAME] uses it for (1-2 lines, based on actual session usage)
+   - Common commands (2-5 examples [PARTNER_NAME] actually ran)
+   - Failure modes (if any surfaced this session)
+
+2. **Compressed reference** — also create `vault/tools/[tool-name].md` with
+   the compressed-docs template (see `vault/tools/README.md` for the shape).
+   Populate the "commands [PARTNER_NAME] actually uses" section from this
+   session's usage. Leave failure-modes empty unless something surfaced
+   today.
+
+Surface both in the sweep:
+
+```
+New tool detected — used [tool-name] this session.
+
+Drafting:
+- vault/tools.md row (inventory entry)
+- vault/tools/[tool-name].md (compressed reference)
+
+[show both drafts]
+
+Approve / Edit / Skip?
+```
+
+If [PARTNER_NAME] approves, write both. If they approve the row but skip the
+compressed file, write just the row + log that the compressed reference is
+pending (the wrap-up skill will re-nudge next session the tool is used).
+
 ## Smoke test
 
 Run wrap-up at the end of a real session. The output should be:
