@@ -153,7 +153,7 @@ Ten guides, each ships value on its own:
 | 04 | Pre-Production Rules | Decisions to make BEFORE recording (aspect ratio, format, length). Saves rework. |
 | 05 | Setting Up Your Partner AI | The full 12-phase journey from "I want an AI" to "I have a partner who knows my voice." |
 | 06 | The Kick-off Flow | What your AI does on first contact — 25-min onboarding that handles all setup decisions you shouldn't have to remember. |
-| 07 | Portability and Recovery | iCloud Drive setup + recovery sequence so a Mac death doesn't erase months of work. |
+| 07 | Portability and Recovery | **🚧 Rewriting.** Original version pushed iCloud Drive Documents sync as the backup layer; Install #1 discovered that breaks the kit's always-on features on macOS (TCC blocks launchd from reading iCloud-synced Documents). New guide recommends Time Machine + private GitHub repo as the layered backup. Until guide is rewritten, follow the backup section in `INSTALL-PART-2.md` Stage 3.7. |
 | 08 | The Learnings Loop | The compounding mechanism — the AI gets sharper every week from your feedback, automatically. |
 | 09 | Siri & Apple Watch Integration | **🚧 Experimental.** Siri path untested end-to-end; Watch path fully untested (author doesn't own one). Based on Apple's documented Shortcuts patterns. If you try it, you're beta-testing for the kit. |
 | 10 | Meeting Capture with Granola | Auto-record + transcribe every meeting. Notes flow into your AI's vault twice daily. |

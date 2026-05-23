@@ -342,23 +342,15 @@ If any missing → surface in plain English with a one-line fix. Wait for them t
 
 ---
 
-## Stage 3 — iCloud Drive check (~2 min)
+## Stage 3 — Backup awareness (~30 sec)
 
-```bash
-defaults read MobileMeAccounts Accounts 2>/dev/null | grep -c "AccountID" || echo 0
-```
+> "Quick note on backup: your AI's memory lives at `~/[AI_NAME]/` on this Mac. **Don't move it into iCloud Drive.** Sounds counter-intuitive (Apple's whole pitch is iCloud), but macOS privacy controls block background programs from reading anything in `~/Documents/` — and your AI's always-on features ARE background programs. Moving the vault into iCloud breaks them within 24 hours.
+>
+> We'll set up proper backup in Part 2 (Stage 3.7) — Time Machine is the easiest, GitHub private repo is the strongest. For now, just don't enable 'Desktop & Documents Folders sync' if it asks. Continuing..."
 
-If 0:
+No user action this stage — it's a 30-second framing so the user doesn't reflexively turn on iCloud Documents sync later thinking it's the safe move.
 
-> "iCloud Drive is off. Your AI's memory won't survive a Mac swap without it. Opening System Settings for you to toggle it on..."
-
-```bash
-open "x-apple.systempreferences:com.apple.preferences.AppleIDPrefPane"
-```
-
-Show the screenshot (fetch from repo's `assets/screenshots/icloud-drive-toggle.png`) and wait for confirmation.
-
-If they decline → log warning, continue. Don't block.
+**Why this stage exists:** Install #1 (Julie's Em, 2026-05-18) discovered the hard way that `~/Documents/` is TCC-protected on modern macOS and breaks launchd background jobs. The kit originally walked users through enabling iCloud Drive Documents sync as the backup layer; that was the wrong call. Backup happens via Time Machine / GitHub / Obsidian Sync in Part 2. See `~/Desktop/Claude's Office/julie-install-friction-log.md` for the full architectural finding.
 
 ---
 

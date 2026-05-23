@@ -141,6 +141,64 @@ After install: the AI reads everything in `vault/Clippings/` as context — same
 
 ---
 
+## Stage 3.7 — Vault backup (~5 min, strongly recommended)
+
+The vault has been collecting Julie's voice, projects, memory, brand rules, clipped articles, and (if Granola is wired) meeting notes. It's the second brain. **Without backup, a Mac failure means starting over.**
+
+Three options ranked easiest first. Pick at least one. Picking two is the right answer for anyone who values what they're building.
+
+### Easiest: Time Machine
+
+Plug in an external drive. macOS Time Machine backs up hourly, automatically, covers your whole Mac (not just the vault). ~3 min setup.
+
+- ✅ Mac-native, fully automatic
+- ✅ Covers everything (vault + skills + system + photos + whatever else)
+- ✅ Version history — scroll back through any state of any file
+- ⚠️ External drive required (one-time ~$60 for a small SSD)
+
+Walk-through: System Settings → General → Time Machine → Add Backup Disk → pick the plugged-in drive. macOS handles the rest.
+
+### Strongest (recommended): Private GitHub repo
+
+Off-platform backup. Full version history. Restore from any commit. Works even if Apple or Obsidian disappear tomorrow.
+
+- ✅ Disaster recovery + complete version history
+- ✅ Free (private repos are unlimited)
+- ✅ Works alongside Time Machine — two layers, not exclusive
+- ⚠️ Requires GitHub account (free if not already) + ~5 min setup
+
+Walk-through:
+1. If user has no GitHub account, open https://github.com/signup via Chrome extension, help them through signup
+2. Create a private repo named `[ai-name]-vault` via `gh repo create [ai-name]-vault --private --description "Backup of my AI's vault"`
+3. Inside the vault folder, init git + add the right `.gitignore` (exclude `_recovery/`, any `.env` files, anything secret) + initial commit + push
+4. Schedule via launchd: nightly `git add . && git commit -m "vault backup $(date)" && git push` from `~/[AI_NAME]/.kit/scripts/git-vault-backup.sh`. The script lives at `~/[AI_NAME]/` (unprotected) so launchd can run it without TCC issues. The git push is a network call that doesn't touch `~/Documents/`.
+
+Mark complete:
+
+```bash
+touch ~/[AI_NAME]/.github-vault-backup-configured
+```
+
+### Alternative: Obsidian Sync ($5–10/mo)
+
+Vault-only sync with version history (1 year) and end-to-end encryption. Best if Julie wants her vault on multiple devices (Mac + iPad + iPhone via Obsidian Mobile).
+
+- ✅ Multi-device + versioned + encrypted (not even Obsidian can read your notes)
+- ⚠️ Paid subscription
+- ⚠️ Vault-only — doesn't back up [AI_NAME]'s skills, scripts, config, recovery template
+
+Walk-through in Obsidian app: Settings → Core plugins → Sync → enable → log in → pick which folders to sync. Point at `~/[AI_NAME]/vault/`.
+
+### Don't: iCloud Drive
+
+We deliberately don't recommend iCloud Drive for the vault. iCloud auto-sync requires moving files into `~/Documents/`, but macOS privacy controls (TCC) block background programs from reading or writing there — which includes [AI_NAME]'s Telegram poller and nightly dreaming routine. Picking this option would break [AI_NAME]'s always-on features within 24 hours.
+
+If a user insists on iCloud (e.g., for cross-device access), the right answer is **Obsidian Sync** instead — same multi-device benefit, doesn't fight macOS TCC.
+
+(We learned this the hard way during Install #1 — see `~/Desktop/Claude's Office/julie-install-friction-log.md` for the gory architectural details.)
+
+---
+
 ## Stage 4 — Optional skills menu (varies)
 
 ### Optional skills
