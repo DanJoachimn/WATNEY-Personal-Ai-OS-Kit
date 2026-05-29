@@ -28,7 +28,7 @@ With Granola + the sync script:
 - Tagged automatically — the sync script knows which meetings are "HYROX client work" vs "podcast prep" vs "personal" based on email/domain/keyword rules you set once.
 
 **What this IS NOT:**
-- Real-time. Granola's cache updates after the call, the sync runs twice daily — not instantly.
+- Real-time. Granola finishes its AI summary + transcript shortly after the call, and the sync runs twice daily — not instantly. (The API only returns notes that already have a generated summary + transcript.)
 - Free past the trial. Granola is paid (~$18/mo at writing). The first 25 meetings are free.
 - Without privacy implications. Granola records audio + transcribes it via their cloud. Don't capture anything you wouldn't share with a transcription service.
 
@@ -52,7 +52,11 @@ With Granola + the sync script:
    - Choose your default note style (Granola has templates; "concise" or "decisions and action items" work well for client work)
 4. **Take one practice call** to verify it's working. Granola's onboarding includes a self-narrated "test" call — use it.
 
-After step 4, your meetings are being captured. They live inside Granola's app and at `~/Library/Application Support/Granola/cache-v6.json`. Now we get them into your AI's vault.
+5. **Generate an API key.** In Granola: **Settings → Connectors → API keys → create a key** (choose the scope for your personal notes). Copy it — you'll give it to your AI installer to store securely (it goes in the sync skill's `.env`, never in chat or any file that gets shared). This key is how the sync fetches your meetings through Granola's official API.
+
+After these steps, your meetings are being captured inside Granola, and your AI can pull them via the official API. Now we get them into your AI's vault.
+
+> **Why the API, not the local file?** Earlier versions of this kit read Granola's local cache file directly. Granola encrypted local storage in a 2026 update, so that path no longer works — and reverse-engineering encrypted local files is fragile and against the app's intent. Granola's **official REST API** (`public-api.granola.ai`) is the sanctioned, stable replacement: it won't break when the app updates. Generate a key once, and you're set.
 
 ---
 
@@ -62,7 +66,7 @@ The kit's `_kit/granola-sync-template/` contains a reference implementation. **O
 
 ### What the sync does
 
-Reads Granola's local cache twice a day → writes one pair of markdown files per meeting into your vault's `Meeting Notes/` folder:
+Fetches your meetings from Granola's official API twice a day (`GET /v1/notes` to list, `GET /v1/notes/{id}?include=transcript` for each) → writes one pair of markdown files per meeting into your vault's `Meeting Notes/` folder:
 
 - `YYYY-MM-DD — [attendee] — [meeting title].md` (Granola's structured summary)
 - `YYYY-MM-DD — [attendee] — [meeting title] — transcript.md` (verbatim transcript with timestamps)
@@ -90,7 +94,14 @@ needs_tagging: false
    cp -R [reference granola-sync skill] ~/[ai-name]/.claude/skills/granola-sync/
    ```
 
-2. **Edit `scripts/config.py`** to point at your vault and tag rules:
+2. **Save your Granola API key** to the skill's `.env` (the key you generated in "Setup — Granola itself", step 5):
+   ```bash
+   echo 'GRANOLA_API_KEY=grn_your-key-here' > ~/[ai-name]/.claude/skills/granola-sync/.env
+   chmod 600 ~/[ai-name]/.claude/skills/granola-sync/.env   # owner-only
+   ```
+   The sync reads the key from here in-memory — it never prints it. Keep `.env` out of any repo (gitignore it).
+
+3. **Edit `scripts/config.py`** to point at your vault and tag rules:
    ```python
    VAULT_MEETINGS_DIR = "/Users/[username]/Documents/[ai-name]/vault/Meeting Notes"
    USER_EMAILS = ["your@email.com"]   # so the script knows which attendee is YOU
@@ -115,14 +126,14 @@ needs_tagging: false
    }
    ```
 
-3. **Test once manually:**
+4. **Test once manually:**
    ```bash
    cd ~/[ai-name]/.claude/skills/granola-sync
    python3 -m scripts.sync
    ```
-   Check `Meeting Notes/` in your vault — your most recent Granola meetings should appear as paired markdown files.
+   Check `Meeting Notes/` in your vault — your most recent Granola meetings should appear as paired markdown files. (First run does a full backfill; later runs are incremental — only new/updated meetings.)
 
-4. **Schedule it** via launchd (twice daily — 12:30 and 17:00):
+5. **Schedule it** via launchd (twice daily — 12:30 and 17:00):
    - Plist at `~/Library/LaunchAgents/com.[user].[ai-name].granola-sync.plist`
    - `StartCalendarInterval` for both fire times
    - Standard out/err to `~/[ai-name]/logs/granola-sync.{out,err}`
@@ -172,7 +183,7 @@ If you're recording client work, **tell them.** Most are fine with it; some aren
 | **Files appear but the `client` field is blank** (`needs_tagging: true`) | Edit `scripts/config.py` to add the missing email/domain/name/keyword rule, then re-run the sync to re-tag. |
 | **The transcript file is huge and bloating my vault** | Granola's transcripts are verbose by design. You can disable transcript syncing in `config.py` if you only want the structured notes — but you lose `document-transformations`'s ability to mine for verbatim quotes. |
 | **A meeting got synced that shouldn't have** | Delete the file. The sync's `state.json` won't re-create it. |
-| **Granola crashes / cache file gets corrupted** | Granola publishes occasional fixes; quit + relaunch usually clears it. The sync script gracefully handles missing/corrupt cache (logs error, exits non-zero). |
+| **Sync returns 0 meetings / API errors** | Check the key: it may have expired or been revoked — regenerate in Granola (Settings → Connectors → API keys) and update `.env`. Also confirm the meeting actually has a finished AI summary + transcript (the API only returns those). The sync logs the error and exits non-zero. |
 
 ---
 
