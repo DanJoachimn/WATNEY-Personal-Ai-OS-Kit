@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Session-storage launchd job template — Partner AI Kit
+
+  Indexes Claude Code session transcripts into a local searchable database,
+  hourly. Pure Python (no LLM call), so it runs the ingest script directly.
+
+  Replace [USER] with the macOS username (e.g. "danieljnielsen") and
+  [AI_NAME] with the lowercase AI name (e.g. "watney") before installing.
+
+  Install:
+    1. Build scripts/ingest.py first (see SKILL.md)
+    2. Save this as: ~/Library/LaunchAgents/com.[user].[ai-name].session-storage.plist
+    3. Run: launchctl load ~/Library/LaunchAgents/com.[user].[ai-name].session-storage.plist
+    4. Verify: launchctl list | grep session-storage  (exit code should be 0)
+
+  NOTE: writes only to ~/.claude/ (not a protected folder), so no Full Disk
+  Access needed. If you ever change the output path to ~/Desktop / ~/Documents /
+  ~/Downloads, grant the Python binary Full Disk Access or the job silently fails.
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.[USER].[AI_NAME].session-storage</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>/Users/[USER]/.claude/skills/session-storage/scripts/ingest.py</string>
+    </array>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>HOME</key>
+        <string>/Users/[USER]</string>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+
+    <key>StartInterval</key>
+    <integer>3600</integer>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/[USER]/.claude/skills/session-storage/logs/launchd-stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/[USER]/.claude/skills/session-storage/logs/launchd-stderr.log</string>
+</dict>
+</plist>
