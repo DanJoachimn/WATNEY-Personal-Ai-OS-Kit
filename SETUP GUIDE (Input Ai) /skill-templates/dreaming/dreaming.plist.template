@@ -2,7 +2,7 @@
 <!--
   Dreaming launchd job template — WATNEY
 
-  Replace [USER] with the macOS username (e.g. "danieljnielsen") and
+  Replace [USER] with the macOS username (e.g. "yourname") and
   [AI_NAME] with the lowercase AI name (e.g. "watney") before installing.
 
   Install:

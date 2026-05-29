@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Consolidating (weekly memory curator) launchd job template — Partner AI Kit
+
+  Weekly check that long-term memory stays lean. Pure Python (no LLM call).
+
+  Replace [USER] with the macOS username (e.g. "yourname") and [AI_NAME] with
+  the lowercase AI name before installing. Suggested: Sunday, just after
+  health-check (Weekday 0, a little later in the morning).
+
+  Install:
+    1. Build scripts/curate.py first (see SKILL.md)
+    2. Save as: ~/Library/LaunchAgents/com.[user].[ai-name].consolidating.plist
+    3. Run: launchctl load ~/Library/LaunchAgents/com.[user].[ai-name].consolidating.plist
+    4. Verify: launchctl list | grep consolidating   (exit code should be 0)
+
+  ⚠️ FULL DISK ACCESS: if the report writes to ~/Desktop, ~/Documents, or
+  ~/Downloads (macOS-protected), a launchd job running /usr/bin/python3 will
+  silently fail. Write the report to an unprotected path, or point
+  ProgramArguments at a Python binary granted Full Disk Access in System Settings.
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.[USER].[AI_NAME].consolidating</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>/Users/[USER]/.claude/skills/consolidating/scripts/curate.py</string>
+    </array>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>HOME</key>
+        <string>/Users/[USER]</string>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Weekday</key>
+        <integer>0</integer>
+        <key>Hour</key>
+        <integer>10</integer>
+        <key>Minute</key>
+        <integer>30</integer>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/[USER]/.claude/skills/consolidating/logs/launchd-stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/[USER]/.claude/skills/consolidating/logs/launchd-stderr.log</string>
+</dict>
+</plist>

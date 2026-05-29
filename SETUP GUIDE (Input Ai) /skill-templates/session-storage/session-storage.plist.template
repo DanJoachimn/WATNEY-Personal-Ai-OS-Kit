@@ -5,7 +5,7 @@
   Indexes Claude Code session transcripts into a local searchable database,
   hourly. Pure Python (no LLM call), so it runs the ingest script directly.
 
-  Replace [USER] with the macOS username (e.g. "danieljnielsen") and
+  Replace [USER] with the macOS username (e.g. "yourname") and
   [AI_NAME] with the lowercase AI name (e.g. "watney") before installing.
 
   Install:
