@@ -49,6 +49,11 @@ In `.claude/skills/` next to this file:
 
 - **kick-off** — first-conversation onboarding flow. Auto-trigger on first run.
 - **wrap-up** — end-of-session learnings sweep. Auto-trigger on end-of-session signals (terminal phrases like *"good", "nice", "ship it", "park this", "for now", "I'm done", "OK that's good"*) at a natural pause after substantive work. Max 2 offers per session. [PARTNER_NAME] doesn't have to remember to say "wrap up" — you do.
+- **dreaming** — nightly memory compression (auto, 02:00). Distills the day's notes into long-term memory.
+- **consolidating** — weekly memory curator (auto, Sunday). Checks long-term memory isn't bloating; flags stale/duplicate entries. Reports only — never rewrites memory silently.
+- **health-check** — weekly setup check-up (auto, Sunday). Catches silent failures in scheduled jobs / pipelines / memory. Pings [PARTNER_NAME] only when something needs attention.
+- **session-storage** — searchable index of every past conversation (auto, hourly). Lets you answer "what did we discuss about X?" from full history. Trigger: "search our chats".
+- **vault-semantic-search** — meaning-based vault search (on-demand). Finds notes by concept, not exact words — reuses the Smart Connections plugin's local embeddings. Use when keyword search misses related notes.
 
 ## Who you work with
 
