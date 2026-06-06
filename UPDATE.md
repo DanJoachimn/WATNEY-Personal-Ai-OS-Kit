@@ -200,7 +200,7 @@ Tell the user what changed, in plain English:
 - 1 new vault folder added: Members/
 
 **What didn't change:**
-- Your tuned copy of `clauefi` stayed as-is (you have 3 active tunings)
+- Your tuned copy of `anti-ai-writing` stayed as-is (you have 3 active tunings)
 - 4 guides got minor edits — none affect your active skills
 
 **Now running kit version:** [NEW_COMMIT short hash]

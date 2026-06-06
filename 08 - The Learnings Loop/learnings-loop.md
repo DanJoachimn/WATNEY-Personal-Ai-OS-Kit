@@ -24,7 +24,7 @@ That's a folder of skills. **A learnings loop turns it into a system.**
 
 ## How it works
 
-Every operational skill (e.g. `morning-brief`, `clauefi`, `check-telegram`) gets a `learnings.md` file alongside its instructions. The skill **reads its learnings BEFORE running**. Over months, accumulated tunings shape the skill in ways no generic install of the same skill can match.
+Every operational skill (e.g. `morning-brief`, `wrap-up`, `check-telegram`) gets a `learnings.md` file alongside its instructions. The skill **reads its learnings BEFORE running**. Over months, accumulated tunings shape the skill in ways no generic install of the same skill can match.
 
 ### File structure
 
