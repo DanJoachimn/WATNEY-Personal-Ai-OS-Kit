@@ -160,6 +160,21 @@ Ten guides, each ships value on its own:
 
 ---
 
+## Standing on shoulders — Anthropic's knowledge-work-plugins
+
+This kit installs and references **[anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins)** — a public Anthropic-maintained plugin marketplace.
+
+The kit:
+- Installs a curated set during Part 2 of kick-off: `productivity`, `enterprise-search`, and `brand-voice` (the personal-AI foundation)
+- Pulls upstream updates whenever you run `/update`
+- Stays out of the way — the kit's own skills wrap, never replace, the upstream ones
+
+The full default-install list, optional add-ons (`marketing`, `cowork-plugin-management`), update behavior, and architectural rationale are documented in [KNOWLEDGE-WORK-PLUGINS.md](./KNOWLEDGE-WORK-PLUGINS.md).
+
+**Why "wrap, don't fork":** Anthropic maintains the heavy lifting; this kit adds the personal-AI sauce on top. When Anthropic ships better plugins, you get them for free.
+
+---
+
 ## What's special about this kit
 
 Three design decisions you'll notice:

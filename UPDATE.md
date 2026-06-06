@@ -69,6 +69,38 @@ If on latest → tell user:
 
 ---
 
+### Step 3.5 — Refresh the upstream plugin marketplace
+
+In parallel with the kit-level fetch, refresh the Anthropic-maintained `knowledge-work-plugins` marketplace. This pulls the latest manifest from `https://github.com/anthropics/knowledge-work-plugins` — doesn't auto-install anything, just makes new versions and new plugins visible.
+
+```bash
+claude plugin marketplace update knowledge-work-plugins 2>/dev/null || true
+```
+
+If the marketplace isn't installed yet (user skipped Stage 0.5 during install, or hasn't run Part 2), this command no-ops gracefully. Don't error.
+
+Then check which installed plugins from this marketplace have updates available:
+
+```bash
+# List installed plugins from the kw marketplace
+claude plugin list 2>/dev/null | grep "knowledge-work-plugins" || true
+```
+
+For each installed plugin, note:
+- Current installed version
+- Latest available version
+- Whether an upgrade is available
+
+Also check for **new plugins** added to the upstream marketplace since the user's last update. The marketplace manifest at `~/.claude/plugins/marketplaces/knowledge-work-plugins/.claude-plugin/marketplace.json` (or equivalent path) lists all available plugins. Diff against the plugins the user has installed to identify new ones.
+
+Categorize for Step 9:
+- **External plugin updates available** — plugins user has installed that have a new version upstream
+- **New external plugins available** — plugins added to upstream marketplace that user doesn't have
+
+Both get surfaced in Step 9. Neither auto-installs.
+
+---
+
 ### Step 4 — Categorize the changes
 
 Look at the changed files. Classify them:
@@ -199,12 +231,26 @@ Tell the user what changed, in plain English:
 - 1 new skill installed: weekly-retention-review (Sunday-night member-risk dashboard)
 - 1 new vault folder added: Members/
 
+**Knowledge Work Plugins (Anthropic-maintained, upstream):**
+- 2 plugin updates available: `productivity` 1.2 → 1.4, `brand-voice` 0.8 → 1.0 — install?
+- 1 new plugin upstream: `engineering` (code review, standups, incidents) — install?
+
 **What didn't change:**
 - Your tuned copy of `anti-ai-writing` stayed as-is (you have 3 active tunings)
 - 4 guides got minor edits — none affect your active skills
 
 **Now running kit version:** [NEW_COMMIT short hash]
 ```
+
+Surface the **Knowledge Work Plugins** block only if there's something to report. If everything upstream is current and no new plugins shipped, skip the block entirely — don't show "nothing to report" noise.
+
+If the user says "install" to any of the offered plugin updates / new plugins, run:
+
+```bash
+claude plugin install [name]@knowledge-work-plugins
+```
+
+For version-pinned updates, use whatever syntax the user's Claude Code version supports.
 
 Then ask:
 

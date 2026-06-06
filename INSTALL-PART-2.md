@@ -30,13 +30,90 @@ If done → continue:
 
 > "Good to see you back. Part 2 is where I learn you deeper. Here's what we'll do (~30 min, ~30 messages, fits comfortably in one Pro session):
 >
-> 1. **5-question voice interview** — sharper voice profile than Part 1's lightweight one (~10 min)
-> 2. **ElevenLabs upgrade** — premium voices if you want them (~5 min, optional)
-> 3. **Granola meeting capture** — auto-record + transcribe meetings (~5 min, optional)
-> 4. **Optional skills** — Hyperframes, Video Use, content pipeline, document transformations, others (~varies)
-> 5. **Siri & Apple Watch** — last because it's least essential and requires iOS work (~10 min, optional)
+> 1. **Knowledge Work Plugins backbone** — install Anthropic-maintained foundation plugins (~3 min)
+> 2. **5-question voice interview** — sharper voice profile than Part 1's lightweight one (~10 min)
+> 3. **ElevenLabs upgrade** — premium voices if you want them (~5 min, optional)
+> 4. **Granola meeting capture** — auto-record + transcribe meetings (~5 min, optional)
+> 5. **Optional skills** — Hyperframes, Video Use, content pipeline, document transformations, others (~varies)
+> 6. **Siri & Apple Watch** — last because it's least essential and requires iOS work (~10 min, optional)
 >
-> Ready to start with the voice interview, or want to pick a different stage to go to first?"
+> Ready to start with the plugin backbone, or want to pick a different stage to go to first?"
+
+---
+
+## Stage 0.5 — Knowledge Work Plugins backbone (~3 min)
+
+Before the voice interview, install three Anthropic-maintained plugins that backbone the rest of your kit. They're production-grade, update automatically through Claude Code's plugin system, and you get them for free.
+
+Tell the user what's about to land:
+
+> "Three foundation plugins, ~3 min:
+>
+> - **productivity** — tasks, calendar, daily workflows. The plumbing for your day.
+> - **enterprise-search** — one query across your tools (email, docs, wikis).
+> - **brand-voice** (Tribe AI, partner-built) — extracts voice from your existing writing. Powers everything voice-related in your kit.
+>
+> All three are public, maintained by Anthropic. They'll update whenever you run `/update`.
+>
+> Install all three / customize / skip?"
+
+### If user says "install all"
+
+```bash
+claude plugin marketplace add anthropics/knowledge-work-plugins
+claude plugin install productivity@knowledge-work-plugins
+claude plugin install enterprise-search@knowledge-work-plugins
+claude plugin install brand-voice@knowledge-work-plugins
+```
+
+### If user customizes
+
+Show the full picture and ask which to install:
+
+> "OK — here's the full default set, plus optional add-ons. Tell me which to add.
+>
+> **Default set:**
+> - productivity (tasks, calendar)
+> - enterprise-search (cross-tool search)
+> - brand-voice (voice extraction + validation)
+>
+> **Optional add-ons:**
+> - marketing (content production — useful for newsletter/social/blog producers)
+> - cowork-plugin-management (power-user — build custom plugins for your workflow)
+>
+> Tell me 'install' followed by the names. Example: 'install productivity and brand-voice.'"
+
+Install whichever the user picks via:
+
+```bash
+claude plugin marketplace add anthropics/knowledge-work-plugins   # one-time, skip if already done
+claude plugin install [plugin-name]@knowledge-work-plugins         # per plugin
+```
+
+### If user says skip
+
+```bash
+touch ~/Documents/[AI_NAME]/.knowledge-work-plugins-deferred
+```
+
+> "Skipped. You can install them anytime by saying 'install the knowledge work plugins' or running the commands in `KNOWLEDGE-WORK-PLUGINS.md`."
+
+### Mark complete
+
+After install (or skip):
+
+```bash
+touch ~/Documents/[AI_NAME]/.knowledge-work-plugins-stage-complete
+echo "$(date -Iseconds) — Stage 0.5 complete" >> ~/Documents/[AI_NAME]/logs/install.log
+```
+
+### Why this stage is here and not later
+
+These plugins are foundational. Subsequent stages — especially the voice interview and any content skills — lean on `brand-voice` and `productivity`. Installing the backbone first means later stages can wire INTO them rather than around them.
+
+### Reference
+
+Full plugin list, optional add-ons, update flow, and the "wrap, don't fork" architectural rationale: see `KNOWLEDGE-WORK-PLUGINS.md` at the repo root.
 
 ---
 
