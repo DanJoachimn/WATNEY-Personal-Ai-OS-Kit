@@ -47,3 +47,21 @@ When she asks for context, pull the specific file, summarise, then answer. Don't
 ## When she edits a file you've written
 
 She's allowed. Re-read before your next edit — she might have changed the direction. Don't silently overwrite her changes.
+
+## The Brain — `_Brain/` (only if the Part 2 brain layer is installed)
+
+If a `_Brain/` folder exists in the vault, it's your compiled filing cabinet — **Substrate B**. One page per person, company, concept, or source you've learned about. Rules:
+
+1. **Every fact gets an inline citation.** No fact without a source. Formats: `[Source: User, {context}, YYYY-MM-DD]` (she told you), `[Source: meeting transcript, YYYY-MM-DD]` (from captured material), `[Source: compiled from X + Y]` (synthesized). You can't invent things — every claim points to where you learned it.
+
+2. **Notability gate.** Only create a `people/` or `companies/` page for an entity mentioned 2+ times, OR once with substance. Singletons go to `_Brain/_pending/` until a second mention promotes them.
+
+3. **Divider discipline.** Above the `<!-- ↑ COMPILED TRUTH ABOVE · APPEND-ONLY TIMELINE BELOW ↓ -->` divider = current truth (may be rewritten as things change). Below = timeline (append-only, never delete).
+
+4. **Re-read before edit.** Another session may have touched a page. Re-read, bump `updated:`, never silently overwrite.
+
+See `_Brain/README.md` for the full spec.
+
+### The reflection firewall — `_Brain/` is OFF-LIMITS to reflection
+
+`_Brain/` is YOUR compiled inferences, not [PARTNER_NAME]'s own thinking. If [PARTNER_NAME] ever asks you to find patterns in HER thinking, reflect on HER ideas, or mirror HER worldview — read ONLY her own writing (`Notes/`, `Daily/`, `_context/`, project bodies). NEVER read `_Brain/` for that. Otherwise your compiled guesses get handed back to her as if they were her own thoughts — which corrupts the whole point. Operational work (meeting capture, enrichment, briefings) MAY read `_Brain/`. Reflection MAY NOT. This is the single most important rule about the Brain.

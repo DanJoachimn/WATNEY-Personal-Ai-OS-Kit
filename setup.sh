@@ -116,7 +116,7 @@ stage_skills() {
     # voice discipline that fires on every written output — core to the kit's
     # "your AI sounds like you, not generated" promise. Don't move it to
     # optional; it's foundational.
-    local CORE_SKILLS="anti-ai-writing kick-off wrap-up dreaming voice-compile update auto-update-check llm-council regenerate-doc"
+    local CORE_SKILLS="anti-ai-writing kick-off wrap-up dreaming consolidating voice-compile update auto-update-check llm-council regenerate-doc"
 
     for skill in $CORE_SKILLS; do
         if [ -d "$SKILL_SRC/$skill" ]; then
@@ -178,6 +178,26 @@ stage_launchd() {
         log_stage "7-LAUNCHD" "dreaming scheduled job loaded (fires nightly at 02:00)"
     else
         log_stage "7-LAUNCHD" "dreaming plist template not found — skipped"
+    fi
+
+    # Consolidating — weekly memory curator (keeps long-term memory lean).
+    # The nightly dreaming job compresses each day; this weekly job is the
+    # weigh-in that flags when long-term.md is bloating. REPORTS only.
+    local CURATOR_PLIST_SRC="$SKILLS_DIR/consolidating/consolidating.plist.template"
+    local CURATOR_PLIST_DST="$LAUNCHAGENTS_DIR/com.${USER_NAME}.${AI_NAME_LOWER}.consolidating.plist"
+
+    if [ -f "$CURATOR_PLIST_SRC" ]; then
+        sed \
+            -e "s/\[USER\]/$USER_NAME/g" \
+            -e "s/\[AI_NAME\]/$AI_NAME_LOWER/g" \
+            "$CURATOR_PLIST_SRC" > "$CURATOR_PLIST_DST"
+
+        launchctl unload "$CURATOR_PLIST_DST" 2>/dev/null || true
+        launchctl load "$CURATOR_PLIST_DST" 2>/dev/null || true
+
+        log_stage "7-LAUNCHD" "consolidating (weekly memory curator) loaded"
+    else
+        log_stage "7-LAUNCHD" "consolidating plist template not found — skipped"
     fi
 }
 

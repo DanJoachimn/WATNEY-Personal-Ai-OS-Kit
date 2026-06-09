@@ -95,7 +95,9 @@ In Obsidian → Settings → Core plugins, enable:
 - **Backlinks** — shows which files mention the current file. Magic.
 - **File recovery** — autosave. Saves her from herself.
 
-Disable everything else. Obsidian out of the box has 30 plugins; she needs three.
+Keep the other core plugins off for now — out of the box Obsidian has ~30 and she only needs these three to start.
+
+**One community plugin worth adding later (Part 2):** **Smart Connections** — it builds a private, on-device "meaning fingerprint" of every note, which powers the `vault-semantic-search` skill (find notes by meaning, not just exact words). Optional, installed during Part 2's "Semantic search" stage — not now. If she opts in, that's the one community plugin the kit uses. Everything else stays off.
 
 ### 6. Open the vault in Claude Code too (optional but recommended)
 

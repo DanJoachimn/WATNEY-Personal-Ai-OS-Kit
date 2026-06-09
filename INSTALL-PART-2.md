@@ -276,6 +276,63 @@ If a user insists on iCloud (e.g., for cross-device access), the right answer is
 
 ---
 
+## Stage 3.8 — Deepen the memory layer (~10 min, strongly recommended)
+
+This is where [AI_NAME]'s memory goes from "good" to "compounding hard." Two additions, both optional but high-leverage. The core memory loop (daily-memory → nightly dreaming → long-term + weekly curator) already shipped in Part 1. This stage adds the two pieces that make recall and knowledge-keeping genuinely powerful.
+
+### Part A — Semantic search (find by meaning, not just words)
+
+The problem: normal search only finds the exact words you type. Search "pricing" but the note says "revenue" → normal search finds nothing. Semantic search understands they mean the same thing.
+
+> "Want me to add semantic search? Right now I find notes by exact words. With this, I find them by MEANING — search 'pricing' and I'll also pull up the notes where you wrote 'revenue' or 'what to charge', because I understand those are the same idea. It piggybacks on a free Obsidian plugin and stays 100% on your Mac. ~5 min."
+
+If yes:
+
+1. **Install the Smart Connections plugin in Obsidian.** Open Obsidian → Settings → Community plugins → Browse → search "Smart Connections" → Install → Enable. (Walk the user through via computer-use / screenshots if available.)
+2. **Confirm it's local-only.** Smart Connections → settings → verify it ships local-first (default `TaylorAI/bge-micro-v2` model, no cloud API key set). This keeps notes on the Mac.
+3. **Let it build embeddings.** It indexes automatically on first enable — a couple minutes for a typical vault. The user can keep working; just leave Obsidian open.
+4. **Set up the skill's Python environment:**
+   ```bash
+   python3 -m venv ~/.claude/skills/vault-semantic-search/.venv
+   ~/.claude/skills/vault-semantic-search/.venv/bin/pip install sentence-transformers
+   ```
+5. **Install the skill + build its search script.** Copy the `vault-semantic-search` skill from `~/Documents/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /skill-templates/vault-semantic-search/` into `~/.claude/skills/`, then have [AI_NAME] build `scripts/search.py` per the skill's spec (reads the Smart Connections fingerprints from `vault/.smart-env/`, embeds the query with the same model, returns the most-related notes).
+6. **Gitignore the embeddings** if the vault is in a git repo: add `.smart-env/` to `.gitignore` (it's large + rebuildable).
+7. **Test it:** *"Semantic search the vault for [a concept you've written about in different words]."* Confirm it surfaces conceptually-related notes that keyword search would miss.
+
+Mark complete:
+
+```bash
+touch ~/Documents/[AI_NAME]/.semantic-search-configured
+```
+
+### Part B — The Brain (the filing cabinet that builds itself)
+
+The richest memory upgrade. Part 1 ships simple flat `People/` and `Companies/` folders — light notes. Part B adds `_Brain/` — the AI's compiled, *cited*, *timelined* knowledge filing cabinet. One living document per person, company, concept, or source, where every fact has a receipt and the history is never erased.
+
+> "Want me to add the Brain? Right now I keep light notes on people and companies. The Brain upgrades that into a proper memory: one living file per person, company, or idea in your world. Every fact I write has a receipt — where I learned it — so I can never make things up. And each file has a 'now' section that I keep current, plus a timeline of how the picture changed over time. Six months from now you ask 'what do I know about this client?' and get a complete, sourced answer pulling from every meeting and email — even the ones you forgot. ~5 min to set up the structure; it fills itself as we work."
+
+If yes:
+
+1. **Install the `_Brain/` scaffold** into the vault:
+   ```bash
+   OVERLAY="$HOME/Documents/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /vault-scaffold/brain-layer"
+   cp -R "$OVERLAY/_Brain" "$HOME/Documents/[AI_NAME]/vault/_Brain"
+   ```
+   This creates `_Brain/people/`, `_Brain/companies/`, `_Brain/concepts/`, `_Brain/sources/`, and `_Brain/_pending/`, each with a README and a page template.
+2. **Tell [AI_NAME] the Brain rules** (they're documented in the vault's `CLAUDE.md`, which the scaffold install updates): every fact gets an inline citation; only notable entities (2+ mentions, or 1 substantive) get a page; singletons go to `_pending/`; the top of each page is rewritten as truth changes, the timeline below the divider is append-only and never deleted.
+3. **The Brain fills itself.** Going forward, when a meeting is captured (Granola) or a notable person/company surfaces in a session, [AI_NAME] creates or updates their `_Brain/` page with cited facts. The `wrap-up` and `dreaming` skills feed it. The user does nothing — it accretes.
+
+Mark complete:
+
+```bash
+touch ~/Documents/[AI_NAME]/.brain-layer-configured
+```
+
+**The reflection firewall (important):** the `_Brain/` is the AI's filing cabinet (Substrate B). It is deliberately separate from the user's own reflective notes (Substrate A — `Notes/`, `_context/`, daily logs). Any reflection-style commands read ONLY the user's own writing, never `_Brain/` — so the AI's compiled inferences never get mistaken for the user's own thoughts. This is documented in the vault `CLAUDE.md`.
+
+---
+
 ## Stage 4 — Optional skills menu (varies)
 
 ### Optional skills

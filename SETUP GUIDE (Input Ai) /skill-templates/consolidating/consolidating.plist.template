@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Consolidating (weekly memory curator) launchd job template — Partner AI Kit
+  Consolidating (weekly memory curator) launchd job template — WATNEY / Personal AI Kit
 
-  Weekly check that long-term memory stays lean. Pure Python (no LLM call).
+  Weekly weigh-in that flags when long-term memory is bloating. Invokes the
+  consolidating skill via `claude -p` — same robust pattern as the dreaming job.
+  This means the skill runs even if scripts/curate.py hasn't been built yet
+  (the AI does the curation reasoning directly), and it stays consistent with
+  the dreaming job so the canonical-path fix applies to both uniformly.
 
-  Replace [USER] with the macOS username (e.g. "yourname") and [AI_NAME] with
-  the lowercase AI name before installing. Suggested: Sunday, just after
-  health-check (Weekday 0, a little later in the morning).
+  Replace [USER] with the macOS username and [AI_NAME] with the lowercase AI
+  name before installing. Fires weekly: Sunday 10:30.
 
-  Install:
-    1. Build scripts/curate.py first (see SKILL.md)
-    2. Save as: ~/Library/LaunchAgents/com.[user].[ai-name].consolidating.plist
-    3. Run: launchctl load ~/Library/LaunchAgents/com.[user].[ai-name].consolidating.plist
-    4. Verify: launchctl list | grep consolidating   (exit code should be 0)
+  Install (setup.sh does this automatically):
+    1. Save as: ~/Library/LaunchAgents/com.[user].[ai-name].consolidating.plist
+    2. Run: launchctl load ~/Library/LaunchAgents/com.[user].[ai-name].consolidating.plist
+    3. Verify: launchctl list | grep consolidating   (exit code should be 0)
 
-  ⚠️ FULL DISK ACCESS: if the report writes to ~/Desktop, ~/Documents, or
-  ~/Downloads (macOS-protected), a launchd job running /usr/bin/python3 will
-  silently fail. Write the report to an unprotected path, or point
-  ProgramArguments at a Python binary granted Full Disk Access in System Settings.
+  NOTE: the `cd "$HOME/[AI_NAME]"` path here matches the dreaming job. If the
+  kit's canonical install path changes (pending TCC/launchd fix), update BOTH
+  this and dreaming.plist.template together.
 -->
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -27,8 +28,9 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/usr/bin/python3</string>
-        <string>/Users/[USER]/.claude/skills/consolidating/scripts/curate.py</string>
+        <string>/bin/bash</string>
+        <string>-c</string>
+        <string>cd "$HOME/Documents/[AI_NAME]" &amp;&amp; /opt/homebrew/bin/claude -p "Run the consolidating skill — the weekly memory curator. Check whether long-term memory has crept past a healthy size, flag stale or duplicate entries, and report what needs a trim. REPORT ONLY — never rewrite memory without approval." 2&gt;&gt; "$HOME/Documents/[AI_NAME]/logs/consolidating.err"</string>
     </array>
 
     <key>EnvironmentVariables</key>
@@ -53,9 +55,9 @@
     <false/>
 
     <key>StandardOutPath</key>
-    <string>/Users/[USER]/.claude/skills/consolidating/logs/launchd-stdout.log</string>
+    <string>/Users/[USER]/Documents/[AI_NAME]/logs/consolidating.out</string>
 
     <key>StandardErrorPath</key>
-    <string>/Users/[USER]/.claude/skills/consolidating/logs/launchd-stderr.log</string>
+    <string>/Users/[USER]/Documents/[AI_NAME]/logs/consolidating.err</string>
 </dict>
 </plist>
