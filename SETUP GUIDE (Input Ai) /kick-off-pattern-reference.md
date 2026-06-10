@@ -36,8 +36,8 @@ After all five → the AI writes `.first-run-complete` and a short log. Never re
 
 ## What the kick-off automates (so the user never has to know)
 
-- **iCloud Drive** is enabled, Documents folder is synced, the AI's folder is in `~/Documents/[ai-name]/`
-- **A token recovery template** lives at `~/Documents/[ai-name]/_recovery/env-template.txt` so a new Mac can be brought back online in 15 min
+- **iCloud Drive** is enabled, Documents folder is synced, the AI's folder is in `~/[ai-name]/`
+- **A token recovery template** lives at `~/[ai-name]/_recovery/env-template.txt` so a new Mac can be brought back online in 15 min
 - **The user's voice** is captured in their own words and integrated into the AI's drafting behavior
 - **Voice reply rules** (cap <200 words, voice = default for short/casual, text for long/technical) are in CLAUDE.md, ready when Phase 7 voice I/O gets installed
 - **The wrap-up skill** is partner-scoped and auto-triggers at end-of-session signals — the user doesn't have to remember to say "wrap up"
@@ -71,7 +71,7 @@ The kick-off skill ships **inside every partner kit**. It's not optional infrast
 ### Files involved
 
 ```
-~/Documents/[ai-name]/
+~/[ai-name]/
 ├── CLAUDE.md                            ← top of file: "first-run check"
 ├── USER_MANUAL.md                       ← includes portability/recovery section
 ├── notes.md

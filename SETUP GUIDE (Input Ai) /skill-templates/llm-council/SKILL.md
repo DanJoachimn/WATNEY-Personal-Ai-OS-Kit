@@ -75,7 +75,7 @@ This part is for [AI_NAME] to follow. [PARTNER_NAME] doesn't need to know the st
 - The user's explicitly attached files or referenced paths
 - The CLAUDE.md operating manual (already loaded — don't re-read)
 - If the question clearly concerns a specific business or client, the corresponding `_context/` folder in the vault
-- Recent transcripts in `~/Documents/[ai-name]/vault/Council Talks/` (to avoid re-counciling the same ground)
+- Recent transcripts in `~/[ai-name]/vault/Council Talks/` (to avoid re-counciling the same ground)
 
 Budget: 30 seconds. 2–3 files max. Looking for minimum context advisors need to give specific, grounded answers instead of generic takes.
 
@@ -173,7 +173,7 @@ Keep it scannable. Use bullets.
 
 Save if the user asks for it ("save this", "file it") OR the decision is clearly significant enough to reference later.
 
-**Path:** `~/Documents/[ai-name]/vault/Council Talks/YYYY-MM-DD-{short-topic-slug}.md`
+**Path:** `~/[ai-name]/vault/Council Talks/YYYY-MM-DD-{short-topic-slug}.md`
 
 **Required frontmatter:**
 
@@ -248,7 +248,7 @@ Run all three before marking the skill production-grade. If any fails, the failu
 
 **Expected output:** Skill summarizes the multi-part decision back to user as a 3-bullet decision brief *before* spawning advisors — confirms it captured the question correctly. User says go. Advisors receive the brief, not the raw 8-message context (avoid token bloat + keep advisors focused). Advisors handle the interlocking nature: e.g., one might say *"sub-decision A locks sub-decision C — solve A first."* Chairman synthesizes acknowledging the dependency structure rather than treating sub-decisions independently. Optionally writes a transcript file because the decision is significant.
 
-**Pass criteria:** Skill never spawns advisors on unconfirmed context. Decision brief stays ≤200 words. Chairman handles interdependency rather than three parallel verdicts. Transcript saved with `generated_by: claude-code` frontmatter to `~/Documents/[ai-name]/_council/YYYY-MM-DD-{slug}.md` (operational area — agents may write).
+**Pass criteria:** Skill never spawns advisors on unconfirmed context. Decision brief stays ≤200 words. Chairman handles interdependency rather than three parallel verdicts. Transcript saved with `generated_by: claude-code` frontmatter to `~/[ai-name]/_council/YYYY-MM-DD-{slug}.md` (operational area — agents may write).
 
 ### Marking production-grade
 

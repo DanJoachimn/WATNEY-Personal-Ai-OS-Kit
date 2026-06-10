@@ -1,6 +1,6 @@
 # INSTALL.md — Part 1 (Foundation) install playbook
 
-> **This file is read by an AI agent (Claude Code) at install time.** A non-technical user has just pasted the magic prompt asking you to install WATNEY (the Personal AI Kit). They're not a developer. They want this working, not configured. They're on Claude Pro ($20/mo) plan unless they say otherwise.
+> **This file is read by an AI agent (Claude Code) at install time.** A non-technical user has just pasted the magic prompt asking you to install WATNEY (the Personal AI-OS Kit). They're not a developer. They want this working, not configured. They're on Claude Pro ($20/mo) plan unless they say otherwise.
 >
 > **This is Part 1 — Foundation.** Fits in a single Pro plan session (~45 min, ~25-40 messages). Ends with an automatic voice-note from the user's AI delivered to their phone via Telegram. Part 2 (Reach) is a separate later session.
 
@@ -16,7 +16,7 @@
 4. **Visible progress.** Checkmark after each step. The user should see motion every 10-30 seconds.
 5. **No raw error output.** Translate every error to plain English. Never paste a stack trace unless the user explicitly asks.
 6. **Pause for physical actions.** When you need them to download an app, click a system prompt, or copy a value — wait for them to say "done."
-7. **Log every stage to `install.log`.** Bash one-liner at the end of each stage: `echo "$(date -Iseconds) — STAGE_NAME — completed" >> ~/Documents/[AI_NAME]/logs/install.log`. Captures the audit trail.
+7. **Log every stage to `install.log`.** Bash one-liner at the end of each stage: `echo "$(date -Iseconds) — STAGE_NAME — completed" >> ~/[AI_NAME]/logs/install.log`. Captures the audit trail.
 
 ---
 
@@ -39,7 +39,7 @@ The standard pattern inside the skill body:
 2. Draft the action (message, change, transaction)
 3. Show the user: *"I'm about to [do X]. Here's the draft: [...]. Ready?"*
 4. Wait for an explicit yes
-5. Execute on confirmation. Log what was done to `~/Documents/[AI_NAME]/logs/skill-actions.log`
+5. Execute on confirmation. Log what was done to `~/[AI_NAME]/logs/skill-actions.log`
 
 Skills that are purely informational (briefings, reports, research summaries, internal vault edits) don't need the gate — they're outputs to the user, not actions to the outside world.
 
@@ -47,9 +47,13 @@ When in doubt, add the gate. The friction is small; the cost of a wrong-send is 
 
 ---
 
-## Stage 0a — Agent capability check (~2 min, BEFORE the greeting)
+## Stage 0a — Say hi first, then the agent capability check (~2 min)
 
-**Before anything else**, verify the two capabilities that turn this kit from a chatbot install into an agent install: **computer use** + **Claude Chrome extension**.
+**Open warm — two sentences, before ANY setup talk:**
+
+> "Hi! I'm about to become your AI partner — genuinely excited about this. The whole install is me doing the work while you answer a few questions; you'll do nothing technical. First up: two quick switches that upgrade me from a chatbot that *tells* you things into an agent that *does* things for you. Two minutes. Then I'll walk you through everything else."
+
+THEN verify the two capabilities that turn this kit from a chatbot install into an agent install: **computer use** + **Claude Chrome extension**.
 
 These are not install conveniences. They are **half the magic.** The user is about to spend 45 minutes installing a "Partner AI." The first time the AI opens System Settings for them, or fills out a BotFather form, or takes a screenshot to confirm the toggle they just enabled — that's the aha-moment compounding *throughout* the install, not just at the voice-note climax. Without these, the user finishes Part 1 with a smart chatbot. With them, the user finishes Part 1 *feeling* the partnership for the first time.
 
@@ -162,7 +166,7 @@ If a connector errors out → suggest they re-run the Connect flow once; if it e
 Log which were deferred so the wrap-up skill can nudge once after a few days:
 
 ```bash
-echo "connectors-deferred: $LIST_OF_SKIPPED" >> ~/Documents/[AI_NAME]/.first-run-log.txt
+echo "connectors-deferred: $LIST_OF_SKIPPED" >> ~/[AI_NAME]/.first-run-log.txt
 ```
 
 ### Hard rules for this stage
@@ -269,14 +273,14 @@ Open with warmth. Set expectations. Get permission to proceed.
 ```bash
 SANDBOX="$HOME/.partner-ai-kit-audit-$$"
 mkdir -p "$SANDBOX"
-git clone https://github.com/DanJoachimn/Partner-Ai-Kit-Personal.git "$SANDBOX/kit"
+git clone https://github.com/DanJoachimn/WATNEY-Personal-Ai-OS-Kit.git "$SANDBOX/kit"
 ```
 
 ### Run the audit
 
 Read every file in `$SANDBOX/kit/`. Scan for the 9 categories of red flags documented previously (kept here briefly — full detail in audit-protocol.md):
 
-1. Files touching paths outside the install scope (legitimate: `~/Documents/[AI_NAME]/`, `~/.claude/skills/`, `~/Library/LaunchAgents/com.[user].[ai-name].*.plist`, `~/.config/[ai-name]/`, sandbox)
+1. Files touching paths outside the install scope (legitimate: `~/[AI_NAME]/`, `~/.claude/skills/`, `~/Library/LaunchAgents/com.[user].[ai-name].*.plist`, `~/.config/[ai-name]/`, sandbox)
 2. Network calls to non-trusted domains (legitimate: github.com, anthropic.com, claude.com, api.openai.com, api.elevenlabs.io, api.telegram.org, granola.ai, apple.com, icloud.com, 1password.com)
 3. Privilege escalation (`sudo`, `chmod 777`, reading `/etc/passwd`)
 4. Obfuscation (base64 `eval`, escaped pipes, hidden URL construction)
@@ -368,22 +372,22 @@ Now run the foundation:
 
 ```bash
 cd "$SANDBOX/kit" 2>/dev/null || \
-  git clone https://github.com/DanJoachimn/Partner-Ai-Kit-Personal.git ~/.partner-ai-kit-staging
+  git clone https://github.com/DanJoachimn/WATNEY-Personal-Ai-OS-Kit.git ~/.partner-ai-kit-staging
 
 # Run the deterministic foundation installer
 cd ~/.partner-ai-kit-staging
-./setup.sh "[AI_NAME]" "[PARTNER_NAME]" "https://github.com/DanJoachimn/Partner-Ai-Kit-Personal.git"
+./setup.sh "[AI_NAME]" "[PARTNER_NAME]" "https://github.com/DanJoachimn/WATNEY-Personal-Ai-OS-Kit.git"
 ```
 
 The script:
-- Clones the kit to `~/Documents/[AI_NAME]/.kit/`
-- Builds the vault scaffold at `~/Documents/[AI_NAME]/vault/`
+- Clones the kit to `~/[AI_NAME]/.kit/`
+- Builds the vault scaffold at `~/[AI_NAME]/vault/`
 - Installs 7 core skills to `~/.claude/skills/`
-- Installs 4 digital employee subagents (Content, Research, Developer, Assistant) to `~/Documents/[AI_NAME]/.claude/agents/`
+- Installs 4 digital employee subagents (Content, Research, Developer, Assistant) to `~/[AI_NAME]/.claude/agents/`
 - Loads the nightly memory-compression launchd job
 - Creates `_recovery/env-template.txt`
-- Wires up `~/Documents/[AI_NAME]/CLAUDE.md`
-- Logs every stage to `~/Documents/[AI_NAME]/logs/install.log`
+- Wires up `~/[AI_NAME]/CLAUDE.md`
+- Logs every stage to `~/[AI_NAME]/logs/install.log`
 
 **Watch the script's output. Each step prints `✅` as it completes.** If the script fails, the error is specific and the log file shows what went wrong.
 
@@ -391,7 +395,7 @@ When it finishes, show the user a quick visual:
 
 ```mermaid
 graph LR
-    HOME[~/Documents/[AI_NAME]/] --> KIT[.kit/<br/>kit source]
+    HOME[~/[AI_NAME]/] --> KIT[.kit/<br/>kit source]
     HOME --> VAULT[vault/]
     HOME --> AGENTS[.claude/agents/<br/>4 digital employees]
     HOME --> RECOVERY[_recovery/]
@@ -405,6 +409,22 @@ graph LR
 
 ---
 
+## Stage 4.5 — Wake the engine (CLI authentication, ~2 min, NO terminal if possible)
+
+The background routines installed in Stage 4 (nightly dreaming, weekly curator, Telegram poller) run by calling `claude -p` from the command line. That only works if the Claude CLI is signed in. Verify and fix now, BEFORE the user discovers it silently at 2 AM.
+
+**Probe silently:** run `claude -p "say ok"` yourself via Bash. If it returns "ok" → authenticated, say nothing, move on.
+
+**If it needs auth, fix it in this order (best → fallback):**
+
+1. **Browser-first flow (preferred — keeps the "no terminal" promise).** Start the login from within this session and complete the OAuth in the browser. Watch the browser tab via the Chrome extension; tell the user only: *"quick sign-in popped up in your browser — same Claude account you already use, just click Approve."* (Install #1's Em found a browser-auth route — verify the exact mechanics during Friday's install and tighten this step with what works.)
+2. **Computer-use-driven Terminal (you do it, they watch).** If browser-only fails: YOU open Terminal via computer use, YOU type `claude` then `/login`, the OAuth opens in their browser, they click Approve, YOU type `/exit`. The user never touches a key. Narrate plainly: *"I'm doing a one-time sign-in for my background brain — 30 seconds."*
+3. **Guided manual (last resort).** Exact keystrokes, one at a time, warm tone, no jargon.
+
+**Verify after:** `claude -p "say ok"` again. Must return clean before proceeding. Log the result to install.log.
+
+---
+
 ## Stage 5 — Lightweight kick-off (~8 min, 3 questions only)
 
 **This is NOT the full kick-off interview.** That's deferred to Part 2.
@@ -415,19 +435,19 @@ For Part 1, ask only the three questions that let the aha-moment in Stage 8 land
 
 > "**How should I sound?** Not a long answer — three words or one sentence. Examples: *'warm-direct, no fluff'* / *'sharp colleague, push back on me'* / *'friendly, never corporate.'* What works for you?"
 
-Save to `~/Documents/[AI_NAME]/vault/Brand/Voice guide.md` as the starter voice doc. Note this is intentionally thin — Part 2's 5-Q deepens it.
+Save to `~/[AI_NAME]/vault/Brand/Voice guide.md` as the starter voice doc. Note this is intentionally thin — Part 2's 5-Q deepens it.
 
 ### Question 2 — Active project
 
 > "**One project you're working on right now** — anything. Could be a launch, a deal, a piece you're writing, a problem you're stuck on. Two sentences max. Just enough that I know what you're heads-down on."
 
-Save to `~/Documents/[AI_NAME]/vault/Projects/[project name].md` with frontmatter.
+Save to `~/[AI_NAME]/vault/Projects/[project name].md` with frontmatter.
 
 ### Question 3 — Working style preference
 
 > "**When I'm working with you, do you want me to push back when I disagree, or just deliver what you asked for?** No wrong answer — operators split about 50/50 on this."
 
-Save to `~/Documents/[AI_NAME]/vault/Working style.md` (one-line note).
+Save to `~/[AI_NAME]/vault/Working style.md` (one-line note).
 
 ---
 
@@ -460,13 +480,13 @@ The AI creates the empty `.env` file with chmod 600 before asking the user to pa
 ### 6c — Install the Telegram poller
 
 ```bash
-cp "~/Documents/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /telegram-kit/poll-telegram.sh" \
-   "~/Documents/[AI_NAME]/scripts/poll-telegram.sh"
-chmod +x ~/Documents/[AI_NAME]/scripts/poll-telegram.sh
+cp "~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /telegram-kit/poll-telegram.sh" \
+   "~/[AI_NAME]/scripts/poll-telegram.sh"
+chmod +x ~/[AI_NAME]/scripts/poll-telegram.sh
 
 # Render + load the launchd plist for the poller
 sed -e "s/\[USER\]/$(whoami)/g" -e "s/\[AI_NAME\]/[AI_NAME]/g" \
-    "~/Documents/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /telegram-kit/com.telegram-poller.plist.template" \
+    "~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /telegram-kit/com.telegram-poller.plist.template" \
     > "~/Library/LaunchAgents/com.$(whoami).[AI_NAME].telegram-poller.plist"
 
 launchctl load "~/Library/LaunchAgents/com.$(whoami).[AI_NAME].telegram-poller.plist"
@@ -478,7 +498,7 @@ Tell the user:
 
 > "Send a quick test message from your phone to your bot — anything, like 'hello'. I'll watch the inbox."
 
-Wait. Check `~/Documents/[AI_NAME]/inbox/` for incoming message. When it lands:
+Wait. Check `~/[AI_NAME]/inbox/` for incoming message. When it lands:
 
 > "✅ Got it. Your AI just received its first message from your phone. Bridge is live."
 
@@ -491,21 +511,21 @@ Wait. Check `~/Documents/[AI_NAME]/inbox/` for incoming message. When it lands:
 The setup is mostly automatic:
 
 ```bash
-cp "~/Documents/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /voice-io-kit/say-to-mac.sh" \
-   "~/Documents/[AI_NAME]/scripts/say-to-mac.sh"
+cp "~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /voice-io-kit/say-to-mac.sh" \
+   "~/[AI_NAME]/scripts/say-to-mac.sh"
 
-cp "~/Documents/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /voice-io-kit/send-voice-note.sh" \
-   "~/Documents/[AI_NAME]/scripts/send-voice-note.sh"
+cp "~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /voice-io-kit/send-voice-note.sh" \
+   "~/[AI_NAME]/scripts/send-voice-note.sh"
 
-chmod +x ~/Documents/[AI_NAME]/scripts/say-to-mac.sh \
-         ~/Documents/[AI_NAME]/scripts/send-voice-note.sh
+chmod +x ~/[AI_NAME]/scripts/say-to-mac.sh \
+         ~/[AI_NAME]/scripts/send-voice-note.sh
 ```
 
 Quick voice picker:
 
 > "Mac has a few voices to pick from. My defaults: **Samantha** (the standard female voice, clearest), **Daniel** (UK male), or **Karen** (Australian female). Or you can pick your own — say 'show me the list' and I'll print them."
 
-Capture the pick. Save to `~/Documents/[AI_NAME]/.config/voice-preference`.
+Capture the pick. Save to `~/[AI_NAME]/.config/voice-preference`.
 
 ---
 
@@ -549,7 +569,7 @@ This is the climax of Part 1. **The user does NOT prompt this. The AI delegates 
 2. Once Content returns the script, render to audio:
 
    ```bash
-   ~/Documents/[AI_NAME]/scripts/say-to-mac.sh \
+   ~/[AI_NAME]/scripts/say-to-mac.sh \
      "[script from Content subagent]" \
      /tmp/aha-moment.mp3
    ```
@@ -558,7 +578,7 @@ This is the climax of Part 1. **The user does NOT prompt this. The AI delegates 
 
    ```bash
    source ~/.config/[AI_NAME]/telegram/.env
-   CHAT_ID="$(cat ~/Documents/[AI_NAME]/.config/telegram-chat-id)"
+   CHAT_ID="$(cat ~/[AI_NAME]/.config/telegram-chat-id)"
 
    curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendVoice" \
      -F "chat_id=${CHAT_ID}" \
@@ -615,25 +635,25 @@ Read this verbatim (adapt slightly to fit the user's actual project):
 Mark Part 1 complete:
 
 ```bash
-touch ~/Documents/[AI_NAME]/.part-1-complete
-date -Iseconds > ~/Documents/[AI_NAME]/.part-1-date
+touch ~/[AI_NAME]/.part-1-complete
+date -Iseconds > ~/[AI_NAME]/.part-1-date
 
 # Voice progression flag — tier 1 of 3 (3-Q foundation → 5-Q express → 100-Q deluxe)
 # Read by the kick-off skill so it knows not to re-run the foundation interview.
-touch ~/Documents/[AI_NAME]/.voice-foundation-3q-complete
+touch ~/[AI_NAME]/.voice-foundation-3q-complete
 
 # Block the kick-off skill's auto-run on next session.
 # (Part 2 explicitly re-invokes voice deepening when the user opts in.)
-touch ~/Documents/[AI_NAME]/.first-run-complete
-cat > ~/Documents/[AI_NAME]/.first-run-log.txt <<EOF
+touch ~/[AI_NAME]/.first-run-complete
+cat > ~/[AI_NAME]/.first-run-log.txt <<EOF
 First-run completed via Part 1 install: $(date -Iseconds)
 Voice tier: 3-Q foundation (Part 1 lightweight)
 Pending: Part 2 (5-Q express + premium voice + meeting capture + optional skills)
 User invokes Part 2 when ready: "run Part 2"
 EOF
 
-echo "$(date -Iseconds) — PART 1 COMPLETE — total: $(wc -l ~/Documents/[AI_NAME]/logs/install.log | awk '{print $1}') log entries" \
-  >> ~/Documents/[AI_NAME]/logs/install.log
+echo "$(date -Iseconds) — PART 1 COMPLETE — total: $(wc -l ~/[AI_NAME]/logs/install.log | awk '{print $1}') log entries" \
+  >> ~/[AI_NAME]/logs/install.log
 ```
 
 If user is on Max plan and wants to continue immediately:
@@ -666,7 +686,7 @@ If anything in Stages 4-7 fails halfway through:
 - People/Companies vault scaffolding deep-fill
 - Goals + Constraints capture
 
-All available in **Part 2** at `~/Documents/[AI_NAME]/.kit/INSTALL-PART-2.md` — user invokes with `"run Part 2"`.
+All available in **Part 2** at `~/[AI_NAME]/.kit/INSTALL-PART-2.md` — user invokes with `"run Part 2"`.
 
 ---
 

@@ -36,7 +36,7 @@ From this `vault/` folder, copy the starter structure into her new vault:
 
 ```bash
 # Adjust VAULT_PATH to wherever Obsidian created her vault
-VAULT_PATH="$HOME/Documents/[BRAND]"
+VAULT_PATH="$HOME/[ai-name]/vault"
 
 cp -R "starter/"* "${VAULT_PATH}/"
 ```
@@ -72,7 +72,7 @@ Add to her `~/[ai-name]/CLAUDE.md`, under "How we remember things":
 ```markdown
 ## Her vault (second brain)
 
-[PARTNER_NAME] keeps a vault at `~/Documents/[BRAND]/` (adjust path). It contains:
+[PARTNER_NAME]'s vault lives at `~/[ai-name]/vault/` (created by setup.sh — deliberately OUTSIDE ~/Documents/, because macOS's privacy lock on Documents blocks the AI's background routines from reading it). It contains:
 - Projects/ — one file per [BRAND] product or podcast project
 - Brand/ — brand voice guide, reference brands, do-not-use list (READ THIS BEFORE DRAFTING)
 - Daily/ — her daily journal (read-only for you unless she asks)
@@ -99,17 +99,13 @@ Keep the other core plugins off for now — out of the box Obsidian has ~30 and 
 
 **One community plugin worth adding later (Part 2):** **Smart Connections** — it builds a private, on-device "meaning fingerprint" of every note, which powers the `vault-semantic-search` skill (find notes by meaning, not just exact words). Optional, installed during Part 2's "Semantic search" stage — not now. If she opts in, that's the one community plugin the kit uses. Everything else stays off.
 
-### 6. Open the vault in Claude Code too (optional but recommended)
+### 6. Open the vault in Obsidian (optional but recommended)
 
-Have her AI "see" the vault so it can read/write without her pasting paths:
+The vault already lives inside the AI's folder at `~/[ai-name]/vault/` — setup.sh put it there. No symlink, no moving anything. To browse it visually:
 
-Add this symlink from her AI folder:
+Open Obsidian → "Open folder as vault" → pick `~/[ai-name]/vault`.
 
-```bash
-ln -s ~/Documents/[BRAND] ~/[ai-name]/vault
-```
-
-Now her AI can reference `~/[ai-name]/vault/Brand/Voice guide.md` and it Just Works.
+**Do NOT move the vault into `~/Documents/`** (even though that feels like the natural home for documents). macOS puts a privacy lock (TCC) on Documents that silently blocks the AI's background routines — the 2 AM memory compression, the Telegram poller — from reading anything inside it. The vault stays in the home folder on purpose; backup happens via Time Machine + private GitHub instead of iCloud.
 
 ---
 

@@ -37,7 +37,7 @@ Useful when:
 
 ## Inputs
 
-- **Required:** `~/Documents/[ai-name]/vault/Voice/voice-archive.md` (the raw 100-Q interview transcript with verbatim Q&A pairs)
+- **Required:** `~/[ai-name]/vault/Voice/voice-archive.md` (the raw 100-Q interview transcript with verbatim Q&A pairs)
 - **Optional:** any extra context [PARTNER_NAME] wants you to consider (recent posts, brand canon files, etc.)
 
 ## The compression prompt (run verbatim)
@@ -220,17 +220,17 @@ Now compile the final about-me .md.
 ## Where to save the output
 
 ```bash
-~/Documents/[ai-name]/vault/Voice/about-me.md
+~/[ai-name]/vault/Voice/about-me.md
 ```
 
 If the file already exists, **don't silently overwrite** — show [PARTNER_NAME] the new compressed version, ask for confirmation, then write. The about-me file is precious; preserve old versions:
 
 ```bash
 # Before writing the new version, archive the previous one (if exists):
-if [ -f ~/Documents/[ai-name]/vault/Voice/about-me.md ]; then
-    mkdir -p ~/Documents/[ai-name]/vault/Voice/_versions
-    cp ~/Documents/[ai-name]/vault/Voice/about-me.md \
-       ~/Documents/[ai-name]/vault/Voice/_versions/about-me-$(date +%Y-%m-%d).md
+if [ -f ~/[ai-name]/vault/Voice/about-me.md ]; then
+    mkdir -p ~/[ai-name]/vault/Voice/_versions
+    cp ~/[ai-name]/vault/Voice/about-me.md \
+       ~/[ai-name]/vault/Voice/_versions/about-me-$(date +%Y-%m-%d).md
 fi
 ```
 
@@ -239,7 +239,7 @@ fi
 After writing `about-me.md`, update [AI_NAME]'s root `CLAUDE.md` to `@`-import it:
 
 ```markdown
-@~/Documents/[ai-name]/vault/Voice/about-me.md
+@~/[ai-name]/vault/Voice/about-me.md
 ```
 
 This makes the file load on every Claude Code session start. For other AIs (ChatGPT projects, Gemini gems, etc.), [PARTNER_NAME] uploads it as a project document.
@@ -254,7 +254,7 @@ This makes the file load on every Claude Code session start. For other AIs (Chat
 
 ## When to refresh
 
-The wrap-up skill watches `~/Documents/[ai-name]/.voice-interview-date`:
+The wrap-up skill watches `~/[ai-name]/.voice-interview-date`:
 
 - **Once 365 days have passed** since the last interview, the wrap-up skill offers a yearly voice refresh: a 30-min focused interview that updates only the sections most likely to have evolved (beliefs, taste-loves/disgusts, hard nos). Then this skill recompiles.
 - **If [PARTNER_NAME] notices the voice file feels stale before then**, they say "let's refresh my voice" → wrap-up skill runs the focused 30-min interview → this skill recompiles.
@@ -275,7 +275,7 @@ Run all three before marking the skill production-grade. If any fails, the failu
 
 ### Scenario 1 — Happy path
 
-**Test input:** A complete `~/Documents/[ai-name]/vault/Voice/voice-archive.md` with all 100 Q&A pairs from the kick-off Section B-Deluxe interview. Answers vary in length (some 1-sentence, some 3-paragraph). User's voice is consistent across the archive — no contradictions, clear taste signals.
+**Test input:** A complete `~/[ai-name]/vault/Voice/voice-archive.md` with all 100 Q&A pairs from the kick-off Section B-Deluxe interview. Answers vary in length (some 1-sentence, some 3-paragraph). User's voice is consistent across the archive — no contradictions, clear taste signals.
 
 **Expected output:** Compressed `about-me.md` ≤2 pages organized into 7 sections (beliefs, mechanics, aesthetic, tone, structure, hard nos, red flags). Every claim in the compressed file traces back to at least one Q&A in the archive (no fabrications). Direct quotes from the user appear where they capture voice most precisely — never paraphrased into generic language. File loads cleanly as context in a fresh chat and produces drafts that pass the verify-in-fresh-session test.
 

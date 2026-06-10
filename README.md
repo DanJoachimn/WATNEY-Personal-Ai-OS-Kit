@@ -1,4 +1,4 @@
-# WATNEY: Personal AI Kit
+# WATNEY: Personal AI-OS Kit
 
 > Give yourself a Partner AI. From first paste to your AI knowing your voice, your projects, and your taste — installed entirely by talking to it like a nerdy friend.
 
@@ -62,6 +62,26 @@ You install it by talking. No terminal, no command line, no editing files. The A
 
 You need three obvious things plus two that aren't obvious — but the two non-obvious ones are **half the magic**. Don't skip them.
 
+## What it costs (honest numbers, upfront)
+
+The kit is **free, forever** — it's files you own. The stack it runs on isn't, so here's the full picture before you start:
+
+| | Cost | Required? | Why |
+|---|---|---|---|
+| **Claude subscription** | $20/mo (Pro) — $100+/mo (Max) for heavy use | **Required** | The intelligence. Pro covers the install + daily use; upgrade only when you feel the ceiling. |
+| Telegram | Free | Required for voice channel | Your AI in your pocket |
+| Granola (meeting capture) | ~$18/mo, first 25 meetings free | Optional (Part 2) | Your AI remembers every meeting |
+| ElevenLabs (premium voice) | Free tier, ~$5/mo+ for more | Optional (Part 2) | Nicer voice than Mac's built-in |
+| fal.ai (image generation) | Pay-per-image, pennies | Optional | Design employee's image tools |
+| 1Password | ~$3/mo | Optional | Upgraded key security |
+| External drive (Time Machine) | ~$60 one-time | Strongly recommended | Backup that survives a dead Mac |
+
+**Realistic minimum: $20/mo.** Realistic full stack: $40-50/mo. For an always-on chief of staff that compounds every week, that's the cheapest hire you'll ever make — but you should see the number before you start, not discover it mid-install.
+
+*Disclosure: some optional-tool links in this kit may become affiliate links — same price for you, small commission funds kit development. The required stack (Claude, Telegram) earns us nothing.*
+
+---
+
 **The obvious three:**
 
 1. **A Mac** running macOS 14 or later
@@ -113,11 +133,11 @@ You can stop after Part 1 and have a fully-working partner. Part 2 is opt-in whe
 ### The install prompt
 
 ```
-You're about to install WATNEY (the Personal AI Kit) for me. I'm not a developer.
+You're about to install WATNEY (the Personal AI-OS Kit) for me. I'm not a developer.
 
 Please:
 1. Fetch the live installer from
-   https://raw.githubusercontent.com/DanJoachimn/Partner-Ai-Kit-Personal/main/INSTALL.md
+   https://raw.githubusercontent.com/DanJoachimn/WATNEY-Personal-Ai-OS-Kit/main/INSTALL.md
 2. Read it carefully — it has the full install playbook.
 3. BEFORE installing ANYTHING, do a security audit of the kit. Clone the
    repo to a sandbox folder, read through every file, and look for:
@@ -138,6 +158,8 @@ Start now.
 ```
 
 Copy. Paste. Done.
+
+**On Windows?** The kit is built and tested on macOS. But because it's a playbook your AI reads (not compiled software), Windows installs have worked — the AI adapts the Mac-specific parts (scheduling, file paths) to Windows equivalents live during install. Consider yourself a pioneer, and expect your AI to improvise a little.
 
 ---
 
@@ -203,7 +225,7 @@ Hard rule: updates **never silently overwrite** a skill you've tuned via the lea
 
 ## For Training Club operators
 
-WATNEY is the generic Personal version. There's a Training Club-flavored sibling kit called **PACER** at [PACER: Partner AI Kit for Training Clubs](https://github.com/DanJoachimn/Partner-Ai-Kit-Training-Club) with:
+WATNEY is the generic Personal version. There's a Training Club-flavored sibling kit called **PACER** at [PACER: Training Club AI-OS Kit](https://github.com/DanJoachimn/PACER-Training-Club-Ai-OS-Kit) with:
 
 - Training Club-specific framing on your digital employees (same four, tuned for Training Club ops)
 - Day-1 skills tuned for Training Club operators (weekly-retention-review, weekly-content-batch, block-builder, member-checkin-draft)
@@ -218,7 +240,7 @@ Same install pattern. Different overlay.
 
 Source-available. You can install, modify, and use this kit for your own needs (personal or your own business). You can't repackage it for sale, host it as a service for others, or distribute a competing kit derived from it.
 
-Full terms in [LICENSE](./LICENSE). For commercial licensing inquiries: open an issue on [GitHub](https://github.com/DanJoachimn/Partner-Ai-Kit-Personal/issues) and I'll be in touch.
+Full terms in [LICENSE](./LICENSE). For commercial licensing inquiries: open an issue on [GitHub](https://github.com/DanJoachimn/WATNEY-Personal-Ai-OS-Kit/issues) and I'll be in touch.
 
 ---
 
@@ -246,7 +268,7 @@ Full details in [`STAY_IN_TOUCH.md`](./STAY_IN_TOUCH.md). No email required to i
 
 ## Help, feedback, bug reports
 
-Open a [GitHub issue](https://github.com/DanJoachimn/Partner-Ai-Kit-Personal/issues) if something breaks during install or if you have a question.
+Open a [GitHub issue](https://github.com/DanJoachimn/WATNEY-Personal-Ai-OS-Kit/issues) if something breaks during install or if you have a question.
 
 Tell your AI about a bug too — it can often diagnose itself and propose a fix. If the fix is useful for everyone, it can open a PR back to this repo.
 

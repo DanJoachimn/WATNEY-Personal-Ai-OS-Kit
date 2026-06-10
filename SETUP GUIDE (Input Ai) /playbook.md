@@ -81,14 +81,14 @@ The AI's home on disk. One place where everything the AI does — notes, drafts,
 
 1. **Install Claude Code Desktop** from claude.com/code. Drag to Applications. Sign in.
 2. **Install Command Line Developer Tools** when macOS prompts (or run `xcode-select --install` in Terminal). Required for git, which Claude Code uses.
-3. **Create the folder INSIDE `~/Documents/`** so it gets iCloud Drive backup automatically. Path: `~/Documents/[ai-name]/` (all lowercase, no spaces). Do NOT put it at `~/[ai-name]/` — that location isn't auto-backed-up.
+3. **Create the folder INSIDE `~/Documents/`** so it gets iCloud Drive backup automatically. Path: `~/[ai-name]/` (all lowercase, no spaces). Do NOT put it at `~/[ai-name]/` — that location isn't auto-backed-up.
 4. **Verify iCloud Drive is on:** System Settings → Apple ID → iCloud → iCloud Drive must be enabled, and "Desktop & Documents Folders" must be ticked. This is how the AI's whole soul gets persisted across Macs.
 
 ### Why iCloud Drive matters (don't skip step 4)
 
 Everything the AI accumulates over time — long-term memory in `notes.md`, custom skills, learnings.md files, voice tunings, brand decisions — lives in this folder. If the user's Mac dies / gets reset / gets stolen, **anything outside iCloud is lost forever.**
 
-Putting the folder in `~/Documents/[ai-name]/` means:
+Putting the folder in `~/[ai-name]/` means:
 - iCloud auto-syncs every change
 - Sign in on a new Mac → the folder reappears
 - ~15 min from factory reset to fully operational AI with full memory
@@ -103,10 +103,10 @@ The folder is the AI's office. iCloud Drive makes it earthquake-proof.
 
 **Critical insight:** the user **shouldn't have to remember any of the playbook.** Phases 1–11 are for whoever is *installing* the AI for them. Once installed, the AI itself walks the user through the first-run decisions.
 
-Inside `~/Documents/[ai-name]/.claude/skills/kick-off/SKILL.md`, ship a "first-conversation flow" skill that:
+Inside `~/[ai-name]/.claude/skills/kick-off/SKILL.md`, ship a "first-conversation flow" skill that:
 
 1. **Verifies iCloud Drive** is on with Documents synced (and walks the user through enabling it if not)
-2. **Confirms folder location** is correct (`~/Documents/[ai-name]/`, not `~/[ai-name]/`)
+2. **Confirms folder location** is correct (`~/[ai-name]/`, not `~/[ai-name]/`)
 3. **Creates a recovery template** for tokens
 4. **Interviews the user** for brand voice / preferences in their own words
 5. **Sets expectations** on what the AI will and won't do
@@ -137,7 +137,7 @@ This is what you already verified in Phase 1 step 4. Keep going:
 
 1. System Settings → Apple ID → iCloud → iCloud Drive **enabled**
 2. "Desktop & Documents Folders" toggle **ticked**
-3. The AI's folder lives at `~/Documents/[ai-name]/` (not `~/[ai-name]/` — anything outside Documents is NOT iCloud-backed)
+3. The AI's folder lives at `~/[ai-name]/` (not `~/[ai-name]/` — anything outside Documents is NOT iCloud-backed)
 4. Wait ~5–10 min for the first sync to complete
 
 Result: every change to any file in the AI folder is auto-replicated to the user's Apple ID. New Mac signed in to the same Apple ID = files reappear automatically.
@@ -146,7 +146,7 @@ Result: every change to any file in the AI folder is auto-replicated to the user
 
 Tokens at `~/.config/[ai-name]/.env` are NOT iCloud-synced (the `.config` dir is outside Documents). To make them recoverable:
 
-1. Create `~/Documents/[ai-name]/_recovery/env-template.txt` with this content (no actual secrets):
+1. Create `~/[ai-name]/_recovery/env-template.txt` with this content (no actual secrets):
    ```
    # Recovery template — copy back to ~/.config/[ai-name]/.env on a new Mac.
    # Get the actual secret values from your password manager (1Password / Bitwarden / Apple Passwords).
@@ -173,7 +173,7 @@ When a user's Mac dies / gets reset / gets stolen, here's the path back:
 2. Install Claude Code Desktop from claude.com/code.
 3. Install Command Line Tools when macOS prompts (or run xcode-select --install 
    in Terminal).
-4. Open Claude Code → "Open folder" → select ~/Documents/[ai-name]/.
+4. Open Claude Code → "Open folder" → select ~/[ai-name]/.
 5. Re-create ~/.config/[ai-name]/.env from the recovery template + the 
    password manager values.
 6. (If they had Phase 5 persistence + Phase 8 monitoring) reinstall the 
@@ -873,7 +873,7 @@ The wrap-up skill (11C) handles per-skill learnings + daily-memory entries when 
 2. Render the plist template by replacing `[USER]` and `[AI_NAME]`, save to `~/Library/LaunchAgents/com.[user].[ai-name].dreaming.plist`
 3. `launchctl load ~/Library/LaunchAgents/com.[user].[ai-name].dreaming.plist`
 4. Verify: `launchctl list | grep dreaming`
-5. Create the log dir: `mkdir -p ~/Documents/[ai-name]/logs`
+5. Create the log dir: `mkdir -p ~/[ai-name]/logs`
 6. Tell the user one sentence: *"Every night at 02:00 I'll synthesize what we did that day into long-term memory. You can also run it on demand by saying 'run dreaming.' First real run: tonight if your Mac is on at 02:00."*
 
 **Manual override:** the user can say "run dreaming" anytime to fire it on demand.
@@ -1102,11 +1102,11 @@ The AI's whole soul is files. The user must be able to recover them on any Mac i
 
 | What | Where it lives | Critical? | iCloud-synced if folder is in `~/Documents/`? |
 |---|---|---|---|
-| AI's identity (CLAUDE.md, USER_MANUAL.md) | `~/Documents/[ai-name]/` | 🔴 | ✅ |
-| Long-term memory (`notes.md`) | `~/Documents/[ai-name]/notes.md` | 🔴 | ✅ |
-| Subagents | `~/Documents/[ai-name]/.claude/agents/` | 🔴 | ✅ |
-| Custom skills + learnings.md | `~/Documents/[ai-name]/.claude/skills/` | 🔴 | ✅ |
-| Personality guide | `~/Documents/[ai-name]/personality_guide.md` | 🔴 | ✅ |
+| AI's identity (CLAUDE.md, USER_MANUAL.md) | `~/[ai-name]/` | 🔴 | ✅ |
+| Long-term memory (`notes.md`) | `~/[ai-name]/notes.md` | 🔴 | ✅ |
+| Subagents | `~/[ai-name]/.claude/agents/` | 🔴 | ✅ |
+| Custom skills + learnings.md | `~/[ai-name]/.claude/skills/` | 🔴 | ✅ |
+| Personality guide | `~/[ai-name]/personality_guide.md` | 🔴 | ✅ |
 | Vault (Phase 9) | `~/Documents/[Vault Name]/` | 🔴 | ✅ |
 | API keys / tokens | `~/.config/[ai-name]/.env` | 🟡 | ❌ outside iCloud |
 | LaunchAgents / scheduled jobs | `~/Library/LaunchAgents/` | 🟢 | ❌ outside iCloud, but re-creatable from kit |
@@ -1117,7 +1117,7 @@ The 🔴 rows are irreplaceable. The 🟡 row (tokens) is replaceable but inconv
 
 **Layer 1 — iCloud Drive (mandatory).** All 🔴 files live inside `~/Documents/`, which iCloud Drive auto-syncs to the user's Apple ID. Free tier handles years of markdown-heavy folders. Must be enabled in System Settings → Apple ID → iCloud → iCloud Drive (with "Desktop & Documents Folders" ticked).
 
-**Layer 2 — Token recovery template (mandatory).** Tokens at `~/.config/[ai-name]/.env` are NOT iCloud-synced. Keep a copy of the structure (without secret values) at `~/Documents/[ai-name]/_recovery/env-template.txt`. Store the actual secret values in a password manager (1Password, Bitwarden, Apple Passwords). On recovery: copy template back, paste secrets in.
+**Layer 2 — Token recovery template (mandatory).** Tokens at `~/.config/[ai-name]/.env` are NOT iCloud-synced. Keep a copy of the structure (without secret values) at `~/[ai-name]/_recovery/env-template.txt`. Store the actual secret values in a password manager (1Password, Bitwarden, Apple Passwords). On recovery: copy template back, paste secrets in.
 
 **Layer 3 — Time Machine (optional but recommended).** Plug an external drive in once a week. Time Machine backs up everything including hidden config dirs. Belt-and-suspenders for paranoia-level safety.
 
@@ -1130,7 +1130,7 @@ Document this for the user in their USER_MANUAL.md:
    to sync.
 2. Install Claude Code Desktop (claude.com/code).
 3. Install Command Line Tools when macOS prompts (or run xcode-select --install).
-4. Open Claude Code → "Open folder" → select ~/Documents/[ai-name]/.
+4. Open Claude Code → "Open folder" → select ~/[ai-name]/.
 5. Re-create ~/.config/[ai-name]/.env from the recovery template + password 
    manager.
 6. (If they had Phase 5 persistence + Phase 8 monitoring) re-install launchd 
@@ -1207,14 +1207,14 @@ For someone setting up their nth partner AI, this is the actual order of operati
 [ ] PHASE 1 — Identity & Folder (15 min)
 [ ] Claude Code Desktop installed
 [ ] Command Line Tools installed
-[ ] Folder created at ~/Documents/[ai-name]/ (NOT ~/[ai-name]/ — must be in Documents for iCloud backup)
-[ ] Kick-off skill bundled at ~/Documents/[ai-name]/.claude/skills/kick-off/SKILL.md
+[ ] Folder created at ~/[ai-name]/ (NOT ~/[ai-name]/ — must be in Documents for iCloud backup)
+[ ] Kick-off skill bundled at ~/[ai-name]/.claude/skills/kick-off/SKILL.md
 [ ] CLAUDE.md has the "first-run check" instruction at the top (so AI auto-triggers kick-off)
 
 [ ] PHASE 1B — Portability & Recovery (5 min, mandatory)
 [ ] iCloud Drive enabled in System Settings → Apple ID → iCloud → iCloud Drive (with Desktop & Documents folders ticked)
 [ ] First iCloud sync complete (verify by checking the cloud icon next to ~/Documents/ in Finder)
-[ ] Token recovery template at ~/Documents/[ai-name]/_recovery/env-template.txt
+[ ] Token recovery template at ~/[ai-name]/_recovery/env-template.txt
 [ ] User's API keys saved in their password manager (1Password / Bitwarden / Apple Passwords)
 [ ] Recovery sequence documented in USER_MANUAL.md
 [ ] (Optional) Time Machine + external drive enabled

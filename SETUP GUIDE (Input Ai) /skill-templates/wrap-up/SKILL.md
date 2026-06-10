@@ -69,7 +69,7 @@ become noise.
 
 ### Step 0 — Append to daily-memory (always — even on empty learnings days)
 
-Before the per-skill learnings sweep, append a 1-line entry per meaningful decision/fact/shipped-thing from this session to `~/Documents/[ai-name]/vault/Memory/daily-memory.md` under `## Active (unprocessed)`.
+Before the per-skill learnings sweep, append a 1-line entry per meaningful decision/fact/shipped-thing from this session to `~/[ai-name]/vault/Memory/daily-memory.md` under `## Active (unprocessed)`.
 
 Format: `YYYY-MM-DD HH:MM — [one-line summary of what mattered]`
 
@@ -370,10 +370,10 @@ Beyond the per-skill learnings sweep, this skill also handles two voice-intervie
 **Condition:** `.voice-express-complete` exists AND `.voice-interview-complete` does NOT exist AND `.voice-nudge-disabled` does NOT exist AND last nudge was >30 days ago (or never).
 
 ```bash
-EXPRESS_DONE="$HOME/Documents/[ai-name]/.voice-express-complete"
-DELUXE_DONE="$HOME/Documents/[ai-name]/.voice-interview-complete"
-NUDGE_DISABLED="$HOME/Documents/[ai-name]/.voice-nudge-disabled"
-LAST_NUDGE="$HOME/Documents/[ai-name]/.voice-nudge-last"
+EXPRESS_DONE="$HOME/[ai-name]/.voice-express-complete"
+DELUXE_DONE="$HOME/[ai-name]/.voice-interview-complete"
+NUDGE_DISABLED="$HOME/[ai-name]/.voice-nudge-disabled"
+LAST_NUDGE="$HOME/[ai-name]/.voice-nudge-last"
 
 if [ -f "$EXPRESS_DONE" ] && [ ! -f "$DELUXE_DONE" ] && [ ! -f "$NUDGE_DISABLED" ]; then
     NUDGE_AGE=999  # default: nudge if file doesn't exist
@@ -400,8 +400,8 @@ fi
 **Condition:** `.voice-interview-complete` exists AND `.voice-interview-date` is >365 days old AND last nudge was >30 days ago (or never).
 
 ```bash
-DELUXE_DONE="$HOME/Documents/[ai-name]/.voice-interview-complete"
-INTERVIEW_DATE_FILE="$HOME/Documents/[ai-name]/.voice-interview-date"
+DELUXE_DONE="$HOME/[ai-name]/.voice-interview-complete"
+INTERVIEW_DATE_FILE="$HOME/[ai-name]/.voice-interview-date"
 
 if [ -f "$DELUXE_DONE" ] && [ -f "$INTERVIEW_DATE_FILE" ]; then
     INTERVIEW_TS=$(date -j -f "%Y-%m-%dT%H:%M:%S%z" "$(cat "$INTERVIEW_DATE_FILE")" +%s 2>/dev/null || echo 0)
@@ -437,10 +437,10 @@ fi
 This fires only if [PARTNER_NAME] said "maybe later" during kick-off's 1Password question (Section A1.5). If they said "no" or "skip" at kick-off, the pending flag was never created, so this nudge never fires.
 
 ```bash
-PENDING="$HOME/Documents/[ai-name]/.1password-upgrade-pending"
-DONE="$HOME/Documents/[ai-name]/.1password-upgrade-complete"
-DISABLED="$HOME/Documents/[ai-name]/.1password-nudge-disabled"
-LAST_NUDGE="$HOME/Documents/[ai-name]/.1password-nudge-last"
+PENDING="$HOME/[ai-name]/.1password-upgrade-pending"
+DONE="$HOME/[ai-name]/.1password-upgrade-complete"
+DISABLED="$HOME/[ai-name]/.1password-nudge-disabled"
+LAST_NUDGE="$HOME/[ai-name]/.1password-nudge-last"
 
 if [ -f "$PENDING" ] && [ ! -f "$DONE" ] && [ ! -f "$DISABLED" ]; then
     NUDGE_AGE=999

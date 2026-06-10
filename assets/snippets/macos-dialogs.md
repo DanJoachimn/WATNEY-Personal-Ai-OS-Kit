@@ -142,7 +142,7 @@ When the user needs to choose a path (rare, but useful for advanced workflows).
 ### Choose a folder
 
 ```bash
-osascript -e 'POSIX path of (choose folder with prompt "Choose where your vault should live (default is ~/Documents/[AI_NAME]/vault/):")'
+osascript -e 'POSIX path of (choose folder with prompt "Choose where your vault should live (default is ~/[AI_NAME]/vault/):")'
 ```
 
 ### Choose a file
@@ -158,7 +158,7 @@ osascript -e 'POSIX path of (choose file with prompt "Pick a CSV to import membe
 ### Open Claude Code Desktop with a specific folder loaded
 
 ```bash
-open -a "Claude Code" "$HOME/Documents/[AI_NAME]/"
+open -a "Claude Code" "$HOME/[AI_NAME]/"
 ```
 
 Use case: hand off from install to active session.

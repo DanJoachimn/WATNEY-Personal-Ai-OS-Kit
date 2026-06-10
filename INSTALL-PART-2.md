@@ -21,7 +21,7 @@ OR: the AI offers it after the user has been using Part 1 for a few days and see
 ## Stage 0 — Greeting + check Part 1 is in place
 
 ```bash
-test -f ~/Documents/[AI_NAME]/.part-1-complete || { echo "Part 1 not complete; redirect to INSTALL.md"; exit 1; }
+test -f ~/[AI_NAME]/.part-1-complete || { echo "Part 1 not complete; redirect to INSTALL.md"; exit 1; }
 ```
 
 If Part 1 isn't done → tell user, route them to `INSTALL.md` first.
@@ -93,7 +93,7 @@ claude plugin install [plugin-name]@knowledge-work-plugins         # per plugin
 ### If user says skip
 
 ```bash
-touch ~/Documents/[AI_NAME]/.knowledge-work-plugins-deferred
+touch ~/[AI_NAME]/.knowledge-work-plugins-deferred
 ```
 
 > "Skipped. You can install them anytime by saying 'install the knowledge work plugins' or running the commands in `KNOWLEDGE-WORK-PLUGINS.md`."
@@ -103,8 +103,8 @@ touch ~/Documents/[AI_NAME]/.knowledge-work-plugins-deferred
 After install (or skip):
 
 ```bash
-touch ~/Documents/[AI_NAME]/.knowledge-work-plugins-stage-complete
-echo "$(date -Iseconds) — Stage 0.5 complete" >> ~/Documents/[AI_NAME]/logs/install.log
+touch ~/[AI_NAME]/.knowledge-work-plugins-stage-complete
+echo "$(date -Iseconds) — Stage 0.5 complete" >> ~/[AI_NAME]/logs/install.log
 ```
 
 ### Why this stage is here and not later
@@ -148,11 +148,11 @@ B5. Banned words / tropes
 ```
 
 Capture answers verbatim. Write to:
-- `~/Documents/[AI_NAME]/vault/Brand/Voice guide.md` (overwrite the Part 1 lightweight version)
-- `~/Documents/[AI_NAME]/vault/Brand/Reference brands.md`
-- `~/Documents/[AI_NAME]/vault/Brand/Do-not-use list.md`
+- `~/[AI_NAME]/vault/Brand/Voice guide.md` (overwrite the Part 1 lightweight version)
+- `~/[AI_NAME]/vault/Brand/Reference brands.md`
+- `~/[AI_NAME]/vault/Brand/Do-not-use list.md`
 
-Mark complete: `touch ~/Documents/[AI_NAME]/.voice-express-complete`
+Mark complete: `touch ~/[AI_NAME]/.voice-express-complete`
 
 ---
 
@@ -171,7 +171,7 @@ If yes:
 4. Use clipboard-transfer pattern: AI runs `pbpaste > ~/.config/[AI_NAME]/.env.tmp`, user copies key, AI moves to `.env` with proper formatting
 5. Test: voice the user just heard renders via ElevenLabs voice instead
 
-Mark complete: `touch ~/Documents/[AI_NAME]/.elevenlabs-configured`
+Mark complete: `touch ~/[AI_NAME]/.elevenlabs-configured`
 
 ---
 
@@ -188,7 +188,7 @@ Full setup in repo's `guides/10-meeting-capture-with-granola.md`. Quick steps:
 5. Test sync — manual run produces files in `vault/Meeting Notes/`
 6. Schedule via launchd (12:30 + 17:00 daily)
 
-Mark complete: `touch ~/Documents/[AI_NAME]/.granola-configured`
+Mark complete: `touch ~/[AI_NAME]/.granola-configured`
 
 ---
 
@@ -203,15 +203,15 @@ Combined with the AI's vault-awareness, this means *"summarize what I've clipped
 If yes:
 
 1. Open Chrome (or Edge / Firefox / Safari) → install the **Obsidian Web Clipper** extension from the browser's store. Direct link: https://obsidian.md/clipper
-2. Click the extension icon → it asks where your vault is. Point it at `~/Documents/[AI_NAME]/vault/`.
+2. Click the extension icon → it asks where your vault is. Point it at `~/[AI_NAME]/vault/`.
 3. Recommend a folder inside the vault for clips: `vault/Clippings/` (Web Clipper creates it if missing). This matches the Hab schema convention for raw source material.
 4. Pick the default template — the bundled "Default" template handles most cases (articles, blog posts, news). Templates for recipes, papers, and YouTube exist for users with specific use cases.
-5. Test: open any article in the browser, click the Web Clipper icon, save. Confirm a new markdown file appears in `~/Documents/[AI_NAME]/vault/Clippings/`.
+5. Test: open any article in the browser, click the Web Clipper icon, save. Confirm a new markdown file appears in `~/[AI_NAME]/vault/Clippings/`.
 
 Mark complete:
 
 ```bash
-touch ~/Documents/[AI_NAME]/.obsidian-clipper-configured
+touch ~/[AI_NAME]/.obsidian-clipper-configured
 ```
 
 After install: the AI reads everything in `vault/Clippings/` as context — same way it reads the rest of the vault. User clips, AI absorbs, queries spanning "what's in my head + what I've been reading" become trivial.
@@ -296,14 +296,14 @@ If yes:
    python3 -m venv ~/.claude/skills/vault-semantic-search/.venv
    ~/.claude/skills/vault-semantic-search/.venv/bin/pip install sentence-transformers
    ```
-5. **Install the skill + build its search script.** Copy the `vault-semantic-search` skill from `~/Documents/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /skill-templates/vault-semantic-search/` into `~/.claude/skills/`, then have [AI_NAME] build `scripts/search.py` per the skill's spec (reads the Smart Connections fingerprints from `vault/.smart-env/`, embeds the query with the same model, returns the most-related notes).
+5. **Install the skill + build its search script.** Copy the `vault-semantic-search` skill from `~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /skill-templates/vault-semantic-search/` into `~/.claude/skills/`, then have [AI_NAME] build `scripts/search.py` per the skill's spec (reads the Smart Connections fingerprints from `vault/.smart-env/`, embeds the query with the same model, returns the most-related notes).
 6. **Gitignore the embeddings** if the vault is in a git repo: add `.smart-env/` to `.gitignore` (it's large + rebuildable).
 7. **Test it:** *"Semantic search the vault for [a concept you've written about in different words]."* Confirm it surfaces conceptually-related notes that keyword search would miss.
 
 Mark complete:
 
 ```bash
-touch ~/Documents/[AI_NAME]/.semantic-search-configured
+touch ~/[AI_NAME]/.semantic-search-configured
 ```
 
 ### Part B — The Brain (the filing cabinet that builds itself)
@@ -316,8 +316,8 @@ If yes:
 
 1. **Install the `_Brain/` scaffold** into the vault:
    ```bash
-   OVERLAY="$HOME/Documents/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /vault-scaffold/brain-layer"
-   cp -R "$OVERLAY/_Brain" "$HOME/Documents/[AI_NAME]/vault/_Brain"
+   OVERLAY="$HOME/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /vault-scaffold/brain-layer"
+   cp -R "$OVERLAY/_Brain" "$HOME/[AI_NAME]/vault/_Brain"
    ```
    This creates `_Brain/people/`, `_Brain/companies/`, `_Brain/concepts/`, `_Brain/sources/`, and `_Brain/_pending/`, each with a README and a page template.
 2. **Tell [AI_NAME] the Brain rules** (they're documented in the vault's `CLAUDE.md`, which the scaffold install updates): every fact gets an inline citation; only notable entities (2+ mentions, or 1 substantive) get a page; singletons go to `_pending/`; the top of each page is rewritten as truth changes, the timeline below the divider is append-only and never deleted.
@@ -326,7 +326,7 @@ If yes:
 Mark complete:
 
 ```bash
-touch ~/Documents/[AI_NAME]/.brain-layer-configured
+touch ~/[AI_NAME]/.brain-layer-configured
 ```
 
 **The reflection firewall (important):** the `_Brain/` is the AI's filing cabinet (Substrate B). It is deliberately separate from the user's own reflective notes (Substrate A — `Notes/`, `_context/`, daily logs). Any reflection-style commands read ONLY the user's own writing, never `_Brain/` — so the AI's compiled inferences never get mistaken for the user's own thoughts. This is documented in the vault `CLAUDE.md`.
@@ -366,7 +366,7 @@ The AI should return the full transcript text without scraping issues.
 Mark complete:
 
 ```bash
-touch ~/Documents/[AI_NAME]/.youtube-transcript-mcp-configured
+touch ~/[AI_NAME]/.youtube-transcript-mcp-configured
 ```
 
 ---
@@ -391,14 +391,14 @@ If user wants to try → walk through `guides/09-siri-apple-watch-integration.md
 If user skips → mark deferred:
 
 ```bash
-touch ~/Documents/[AI_NAME]/.siri-deferred-until-verified
+touch ~/[AI_NAME]/.siri-deferred-until-verified
 ```
 
 If user successfully completes the setup (rare until first verified install lands):
 
 ```bash
-touch ~/Documents/[AI_NAME]/.siri-configured
-echo "$(date -Iseconds) — Siri configured (UNVERIFIED PATH, user is first-mover)" >> ~/Documents/[AI_NAME]/logs/install.log
+touch ~/[AI_NAME]/.siri-configured
+echo "$(date -Iseconds) — Siri configured (UNVERIFIED PATH, user is first-mover)" >> ~/[AI_NAME]/logs/install.log
 ```
 
 ### Kit author's commitment
@@ -417,9 +417,9 @@ Siri path will be tested by the kit author "soon" (commit date 2026-05-18). Once
 ## Stage 6 — Part 2 close
 
 ```bash
-touch ~/Documents/[AI_NAME]/.part-2-complete
-date -Iseconds > ~/Documents/[AI_NAME]/.part-2-date
-echo "$(date -Iseconds) — PART 2 COMPLETE" >> ~/Documents/[AI_NAME]/logs/install.log
+touch ~/[AI_NAME]/.part-2-complete
+date -Iseconds > ~/[AI_NAME]/.part-2-date
+echo "$(date -Iseconds) — PART 2 COMPLETE" >> ~/[AI_NAME]/logs/install.log
 ```
 
 Read the end-of-Part-2 value-prop close:

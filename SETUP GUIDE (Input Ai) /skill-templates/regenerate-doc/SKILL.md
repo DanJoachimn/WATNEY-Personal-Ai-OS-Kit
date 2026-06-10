@@ -89,7 +89,7 @@ If [PARTNER_NAME] wants the diff → show side-by-side or unified diff. If they 
 
 ### Step 6 — Log the regeneration
 
-Append to `~/Documents/[AI_NAME]/logs/regenerations.log`:
+Append to `~/[AI_NAME]/logs/regenerations.log`:
 
 ```
 2026-05-18 14:23 — INSTALL.md regenerated from 4 friction logs + 2 install-helper-Claude transcripts. Major changes: Stage 3 (backup), Stage 0c (anti-ai-writing positioning), Stage 6 (FFmpeg). Backup at INSTALL.md.pre-regen-2026-05-18.

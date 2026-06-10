@@ -8,10 +8,10 @@
 #   ./setup.sh AI_NAME PARTNER_NAME [REPO_HTTPS_URL]
 #
 # Example:
-#   ./setup.sh watney Dani https://github.com/DanJoachimn/Partner-Ai-Kit-Personal.git
+#   ./setup.sh watney Dani https://github.com/DanJoachimn/WATNEY-Personal-Ai-OS-Kit.git
 #
 # Idempotent: safe to re-run if it failed partway.
-# Logs every step to ~/Documents/[AI_NAME]/logs/install.log
+# Logs every step to ~/[AI_NAME]/logs/install.log
 
 set -euo pipefail
 
@@ -19,7 +19,7 @@ set -euo pipefail
 
 AI_NAME="${1:-}"
 PARTNER_NAME="${2:-}"
-REPO_HTTPS_URL="${3:-https://github.com/DanJoachimn/Partner-Ai-Kit-Personal.git}"
+REPO_HTTPS_URL="${3:-https://github.com/DanJoachimn/WATNEY-Personal-Ai-OS-Kit.git}"
 
 if [ -z "$AI_NAME" ] || [ -z "$PARTNER_NAME" ]; then
     echo "ERROR: setup.sh requires AI_NAME and PARTNER_NAME arguments." >&2
@@ -33,7 +33,7 @@ AI_NAME_LOWER="$(echo "$AI_NAME" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')"
 # ---------- Constants ----------
 
 HOME_DIR="$HOME"
-AI_HOME="$HOME_DIR/Documents/$AI_NAME_LOWER"
+AI_HOME="$HOME_DIR/$AI_NAME_LOWER"
 KIT_DIR="$AI_HOME/.kit"
 VAULT_DIR="$AI_HOME/vault"
 LOGS_DIR="$AI_HOME/logs"

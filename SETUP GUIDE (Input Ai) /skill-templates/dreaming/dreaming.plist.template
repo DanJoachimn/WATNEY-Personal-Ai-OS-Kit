@@ -20,7 +20,7 @@
     <array>
         <string>/bin/bash</string>
         <string>-c</string>
-        <string>cd "$HOME/Documents/[AI_NAME]" &amp;&amp; /opt/homebrew/bin/claude -p "Run the dreaming skill — compress today's daily memory into long-term memory." 2&gt;&gt; "$HOME/Documents/[AI_NAME]/logs/dreaming.err"</string>
+        <string>cd "$HOME/[AI_NAME]" &amp;&amp; /opt/homebrew/bin/claude -p "Run the dreaming skill — compress today's daily memory into long-term memory." 2&gt;&gt; "$HOME/[AI_NAME]/logs/dreaming.err"</string>
     </array>
 
     <key>EnvironmentVariables</key>
@@ -43,9 +43,9 @@
     <false/>
 
     <key>StandardOutPath</key>
-    <string>/Users/[USER]/Documents/[AI_NAME]/logs/dreaming.out</string>
+    <string>/Users/[USER]/[AI_NAME]/logs/dreaming.out</string>
 
     <key>StandardErrorPath</key>
-    <string>/Users/[USER]/Documents/[AI_NAME]/logs/dreaming.err</string>
+    <string>/Users/[USER]/[AI_NAME]/logs/dreaming.err</string>
 </dict>
 </plist>

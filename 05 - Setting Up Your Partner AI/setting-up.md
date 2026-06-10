@@ -41,7 +41,7 @@ The setup is in **phases** because cognitive load matters. A 6-hour weekend mara
 ## What you do (mostly conversational)
 
 **Phase 1 — Identity & folder.**
-Install Claude Code Desktop. Install Command Line Tools when prompted. Create `~/Documents/[ai-name]/` (lowercase, no spaces, INSIDE Documents — this is critical for backup).
+Install Claude Code Desktop. Install Command Line Tools when prompted. Create `~/[ai-name]/` (lowercase, no spaces, INSIDE Documents — this is critical for backup).
 
 **Phase 1B — Portability.**
 Verify iCloud Drive is on (System Settings → Apple ID → iCloud → Desktop & Documents Folders ticked). This is what makes the AI recoverable on a new Mac. Don't skip. See [07 - Portability & Recovery](../07%20-%20Portability%20and%20Recovery/portability.md).

@@ -22,14 +22,14 @@
 ## How to use this folder for a new partner setup
 
 1. **Read `playbook.md`** for the full setup methodology (12 phases).
-2. **Build the partner's folder** at `~/Documents/[ai-name]/` (lowercase, no spaces, INSIDE Documents for iCloud backup).
+2. **Build the partner's folder** at `~/[ai-name]/` (lowercase, no spaces, INSIDE Documents for iCloud backup).
 3. **Copy the templates in:**
-   - `claude-md-template.md` → `~/Documents/[ai-name]/CLAUDE.md`
-   - `user-manual-template.md` → `~/Documents/[ai-name]/USER_MANUAL.md`
-   - `subagent-templates/` → `~/Documents/[ai-name]/.claude/agents/` (rename to .md files; pick which agents to include — typically content/research/assistant/design, add developer for technical users)
+   - `claude-md-template.md` → `~/[ai-name]/CLAUDE.md`
+   - `user-manual-template.md` → `~/[ai-name]/USER_MANUAL.md`
+   - `subagent-templates/` → `~/[ai-name]/.claude/agents/` (rename to .md files; pick which agents to include — typically content/research/assistant/design, add developer for technical users)
 4. **Find-replace placeholders:** `[AI_NAME]`, `[PARTNER_NAME]`, `[BUSINESS]`, `[BRAND]` etc. with the partner's specifics.
 5. **Adapt the brand sections** in CLAUDE.md to the partner's actual voice/positioning/banned-words. The kick-off flow will refine this further on first run.
-6. **Add the kick-off + wrap-up skills** at `~/Documents/[ai-name]/.claude/skills/` so the partner gets the auto-onboarding + auto-learnings-sweep behavior from day one.
+6. **Add the kick-off + wrap-up skills** at `~/[ai-name]/.claude/skills/` so the partner gets the auto-onboarding + auto-learnings-sweep behavior from day one.
 7. **Optionally copy in:** `vault-scaffold/` into the partner's Obsidian vault location (Phase 9), `telegram-kit/` for Phase 6 power-user path, `voice-io-kit/` for Phase 7.
 8. **AirDrop** the folder to the partner's Mac, drag into `~/Documents/`.
 9. **They open Claude Code** → kick-off auto-runs → 15 min later they're live.

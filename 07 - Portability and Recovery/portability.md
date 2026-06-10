@@ -27,7 +27,7 @@ This is what your AI's kick-off flow walks you through automatically. Once it's 
 
 **Where the AI lives:**
 
-`~/Documents/[ai-name]/`
+`~/[ai-name]/`
 
 NOT `~/[ai-name]/` (that's outside Documents and won't be backed up).
 
@@ -39,7 +39,7 @@ Your API keys (OpenAI, ElevenLabs, Telegram bot token) live at `~/.config/[ai-na
 
 **Fix:**
 
-1. Create a file at `~/Documents/[ai-name]/_recovery/env-template.txt` with this content (no actual secrets):
+1. Create a file at `~/[ai-name]/_recovery/env-template.txt` with this content (no actual secrets):
    ```
    # Recovery template — copy back to ~/.config/[ai-name]/.env on a new Mac.
    # Get the actual secret values from your password manager.
@@ -75,7 +75,7 @@ That's it.
 1. **New Mac** → sign in with the same Apple ID. Wait 5–15 minutes for `~/Documents/` to sync from iCloud.
 2. **Install Claude Code Desktop** from claude.com/code.
 3. **Install Command Line Developer Tools** when macOS prompts (or open Terminal and type `xcode-select --install`).
-4. **Open Claude Code** → "Open folder" → select `~/Documents/[ai-name]/`.
+4. **Open Claude Code** → "Open folder" → select `~/[ai-name]/`.
 5. **Re-create your `.env` file** at `~/.config/[ai-name]/.env` — copy structure from your `_recovery/env-template.txt`, paste actual values from your password manager.
 6. **Type "Hi [AI_NAME]"** — your AI is back, with full memory: every brand decision, every customer note, every voice tuning, every skill, every learning. Nothing lost.
 

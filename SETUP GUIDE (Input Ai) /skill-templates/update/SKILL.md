@@ -1,6 +1,6 @@
 ---
 name: update
-description: Fetches the latest version of WATNEY (the Personal AI Kit) from GitHub, compares it to what's installed, and reconciles changes — applying skill updates, offering new skills/vault layers, preserving the user's tunings. Triggered by `/update`, "update my kit", "update my AI", "check for kit updates", "are there new skills?", or any equivalent. Reads the live UPDATE.md playbook from the repo so reconciliation logic is always fresh.
+description: Fetches the latest version of WATNEY (the Personal AI-OS Kit) from GitHub, compares it to what's installed, and reconciles changes — applying skill updates, offering new skills/vault layers, preserving the user's tunings. Triggered by `/update`, "update my kit", "update my AI", "check for kit updates", "are there new skills?", or any equivalent. Reads the live UPDATE.md playbook from the repo so reconciliation logic is always fresh.
 ---
 
 # Update Skill — fetch and reconcile WATNEY updates
@@ -25,7 +25,7 @@ The skill is intentionally thin — most of the reconciliation logic lives in `U
 
 ### Auto-trigger (optional, off by default):
 
-If the user enables it via `touch ~/Documents/[ai-name]/.auto-update-weekly`, this skill fires automatically once a week (via a launchd job at Sunday 09:00). Most users prefer manual updates so they're aware of changes.
+If the user enables it via `touch ~/[ai-name]/.auto-update-weekly`, this skill fires automatically once a week (via a launchd job at Sunday 09:00). Most users prefer manual updates so they're aware of changes.
 
 ## How it works (the four-step flow)
 
@@ -38,7 +38,7 @@ Tell the user what's about to happen, in plain English:
 Then run the snapshot + fetch:
 
 ```bash
-cd "$HOME/Documents/[AI_NAME]/.kit"
+cd "$HOME/[AI_NAME]/.kit"
 CURRENT_COMMIT=$(git rev-parse HEAD)
 git fetch origin main
 NEW_COMMIT=$(git rev-parse origin/main)
@@ -61,7 +61,7 @@ If new commits exist → continue.
 The reconciliation logic lives in `UPDATE.md` inside the repo. Fetch the latest version of that file:
 
 ```bash
-UPDATE_PLAYBOOK="$HOME/Documents/[AI_NAME]/.kit/UPDATE.md"
+UPDATE_PLAYBOOK="$HOME/[AI_NAME]/.kit/UPDATE.md"
 # After git fetch above, this file is already up to date
 cat "$UPDATE_PLAYBOOK"
 ```
@@ -135,7 +135,7 @@ When this skill is first installed during the kit's main install (Stage 6 of INS
 
 1. Copies the skill to `~/.claude/skills/update/`
 2. Substitutes `[AI_NAME]` placeholder
-3. (Optional) Creates `~/Documents/[ai-name]/.auto-update-weekly` flag file if user opted in
+3. (Optional) Creates `~/[ai-name]/.auto-update-weekly` flag file if user opted in
 4. (If opted in) Installs the launchd job for weekly auto-update at Sunday 09:00
 
 Tell the user:
@@ -144,7 +144,7 @@ Tell the user:
 
 ## Smoke test
 
-1. Confirm `~/Documents/[ai-name]/.kit/` is a valid git checkout: `cd .kit && git status` should not error
+1. Confirm `~/[ai-name]/.kit/` is a valid git checkout: `cd .kit && git status` should not error
 2. Confirm the remote is reachable: `git fetch origin` should succeed
 3. Confirm `UPDATE.md` exists in the repo: `ls .kit/UPDATE.md`
 4. Run `/update` manually. With no upstream changes, output should be the "already on latest" message.

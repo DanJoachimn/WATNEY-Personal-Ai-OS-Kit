@@ -16,7 +16,7 @@ updated: YYYY-MM-DD
 For every CLI, MCP server, or API listed in `tools.md`, there's a corresponding file in this folder with the same base name:
 
 ```
-~/Documents/[ai-name]/vault/
+~/[ai-name]/vault/
 ├── tools.md                 ← inventory (read every session)
 └── tools/                   ← compressed docs (read on-demand)
     ├── README.md            ← this file

@@ -1,17 +1,17 @@
 ---
 name: kick-off
-description: First-conversation onboarding flow with [PARTNER_NAME]. Auto-runs ONCE the first time they open Claude Code in this folder. Walks them through critical infrastructure (iCloud Drive backup), interviews them to fill out brand voice + reference brands + do-not-use list + initial Projects/ files, sets expectations, and does a first real task together. Triggered automatically when no `.first-run-complete` flag exists. Also triggered manually on phrases "kick off", "start over", "let's onboard", "walk me through this", "interview me".
+description: First-conversation onboarding flow with [PARTNER_NAME]. Auto-runs ONCE the first time they open Claude Code in this folder. Walks them through critical infrastructure (backup check, recovery template), interviews them to fill out brand voice + reference brands + do-not-use list + initial Projects/ files, sets expectations, and does a first real task together. Triggered automatically when no `.first-run-complete` flag exists. Also triggered manually on phrases "kick off", "start over", "let's onboard", "walk me through this", "interview me".
 ---
 
 # Kick-Off Skill — First Conversation With [PARTNER_NAME]
 
 ## Purpose
 
-[PARTNER_NAME] shouldn't have to know the WATNEY install playbook exists. They shouldn't memorize iCloud settings, remember to create recovery files, manually fill in brand voice templates, or know that their AI even has subagents.
+[PARTNER_NAME] shouldn't have to know the WATNEY install playbook exists. They shouldn't memorize backup settings, remember to create recovery files, manually fill in brand voice templates, or know that their AI even has subagents.
 
 The kick-off does all of it for them — in plain language, conversationally, in one ~25-minute first session. By the end, the AI is fully set up with:
 
-- Critical infrastructure (iCloud backup, recovery template)
+- Critical infrastructure (backup check, recovery template)
 - Brand voice rules captured in [PARTNER_NAME]'s own words
 - Reference brands list, do-not-use list — populated, not blank
 - 2–3 active projects already filed in `Projects/`
@@ -71,24 +71,26 @@ Wait for confirmation. If they say "skip" / "later" / "I'm in a rush":
 >
 > So the next 3 minutes are about making sure that memory — this folder — is safe. Two layers."
 
-Then move straight into the iCloud check below. **Don't pause for confirmation on A0** — it's framing, not a question. Just keep moving.
+Then move straight into the backup check below. **Don't pause for confirmation on A0** — it's framing, not a question. Just keep moving.
 
-**A1. iCloud Drive (the cross-machine layer):**
+**A1. Backup (the survival layer):**
 
-> "First layer: if your laptop dies tomorrow, I want every brand decision, every customer note, every voice rule we set to come back the moment you sign in to a new Mac. The way that works on your Mac is iCloud Drive backing up your Documents folder. Quick check — can you open System Settings → Apple ID → iCloud, and tell me: is iCloud Drive turned on, and is 'Desktop & Documents Folders' ticked?"
+> "First layer: if your laptop dies tomorrow, I want every brand decision, every customer note, every voice rule we set to come back on a new Mac. Quick check — do you have Time Machine running to an external drive? (System Settings → General → Time Machine.) If yes, we're covered. If not, no panic — it's a ~$60 external drive and a 3-minute setup whenever you're ready, and in Part 2 I can also set up a private GitHub backup that's even stronger. For today I'll just note it as a to-do."
 
-If yes → confirm and move on.
-If no/unsure → walk them through enabling it in plain language. Wait for confirmation it's on.
+If Time Machine is on → confirm and move on.
+If not → log `backup: pending` to the first-run notes, mention it'll be nudged in Part 2 (Stage 3.7 — Vault backup). Don't block the kick-off on it.
 
-**Folder location check:**
+**Folder location check (important — do NOT move the folder):**
 
-Run `pwd` to verify the AI's folder is in `~/Documents/[ai-name]/`. If it's at `~/[ai-name]/` (outside Documents), tell them:
+Run `pwd` to verify the AI's folder is at `~/[ai-name]/` (directly in the home folder). That's the correct, deliberate location. If [PARTNER_NAME] asks why it's not in Documents:
 
-> "Quick fix: my folder isn't in your Documents yet, which means iCloud isn't backing me up. In Finder, drag this folder from your home folder into Documents. I'll wait. Once done, close this window and reopen it pointing at the new location. Tell me when you're ready."
+> "On purpose! macOS puts a privacy lock on the Documents folder that blocks my background routines — the 2 AM memory work, the Telegram checking. Living directly in your home folder keeps all of that running. Backup happens through Time Machine or GitHub instead of iCloud — stronger anyway."
+
+If the folder somehow ended up inside `~/Documents/` (e.g., the user moved it), flag it: background jobs will silently fail there. Walk them through moving it back to `~/[ai-name]/` and re-opening Claude Code at the new location.
 
 **Token recovery template:**
 
-> "When we set up things like Telegram or voice replies later, you'll have some API keys. Those live in a hidden folder that ISN'T iCloud-backed. So I'm going to create a small recovery file at `_recovery/env-template.txt` listing what tokens you'll have, without the actual values. If your Mac dies, you'll see what to re-paste from your password manager. Make sense?"
+> "When we set up things like Telegram or voice replies later, you'll have some API keys. Those live in a hidden folder that backup tools can miss. So I'm going to create a small recovery file at `_recovery/env-template.txt` listing what tokens you'll have, without the actual values. If your Mac dies, you'll see what to re-paste from your password manager. Make sense?"
 
 Then create `_recovery/env-template.txt`:
 
@@ -116,7 +118,7 @@ Branch on the response:
 
 ```bash
 # Only if user says "maybe later":
-touch ~/Documents/[ai-name]/.1password-upgrade-pending
+touch ~/[ai-name]/.1password-upgrade-pending
 ```
 
 **Hard rule:** if the user says no or skip, drop it permanently. Don't nudge unless they explicitly said "later."
@@ -125,9 +127,9 @@ touch ~/Documents/[ai-name]/.1password-upgrade-pending
 
 Two files get created in the vault scaffold during this section, no questions asked:
 
-1. `~/Documents/[ai-name]/vault/tools.md` — a starter inventory file. As [AI_NAME] picks up CLIs, MCPs, and APIs over the next few weeks, this file gets appended to. Read at every session start so [AI_NAME] knows what's available. (The kit ships a starter template with the tool-selection priority rule already documented.)
+1. `~/[ai-name]/vault/tools.md` — a starter inventory file. As [AI_NAME] picks up CLIs, MCPs, and APIs over the next few weeks, this file gets appended to. Read at every session start so [AI_NAME] knows what's available. (The kit ships a starter template with the tool-selection priority rule already documented.)
 
-2. `~/Documents/[ai-name]/vault/Memory/{daily-memory.md, long-term.md, README.md}` — the working-memory layer. Daily-memory accumulates 1-line entries from sessions. Long-term gets rewritten nightly by the `dreaming` skill (set up in Phase 11) which compresses the daily entries into a synthesized state. Both pre-seeded with the starter scaffolds.
+2. `~/[ai-name]/vault/Memory/{daily-memory.md, long-term.md, README.md}` — the working-memory layer. Daily-memory accumulates 1-line entries from sessions. Long-term gets rewritten nightly by the `dreaming` skill (set up in Phase 11) which compresses the daily entries into a synthesized state. Both pre-seeded with the starter scaffolds.
 
 Tell [PARTNER_NAME] in one sentence:
 
@@ -155,13 +157,13 @@ The kit deliberately stages voice fidelity in three tiers, each higher-resolutio
 
 ```bash
 # Has Part 1's 3-Q foundation already happened?
-ls ~/Documents/[ai-name]/.voice-foundation-3q-complete 2>/dev/null
+ls ~/[ai-name]/.voice-foundation-3q-complete 2>/dev/null
 
 # Has the 5-Q express already happened?
-ls ~/Documents/[ai-name]/.voice-express-complete 2>/dev/null
+ls ~/[ai-name]/.voice-express-complete 2>/dev/null
 
 # Has the 100-Q deluxe already happened?
-ls ~/Documents/[ai-name]/.voice-interview-complete 2>/dev/null
+ls ~/[ai-name]/.voice-interview-complete 2>/dev/null
 ```
 
 **Decision tree for Section B:**
@@ -271,7 +273,7 @@ INTERVIEW RULES:
 Begin by asking your first question.
 ```
 
-Run the full 100. Save the raw archive to `~/Documents/[ai-name]/vault/Voice/voice-archive.md` as you go (write the verbatim Q&A pairs).
+Run the full 100. Save the raw archive to `~/[ai-name]/vault/Voice/voice-archive.md` as you go (write the verbatim Q&A pairs).
 
 **After Q100, immediately invoke the `voice-compile` skill** to compress the archive into the high-fidelity `about-me.md`. Compression is non-optional — the raw archive is too big to load into every session; the compressed file is the portable voice canon.
 
@@ -284,8 +286,8 @@ Run the full 100. Save the raw archive to `~/Documents/[ai-name]/vault/Voice/voi
 **Mark voice-interview complete:**
 
 ```bash
-touch ~/Documents/[ai-name]/.voice-interview-complete
-date -Iseconds > ~/Documents/[ai-name]/.voice-interview-date
+touch ~/[ai-name]/.voice-interview-complete
+date -Iseconds > ~/[ai-name]/.voice-interview-date
 ```
 
 The wrap-up skill reads these files to decide whether to nudge for the deluxe (no nudge if `.voice-interview-complete` exists) or for the **yearly refresh** (offer once after `.voice-interview-date` ages past 365 days).
@@ -317,20 +319,20 @@ If they pick express, run these. **Mark voice-express-complete + flag deluxe sti
 > "Words, phrases, or patterns that — if I ever wrote them in a draft for you — would make you reject the whole draft. List as many as come to mind."
 
 After all 5: hand back what you captured, ask "anything off?", then write to:
-- `~/Documents/[ai-name]/vault/Brand/Voice guide.md`
-- `~/Documents/[ai-name]/vault/Brand/Reference brands.md`
-- `~/Documents/[ai-name]/vault/Brand/Do-not-use list.md`
+- `~/[ai-name]/vault/Brand/Voice guide.md`
+- `~/[ai-name]/vault/Brand/Reference brands.md`
+- `~/[ai-name]/vault/Brand/Do-not-use list.md`
 
 **Mark express complete + flag deluxe pending:**
 
 ```bash
-touch ~/Documents/[ai-name]/.voice-express-complete
-echo "5-Q express done. Deluxe 100-Q interview pending. Wrap-up skill will nudge monthly until done OR until user opts out via .voice-nudge-disabled flag." > ~/Documents/[ai-name]/.voice-status
+touch ~/[ai-name]/.voice-express-complete
+echo "5-Q express done. Deluxe 100-Q interview pending. Wrap-up skill will nudge monthly until done OR until user opts out via .voice-nudge-disabled flag." > ~/[ai-name]/.voice-status
 ```
 
 If user later says "stop nudging me about voice":
 ```bash
-touch ~/Documents/[ai-name]/.voice-nudge-disabled
+touch ~/[ai-name]/.voice-nudge-disabled
 ```
 
 ---
@@ -439,8 +441,8 @@ After it ships:
 **Mark first-task-shipped:**
 
 ```bash
-touch ~/Documents/[ai-name]/.first-task-shipped
-date -Iseconds > ~/Documents/[ai-name]/.first-task-shipped-date
+touch ~/[ai-name]/.first-task-shipped
+date -Iseconds > ~/[ai-name]/.first-task-shipped-date
 ```
 
 The wrap-up skill reads this flag — it's the trigger for the Substack invitation that fires 24+ hours after the first real task, never during install itself. The user has earned the campfire mention by getting actual value from the kit.
@@ -466,13 +468,13 @@ The wrap-up skill reads this flag — it's the trigger for the Substack invitati
 After successful kick-off, write the flag file:
 
 ```bash
-touch ~/Documents/[ai-name]/.first-run-complete
+touch ~/[ai-name]/.first-run-complete
 ```
 
 Plus a brief log:
 
 ```
-~/Documents/[ai-name]/.first-run-log.txt
+~/[ai-name]/.first-run-log.txt
 ---
 First-run completed: YYYY-MM-DD HH:MM
 Sections completed: A, B, C, D, E, F
@@ -501,19 +503,19 @@ When [PARTNER_NAME] approves "save it":
 
 | Captured from | Written to |
 |---|---|
-| Section A — recovery template | `~/Documents/[ai-name]/_recovery/env-template.txt` |
-| Section B1, B2, voice rules | `~/Documents/[ai-name]/vault/Brand/Voice guide.md` |
-| Section B3, B4 | `~/Documents/[ai-name]/vault/Brand/Reference brands.md` |
-| Section B5 | `~/Documents/[ai-name]/vault/Brand/Do-not-use list.md` |
-| Section C | `~/Documents/[ai-name]/vault/Projects/[project name].md` (one per project) |
-| Section C+1 | `~/Documents/[ai-name]/vault/People/[name].md` and `Companies/[name].md` |
-| Section C+2 | `~/Documents/[ai-name]/vault/Goals.md` |
-| Section C+3 | `~/Documents/[ai-name]/vault/Constraints.md` |
-| Section C+4 | `~/Documents/[ai-name]/vault/Working style.md` |
-| Section A end | `~/Documents/[ai-name]/.first-run-complete` (empty flag) |
-| Section A end | `~/Documents/[ai-name]/.first-run-log.txt` (audit trail) |
+| Section A — recovery template | `~/[ai-name]/_recovery/env-template.txt` |
+| Section B1, B2, voice rules | `~/[ai-name]/vault/Brand/Voice guide.md` |
+| Section B3, B4 | `~/[ai-name]/vault/Brand/Reference brands.md` |
+| Section B5 | `~/[ai-name]/vault/Brand/Do-not-use list.md` |
+| Section C | `~/[ai-name]/vault/Projects/[project name].md` (one per project) |
+| Section C+1 | `~/[ai-name]/vault/People/[name].md` and `Companies/[name].md` |
+| Section C+2 | `~/[ai-name]/vault/Goals.md` |
+| Section C+3 | `~/[ai-name]/vault/Constraints.md` |
+| Section C+4 | `~/[ai-name]/vault/Working style.md` |
+| Section A end | `~/[ai-name]/.first-run-complete` (empty flag) |
+| Section A end | `~/[ai-name]/.first-run-log.txt` (audit trail) |
 
-If the vault hasn't been set up yet (Phase 9 deferred), write to `~/Documents/[ai-name]/notes.md` instead and tell [PARTNER_NAME] those files will move to the vault when it's set up.
+If the vault hasn't been set up yet (Phase 9 deferred), write to `~/[ai-name]/notes.md` instead and tell [PARTNER_NAME] those files will move to the vault when it's set up.
 
 ---
 
@@ -522,7 +524,7 @@ If the vault hasn't been set up yet (Phase 9 deferred), write to `~/Documents/[a
 Without kick-off:
 - [PARTNER_NAME] is expected to remember setup steps they've never seen
 - Brand templates stay blank → AI drafts feel generic → they re-tune every session
-- iCloud not enabled → factory reset = total loss of months of work
+- No backup in place → a dead Mac = total loss of months of work
 - 90 min of fumbling spread across 4 frustrated sessions
 
 With kick-off:
@@ -548,7 +550,7 @@ Run all three before marking the skill production-grade. If any fails, the failu
 
 ### Scenario 2 — Edge case
 
-**Test input:** User mid-way through Section B-Deluxe (around Q40) says *"I need to stop, this is too much."* Or: user during Section A says *"my iCloud is off and I don't want to turn it on."*
+**Test input:** User mid-way through Section B-Deluxe (around Q40) says *"I need to stop, this is too much."* Or: user during Section A says *"I don't have a backup drive and don't want to deal with it now."*
 
 **Expected output:** Skill accepts gracefully. Writes `.voice-interview-incomplete` flag with a note about which question was last answered. Marks `.first-run-complete` with a log entry showing which sections were skipped/partial. Tells user *"saved everything we did get. We can pick up where we left off anytime you say 'continue the voice interview' — I'll start at Q41."*
 

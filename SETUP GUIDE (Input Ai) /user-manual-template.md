@@ -131,7 +131,7 @@ If it genuinely can't help: **ping the human who set you up.** That's the escape
 
 [AI_NAME] is just a folder of text files. As long as those files are safe, [AI_NAME] is recoverable on any Mac in ~15 minutes.
 
-**Where to keep the folder:** `~/Documents/[ai-name]/`
+**Where to keep the folder:** `~/[ai-name]/`
 
 This matters because **`~/Documents/` syncs to iCloud Drive automatically** (if iCloud Drive is on in System Settings → Apple ID → iCloud). Anything inside iCloud-synced folders is backed up to your Apple ID, replicated across every Mac you sign into, and recoverable after a factory reset.
 
@@ -144,14 +144,14 @@ This matters because **`~/Documents/` syncs to iCloud Drive automatically** (if 
 - `.claude/skills/` — skills you build over time, plus their `learnings.md` files
 - `drafts/`, `inbox/` — working files
 
-**API keys exception:** [AI_NAME]'s tokens for OpenAI, ElevenLabs, Telegram (when you set those up) live at `~/.config/[ai-name]/.env` — NOT inside the iCloud-synced folder. To protect them, keep a copy at `~/Documents/[ai-name]/_recovery/env-template.txt` (without the actual secret values — just the structure). On a new Mac, you re-paste the secrets from your password manager / where you originally saved them.
+**API keys exception:** [AI_NAME]'s tokens for OpenAI, ElevenLabs, Telegram (when you set those up) live at `~/.config/[ai-name]/.env` — NOT inside the iCloud-synced folder. To protect them, keep a copy at `~/[ai-name]/_recovery/env-template.txt` (without the actual secret values — just the structure). On a new Mac, you re-paste the secrets from your password manager / where you originally saved them.
 
 ### Recovering [AI_NAME] on a new (or reset) Mac
 
 1. **Sign in to iCloud** with your Apple ID. Wait for `~/Documents/` to fully sync (~5–15 min).
 2. **Install Claude Code Desktop** from claude.com/code.
 3. **Install Command Line Developer Tools** when macOS prompts (or open Terminal and type `xcode-select --install`).
-4. **Open Claude Code** → choose "Open folder" → navigate to `~/Documents/[ai-name]/`.
+4. **Open Claude Code** → choose "Open folder" → navigate to `~/[ai-name]/`.
 5. **Re-paste your API keys** into `~/.config/[ai-name]/.env` (using the recovery template + your saved secrets).
 6. **Type "Hi [AI_NAME]"** in chat. They reply in character with full memory of who they are, who you are, and what you've built together.
 

@@ -29,7 +29,7 @@ Every operational skill (e.g. `morning-brief`, `wrap-up`, `check-telegram`) gets
 ### File structure
 
 ```
-~/Documents/[ai-name]/.claude/skills/morning-brief/
+~/[ai-name]/.claude/skills/morning-brief/
 ├── SKILL.md          ← the procedure (mostly stable)
 ├── learnings.md      ← active tunings + history (grows over time)
 └── scripts/          ← any deterministic execution code

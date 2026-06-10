@@ -1,6 +1,6 @@
 ---
 name: auto-update-check
-description: Silent background check for kit updates from GitHub. Runs at the start of each Claude Code session in `~/Documents/[ai-name]/`, throttled to once every 8 hours. Fetches upstream changes, categorizes them (safe-to-apply vs needs-consent), auto-applies bug fixes to untouched files, surfaces a one-line notice for anything that needs the user's attention. NEVER touches user-customized skills, vault content, or recovery files. Pairs with the manual `/update` skill for full reconciliation when the user requests it.
+description: Silent background check for kit updates from GitHub. Runs at the start of each Claude Code session in `~/[ai-name]/`, throttled to once every 8 hours. Fetches upstream changes, categorizes them (safe-to-apply vs needs-consent), auto-applies bug fixes to untouched files, surfaces a one-line notice for anything that needs the user's attention. NEVER touches user-customized skills, vault content, or recovery files. Pairs with the manual `/update` skill for full reconciliation when the user requests it.
 ---
 
 # Auto-Update Check — silent kit refresh, safety-bounded
@@ -15,9 +15,9 @@ This skill keeps the kit current automatically — with strict safety bounds so 
 
 ### Auto-trigger
 
-Every time Claude Code starts a session in `~/Documents/[AI_NAME]/`, this skill runs FIRST — before greeting the user — and silently:
+Every time Claude Code starts a session in `~/[AI_NAME]/`, this skill runs FIRST — before greeting the user — and silently:
 
-1. Checks the throttle file `~/Documents/[AI_NAME]/.last-update-check`
+1. Checks the throttle file `~/[AI_NAME]/.last-update-check`
 2. If <8 hours since last check → exit immediately (no network calls, no output)
 3. If ≥8 hours OR file doesn't exist → run the check (continues below)
 
@@ -32,7 +32,7 @@ User says `/update` → this fires the FULL update flow (the existing `update` s
 ### Step 1 — Throttle check
 
 ```bash
-THROTTLE_FILE="$HOME/Documents/[AI_NAME]/.last-update-check"
+THROTTLE_FILE="$HOME/[AI_NAME]/.last-update-check"
 NOW=$(date +%s)
 LAST=0
 if [ -f "$THROTTLE_FILE" ]; then
@@ -48,7 +48,7 @@ fi
 ### Step 2 — Fetch + diff
 
 ```bash
-cd "$HOME/Documents/[AI_NAME]/.kit"
+cd "$HOME/[AI_NAME]/.kit"
 
 # Touch the throttle file IMMEDIATELY — even if the fetch fails, we don't want
 # to retry on every session. Wait the full 8 hours.
@@ -98,19 +98,19 @@ Apply categorization rules. **Hard rule: when in doubt, classify as NEEDS_CONSEN
 ```bash
 # For each modified skill the user has but hasn't tuned:
 USER_SKILL="$HOME/.claude/skills/[skill-name]/SKILL.md"
-KIT_SKILL="$HOME/Documents/[AI_NAME]/.kit/SETUP GUIDE (Input Ai)/skill-templates/[skill-name]/SKILL.md"
+KIT_SKILL="$HOME/[AI_NAME]/.kit/SETUP GUIDE (Input Ai)/skill-templates/[skill-name]/SKILL.md"
 
 cp "$KIT_SKILL" "$USER_SKILL"
 perl -i -pe 's/\[AI_NAME\]/[AI_NAME]/g; s/\[PARTNER_NAME\]/[PARTNER_NAME]/g;' "$USER_SKILL"
 
 # Log it
-echo "$(date -Iseconds) — auto-applied update to [skill-name]" >> "$HOME/Documents/[AI_NAME]/logs/auto-update.log"
+echo "$(date -Iseconds) — auto-applied update to [skill-name]" >> "$HOME/[AI_NAME]/logs/auto-update.log"
 ```
 
 **Then fast-forward the local kit checkout:**
 
 ```bash
-cd "$HOME/Documents/[AI_NAME]/.kit"
+cd "$HOME/[AI_NAME]/.kit"
 git pull origin main 2>/dev/null
 ```
 
@@ -124,7 +124,7 @@ If nothing was auto-applied and nothing needs consent → no notice. Silent.
 
 If ONLY safe fixes were applied → optional terse one-liner:
 
-> *"💡 Kit auto-updated 2 skills with bug fixes (logged to ~/Documents/[ai-name]/logs/auto-update.log)."*
+> *"💡 Kit auto-updated 2 skills with bug fixes (logged to ~/[ai-name]/logs/auto-update.log)."*
 
 User can ignore. Or say "show updates" → invoke the full `/update` skill which reads the log + lists what changed in plain English.
 
@@ -133,21 +133,21 @@ User can ignore. Or say "show updates" → invoke the full `/update` skill which
 The whole point of this skill is **not breaking the user's work.** These rules are absolute:
 
 1. **Never modify a tuned skill.** A skill is "tuned" if its `learnings.md` exists AND has non-empty content under the `## Active tunings` section. Even one user tuning = NEEDS_CONSENT.
-2. **Never modify the user's vault.** `~/Documents/[AI_NAME]/vault/` is off-limits to this skill. Always.
+2. **Never modify the user's vault.** `~/[AI_NAME]/vault/` is off-limits to this skill. Always.
 3. **Never modify `_recovery/`.** That's the user's backup template.
 4. **Never modify launchd plists that are loaded.** Re-rendering a plist while it's loaded could cause job duplication. Plist updates require manual `/update` flow.
 5. **Never modify the user's `.env` or any file in `~/.config/[ai-name]/`.** Secrets territory. Off-limits.
 6. **Touch the throttle file FIRST, before anything else.** Even if fetch fails. Even if categorization errors. The next session waits 8 hours regardless.
 7. **Silent on no-change.** If nothing's new, no output. The user shouldn't even know this skill ran.
 8. **Silent on network failure.** Don't surface "couldn't reach GitHub" — it's a background check. Try again in 8 hours.
-9. **Log everything that gets auto-applied.** `~/Documents/[AI_NAME]/logs/auto-update.log` is the audit trail. User can read it to see what changed.
+9. **Log everything that gets auto-applied.** `~/[AI_NAME]/logs/auto-update.log` is the audit trail. User can read it to see what changed.
 10. **When in doubt, classify as NEEDS_CONSENT.** Don't be clever. Err on the side of asking.
 
 ## Wiring it in
 
 This skill is invoked by Claude Code on session start. The mechanism is a session-start hook in the user's CLAUDE.md (or a SessionStart hook in `settings.json`).
 
-**In the kit-installed `CLAUDE.md` at `~/Documents/[AI_NAME]/CLAUDE.md`:**
+**In the kit-installed `CLAUDE.md` at `~/[AI_NAME]/CLAUDE.md`:**
 
 ```markdown
 ## Session start protocol
@@ -166,17 +166,17 @@ The auto-update-check might surface a one-line notice. Include it at the top of 
 The user can:
 
 - **Run `/update` manually** any time → full reconciliation flow (the existing `update` skill). More thorough than this background check.
-- **Disable auto-updates** by creating `~/Documents/[AI_NAME]/.auto-update-disabled`. This skill checks for it and exits immediately if present.
-- **Force a check now** by deleting `~/Documents/[AI_NAME]/.last-update-check`. Next session re-checks regardless of timing.
+- **Disable auto-updates** by creating `~/[AI_NAME]/.auto-update-disabled`. This skill checks for it and exits immediately if present.
+- **Force a check now** by deleting `~/[AI_NAME]/.last-update-check`. Next session re-checks regardless of timing.
 
 ## Smoke test
 
-1. Manually delete the throttle file: `rm ~/Documents/[AI_NAME]/.last-update-check`
+1. Manually delete the throttle file: `rm ~/[AI_NAME]/.last-update-check`
 2. Open a new Claude Code session in the AI's folder
 3. AI should silently run the check
 4. If upstream has nothing new → no notice, silent operation
 5. If upstream has new commits → either auto-applies (logged) or surfaces a notice
-6. Check `~/Documents/[AI_NAME]/logs/auto-update.log` for the audit trail
+6. Check `~/[AI_NAME]/logs/auto-update.log` for the audit trail
 7. Throttle file should now exist with current timestamp
 8. Run a second session within 8 hours → check should no-op (verify by tailing the log file: nothing new)
 

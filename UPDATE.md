@@ -1,4 +1,4 @@
-# UPDATE.md — Live update playbook for WATNEY (Personal AI Kit)
+# UPDATE.md — Live update playbook for WATNEY (Personal AI-OS Kit)
 
 > **This file is read by an AI agent when the user says "update my WATNEY" or invokes the `/update` skill.** It walks the AI through fetching the latest version of the kit from GitHub, reconciling changes, and announcing what's new — without breaking the user's existing setup.
 
@@ -32,10 +32,10 @@ Tell the user what's about to happen, in plain English:
 Record what version of the kit the user is currently running, before pulling:
 
 ```bash
-cd "$HOME/Documents/[AI_NAME]/.kit"
+cd "$HOME/[AI_NAME]/.kit"
 CURRENT_COMMIT=$(git rev-parse HEAD)
-echo "Current kit version: $CURRENT_COMMIT" > "$HOME/Documents/[AI_NAME]/_recovery/pre-update-snapshot.txt"
-echo "Timestamp: $(date -Iseconds)" >> "$HOME/Documents/[AI_NAME]/_recovery/pre-update-snapshot.txt"
+echo "Current kit version: $CURRENT_COMMIT" > "$HOME/[AI_NAME]/_recovery/pre-update-snapshot.txt"
+echo "Timestamp: $(date -Iseconds)" >> "$HOME/[AI_NAME]/_recovery/pre-update-snapshot.txt"
 ```
 
 This is the rollback marker. If anything breaks, we can `git checkout $CURRENT_COMMIT` to get back.
@@ -45,7 +45,7 @@ This is the rollback marker. If anything breaks, we can `git checkout $CURRENT_C
 ### Step 3 — Fetch and compare
 
 ```bash
-cd "$HOME/Documents/[AI_NAME]/.kit"
+cd "$HOME/[AI_NAME]/.kit"
 git fetch origin main
 NEW_COMMIT=$(git rev-parse origin/main)
 
@@ -125,7 +125,7 @@ For each modified skill the user has installed:
 
 ```bash
 USER_SKILL="$HOME/.claude/skills/[skill-name]/SKILL.md"
-KIT_SKILL="$HOME/Documents/[AI_NAME]/.kit/SETUP GUIDE (Input Ai)/skill-templates/[skill-name]/SKILL.md"
+KIT_SKILL="$HOME/[AI_NAME]/.kit/SETUP GUIDE (Input Ai)/skill-templates/[skill-name]/SKILL.md"
 ```
 
 **Check for local edits.** If the user has tuned their copy of the skill (via wrap-up or manually), don't silently overwrite:
@@ -168,7 +168,7 @@ For each new skill in the kit that the user doesn't have:
 If yes:
 
 ```bash
-cp -R "$HOME/Documents/[AI_NAME]/.kit/SETUP GUIDE (Input Ai)/skill-templates/[new-skill]/" \
+cp -R "$HOME/[AI_NAME]/.kit/SETUP GUIDE (Input Ai)/skill-templates/[new-skill]/" \
       "$HOME/.claude/skills/[new-skill]/"
 perl -i -pe "s/\[AI_NAME\]/[AI_NAME]/g; s/\[PARTNER_NAME\]/[PARTNER_NAME]/g;" \
   "$HOME/.claude/skills/[new-skill]/SKILL.md"
@@ -202,14 +202,14 @@ If yes, copy the folder into the user's existing vault.
 After all reconciliation is done, fast-forward the local kit checkout to the new commit:
 
 ```bash
-cd "$HOME/Documents/[AI_NAME]/.kit"
+cd "$HOME/[AI_NAME]/.kit"
 git pull origin main
 ```
 
 If the user has somehow modified files inside `.kit/` directly (they shouldn't have, but sometimes happens), `git pull` will error with conflict. In that case:
 
 > "Your local `.kit/` folder has changes that conflict with the upstream update. I'm going to:
-> 1. Stash your changes to `~/Documents/[ai-name]/_recovery/kit-stash-[date]/`
+> 1. Stash your changes to `~/[ai-name]/_recovery/kit-stash-[date]/`
 > 2. Pull the clean upstream version
 > 3. Show you what was stashed in case you want to recover any of it
 >
@@ -264,8 +264,8 @@ If anything goes sideways during update:
 
 1. Restore from the snapshot:
    ```bash
-   cd "$HOME/Documents/[AI_NAME]/.kit"
-   git checkout $(cat "$HOME/Documents/[AI_NAME]/_recovery/pre-update-snapshot.txt" | grep "Current kit version:" | cut -d' ' -f4)
+   cd "$HOME/[AI_NAME]/.kit"
+   git checkout $(cat "$HOME/[AI_NAME]/_recovery/pre-update-snapshot.txt" | grep "Current kit version:" | cut -d' ' -f4)
    ```
 2. Restore any skills that were partially overwritten from the snapshot timestamp
 3. Tell the user in plain English:
@@ -289,7 +289,7 @@ If anything goes sideways during update:
 |---|---|
 | `[AI_NAME]` | Read from `~/Documents/*/CLAUDE.md` frontmatter, or ask user if ambiguous |
 | `[PARTNER_NAME]` | Same as above |
-| Repo URL | Already baked into `~/Documents/[ai-name]/.kit/.git/config` after install (`https://github.com/DanJoachimn/Partner-Ai-Kit-Personal.git`) |
+| Repo URL | Already baked into `~/[ai-name]/.kit/.git/config` after install (`https://github.com/DanJoachimn/WATNEY-Personal-Ai-OS-Kit.git`) |
 
 ---
 

@@ -103,7 +103,7 @@ needs_tagging: false
 
 3. **Edit `scripts/config.py`** to point at your vault and tag rules:
    ```python
-   VAULT_MEETINGS_DIR = "/Users/[username]/Documents/[ai-name]/vault/Meeting Notes"
+   VAULT_MEETINGS_DIR = "/Users/[username]/[ai-name]/vault/Meeting Notes"
    USER_EMAILS = ["your@email.com"]   # so the script knows which attendee is YOU
 
    CLIENT_MAP = {

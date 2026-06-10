@@ -40,8 +40,8 @@ Run the same flow as the auto-trigger.
 ### Step 1 — Read inputs
 
 Read both:
-- `~/Documents/[ai-name]/vault/Memory/daily-memory.md` — full file
-- `~/Documents/[ai-name]/vault/Memory/long-term.md` — full file
+- `~/[ai-name]/vault/Memory/daily-memory.md` — full file
+- `~/[ai-name]/vault/Memory/long-term.md` — full file
 
 If `daily-memory.md` has nothing under `## Active (unprocessed)` — exit with a one-line log entry: *"YYYY-MM-DD HH:MM — Nothing to process."* and stop. Don't fabricate.
 
@@ -85,7 +85,7 @@ In `daily-memory.md`:
 > **Inspired by Jack Roberts' AI OS dreaming pattern (2026-05-18 triage).** The idea: when the dreaming pass detects [PARTNER_NAME] grinding on the same problem across multiple daily-memory entries, optionally hit the web for enrichment — *"Dani spent 3 hours on TCC/launchd today, let me see what others have said."* Result lands in long-term memory as an enrichment layer, never replaces [PARTNER_NAME]'s own synthesis.
 
 **Enable via flag.** Off by default. Activates only if one of:
-- `~/Documents/[ai-name]/.dreaming-enrich-web` flag file exists (set once by user)
+- `~/[ai-name]/.dreaming-enrich-web` flag file exists (set once by user)
 - Wrap-up skill explicitly approved a recurring "[PARTNER_NAME] keeps grinding on X — want me to look it up overnight?" pattern
 
 **What it does when on:**
@@ -115,20 +115,20 @@ In `daily-memory.md`:
 If `[PARTNER_NAME]` wants to enable this:
 
 ```bash
-touch ~/Documents/[AI_NAME]/.dreaming-enrich-web
+touch ~/[AI_NAME]/.dreaming-enrich-web
 ```
 
 To disable:
 
 ```bash
-rm ~/Documents/[AI_NAME]/.dreaming-enrich-web
+rm ~/[AI_NAME]/.dreaming-enrich-web
 ```
 
 Wrap-up skill nudges once when it notices 3+ days in a row of the same recurring theme: *"want me to set dreaming to enrich via web on themes you grind on? takes 5 sec to toggle on or off."* — but only nudges once. No repeat.
 
 ### Step 5 — Log the run
 
-Append one line to `~/Documents/[ai-name]/logs/dreaming.log`:
+Append one line to `~/[ai-name]/logs/dreaming.log`:
 ```
 YYYY-MM-DD HH:MM — Processed N entries. Long-term updated: [list of sections changed]. Web enrichment: [yes/no, N themes if yes]. Runtime: Xs.
 ```
@@ -162,7 +162,7 @@ When this skill is first installed during the kit's Phase 11 setup, the AI:
 1. **Creates the launchd plist** at `~/Library/LaunchAgents/com.[user].[ai-name].dreaming.plist`. See `dreaming.plist.template` in this skill folder for the template.
 2. **Loads it:** `launchctl load ~/Library/LaunchAgents/com.[user].[ai-name].dreaming.plist`
 3. **Verifies it's scheduled:** `launchctl list | grep dreaming`
-4. **Creates the log file:** `mkdir -p ~/Documents/[ai-name]/logs && touch ~/Documents/[ai-name]/logs/dreaming.log`
+4. **Creates the log file:** `mkdir -p ~/[ai-name]/logs && touch ~/[ai-name]/logs/dreaming.log`
 5. **Confirms with [PARTNER_NAME]:** *"Dreaming is wired up. Every night at 02:00, your AI will compress that day's memory into long-term memory while you sleep. You can also run it manually anytime by saying 'run dreaming.' First real run happens tonight if your Mac is on at 02:00 — otherwise the next available night."*
 
 ## Smoke test

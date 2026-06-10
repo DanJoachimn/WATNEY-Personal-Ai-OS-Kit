@@ -37,7 +37,7 @@ Claude will produce a structured report. ~3-5K words usually. Read it carefully 
 Save the report to your AI's personality file:
 
 ```
-~/Documents/[ai-name]/vault/Voice/about-me.md
+~/[ai-name]/vault/Voice/about-me.md
 ```
 
 (Or wherever the kick-off skill placed the voice file — check `vault/Voice/`.)
