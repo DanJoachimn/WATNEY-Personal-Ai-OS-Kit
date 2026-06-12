@@ -660,7 +660,9 @@ If user is on Max plan and wants to continue immediately:
 
 > "You're on Max — we have headroom. Want to roll into Part 2 right now, or take a break first?"
 
-Otherwise: end the session warmly.
+**Final beat — First Wins.** Before the goodbye: read `~/[AI_NAME]/.kit/FIRST-WINS.md`, personalize its five asks with [PARTNER_NAME]'s real context from this session (the email they mentioned owing, the decision they're weighing, the thing they keep forgetting), present the card in chat, and save the personalized copy to `~/[AI_NAME]/FIRST-WINS.md` so they can find it tomorrow.
+
+Then end the session warmly.
 
 ---
 
