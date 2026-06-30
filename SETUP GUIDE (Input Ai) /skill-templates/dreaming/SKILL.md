@@ -1,6 +1,6 @@
 ---
 name: dreaming
-description: Overnight memory-compression routine. Reads unprocessed entries from `vault/Memory/daily-memory.md`, integrates new signal into `vault/Memory/long-term.md`, marks daily entries processed. Fires automatically at 02:00 nightly via launchd. Can also be invoked manually with "run dreaming", "compress memory", "consolidate today's memory". The job that makes [AI_NAME] sharper while [PARTNER_NAME] sleeps.
+description: Overnight memory routine. FIRST harvests yesterday's actual conversation transcripts (Claude Code CLI + Claude desktop app) so decisions made in chat aren't lost, THEN compresses unprocessed entries from `vault/Memory/daily-memory.md` into `vault/Memory/long-term.md` and marks daily entries processed. Fires automatically at 02:00 nightly via launchd. Can also be invoked manually with "run dreaming", "compress memory", "consolidate today's memory". The job that makes [AI_NAME] sharper while [PARTNER_NAME] sleeps.
 ---
 
 # Dreaming Skill — overnight memory compression
@@ -10,6 +10,8 @@ description: Overnight memory-compression routine. Reads unprocessed entries fro
 Without this skill: [AI_NAME] accumulates a long list of 1-line daily-memory entries that compound forever. Eventually the file is too big to read efficiently, and the signal is buried in noise.
 
 With this skill: every night at 02:00, [AI_NAME] reads what was logged that day (and any prior unprocessed days), distills the new signal, integrates it into `long-term.md`, and marks the daily entries as processed. [AI_NAME] gets sharper while [PARTNER_NAME] sleeps.
+
+**The scribe (added 2026-06-28).** Before any of that, dreaming first reads back over [PARTNER_NAME]'s *actual conversations* from yesterday — both the Claude Code CLI sessions and the Claude desktop-app ones — and rescues the durable decisions. Why: a thing decided in a chat never reaches memory unless something writes it down, so chats where [PARTNER_NAME] settled something important used to just evaporate. The scribe closes that gap. See Step 0.
 
 The wrap-up skill is the manual day-end version of this. Dreaming is the automated, can't-be-forgotten version. **Both exist:** wrap-up handles per-skill learnings (where [PARTNER_NAME] approves changes), dreaming handles the working-memory layer (which is fully autonomous).
 
@@ -35,7 +37,37 @@ The Mac must be powered on at 02:00 (or close to it; launchd's `StartCalendarInt
 
 Run the same flow as the auto-trigger.
 
-## How it works (the four-step compression)
+## How it works (harvest, then the four-step compression)
+
+### Step 0 — Conversation harvest (the scribe)
+
+Before compressing memory, [AI_NAME] reads back over **yesterday's actual conversations** and rescues the durable points — because a decision made in a chat never reaches `daily-memory.md` unless something writes it down. This is the scribe: it closes the gap between *what got said* and *what got remembered*.
+
+**Read yesterday's transcripts from BOTH places** (a decision can land in either):
+- `~/.claude/projects/` — Claude Code CLI sessions (`.jsonl`)
+- `~/Library/Application Support/Claude/claude-code-sessions/` — the Claude **desktop app's** sessions
+
+Find files modified in the last day (`find <dir> -name '*.jsonl' -mtime -1`, or filter by the period since the last dreaming run). If neither folder exists or there's nothing from yesterday, **skip straight to Step 1** — the harvest is a bonus, never a blocker.
+
+**Extract durable signal only:**
+- Decisions and verdicts ("we're going with X", "locked: Y")
+- Commitments and next-actions ("I'll send the proposal Friday")
+- New facts about people, clients, projects, money
+- Anything [PARTNER_NAME] would be annoyed to have lost
+
+**Skip:** small talk, half-thoughts, and anything already in `daily-memory.md` (dedupe — don't double-log).
+
+**Write each rescued point** into `daily-memory.md` under `## Active (unprocessed)`, one line each, cited so the trail stays auditable:
+```
+YYYY-MM-DD HH:MM — [harvested] {the decision or fact} [from conversation YYYY-MM-DD]
+```
+Then continue to Step 1 — the normal compression now files these into long-term memory alongside everything else. **The scribe feeds the librarian.**
+
+**Hard rules for the harvest:**
+- **Fail-safe.** If reading transcripts errors, times out, or finds nothing — log it and run the rest of dreaming normally. The harvest must NEVER stop the core memory compression.
+- **Local only.** These are [PARTNER_NAME]'s own conversations on their own machine, read locally into their own memory. Nothing leaves the Mac.
+- **Skim, don't dump.** Transcripts are large. Pull the durable points; never copy whole conversations into memory. A full day of chats should yield a handful of lines, not a wall. On heavy days, prioritise the 2–3 most substantive sessions to keep the 02:00 run token-light.
+- **Dedupe.** If it's already in `daily-memory.md`, don't log it again.
 
 ### Step 1 — Read inputs
 
