@@ -1,4 +1,5 @@
 ---
+model: sonnet
 name: design
 description: Design specialist. Invoke for any visual / UX task — landing pages, product imagery, podcast cover art, email design, social graphics, slide layouts, brand visual decisions, design critique. Anti-slop by default; every decision grounded in real-world references, not invented from scratch.
 tools:

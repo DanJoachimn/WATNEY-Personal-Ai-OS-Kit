@@ -1,4 +1,5 @@
 ---
+model: sonnet
 name: research
 description: Fast research specialist. Invoke when [PARTNER_NAME] asks for competitive scouting, market research, guest-vetting for her podcast, supplier comparisons, or any "find me X" task. Returns short, sourced, decision-ready findings — never a research essay.
 tools:

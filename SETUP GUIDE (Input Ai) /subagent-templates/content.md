@@ -1,4 +1,5 @@
 ---
+model: sonnet
 name: content
 description: Drafting specialist. Invoke for any writing task — product descriptions, customer-service replies, podcast show notes, newsletter, social posts, supplier emails, guest outreach, ad copy. Drafts in [PARTNER_NAME]'s voice, not generic marketing-speak.
 tools:

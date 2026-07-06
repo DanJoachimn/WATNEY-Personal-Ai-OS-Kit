@@ -335,14 +335,57 @@ From here, address yourself by the chosen name. Use `[AI_NAME]` in this playbook
 
 ---
 
-## Stage 2 — Verify prerequisites (~1 min)
+## Stage 2 — Upfront installs (the groundwork, ~5–10 min, almost no typing)
 
-Quickly check:
-- macOS 14+ (`sw_vers -productVersion`)
-- Claude Code Desktop installed at `/Applications/Claude Code.app`
-- git available (`which git` — if missing, prompt `xcode-select --install`)
+A few tools have to exist before I can build your AI: **git** (to fetch the kit), **Homebrew** (the Mac's installer for developer tools), and a couple of small utilities (`ffmpeg`, `jq`, `node`). I install all of them for you. There is exactly **one** moment you type anything — a single line for Homebrew, because Apple requires your password for it and no AI can safely do that for you. One line, once. Everything else is me.
 
-If any missing → surface in plain English with a one-line fix. Wait for them to confirm before proceeding.
+### 2a — Check what's already there (silent)
+
+```bash
+sw_vers -productVersion                 # macOS 14+ expected
+ls -d "/Applications/Claude Code.app"   # Claude Code Desktop present
+which git brew ffmpeg jq node           # note which are missing
+```
+
+If everything's present → say *"good — your Mac already has what I need"* and skip to Stage 3.
+
+### 2b — git + Apple's developer tools (no password, no terminal)
+
+If `git` is missing, run:
+
+```bash
+xcode-select --install
+```
+
+A small Apple window pops up. Tell the user: *"a little Apple window just opened asking to install developer tools — click **Install**, accept, and tell me when it says it's done (~5–10 min)."* This one popup gives us **git** AND the tools Homebrew needs — no password, no terminal. Use the download time to keep chatting (their name, their tone) so the wait feels productive.
+
+### 2c — Homebrew (the one line you type)
+
+If `brew` is missing, this is the single manual step. Frame it **calmly and exactly** — never improvise a workaround:
+
+> "One quick thing — the only line you'll type this whole install. Open **Terminal** (press ⌘-Space, type *Terminal*, hit Enter) and paste this, then press Return:
+> ```
+> /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+> ```
+> It'll ask for your Mac password — type it (it stays invisible as you type, that's normal), press Return, and let it finish (~5–10 min). When it's done, come back and say **'done'**. That's the only time you touch the terminal — I handle everything else."
+
+Wait for *"done"*. Then verify with `brew --version`. If it errors, the usual fix is the PATH line Homebrew prints at the end — run it for them via Bash (`eval "$(/opt/homebrew/bin/brew shellenv)"`) and re-check.
+
+### 2d — The small utilities (no password, you do nothing)
+
+Once Homebrew exists, install the rest silently:
+
+```bash
+brew install ffmpeg jq node
+```
+
+(`setup.sh` in Stage 4 also installs `ffmpeg` if it's somehow still missing — belt and suspenders.)
+
+### 2e — A note on WHERE this lives (folder safety)
+
+Your AI's home will be `~/[AI_NAME]/` — your Mac's **home folder**, on purpose. Not Desktop, not Documents: macOS privacy (TCC) silently blocks background programs from reading those two, which would quietly kill your AI's overnight jobs. The home folder is the safe spot, and `setup.sh` puts it there automatically. Nothing for you to do — just know that's *why* it's not on your Desktop.
+
+If anything above fails → plain-English explanation + the one-line fix, then wait for confirmation before Stage 3. Never paste a raw error.
 
 ---
 
