@@ -67,8 +67,12 @@ render_elevenlabs() {
 }
 
 render_say() {
-  local AIFF SAY_VOICE VOICE_PREF
-  AIFF="$(mktemp -t sayXXXX).aiff"
+  if ! command -v say >/dev/null 2>&1 || ! command -v ffmpeg >/dev/null 2>&1; then
+    echo "ERROR: the fallback voice needs macOS 'say' + ffmpeg. Install ffmpeg: brew install ffmpeg" >&2
+    return 1
+  fi
+  local TMPD AIFF SAY_VOICE VOICE_PREF
+  TMPD="$(mktemp -d)"; AIFF="${TMPD}/say.aiff"
   VOICE_PREF="${HOME}/${AI_NAME}/.config/voice-preference"
   SAY_VOICE=""
   [[ -f "$VOICE_PREF" ]] && SAY_VOICE="$(cat "$VOICE_PREF" 2>/dev/null || true)"
@@ -78,7 +82,7 @@ render_say() {
     say -o "$AIFF" "$TEXT"
   fi
   ffmpeg -y -loglevel error -i "$AIFF" -codec:a libmp3lame -qscale:a 2 "$OUT"
-  rm -f "$AIFF"
+  rm -rf "$TMPD"
 }
 
 if render_elevenlabs; then
@@ -89,6 +93,10 @@ fi
 # Fallback chosen — surface it on stderr so the installer/AI can tell the user
 # honestly ("using Mac's built-in voice for now; upgrade to ElevenLabs anytime").
 echo "note: ElevenLabs not configured or unavailable — using macOS built-in voice." >&2
-render_say
-echo "$OUT"
-exit 0
+if render_say; then
+  echo "$OUT"
+  exit 0
+fi
+
+echo "ERROR: could not render audio — ElevenLabs not set up and the macOS fallback failed." >&2
+exit 1

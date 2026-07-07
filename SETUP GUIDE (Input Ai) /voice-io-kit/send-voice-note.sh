@@ -28,6 +28,10 @@ if [[ ! -f "$AUDIO" ]]; then
   exit 1
 fi
 
+for dep in curl jq ffmpeg; do
+  command -v "$dep" >/dev/null 2>&1 || { echo "ERROR: '$dep' not found (need curl, jq, ffmpeg). Install: brew install $dep" >&2; exit 1; }
+done
+
 if [[ -z "${AI_NAME:-}" ]]; then
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
   AI_NAME="$(basename "$(dirname "$SCRIPT_DIR")")"
@@ -39,7 +43,7 @@ if [[ ! -f "$TOKEN_FILE" ]]; then
   exit 1
 fi
 
-BOT_TOKEN=$(grep -E '^TELEGRAM_BOT_TOKEN=' "$TOKEN_FILE" | head -1 | cut -d= -f2-)
+BOT_TOKEN=$(grep -E '^TELEGRAM_BOT_TOKEN=' "$TOKEN_FILE" | head -1 | cut -d= -f2- || true)
 BOT_TOKEN="${BOT_TOKEN//\"/}"; BOT_TOKEN="${BOT_TOKEN//\'/}"
 BOT_TOKEN="$(echo -n "$BOT_TOKEN" | xargs 2>/dev/null || echo -n "$BOT_TOKEN")"
 if [[ -z "$BOT_TOKEN" ]]; then
@@ -57,7 +61,7 @@ ENDPOINT="https://api.telegram.org/bot${BOT_TOKEN}/sendVoice"
 CURL_ARGS=(-s --max-time 30 -X POST "$ENDPOINT" -F "chat_id=$CHAT_ID" -F "voice=@${OGG}")
 [[ -n "$REPLY_TO" ]] && CURL_ARGS+=(-F "reply_to_message_id=$REPLY_TO")
 
-RESPONSE=$(curl "${CURL_ARGS[@]}")
+RESPONSE=$(curl "${CURL_ARGS[@]}" || echo '{"ok":false,"_curl":"failed"}')
 OK=$(echo "$RESPONSE" | jq -r '.ok // false' 2>/dev/null || echo false)
 if [[ "$OK" != "true" ]]; then
   echo "Telegram API rejected sendVoice:" >&2

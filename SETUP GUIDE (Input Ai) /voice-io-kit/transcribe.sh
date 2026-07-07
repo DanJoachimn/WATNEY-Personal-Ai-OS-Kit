@@ -89,8 +89,10 @@ try_openai() {
     echo "ERROR from OpenAI: $(echo "${RESPONSE}" | jq -r '.error.message')" >&2
     return 1
   fi
-  echo "${RESPONSE}" | jq -r '.text'
-  return 0
+  local TEXT
+  TEXT=$(echo "${RESPONSE}" | jq -r '.text // empty' 2>/dev/null || true)
+  [ -n "${TEXT}" ] && { echo "${TEXT}"; return 0; }
+  return 1
 }
 
 if try_elevenlabs; then exit 0; fi
