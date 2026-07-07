@@ -389,6 +389,27 @@ If anything above fails → plain-English explanation + the one-line fix, then w
 
 ---
 
+## Stage 2.5 — The apps you'll use (I'll open each download page for you, ~5 min)
+
+Three apps make this kit sing. If computer use + Chrome are on, **open each download page in the user's browser yourself** — they just click through the installer and grant permissions when macOS asks. If those capabilities are off, give the link and wait for "done."
+
+| App | Why it's here | Download |
+|---|---|---|
+| **Telegram Desktop** | Lets you copy your bot token *on the Mac* (Stage 6) and text your AI from the computer too. The smoothest path. | https://desktop.telegram.org |
+| **Obsidian** | The window onto your AI's second brain — the vault it reads and writes every day. Free, yours, offline. | https://obsidian.md/download |
+| **Wispr Flow** | Talk instead of type — dictation anywhere on the Mac. Install it now and you can *speak* the rest of this install instead of typing. | read `AFFILIATE-LINKS.md` (below) |
+
+**For Wispr Flow:** read `~/[AI_NAME]/.kit/AFFILIATE-LINKS.md`, use the affiliate link if one's filled in (else the plain link `https://wisprflow.ai`), and show the disclosure line the first time an affiliate link appears this session. The free tier is plenty to try it.
+
+Walk it:
+1. For each app the user wants, open the download page (Chrome extension if paired; otherwise hand them the link and wait for "done").
+2. Pause for the physical install. Telegram and Wispr Flow ask for permissions (notifications; microphone + accessibility) — tell them that's expected and fine.
+3. **Don't gate the install on any of these.** Skip Obsidian → the vault still runs headless (we reveal it properly later). Skip Wispr Flow → they just type. Telegram Desktop is the only strongly-recommended one, and even that has a phone-only fallback.
+
+Once Wispr Flow is in, offer once: *"Want to talk instead of type from here? Hold Wispr Flow's hotkey and just speak — I'll catch it."*
+
+---
+
 ## Stage 3 — Backup awareness (~30 sec)
 
 > "Quick note on backup: your AI's memory lives at `~/[AI_NAME]/` on this Mac. **Don't move it into iCloud Drive.** Sounds counter-intuitive (Apple's whole pitch is iCloud), but macOS privacy controls block background programs from reading anything in `~/Documents/` — and your AI's always-on features ARE background programs. Moving the vault into iCloud breaks them within 24 hours.
@@ -425,7 +446,7 @@ cd ~/.partner-ai-kit-staging
 The script:
 - Clones the kit to `~/[AI_NAME]/.kit/`
 - Builds the vault scaffold at `~/[AI_NAME]/vault/`
-- Installs 7 core skills to `~/.claude/skills/`
+- Installs 12 core skills to `~/.claude/skills/` — including `check-telegram` (the answering machine that processes and replies to phone messages) and the install mentor (plain-English explainer blocks at each phase)
 - Installs 4 digital employee subagents (Content, Research, Developer, Assistant) to `~/[AI_NAME]/.claude/agents/`
 - Loads the nightly memory-compression launchd job
 - Creates `_recovery/env-template.txt`
@@ -508,67 +529,178 @@ This is where the kit reaches off the Mac and into the user's pocket.
 
 Wait for them to confirm: *"got the token."*
 
-### 6b — User pastes the token (clipboard pattern, never in chat)
+### 6b — User copies the token, the AI files it (clipboard pattern, never in chat)
 
-> "Open the file at `~/.config/[ai-name]/telegram/.env`. I just created it — it's empty. Paste your bot token into it like this:
->
-> ```
-> TELEGRAM_BOT_TOKEN=YOUR_TOKEN_HERE
-> ```
->
-> Save the file. Then come back here and say 'done.' (I'm not asking you to paste the token into chat — keeps it out of the conversation log.)"
+Do NOT ask the user to open or edit any file — hidden dotfiles are invisible to a non-developer in Finder. The clipboard does the hand-off:
 
-The AI creates the empty `.env` file with chmod 600 before asking the user to paste.
+> "Copy the token BotFather sent you. One thing: copy it **on this Mac** — open Telegram's desktop app or web.telegram.org, find the BotFather message, and copy the token there (a phone copy doesn't reach the Mac's clipboard unless Universal Clipboard is set up). Don't paste it anywhere — just tell me 'copied.' I'll read it straight off your clipboard into a locked config file, so it never appears in our chat log."
+
+When they say "copied," run:
+
+```bash
+mkdir -p ~/.config/[ai-name]/telegram
+umask 177
+printf 'TELEGRAM_BOT_TOKEN=%s\n' "$(pbpaste | tr -d '[:space:]')" \
+  > ~/.config/[ai-name]/telegram/.env
+chmod 600 ~/.config/[ai-name]/telegram/.env
+pbcopy < /dev/null   # clear the clipboard afterwards
+```
+
+Verify the token works before moving on (never echo the token itself):
+
+```bash
+source ~/.config/[ai-name]/telegram/.env
+curl -s "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getMe" | jq -r '.ok'
+```
+
+`true` → tell the user *"token filed and verified — and I've cleared your clipboard."* `false` or empty → the clipboard was empty or grabbed extra text; ask them to copy just the token line (on the Mac) and repeat this step.
 
 ### 6c — Install the Telegram poller
 
 ```bash
+mkdir -p ~/[AI_NAME]/scripts ~/[AI_NAME]/logs ~/Library/LaunchAgents
 cp "~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /telegram-kit/poll-telegram.sh" \
    "~/[AI_NAME]/scripts/poll-telegram.sh"
 chmod +x ~/[AI_NAME]/scripts/poll-telegram.sh
 
-# Render + load the launchd plist for the poller
-sed -e "s/\[USER\]/$(whoami)/g" -e "s/\[AI_NAME\]/[AI_NAME]/g" \
-    "~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /telegram-kit/com.telegram-poller.plist.template" \
-    > "~/Library/LaunchAgents/com.$(whoami).[AI_NAME].telegram-poller.plist"
+# Generate the launchd plist DIRECTLY — no template substitution, nothing to get wrong.
+# The ONLY place you fill in the AI's name is the NAME= line; everything below reads ${NAME}.
+NAME="[AI_NAME]"                 # ← the AI's folder name, lowercase (e.g. watney)
+USER_NAME="$(whoami)"
+PLIST="$HOME/Library/LaunchAgents/com.${USER_NAME}.${NAME}.telegram-poller.plist"
+cat > "$PLIST" <<PLIST_EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.${USER_NAME}.${NAME}.telegram-poller</string>
+  <key>ProgramArguments</key>
+  <array><string>${HOME}/${NAME}/scripts/poll-telegram.sh</string></array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>AI_NAME</key><string>${NAME}</string>
+    <key>HOME</key><string>${HOME}</string>
+    <key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+  </dict>
+  <key>StartInterval</key><integer>60</integer>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><false/>
+  <key>StandardOutPath</key><string>${HOME}/${NAME}/logs/telegram-poller.out</string>
+  <key>StandardErrorPath</key><string>${HOME}/${NAME}/logs/telegram-poller.err</string>
+</dict>
+</plist>
+PLIST_EOF
 
-launchctl load "~/Library/LaunchAgents/com.$(whoami).[AI_NAME].telegram-poller.plist"
+launchctl load "$PLIST"
 ```
 
-### 6d — Verify
+*(The `com.telegram-poller.plist.template` file in the kit is kept as reference/documentation — the heredoc above is what actually runs, because generating the plist directly removes every place a find-replace could go wrong.)*
+
+**Hard gate — verify the job actually loaded before continuing:**
+
+```bash
+launchctl list | grep telegram-poller
+```
+
+This MUST return a row. If it doesn't: check the rendered plist contains zero leftover `[BRACKETED]` placeholders (`grep '\[' ~/Library/LaunchAgents/com.*telegram-poller.plist` must return nothing), fix, re-load. Do **not** improvise a session-bound poller process instead — that dies the first time the Mac sleeps and produces the classic "worked yesterday, dead today" failure.
+
+### 6d — Verify end-to-end (message in → chat id captured)
 
 Tell the user:
 
-> "Send a quick test message from your phone to your bot — anything, like 'hello'. I'll watch the inbox."
+> "Send a quick test message from your phone to your bot — anything, like 'hello'. I'll watch the inbox. (Up to a minute — the mailman does rounds every 60 seconds.)"
 
-Wait. Check `~/[AI_NAME]/inbox/` for incoming message. When it lands:
+Wait. Check `~/[AI_NAME]/inbox/telegram/` for the incoming message file, then confirm the poller captured the reply address:
 
-> "✅ Got it. Your AI just received its first message from your phone. Bridge is live."
+```bash
+cat ~/[AI_NAME]/.config/telegram-chat-id   # must print a number
+```
+
+When both land:
+
+> "✅ Got it. Your AI just received its first message from your phone — and it now knows where to send replies. Bridge is live, both directions.
+>
+> One more thing worth knowing: this bridge has an **answering machine**. When a message from you arrives and this chat window is closed, your AI wakes itself in the background, reads the message, and replies — usually within a couple of minutes. Your Mac just has to be awake (we'll set that up properly in a minute). Waking up to reply uses a little of your Claude usage each time — nothing dramatic for normal texting, but if you'd rather it just collect messages and answer when you next open it, one setting (`AUTO_REPLY=off` in the telegram config) turns the auto-reply off."
 
 ---
 
-## Stage 7 — Voice (~5 min, free Mac voices)
+## Stage 7 — Voice (~8 min, your AI's real voice — free)
 
-> "Now I'll set up voice. Default is free — your Mac already has voices built in. (You can upgrade to ElevenLabs premium voices later in Part 2 if you want; today's setup uses what's free and works.)"
+Voice is **core to this kit, not an upgrade** — the aha-moment in Stage 8 is a voice note, and it must sound like a person, never like a 1990s robot. The default voice comes from **ElevenLabs' free tier** (no card required, ~10 minutes of speech per month — plenty for voice notes). The Mac's built-in voice exists only as an *announced* fallback.
 
-The setup is mostly automatic:
+### 7a — Install the voice machinery (automatic)
 
 ```bash
 cp "~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /voice-io-kit/say-to-mac.sh" \
    "~/[AI_NAME]/scripts/say-to-mac.sh"
-
 cp "~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /voice-io-kit/send-voice-note.sh" \
    "~/[AI_NAME]/scripts/send-voice-note.sh"
-
+cp "~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /voice-io-kit/transcribe.sh" \
+   "~/[AI_NAME]/scripts/transcribe.sh"
 chmod +x ~/[AI_NAME]/scripts/say-to-mac.sh \
-         ~/[AI_NAME]/scripts/send-voice-note.sh
+         ~/[AI_NAME]/scripts/send-voice-note.sh \
+         ~/[AI_NAME]/scripts/transcribe.sh
+
+# The voice-io skill (transcription workflow) — installed alongside the core skills
+cp -R "~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /voice-io-kit" ~/.claude/skills/voice-io 2>/dev/null || true
 ```
 
-Quick voice picker:
+### 7b — ElevenLabs free account (~3 min, Chrome-extension-assisted)
 
-> "Mac has a few voices to pick from. My defaults: **Samantha** (the standard female voice, clearest), **Daniel** (UK male), or **Karen** (Australian female). Or you can pick your own — say 'show me the list' and I'll print them."
+**Before surfacing the link: read `~/[AI_NAME]/.kit/AFFILIATE-LINKS.md`** — use the ElevenLabs affiliate link if one is filled in, else the plain link, and show the disclosure line the first time an affiliate link appears in this session.
 
-Capture the pick. Save to `~/[AI_NAME]/.config/voice-preference`.
+> "Now the fun one — your real voice. ElevenLabs makes the most natural AI voices there are, and the free tier covers everything we need today: no card, about 10 minutes of speech a month, which is plenty for voice notes. I'll open the signup page and help you through it — 2 minutes."
+
+Open the signup page (via Chrome extension when paired). After they've signed up, have them go to their profile → API key → **copy the key**. Same clipboard pattern as the Telegram token — never in chat:
+
+```bash
+mkdir -p ~/.config/[ai-name]/elevenlabs
+umask 177
+printf 'ELEVENLABS_API_KEY=%s\n' "$(pbpaste | tr -d '[:space:]')" \
+  > ~/.config/[ai-name]/elevenlabs/.env
+chmod 600 ~/.config/[ai-name]/elevenlabs/.env
+pbcopy < /dev/null
+```
+
+### 7c — Pick the voice (three free defaults, verified IDs)
+
+> "Pick my voice. Three free ones I'd suggest — I'll play you a sample of any of them:
+>
+> - **George** — warm British storyteller. The 'wise friend' option.
+> - **Bella** — bright, warm, professional. The 'sharp colleague' option.
+> - **Brian** — deep, resonant, calm. The 'steady hand' option.
+>
+> And if none of these feel right: ElevenLabs has a library of thousands of voices — every accent, energy, and style you can imagine. Browsing it is free with the account you just made; the bigger selection and more speaking time come with their paid plan, only if you ever want it."
+
+Append the chosen voice to the env file (these are ElevenLabs' universal premade voice IDs):
+
+| Voice | ID |
+|---|---|
+| George | `JBFqnCBsd6RMkjVDRZzb` |
+| Bella | `hpp4J3VqNfWAUOO0d1Us` |
+| Brian | `nPczCjzI2devNBz1zQrb` |
+
+```bash
+printf 'ELEVENLABS_VOICE_ID=%s\n' "[CHOSEN_VOICE_ID]" \
+  >> ~/.config/[ai-name]/elevenlabs/.env
+```
+
+**Prove it immediately** — render a one-liner and play it on the Mac's speakers:
+
+```bash
+~/[AI_NAME]/scripts/say-to-mac.sh "Voice is live. This is what I sound like from now on." /tmp/voice-test.mp3 \
+  && afplay /tmp/voice-test.mp3
+```
+
+If the script prints the ElevenLabs-fallback note on stderr instead of playing the real voice, the key or voice ID didn't land — fix before moving on. **Stage 8's aha-moment depends on this exact pipeline working now.**
+
+### 7d — If the user skips ElevenLabs
+
+Accept once, no nagging — but be honest about what they'll hear:
+
+> "No problem. I'll use the Mac's built-in voice for now — fair warning, it's noticeably robotic. Everything still works; it just sounds like 2005. Say *'set up my real voice'* anytime and we'll do the 3-minute ElevenLabs step then."
+
+Then run the Mac voice picker so the fallback is at least the best available: **Samantha** (clearest), **Daniel** (UK male), or **Karen** (Australian). Save the pick to `~/[AI_NAME]/.config/voice-preference` — the scripts read it automatically when ElevenLabs isn't configured.
 
 ---
 
@@ -617,15 +749,15 @@ This is the climax of Part 1. **The user does NOT prompt this. The AI delegates 
      /tmp/aha-moment.mp3
    ```
 
-3. Send via Telegram to the user's bot:
+3. Send via Telegram as a native voice note (the script converts to Telegram's ogg/opus format):
 
    ```bash
-   source ~/.config/[AI_NAME]/telegram/.env
-   CHAT_ID="$(cat ~/[AI_NAME]/.config/telegram-chat-id)"
+   # The poller wrote this file when the user's Stage 6 test message arrived.
+   CHAT_ID="$(cat ~/[AI_NAME]/.config/telegram-chat-id 2>/dev/null)"
+   # Fallback: pull it from the newest inbox message if the file is missing.
+   [ -z "$CHAT_ID" ] && CHAT_ID="$(grep -h '^chat_id:' ~/[AI_NAME]/inbox/telegram/*.md 2>/dev/null | tail -1 | awk '{print $2}')"
 
-   curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendVoice" \
-     -F "chat_id=${CHAT_ID}" \
-     -F "voice=@/tmp/aha-moment.mp3"
+   ~/[AI_NAME]/scripts/send-voice-note.sh "$CHAT_ID" /tmp/aha-moment.mp3
    ```
 
 4. In chat, tell the user:

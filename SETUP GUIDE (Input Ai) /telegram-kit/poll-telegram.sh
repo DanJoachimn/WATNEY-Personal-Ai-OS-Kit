@@ -29,8 +29,9 @@ OFFSET_FILE="${CONFIG_DIR}/offset"
 INBOX_DIR="${AI_HOME}/inbox/telegram"
 VOICE_DIR="${INBOX_DIR}/voice"
 LOG_FILE="${AI_HOME}/logs/telegram-poller.log"
+CHAT_ID_FILE="${AI_HOME}/.config/telegram-chat-id"
 
-mkdir -p "${CONFIG_DIR}" "${INBOX_DIR}" "${VOICE_DIR}" "$(dirname "${LOG_FILE}")"
+mkdir -p "${CONFIG_DIR}" "${INBOX_DIR}" "${VOICE_DIR}" "${AI_HOME}/.config" "$(dirname "${LOG_FILE}")"
 
 log() {
   echo "[$(date -Iseconds)] $*" >> "${LOG_FILE}"
@@ -98,6 +99,7 @@ log "Got ${UPDATE_COUNT} new update(s)."
 # ---- Process each update -------------------------------------------------
 
 MAX_UPDATE_ID=0
+NEW_MESSAGES=0
 
 # Use process substitution so the while-loop runs in the CURRENT shell.
 # `cmd | while` would fork a subshell and lose MAX_UPDATE_ID updates.
@@ -175,12 +177,47 @@ while read -r UPDATE; do
   } > "${INBOX_FILE}"
 
   log "WROTE: ${INBOX_FILE}"
+  NEW_MESSAGES=$((NEW_MESSAGES + 1))
+
+  # First contact: remember the chat id so voice notes and replies (the
+  # aha-moment in Stage 8, every reply after) know where to send. Idempotent.
+  if [ ! -f "${CHAT_ID_FILE}" ] && [ -n "${CHAT_ID}" ]; then
+    echo "${CHAT_ID}" > "${CHAT_ID_FILE}"
+    log "Captured chat id ${CHAT_ID} -> ${CHAT_ID_FILE}"
+  fi
 done < <(echo "${RESPONSE}" | jq -c '.result[]')
 
 # Persist the new offset (next call picks up after MAX_UPDATE_ID)
 if [ "${MAX_UPDATE_ID}" -gt 0 ]; then
   echo $((MAX_UPDATE_ID + 1)) > "${OFFSET_FILE}"
   log "Updated offset to $((MAX_UPDATE_ID + 1))."
+fi
+
+# ---- Auto-reply: the answering machine -------------------------------------
+# When new allowlisted messages landed, wake a headless Claude to process the
+# inbox via the check-telegram skill. Runs in the FOREGROUND on purpose:
+# launchd won't start a second instance of this job while one is running, so
+# reply runs are naturally serialized — no locks, no races. Messages that
+# arrive mid-run are picked up on the next cycle.
+#
+# Cost shape: one `claude -p` call per poll cycle that has new messages,
+# capped at REPLY_MAX_TURNS tool-use turns. Silence costs nothing.
+# Turn off by adding AUTO_REPLY=off to the telegram .env (messages then
+# queue until the next live session — the AI catches up when you open it).
+
+if [ "${NEW_MESSAGES}" -gt 0 ] && [ "${AUTO_REPLY:-on}" != "off" ]; then
+  CLAUDE_BIN="$(command -v claude || true)"
+  if [ -z "${CLAUDE_BIN}" ]; then
+    log "AUTO-REPLY: claude CLI not on PATH — ${NEW_MESSAGES} message(s) queued for the next live session."
+  else
+    log "AUTO-REPLY: ${NEW_MESSAGES} new message(s) — waking Claude to process the inbox."
+    cd "${AI_HOME}" || exit 0
+    "${CLAUDE_BIN}" -p "New Telegram message(s) just arrived in ~/${AI_NAME}/inbox/telegram/. Use the check-telegram skill: process every unprocessed message, reply on Telegram, and mark each one processed. This is a background run — no human is in this session, so skip the interactive summary and exit when the inbox is clear." \
+      --max-turns "${REPLY_MAX_TURNS:-15}" \
+      >> "${AI_HOME}/logs/auto-reply.log" 2>&1 \
+      || log "AUTO-REPLY: claude run exited non-zero — messages remain 'processed: false' and will retry next cycle."
+    log "AUTO-REPLY: run finished."
+  fi
 fi
 
 exit 0

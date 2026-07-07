@@ -1,13 +1,17 @@
 ---
 name: voice-io
-description: Transcribe voice notes (Whisper via OpenAI API). Use when processing a Telegram voice note OR when [PARTNER_NAME] hands a local audio file and says "listen to this" or "transcribe this."
+description: Voice both ways. Transcribe voice notes (ElevenLabs Scribe, or OpenAI Whisper fallback) when processing a Telegram voice note or when [PARTNER_NAME] hands you an audio file; and render spoken replies (ElevenLabs voice, or macOS say fallback) via the companion scripts.
 ---
 
-# Voice I/O — transcription only (cheapest path)
+# Voice I/O — in and out
 
-**Scope:** this skill does ONE thing — takes an audio file, returns text. No text-to-speech (her AI replies in text). If she wants spoken replies later, that's a separate skill to bolt on.
+**Scope:** this skill covers voice **in** (audio → text) and points to voice **out** (text → spoken reply). Three scripts live at `~/[AI_NAME]/scripts/`:
 
-**Why Whisper-only:** it's the cheapest, simplest, and most accurate path. Whisper handles multilingual audio out of the box (Danish, English, anything). Costs ~$0.006/minute. A heavy voice-note user (5 min/day) pays ~$1/month.
+- `transcribe.sh <audio>` — voice IN. ElevenLabs Scribe first (same free account as voice-out), OpenAI Whisper fallback.
+- `say-to-mac.sh "<text>" <out.mp3>` — render text to speech. ElevenLabs voice first, macOS `say` fallback.
+- `send-voice-note.sh <chat_id> <audio>` — send an audio file to Telegram as a native voice note.
+
+**Why ElevenLabs-first for both:** one free ElevenLabs signup (done in install Stage 7) covers transcription AND the AI's real voice, so there's usually nothing else to configure. The old Whisper/OpenAI path still works as a fallback if an `OPENAI_API_KEY` is present. Costs are pennies either way.
 
 ## When to invoke
 
@@ -78,6 +82,15 @@ AI_NAME=[ai-name] ~/[AI_NAME]/scripts/transcribe.sh /path/to/any/voice-note.m4a
 - **If the transcript is empty or nonsense** (Whisper sometimes fails on silence or very short clips), tell her: "couldn't transcribe — audio might be too short or too quiet. Want to try again?"
 - **Multi-language:** Whisper auto-detects. If [PARTNER_NAME] speaks Danish, the transcript is in Danish. Don't translate unless she asks.
 
-## Future: if she wants spoken replies
+## Voice out — spoken replies (built)
 
-The cheapest TTS path is OpenAI's `tts-1` model (~$15/1M characters = a few dollars/month at moderate use). Add a second script `speak.sh` that takes text and writes an mp3; reply on Telegram with the mp3 via `sendVoice`. Don't build until she asks for it — most people stop wanting spoken replies after the first week.
+To reply with a voice note instead of text:
+
+```bash
+~/[AI_NAME]/scripts/say-to-mac.sh "Your reply text" /tmp/reply.mp3
+~/[AI_NAME]/scripts/send-voice-note.sh "${CHAT_ID}" /tmp/reply.mp3
+```
+
+`say-to-mac.sh` uses the ElevenLabs voice chosen at install if it's configured, else the Mac's built-in `say` voice (and prints a note to stderr when it falls back, so you can tell [PARTNER_NAME] honestly). `CHAT_ID` comes from the Telegram message frontmatter or `~/[AI_NAME]/.config/telegram-chat-id`.
+
+**When to voice-reply vs text-reply:** default to text (instant, free, easy to skim on a phone). Reserve voice replies for when they add something — a warm check-in, a reply to a voice note, a moment that lands better spoken. Don't voice-reply to everything.

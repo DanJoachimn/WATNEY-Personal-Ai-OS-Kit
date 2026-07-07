@@ -116,7 +116,7 @@ stage_skills() {
     # voice discipline that fires on every written output — core to the kit's
     # "your AI sounds like you, not generated" promise. Don't move it to
     # optional; it's foundational.
-    local CORE_SKILLS="anti-ai-writing kick-off wrap-up dreaming consolidating voice-compile update auto-update-check llm-council regenerate-doc"
+    local CORE_SKILLS="anti-ai-writing kick-off wrap-up dreaming consolidating voice-compile update auto-update-check llm-council regenerate-doc check-telegram watney-install-mentor"
 
     for skill in $CORE_SKILLS; do
         if [ -d "$SKILL_SRC/$skill" ]; then

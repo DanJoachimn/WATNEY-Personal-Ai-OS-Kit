@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Telegram poller launchd job for [AI_NAME].
+
+  EXACTLY TWO placeholders in this template — substitute both, nothing else:
+    [USER]      -> macOS username (run `whoami` to get it)
+    [AI_NAME]   -> the AI's folder name, lowercase (e.g. mira)
+
+  Save the rendered file to:
+    ~/Library/LaunchAgents/com.[user].[ai-name].telegram-poller.plist
+
+  Then load with:
+    launchctl load   ~/Library/LaunchAgents/com.[user].[ai-name].telegram-poller.plist
+
+  Verify it's running (this MUST return a row — do not proceed without it):
+    launchctl list | grep telegram-poller
+
+  Unload (to stop):
+    launchctl unload ~/Library/LaunchAgents/com.[user].[ai-name].telegram-poller.plist
+
+  Design note: StartInterval + RunAtLoad + KeepAlive:false is CORRECT for an
+  interval poller — launchd fires it every 60s and catches up after sleep/wake.
+  Do NOT set KeepAlive:true on a script that exits; it would relaunch in a loop.
+
+  Polls every 60 seconds. Logs to ~/[ai-name]/logs/telegram-poller.{out,err}.
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.[USER].[AI_NAME].telegram-poller</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/[USER]/[AI_NAME]/scripts/poll-telegram.sh</string>
+  </array>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>AI_NAME</key>
+    <string>[AI_NAME]</string>
+    <key>HOME</key>
+    <string>/Users/[USER]</string>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+  </dict>
+
+  <key>StartInterval</key>
+  <integer>60</integer>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>KeepAlive</key>
+  <false/>
+
+  <key>StandardOutPath</key>
+  <string>/Users/[PARTNER_USERNAME]/[AI_NAME]/logs/telegram-poller.out</string>
+
+  <key>StandardErrorPath</key>
+  <string>/Users/[PARTNER_USERNAME]/[AI_NAME]/logs/telegram-poller.err</string>
+</dict>
+</plist>
