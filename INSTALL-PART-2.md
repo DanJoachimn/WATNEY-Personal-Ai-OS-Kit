@@ -341,9 +341,10 @@ Full setup in `guides/10-meeting-capture-with-granola.md`. Mark complete: `touch
 > - **Video Use** — cut filler words + dead air from recordings (~5 min). For talking-head videos, podcasts, course content.
 > - **Content pipeline** — multi-stage content production (research → draft → quality → distribute). For users producing newsletter/long-form regularly (~10 min).
 > - **Document transformations** — mines meeting transcripts for case-study material. Pairs with Granola (~5 min).
-> - **Book mirror** — turns books you've read (via Readwise highlights) into chapter-by-chapter synthesis docs (~5 min)."
+> - **Book mirror** — turns books you've read (via Readwise highlights) into chapter-by-chapter synthesis docs (~5 min).
+> - **Superpowers** *(for builders only)* — a process framework by Jesse Vincent that makes your AI plan → test → verify before it ships code. Genuinely strong **if you build software or run complex, multi-step technical projects**. For everyday drafting, briefs, and admin it's overkill — it adds a little overhead to simple tasks — so I'd only set it up if that's you. Free, open-source. Install: `/plugin install superpowers@claude-plugins-official`."
 
-Install only what user picks. Each installs via the standard skill pattern — copy template, substitute placeholders, optionally load launchd job.
+Install only what user picks. Each installs via the standard skill pattern — copy template, substitute placeholders, optionally load launchd job. (Superpowers is a plugin, not a template — it installs via the `/plugin install` command above.)
 
 ### Optional MCP server additions
 

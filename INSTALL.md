@@ -653,7 +653,7 @@ chmod +x ~/[AI_NAME]/scripts/say-to-mac.sh \
 cp -R "~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /voice-io-kit" ~/.claude/skills/voice-io 2>/dev/null || true
 ```
 
-### 7b — Free ElevenLabs voice (~3 min, quiet — frame as plumbing, not a product)
+### 7b — Free ElevenLabs voice (~2 min, quiet — frame as plumbing, not a product)
 
 **Before surfacing the link: read `~/[AI_NAME]/.kit/AFFILIATE-LINKS.md`** and use the ElevenLabs link (affiliate if present, else plain). If Wispr Flow already triggered the affiliate disclosure line in Phase 0, don't repeat it.
 
@@ -661,7 +661,7 @@ Frame it as invisible setup — NOT a sales moment (the ElevenLabs reveal is Sta
 
 > "One quick bit of setup so I don't sound like a robot — I'm giving you a real, natural voice. Two minutes, free, no card needed."
 
-Open the signup (Chrome extension when paired). After signup, have them go to profile → API key → **copy the key**. Clipboard pattern, never in chat:
+**The ONLY thing the user does here is grab their API key.** No voice to pick, nothing to configure — I handle the rest. Open the signup (Chrome extension when paired), then have them go to profile → API key → **copy the key**. Clipboard pattern, never in chat:
 
 ```bash
 mkdir -p ~/.config/[ai-name]/elevenlabs
@@ -681,13 +681,19 @@ Don't make the user pick a voice before they've heard anything — that's fricti
 printf 'ELEVENLABS_VOICE_ID=hpp4J3VqNfWAUOO0d1Us\n' >> ~/.config/[ai-name]/elevenlabs/.env
 ```
 
-**Prove the pipeline renders a real voice before the aha depends on it** (don't play a "pick me" sample — just verify silently, or play one short line):
+**Verify the pipeline SILENTLY — do not play it aloud.** The first time [PARTNER_NAME] *hears* the voice should be the aha note on their phone, not a test clip here:
 
 ```bash
-~/[AI_NAME]/scripts/say-to-mac.sh "Voice check." /tmp/voice-test.mp3 && afplay /tmp/voice-test.mp3
+~/[AI_NAME]/scripts/say-to-mac.sh "Voice check." /tmp/voice-test.mp3 2>/tmp/voice-err.txt
+if [ -s /tmp/voice-test.mp3 ] && ! grep -q "built-in voice" /tmp/voice-err.txt; then
+  echo "✅ ElevenLabs voice verified (silently — first play is the aha)."
+else
+  echo "⚠️  Voice didn't render via ElevenLabs — check the API key / voice id."; cat /tmp/voice-err.txt
+fi
+rm -f /tmp/voice-test.mp3 /tmp/voice-err.txt
 ```
 
-If `say-to-mac.sh` prints the ElevenLabs-fallback note on stderr, the key or voice ID didn't land — fix before Stage 8. The choice of *other* voices and the upgrade come after the aha (Stage 8.5).
+If it flags an issue, the key or voice ID didn't land — fix before Stage 8. The choice of *other* voices and the upgrade come after the aha (Stage 8.5).
 
 ### 7d — If the user skips ElevenLabs
 
@@ -695,7 +701,13 @@ Accept once, no nagging — but be honest about what they'll hear:
 
 > "No problem. I'll use the Mac's built-in voice for now — fair warning, it's noticeably robotic. Everything still works; it just sounds like 2005. Say *'set up my real voice'* anytime and we'll do the 3-minute ElevenLabs step then."
 
-Then run the Mac voice picker so the fallback is at least the best available: **Samantha** (clearest), **Daniel** (UK male), or **Karen** (Australian). Save the pick to `~/[AI_NAME]/.config/voice-preference` — the scripts read it automatically when ElevenLabs isn't configured.
+Then set the best default Mac voice **silently** — no voice-picking before the aha here either. Default to **Samantha** (clearest):
+
+```bash
+echo 'Samantha' > ~/[AI_NAME]/.config/voice-preference
+```
+
+The scripts read that automatically when ElevenLabs isn't configured. They can swap the Mac voice — or set up the real ElevenLabs voice — anytime after; that's the Stage 8.5 conversation.
 
 ---
 

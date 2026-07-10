@@ -61,6 +61,12 @@ The kit ships lean infrastructure. For optional *capability* skills — document
 
 → **[MORE-SKILLS.md](./MORE-SKILLS.md)** — what each pack does, the GitHub link, and how to add it.
 
+### 🦾 Superpowers — dev process framework (**for builders only**)
+- **What it does:** makes [AI_NAME] brainstorm, plan, write tests, and verify its own work before shipping code — a discipline layer for technical building.
+- **Use it when:** you build software or run complex, multi-step technical projects. **Skip it if** [AI_NAME] is mostly for writing, briefs, and admin — it adds overhead to simple tasks with no upside there.
+- **Cost:** **free** (open-source plugin by Jesse Vincent).
+- **Install:** `/plugin install superpowers@claude-plugins-official` · [obra/superpowers](https://github.com/obra/superpowers)
+
 ---
 
 ## How to add anything here
