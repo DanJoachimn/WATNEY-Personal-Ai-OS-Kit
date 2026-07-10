@@ -125,7 +125,7 @@ For each modified skill the user has installed:
 
 ```bash
 USER_SKILL="$HOME/.claude/skills/[skill-name]/SKILL.md"
-KIT_SKILL="$HOME/[AI_NAME]/.kit/SETUP GUIDE (Input Ai)/skill-templates/[skill-name]/SKILL.md"
+KIT_SKILL="$HOME/[AI_NAME]/.kit/setup-guide/skill-templates/[skill-name]/SKILL.md"
 ```
 
 **Check for local edits.** If the user has tuned their copy of the skill (via wrap-up or manually), don't silently overwrite:
@@ -168,7 +168,7 @@ For each new skill in the kit that the user doesn't have:
 If yes:
 
 ```bash
-cp -R "$HOME/[AI_NAME]/.kit/SETUP GUIDE (Input Ai)/skill-templates/[new-skill]/" \
+cp -R "$HOME/[AI_NAME]/.kit/setup-guide/skill-templates/[new-skill]/" \
       "$HOME/.claude/skills/[new-skill]/"
 perl -i -pe "s/\[AI_NAME\]/[AI_NAME]/g; s/\[PARTNER_NAME\]/[PARTNER_NAME]/g;" \
   "$HOME/.claude/skills/[new-skill]/SKILL.md"

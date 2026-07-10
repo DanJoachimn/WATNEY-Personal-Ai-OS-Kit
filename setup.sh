@@ -86,7 +86,7 @@ stage_clone() {
 # ---------- Stage 5: Vault scaffold ----------
 
 stage_vault() {
-    local SCAFFOLD_SRC="$KIT_DIR/SETUP GUIDE (Input Ai) /vault-scaffold/starter"
+    local SCAFFOLD_SRC="$KIT_DIR/setup-guide/vault-scaffold/starter"
 
     if [ ! -d "$SCAFFOLD_SRC" ]; then
         bail "5-VAULT" "vault scaffold source not found at $SCAFFOLD_SRC"
@@ -109,7 +109,7 @@ stage_vault() {
 # ---------- Stage 6: User-level skills ----------
 
 stage_skills() {
-    local SKILL_SRC="$KIT_DIR/SETUP GUIDE (Input Ai) /skill-templates"
+    local SKILL_SRC="$KIT_DIR/setup-guide/skill-templates"
     mkdir -p "$SKILLS_DIR"
 
     # Core skills installed for every Partner AI. anti-ai-writing is the
@@ -136,7 +136,7 @@ stage_skills() {
 # ---------- Stage 6b: Subagents ----------
 
 stage_agents() {
-    local AGENT_SRC="$KIT_DIR/SETUP GUIDE (Input Ai) /subagent-templates"
+    local AGENT_SRC="$KIT_DIR/setup-guide/subagent-templates"
     mkdir -p "$AGENTS_DIR"
 
     if [ ! -d "$AGENT_SRC" ]; then

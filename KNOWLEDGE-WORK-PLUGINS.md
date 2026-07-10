@@ -95,7 +95,7 @@ This is the kepano pattern — stand on the shoulders, add the vertical.
 
 ## What this kit adds ON TOP of the upstream plugins
 
-The kit's own skills (the ones in `SETUP GUIDE (Input Ai)/skill-templates/`) are NOT replaced by the upstream plugins. They're personality-AI-specific things the marketplace doesn't cover:
+The kit's own skills (the ones in `setup-guide/skill-templates/`) are NOT replaced by the upstream plugins. They're personality-AI-specific things the marketplace doesn't cover:
 
 - The orchestrator + 4 subagents architecture
 - Telegram bridge + voice I/O

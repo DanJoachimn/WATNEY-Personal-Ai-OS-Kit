@@ -1,4 +1,4 @@
-# SETUP GUIDE (Input Ai) — The Under-the-Hood Files
+# setup-guide — The Under-the-Hood Files
 
 > If you're a non-developer reading this folder: you can ignore everything in here. It's the implementation layer that an AI installer reads to actually do an install. The numbered guides at the parent level (01–08) explain what these things do conceptually.
 
@@ -49,7 +49,7 @@ WATNEY/
 ├── 02 - Video Use/
 ├── ...
 ├── 08 - The Learnings Loop/
-└── SETUP GUIDE (Input Ai) /               ← AI reads this; user can ignore
+└── setup-guide/               ← AI reads this; user can ignore
 ```
 
 The user-facing layer is generic and pristine. The kit underneath is what gets adapted and copied during a new partner install.

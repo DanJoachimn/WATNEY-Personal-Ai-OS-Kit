@@ -594,7 +594,7 @@ curl -s "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getMe" | jq -r '.ok'
 
 ```bash
 mkdir -p ~/[AI_NAME]/scripts ~/[AI_NAME]/logs ~/Library/LaunchAgents
-cp "~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /telegram-kit/poll-telegram.sh" \
+cp "~/[AI_NAME]/.kit/setup-guide/telegram-kit/poll-telegram.sh" \
    "~/[AI_NAME]/scripts/poll-telegram.sh"
 chmod +x ~/[AI_NAME]/scripts/poll-telegram.sh
 
@@ -666,18 +666,18 @@ The aha-moment in Stage 8 is a voice note, and it MUST sound like a real person 
 ### 7a — Install the voice machinery (automatic)
 
 ```bash
-cp "~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /voice-io-kit/say-to-mac.sh" \
+cp "~/[AI_NAME]/.kit/setup-guide/voice-io-kit/say-to-mac.sh" \
    "~/[AI_NAME]/scripts/say-to-mac.sh"
-cp "~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /voice-io-kit/send-voice-note.sh" \
+cp "~/[AI_NAME]/.kit/setup-guide/voice-io-kit/send-voice-note.sh" \
    "~/[AI_NAME]/scripts/send-voice-note.sh"
-cp "~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /voice-io-kit/transcribe.sh" \
+cp "~/[AI_NAME]/.kit/setup-guide/voice-io-kit/transcribe.sh" \
    "~/[AI_NAME]/scripts/transcribe.sh"
 chmod +x ~/[AI_NAME]/scripts/say-to-mac.sh \
          ~/[AI_NAME]/scripts/send-voice-note.sh \
          ~/[AI_NAME]/scripts/transcribe.sh
 
 # The voice-io skill (transcription workflow) — installed alongside the core skills
-cp -R "~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /voice-io-kit" ~/.claude/skills/voice-io 2>/dev/null || true
+cp -R "~/[AI_NAME]/.kit/setup-guide/voice-io-kit" ~/.claude/skills/voice-io 2>/dev/null || true
 ```
 
 ### 7b — Free ElevenLabs voice (~2 min, quiet — frame as plumbing, not a product)

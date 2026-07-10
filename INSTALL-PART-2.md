@@ -276,7 +276,7 @@ If yes:
    python3 -m venv ~/.claude/skills/vault-semantic-search/.venv
    ~/.claude/skills/vault-semantic-search/.venv/bin/pip install sentence-transformers
    ```
-5. **Install the skill + build its search script.** Copy the `vault-semantic-search` skill from `~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /skill-templates/vault-semantic-search/` into `~/.claude/skills/`, then have [AI_NAME] build `scripts/search.py` per the skill's spec (reads the Smart Connections fingerprints from `vault/.smart-env/`, embeds the query with the same model, returns the most-related notes).
+5. **Install the skill + build its search script.** Copy the `vault-semantic-search` skill from `~/[AI_NAME]/.kit/setup-guide/skill-templates/vault-semantic-search/` into `~/.claude/skills/`, then have [AI_NAME] build `scripts/search.py` per the skill's spec (reads the Smart Connections fingerprints from `vault/.smart-env/`, embeds the query with the same model, returns the most-related notes).
 6. **Gitignore the embeddings** if the vault is in a git repo: add `.smart-env/` to `.gitignore` (it's large + rebuildable).
 7. **Test it:** *"Semantic search the vault for [a concept you've written about in different words]."* Confirm it surfaces conceptually-related notes that keyword search would miss.
 
@@ -296,7 +296,7 @@ If yes:
 
 1. **Install the `_Brain/` scaffold** into the vault:
    ```bash
-   OVERLAY="$HOME/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /vault-scaffold/brain-layer"
+   OVERLAY="$HOME/[AI_NAME]/.kit/setup-guide/vault-scaffold/brain-layer"
    cp -R "$OVERLAY/_Brain" "$HOME/[AI_NAME]/vault/_Brain"
    ```
    This creates `_Brain/people/`, `_Brain/companies/`, `_Brain/concepts/`, `_Brain/sources/`, and `_Brain/_pending/`, each with a README and a page template.

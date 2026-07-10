@@ -80,11 +80,11 @@ Apply categorization rules. **Hard rule: when in doubt, classify as NEEDS_CONSEN
 
 | File path pattern | Category | Action |
 |---|---|---|
-| `SETUP GUIDE (Input Ai)/skill-templates/[skill]/SKILL.md` modified, AND user has `~/.claude/skills/[skill]/learnings.md` with active tunings | NEEDS_CONSENT | Don't auto-apply. Add to surface-notice. |
-| `SETUP GUIDE (Input Ai)/skill-templates/[skill]/SKILL.md` modified, AND user's `~/.claude/skills/[skill]/learnings.md` is empty or doesn't exist | SAFE_TO_APPLY | Copy new SKILL.md to user's skill folder. Substitute `[AI_NAME]` / `[PARTNER_NAME]` placeholders. |
-| `SETUP GUIDE (Input Ai)/skill-templates/[NEW_SKILL]/` (new folder) | NEW_SKILL_AVAILABLE | Don't auto-install. Add to surface-notice. |
-| `SETUP GUIDE (Input Ai)/vault-scaffold/starter/[file]` modified | SCAFFOLD_DRIFT | Don't touch user's vault. Mention in surface-notice that the starter template evolved (informational only). |
-| `SETUP GUIDE (Input Ai)/vault-scaffold/starter/[NEW_FOLDER]/` (new) | NEW_VAULT_LAYER | Don't auto-add. Add to surface-notice. |
+| `setup-guide/skill-templates/[skill]/SKILL.md` modified, AND user has `~/.claude/skills/[skill]/learnings.md` with active tunings | NEEDS_CONSENT | Don't auto-apply. Add to surface-notice. |
+| `setup-guide/skill-templates/[skill]/SKILL.md` modified, AND user's `~/.claude/skills/[skill]/learnings.md` is empty or doesn't exist | SAFE_TO_APPLY | Copy new SKILL.md to user's skill folder. Substitute `[AI_NAME]` / `[PARTNER_NAME]` placeholders. |
+| `setup-guide/skill-templates/[NEW_SKILL]/` (new folder) | NEW_SKILL_AVAILABLE | Don't auto-install. Add to surface-notice. |
+| `setup-guide/vault-scaffold/starter/[file]` modified | SCAFFOLD_DRIFT | Don't touch user's vault. Mention in surface-notice that the starter template evolved (informational only). |
+| `setup-guide/vault-scaffold/starter/[NEW_FOLDER]/` (new) | NEW_VAULT_LAYER | Don't auto-add. Add to surface-notice. |
 | `guides/*.md` modified | DOCS_ONLY | No action needed. Optionally mention in surface-notice. |
 | `assets/screenshots/*`, `assets/snippets/*`, `assets/diagrams/*` modified | ASSETS_ONLY | Auto-applies to `.kit/` checkout (the git pull handles it). Used by AI at install time only. No surface-notice needed. |
 | `playbook.md`, `INSTALL.md`, `UPDATE.md`, `README.md` modified | DOCS_ONLY | No action needed. |
@@ -98,7 +98,7 @@ Apply categorization rules. **Hard rule: when in doubt, classify as NEEDS_CONSEN
 ```bash
 # For each modified skill the user has but hasn't tuned:
 USER_SKILL="$HOME/.claude/skills/[skill-name]/SKILL.md"
-KIT_SKILL="$HOME/[AI_NAME]/.kit/SETUP GUIDE (Input Ai)/skill-templates/[skill-name]/SKILL.md"
+KIT_SKILL="$HOME/[AI_NAME]/.kit/setup-guide/skill-templates/[skill-name]/SKILL.md"
 
 cp "$KIT_SKILL" "$USER_SKILL"
 perl -i -pe 's/\[AI_NAME\]/[AI_NAME]/g; s/\[PARTNER_NAME\]/[PARTNER_NAME]/g;' "$USER_SKILL"
