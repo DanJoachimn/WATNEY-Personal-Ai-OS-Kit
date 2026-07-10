@@ -2,7 +2,7 @@
 
 > **This file is read by an AI agent (Claude Code) at install time.** A non-technical user has just pasted the magic prompt asking you to install WATNEY (the Personal AI-OS Kit). They're not a developer. They want this working, not configured. They're on Claude Pro ($20/mo) plan unless they say otherwise.
 >
-> **This is Part 1 — Foundation.** Fits in a single Pro plan session (~45 min, ~25-40 messages). Ends with an automatic voice-note from the user's AI delivered to their phone via Telegram. Part 2 (Reach) is a separate later session.
+> **This is Part 1 — Foundation.** Fits in a single Pro plan session (about an hour — up to ~90 min on a brand-new Mac where developer tools + Homebrew need installing, ~30-45 messages). Ends with an automatic voice-note from the user's AI delivered to their phone via Telegram. Part 2 (Reach) is a separate later session.
 
 ---
 
@@ -17,6 +17,7 @@
 5. **No raw error output.** Translate every error to plain English. Never paste a stack trace unless the user explicitly asks.
 6. **Pause for physical actions.** When you need them to download an app, click a system prompt, or copy a value — wait for them to say "done."
 7. **Log every stage to `install.log`.** Bash one-liner at the end of each stage: `echo "$(date -Iseconds) — STAGE_NAME — completed" >> ~/[AI_NAME]/logs/install.log`. Captures the audit trail.
+8. **Fire the install mentor at each phase boundary.** After each stage completes, deliver the `watney-install-mentor` block — *what just happened · why it matters for **them** · when they'll use it* — anchored in what they shared. Three lines, ~15 seconds, no quiz, no "do you understand?" beat. Skip only if the user says "skip the explanations." The vault reveal (Stage 5.5) and the background jobs are the two that matter most to explain.
 
 ---
 
@@ -250,7 +251,7 @@ Open with warmth. Set expectations. Get permission to proceed.
 > 4. **Telegram + voice** — wire up your phone so your AI is in your pocket (~17 min)
 > 5. **The proof** — your AI sends you an automatic voice note on Telegram. You hear it on your phone. *(~3 min)*
 >
-> Total: ~35-40 min. You'll do nothing technical. Sound good?
+> Total: about an hour — sometimes a bit more on a brand-new Mac. Nearly all of it is me working while you answer a few questions; you'll do nothing technical. Sound good?
 >
 > Quick question first: are you on **Claude Pro** ($20/mo) or **Claude Max** ($100+/mo)? It changes how I pace this. If unsure, default Pro — it's the safer play."
 
@@ -520,6 +521,32 @@ Save to `~/[AI_NAME]/vault/Projects/[project name].md` with frontmatter.
 > "**When I'm working with you, do you want me to push back when I disagree, or just deliver what you asked for?** No wrong answer — operators split about 50/50 on this."
 
 Save to `~/[AI_NAME]/vault/Working style.md` (one-line note).
+
+---
+
+## Stage 5.5 — Meet your second brain (Obsidian reveal + the overnight crew, ~3 min)
+
+The vault has quietly been filling up — the user's voice, their project, their working style all just landed in it during kick-off. **This is the strongest part of the kit, and so far it's been invisible. Reveal it now, before Telegram** — the brain is the foundation; the phone bridge comes after. (This fixes the #1 structural finding from real installs: users met the memory *jobs* and the *messenger* before they ever saw the *building*.)
+
+### Open the vault in Obsidian
+
+If Obsidian was installed in Stage 2.5, open the user's vault in it (computer-use, or guide them):
+
+```bash
+open -a Obsidian ~/[AI_NAME]/vault 2>/dev/null || true
+```
+
+If Obsidian was skipped, do this as a plain-language tour of the folder in Finder instead — the vault works headless either way.
+
+### The reveal (say this, plainly)
+
+> "Meet your second brain. Everything I learn about you lives *here* — plain text files on your Mac that you own forever, not locked in someone's cloud. See this? That's the project you just told me about. This one's your voice. As we work, this fills out — people you mention, decisions you make, what you're reading. Six months from now you can ask me 'what did I decide about X?' and I'll have a real answer, because it's all written down here with receipts."
+
+### The overnight crew (now dreaming + consolidating make sense)
+
+> "And two things happen while you sleep. **Dreaming** — every night around 2 AM — reads back over the day and compresses what mattered into long-term memory, so I get sharper without you lifting a finger. **Consolidating** keeps the whole brain tidy and free of duplicates. You'll see them running in the logs; now you know what they're for. They're the reason this gets *better* the longer you use it."
+
+Then fire the `watney-install-mentor` block for this phase (what just happened · why it matters for them · when they'll use it), anchored in their actual project — and continue to Telegram.
 
 ---
 

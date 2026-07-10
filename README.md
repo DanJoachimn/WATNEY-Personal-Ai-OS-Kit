@@ -49,7 +49,7 @@ What you walk away with:
 - **A named AI partner** with a real personality you defined — not a generic chatbot
 - **A second brain** that remembers across sessions, so you never re-explain context
 - **Voice notes both ways** — talk to your AI, hear it talk back
-- **An always-on body** reachable from your phone via Telegram
+- **A body in your pocket** — text or voice-note it from your phone via Telegram (replies within a minute while your Mac's awake; asleep, messages queue and it catches up on wake)
 - **Four digital employees** — one for content/drafting, one for research, one for code, one for daily admin. You talk to the chief of staff; they dispatch the right one.
 - **Anti-AI writing discipline baked in** — every public-facing draft (emails, posts, captions, replies, anything you'd send to another person) auto-runs through a 24-rule AI-tell removal pass + 250-word banned list + the POP framework. Separate from your voice (which gets captured via interview later) — this is the cleanup filter that runs on top of your voice rules so public output never reads as AI-generated.
 - **A learnings loop** that makes your AI sharper every week from your feedback
@@ -115,7 +115,7 @@ Then:
 
 Split for $20 Claude Pro users — Part 1 fits comfortably in a single Pro session without burning your usage allowance.
 
-**Part 1 — Foundation (~40 min, single session)** ends with your AI sending you a personal voice note via Telegram. By the time it's done, you have:
+**Part 1 — Foundation (~60–75 min, single session — a bit more on a brand-new Mac)** ends with your AI sending you a personal voice note via Telegram. Nearly all of it is the AI working while you answer a few questions. By the time it's done, you have:
 - A named AI partner that knows your name, tone, and one active project
 - Four digital employees (Content, Research, Developer, Assistant) behind the scenes
 - A voice channel from your phone — voice in, voice out
