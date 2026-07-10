@@ -156,20 +156,17 @@ Mark complete: `touch ~/[AI_NAME]/.voice-express-complete`
 
 ---
 
-## Stage 2 — ElevenLabs upgrade (optional, ~5 min)
+## Stage 2 — ElevenLabs voice library (optional, ~2 min)
 
-> "You've been using Mac's built-in voices since Part 1. ElevenLabs offers premium voices — more natural, more personality. Free tier covers ~10K characters per month at no cost. Want to set it up?
->
-> If yes: I'll walk you through making a free account at elevenlabs.io, getting an API key, and pasting it into your config. ~5 min.
->
-> If skip: stay on Mac voices. They work fine; this is purely a quality upgrade."
+Most users already set up their AI's real ElevenLabs voice in Part 1 (Stage 7). This stage is just the *upgrade path* — the big library.
 
-If yes:
-1. Open https://elevenlabs.io in browser (via `osascript`)
-2. Walk through signup
-3. Get API key from Settings → API Keys
-4. Use clipboard-transfer pattern: AI runs `pbpaste > ~/.config/[AI_NAME]/.env.tmp`, user copies key, AI moves to `.env` with proper formatting
-5. Test: voice the user just heard renders via ElevenLabs voice instead
+**If they skipped ElevenLabs in Part 1** (stayed on the robotic Mac voice): run the Part 1 Stage 7b/7c flow now — read `~/[AI_NAME]/.kit/AFFILIATE-LINKS.md`, open the ElevenLabs link (affiliate if present), free account, API key via the clipboard pattern into `~/.config/[ai-name]/elevenlabs/.env`, pick one of the three free voices, test with `say-to-mac.sh`. Show the disclosure line if it's the first affiliate link this session.
+
+**If they already did:** surface the upgrade softly, once — a nudge, not a sale:
+
+> "Quick one — you're on the ElevenLabs free tier, which covers your voice notes nicely. If you ever want the *big* library — thousands of voices, every accent and character, plus more speaking time — that's their paid plan. Totally optional; the voice you picked works great. You can browse the whole library free with the account you already made."
+
+Point them at the ElevenLabs link from `AFFILIATE-LINKS.md` to browse. No gate, no pressure.
 
 Mark complete: `touch ~/[AI_NAME]/.elevenlabs-configured`
 
@@ -181,7 +178,7 @@ For users who take meetings (coaching calls, client calls, sales calls, internal
 
 Full setup in repo's `guides/10-meeting-capture-with-granola.md`. Quick steps:
 
-1. User downloads Granola from granola.ai (if not already installed)
+1. User downloads Granola — read `~/[AI_NAME]/.kit/AFFILIATE-LINKS.md` and open the Granola link (affiliate if present, else granola.ai). Show the disclosure line if it's the first affiliate link this session. Frame it softly, as a recommendation: *"Granola records and transcribes your meetings and drops the notes straight into your vault. Free for your first stretch of calls — and if the 'every meeting auto-captured' habit sticks, that's when the paid plan pays for itself. No pressure either way."*
 2. Grant microphone + system audio permissions
 3. AI clones/installs `granola-sync` skill (already in `~/.claude/skills/` from Part 1)
 4. Configure `granola-sync/scripts/config.py` with user's vault path + tag rules
@@ -444,6 +441,8 @@ Read the end-of-Part-2 value-prop close:
 > - *'Hey Siri, [AI_NAME] — what's on my plate tomorrow?'* → Voice reply from your watch while you're cooking
 >
 > **What's next:** the kit gets better over time. Run `/update` to pull new skills as they ship. The 100-question deep voice interview is still on the table when you want it — that's a separate 90-min sitting. For now, just use what you have. It compounds."
+
+**Final beat — the newsletter (CTA #2, the one and only end-plug).** This is the genuine end of the whole install. Deliver BRIEF-SETUP's **CTA #2** verbatim — the "I'll never bring it up again" All Gravy Times invite — followed immediately by the *Presented with [Beehiiv](https://www.beehiiv.com?via=daniel-joachim-nielsen)* credit line (send it as markdown so Beehiiv is a live link). After this: silence. No further newsletter mentions anywhere in the running experience. (Skip only if the user already got CTA #2 at a Part 1 close because they stopped there — two mentions total, ever.)
 
 ---
 

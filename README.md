@@ -260,6 +260,8 @@ Building a dream with nothing but an AI co-founder (Watney), ADHD, caffeinated o
 
 → **[allgravytimes.com](https://allgravytimes.com)** — free, one click to subscribe.
 
+*Presented with [Beehiiv](https://www.beehiiv.com?via=daniel-joachim-nielsen).*
+
 Full details in [`STAY_IN_TOUCH.md`](./STAY_IN_TOUCH.md). No email required to install. No tracking.
 
 ![The All Gravy Times — Bootstrap Edition](./assets/screenshots/tagt-hero.jpg)

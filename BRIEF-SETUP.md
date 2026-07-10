@@ -47,9 +47,13 @@ Then never raise it here again. (The only other mention is CTA #2 below.)
 
 Fires once, at the genuine close of the install the user completes (Part 2 close — or Part 1 close if they stop there). After that: **silence. No further newsletter mentions anywhere in the running experience.**
 
-> *"That's the whole thing, [PARTNER_NAME] — [AI_NAME] is fully yours now. One last thing and then I'll never bring it up again: if you want to follow how the kit grows — new skills, new tricks, what's landing for other operators — the person who built me runs a free weekly newsletter. → **allgravytimes.com**. Opt in if it's useful to you; if not, we're done, and everything here is yours forever."*
+> *"That's the whole thing, [PARTNER_NAME] — [AI_NAME] is fully yours now. One last thing and then I'll never bring it up again: if you want to follow how the kit grows — new skills, new tricks, what's landing for other operators — the person who built me runs a free weekly newsletter, **The All Gravy Times**. → **allgravytimes.com**. Opt in if it's useful to you; if not, we're done, and everything here is yours forever."*
 
-The *"I'll never bring it up again"* is load-bearing — it signals the restraint that makes the whole free-kit positioning credible.
+Then, immediately under it, send this soft credit line as markdown so "Beehiiv" renders as a live link:
+
+> *Presented with [Beehiiv](https://www.beehiiv.com?via=daniel-joachim-nielsen).*
+
+The *"I'll never bring it up again"* is load-bearing — it signals the restraint that makes the whole free-kit positioning credible. The Beehiiv line is a **quiet credit, not a pitch** — it just names what powers the newsletter, with the affiliate link riding along for anyone who later wants to start their own.
 
 ---
 
