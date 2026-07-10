@@ -335,6 +335,19 @@ From here, address yourself by the chosen name. Use `[AI_NAME]` in this playbook
 
 ---
 
+## Stage 1.5 — Talk instead of type (Wispr Flow, ~2 min, do this early)
+
+Offer this right at the top of kick-off so the user can **speak** the rest of the install instead of typing — it makes everything from here smoother, and it's the kit's first taste of voice-first.
+
+**Read `~/[AI_NAME]/.kit/AFFILIATE-LINKS.md`** for the Wispr Flow link (affiliate if present, else `https://wisprflow.ai`). This is usually the **first affiliate link of the session — show the disclosure line now.**
+
+> "Quick one before we dig in: want to talk to me instead of typing all this? **Wispr Flow** lets you dictate anywhere on your Mac — hold a hotkey, speak, it types for you. The free tier is 2,000 words a week, which easily covers this install and then some. Most people get hooked and stop typing altogether. Totally optional — I'll open the download page and you'll be running in about 2 minutes."
+
+- **If yes:** open the download page (Chrome extension when paired; otherwise hand them the link). Pause for the install + the mic/accessibility permission prompts (tell them that's expected). Wait for "done," then: *"From here, just hold the hotkey and talk — I'll catch it."*
+- **If skip:** no nagging. They type; that's completely fine. Offer again never.
+
+---
+
 ## Stage 2 — Upfront installs (the groundwork, ~5–10 min, almost no typing)
 
 A few tools have to exist before I can build your AI: **git** (to fetch the kit), **Homebrew** (the Mac's installer for developer tools), and a couple of small utilities (`ffmpeg`, `jq`, `node`). I install all of them for you. There is exactly **one** moment you type anything — a single line for Homebrew, because Apple requires your password for it and no AI can safely do that for you. One line, once. Everything else is me.
@@ -391,22 +404,17 @@ If anything above fails → plain-English explanation + the one-line fix, then w
 
 ## Stage 2.5 — The apps you'll use (I'll open each download page for you, ~5 min)
 
-Three apps make this kit sing. If computer use + Chrome are on, **open each download page in the user's browser yourself** — they just click through the installer and grant permissions when macOS asks. If those capabilities are off, give the link and wait for "done."
+Two more apps round out the setup (Wispr Flow was already offered in Stage 1.5 — don't repeat it). If computer use + Chrome are on, **open each download page in the user's browser yourself** — they just click through the installer and grant permissions when macOS asks. If those capabilities are off, give the link and wait for "done."
 
 | App | Why it's here | Download |
 |---|---|---|
 | **Telegram Desktop** | Lets you copy your bot token *on the Mac* (Stage 6) and text your AI from the computer too. The smoothest path. | https://desktop.telegram.org |
 | **Obsidian** | The window onto your AI's second brain — the vault it reads and writes every day. Free, yours, offline. | https://obsidian.md/download |
-| **Wispr Flow** | Talk instead of type — dictation anywhere on the Mac. Install it now and you can *speak* the rest of this install instead of typing. | read `AFFILIATE-LINKS.md` (below) |
-
-**For Wispr Flow:** read `~/[AI_NAME]/.kit/AFFILIATE-LINKS.md`, use the affiliate link if one's filled in (else the plain link `https://wisprflow.ai`), and show the disclosure line the first time an affiliate link appears this session. The free tier is **2,000 words a week** — plenty to try it, and most people who stick with talking-instead-of-typing upgrade on their own. Recommendation, not a sale — offer it once and move on.
 
 Walk it:
 1. For each app the user wants, open the download page (Chrome extension if paired; otherwise hand them the link and wait for "done").
-2. Pause for the physical install. Telegram and Wispr Flow ask for permissions (notifications; microphone + accessibility) — tell them that's expected and fine.
-3. **Don't gate the install on any of these.** Skip Obsidian → the vault still runs headless (we reveal it properly later). Skip Wispr Flow → they just type. Telegram Desktop is the only strongly-recommended one, and even that has a phone-only fallback.
-
-Once Wispr Flow is in, offer once: *"Want to talk instead of type from here? Hold Wispr Flow's hotkey and just speak — I'll catch it."*
+2. Pause for the physical install. Telegram asks for a notification permission — tell them that's expected and fine.
+3. **Don't gate the install on either.** Skip Obsidian → the vault still runs headless (we reveal it properly later). Telegram Desktop is the only strongly-recommended one, and even that has a phone-only fallback.
 
 ---
 
@@ -624,9 +632,9 @@ When both land:
 
 ---
 
-## Stage 7 — Voice (~8 min, your AI's real voice — free)
+## Stage 7 — Give your AI its voice (~4 min, free — sets up the aha)
 
-Voice is **core to this kit, not an upgrade** — the aha-moment in Stage 8 is a voice note, and it must sound like a person, never like a 1990s robot. The default voice comes from **ElevenLabs' free tier** (no card required, ~10 minutes of speech per month — plenty for voice notes). The Mac's built-in voice exists only as an *announced* fallback.
+The aha-moment in Stage 8 is a voice note, and it MUST sound like a real person — the robotic Mac voice ruins the moment. So here we quietly set up a **free ElevenLabs voice** with a hand-picked, natural default. **Keep this light — it's "giving you your voice," not a product pitch.** The ElevenLabs reveal (and any talk of upgrading for more voices) comes *after* the aha lands, in Stage 8.5. Don't pre-sell it here; just get a warm voice in place so the moment hits.
 
 ### 7a — Install the voice machinery (automatic)
 
@@ -645,13 +653,15 @@ chmod +x ~/[AI_NAME]/scripts/say-to-mac.sh \
 cp -R "~/[AI_NAME]/.kit/SETUP GUIDE (Input Ai) /voice-io-kit" ~/.claude/skills/voice-io 2>/dev/null || true
 ```
 
-### 7b — ElevenLabs free account (~3 min, Chrome-extension-assisted)
+### 7b — Free ElevenLabs voice (~3 min, quiet — frame as plumbing, not a product)
 
-**Before surfacing the link: read `~/[AI_NAME]/.kit/AFFILIATE-LINKS.md`** — use the ElevenLabs affiliate link if one is filled in, else the plain link, and show the disclosure line the first time an affiliate link appears in this session.
+**Before surfacing the link: read `~/[AI_NAME]/.kit/AFFILIATE-LINKS.md`** and use the ElevenLabs link (affiliate if present, else plain). If Wispr Flow already triggered the affiliate disclosure line in Phase 0, don't repeat it.
 
-> "Now the fun one — your real voice. ElevenLabs makes the most natural AI voices there are, and the free tier covers everything we need today: no card, about 10 minutes of speech a month, which is plenty for voice notes. I'll open the signup page and help you through it — 2 minutes."
+Frame it as invisible setup — NOT a sales moment (the ElevenLabs reveal is Stage 8.5, after the aha):
 
-Open the signup page (via Chrome extension when paired). After they've signed up, have them go to their profile → API key → **copy the key**. Same clipboard pattern as the Telegram token — never in chat:
+> "One quick bit of setup so I don't sound like a robot — I'm giving you a real, natural voice. Two minutes, free, no card needed."
+
+Open the signup (Chrome extension when paired). After signup, have them go to profile → API key → **copy the key**. Clipboard pattern, never in chat:
 
 ```bash
 mkdir -p ~/.config/[ai-name]/elevenlabs
@@ -662,37 +672,22 @@ chmod 600 ~/.config/[ai-name]/elevenlabs/.env
 pbcopy < /dev/null
 ```
 
-### 7c — Pick the voice (three free defaults, verified IDs)
+### 7c — Set the default voice (no menu — just a great, warm default)
 
-> "Pick my voice. Three free ones I'd suggest — I'll play you a sample of any of them:
->
-> - **George** — warm British storyteller. The 'wise friend' option.
-> - **Bella** — bright, warm, professional. The 'sharp colleague' option.
-> - **Brian** — deep, resonant, calm. The 'steady hand' option.
->
-> And if none of these feel right: ElevenLabs has a library of thousands of voices — every accent, energy, and style you can imagine. Browsing it is free with the account you just made; the bigger selection and more speaking time come with their paid plan, only if you ever want it."
-
-Append the chosen voice to the env file (these are ElevenLabs' universal premade voice IDs):
-
-| Voice | ID |
-|---|---|
-| George | `JBFqnCBsd6RMkjVDRZzb` |
-| Bella | `hpp4J3VqNfWAUOO0d1Us` |
-| Brian | `nPczCjzI2devNBz1zQrb` |
+Don't make the user pick a voice before they've heard anything — that's friction at the worst moment. Assign a hand-picked, warm, natural default so the aha just *sounds human*. Default is **Bella** (warm, bright, professional). If the AI's chosen name/persona clearly reads male, use **Brian** (deep, calm) instead — otherwise Bella.
 
 ```bash
-printf 'ELEVENLABS_VOICE_ID=%s\n' "[CHOSEN_VOICE_ID]" \
-  >> ~/.config/[ai-name]/elevenlabs/.env
+# Bella (warm female) is the default; swap to Brian (nPczCjzI2devNBz1zQrb) if the persona reads male.
+printf 'ELEVENLABS_VOICE_ID=hpp4J3VqNfWAUOO0d1Us\n' >> ~/.config/[ai-name]/elevenlabs/.env
 ```
 
-**Prove it immediately** — render a one-liner and play it on the Mac's speakers:
+**Prove the pipeline renders a real voice before the aha depends on it** (don't play a "pick me" sample — just verify silently, or play one short line):
 
 ```bash
-~/[AI_NAME]/scripts/say-to-mac.sh "Voice is live. This is what I sound like from now on." /tmp/voice-test.mp3 \
-  && afplay /tmp/voice-test.mp3
+~/[AI_NAME]/scripts/say-to-mac.sh "Voice check." /tmp/voice-test.mp3 && afplay /tmp/voice-test.mp3
 ```
 
-If the script prints the ElevenLabs-fallback note on stderr instead of playing the real voice, the key or voice ID didn't land — fix before moving on. **Stage 8's aha-moment depends on this exact pipeline working now.**
+If `say-to-mac.sh` prints the ElevenLabs-fallback note on stderr, the key or voice ID didn't land — fix before Stage 8. The choice of *other* voices and the upgrade come after the aha (Stage 8.5).
 
 ### 7d — If the user skips ElevenLabs
 
@@ -776,9 +771,19 @@ Their phone buzzes. They open Telegram. They see a voice note from their AI. The
 
 ### After they confirm they heard it
 
-> "That's the moment. You sent zero prompts for that — I delegated to Content, which read your project context, drafted in your tone, rendered to voice, sent to your phone. That's how the team works. You talk to me, I dispatch the right specialist behind the scenes.
->
-> ✅ **Part 1 complete.**"
+> "That's the moment. You sent zero prompts for that — I delegated to Content, which read your project context, drafted in your tone, rendered to voice, sent to your phone. That's how the team works. You talk to me, I dispatch the right specialist behind the scenes."
+
+### Stage 8.5 — The voice reveal + your options (~1 min — NOW, not before)
+
+Only now that they've *heard* it do you name what powered it — softly, a nice-to-know, never a pitch:
+
+> "Oh — and that voice? That's **ElevenLabs**, on their free tier. I set you up with a warm default so your first hello sounded like a person, not a robot. Two things, whenever you feel like it:
+> - **Change it** — I've got other free voices (a deep calm one, a warm British storyteller, a clear friendly one). Just say *'change my voice.'*
+> - **The big library** — if you ever want to pick from *thousands* of voices — every accent, every character — that's their paid plan. Totally optional; your free voice sounds great. You can browse the whole library free with the account you already made."
+
+If they want to browse or upgrade, read the ElevenLabs link from `~/[AI_NAME]/.kit/AFFILIATE-LINKS.md`. No pressure, no gate — a recommendation in passing, then move on.
+
+> "✅ **Part 1 complete.**"
 
 ---
 

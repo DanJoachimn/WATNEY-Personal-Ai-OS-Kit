@@ -172,23 +172,6 @@ Mark complete: `touch ~/[AI_NAME]/.elevenlabs-configured`
 
 ---
 
-## Stage 3 — Granola meeting capture (optional, ~5 min)
-
-For users who take meetings (coaching calls, client calls, sales calls, internal). Auto-records, transcribes, syncs to vault.
-
-Full setup in repo's `guides/10-meeting-capture-with-granola.md`. Quick steps:
-
-1. User downloads Granola — read `~/[AI_NAME]/.kit/AFFILIATE-LINKS.md` and open the Granola link (affiliate if present, else granola.ai). Show the disclosure line if it's the first affiliate link this session. Frame it softly, as a recommendation: *"Granola records and transcribes your meetings and drops the notes straight into your vault. Free for your first stretch of calls — and if the 'every meeting auto-captured' habit sticks, that's when the paid plan pays for itself. No pressure either way."*
-2. Grant microphone + system audio permissions
-3. AI clones/installs `granola-sync` skill (already in `~/.claude/skills/` from Part 1)
-4. Configure `granola-sync/scripts/config.py` with user's vault path + tag rules
-5. Test sync — manual run produces files in `vault/Meeting Notes/`
-6. Schedule via launchd (12:30 + 17:00 daily)
-
-Mark complete: `touch ~/[AI_NAME]/.granola-configured`
-
----
-
 ## Stage 3.5 — Obsidian Web Clipper (browser → vault, ~3 min)
 
 Vault feeder #2. Granola pumps meetings into the vault automatically. The Obsidian Web Clipper pumps the open web — articles, blog posts, YouTube pages, anything readable in a browser — into the vault as clean markdown, in one click.
@@ -327,6 +310,24 @@ touch ~/[AI_NAME]/.brain-layer-configured
 ```
 
 **The reflection firewall (important):** the `_Brain/` is the AI's filing cabinet (Substrate B). It is deliberately separate from the user's own reflective notes (Substrate A — `Notes/`, `_context/`, daily logs). Any reflection-style commands read ONLY the user's own writing, never `_Brain/` — so the AI's compiled inferences never get mistaken for the user's own thoughts. This is documented in the vault `CLAUDE.md`.
+
+---
+
+## Stage 3.9 — Granola meeting capture (optional · nice-to-know · ~5 min)
+
+Purely optional — a nice-to-have, not essential. It slots in *after* the memory system on purpose: once the Brain exists, captured meetings have somewhere rich to land (cited `_Brain/` pages + `Meeting Notes/`). For anyone who takes calls (coaching, clients, sales), Granola auto-records, transcribes, and syncs them into the vault.
+
+Read `~/[AI_NAME]/.kit/AFFILIATE-LINKS.md` for the Granola link (affiliate if present, else granola.ai). Show the disclosure line only if no affiliate link has appeared yet this session. Frame it softly, as a recommendation — never a sale:
+
+> "Totally optional one — if you take meetings, Granola records and transcribes them and drops the notes straight into your vault, so I 'remember' every call. Free for your first stretch of meetings; if the auto-capture habit sticks, that's when the paid plan pays for itself. Skip it happily if meetings aren't your thing."
+
+If yes:
+1. Download Granola from the link; grant microphone + system-audio permissions.
+2. The `granola-sync` skill is already installed (from Part 1). Configure `granola-sync/scripts/config.py` with the vault path + tag rules.
+3. Test a manual sync — files should appear in `vault/Meeting Notes/`.
+4. Schedule via launchd (12:30 + 17:00 daily).
+
+Full setup in `guides/10-meeting-capture-with-granola.md`. Mark complete: `touch ~/[AI_NAME]/.granola-configured`
 
 ---
 
