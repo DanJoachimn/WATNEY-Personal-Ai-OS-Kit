@@ -4,7 +4,7 @@
 >
 > **For the installing AI — hard rule:** do NOT push, bundle, or auto-install anything below. Mention the *one* relevant tool only when [PARTNER_NAME] hits the need it solves (e.g. they complain about taking meeting notes → *then* mention Granola). Never run a download [PARTNER_NAME] didn't ask for. Forcing non-essential installs is the fastest way to make the kit feel bloated and pushy — the opposite of the point.
 
-> **Note — voice is NOT on this list, because it's core.** [AI_NAME]'s voice (ElevenLabs) and your voice dictation (**Lispr** — free — with **Wispr Flow** as the polished alternative) are part of the **essential** kit, set up during install on their **free tiers**. They live in the core voice setup, not here. This page is only for the genuinely optional stuff.
+> **Note — voice is NOT on this list, because it's core.** [AI_NAME]'s voice (ElevenLabs) and your voice dictation (Wispr Flow) are part of the **essential** kit, set up during install on their **free tiers**. They live in the core voice setup, not here. This page is only for the genuinely optional stuff.
 
 ---
 
@@ -76,4 +76,4 @@ Just tell [AI_NAME] in plain English: *"I keep losing track of my meetings"* or 
 ## The rule, again
 More tools is not better. Every add-on is one more thing to maintain and one more thing that can break. The strongest setups are **curated, not maximal.** Add a power-up when a real need appears — and not before.
 
-<!-- Affiliate state (2026-07): voice-in LEADS with Lispr (free, no program) + Wispr Flow as the affiliate alternative; voice-out = ElevenLabs (affiliate); Granola + Beehiiv affiliate links live; Readwise + 1Password still plain. All links live once in AFFILIATE-LINKS.md. -->
+<!-- Phase 4 (affiliate): CORE-stack ElevenLabs + Wispr Flow (Dani joining both programs) → affiliate links in the voice setup. Optional-list Granola, Readwise, Beehiiv also have programs. Swap to affiliate links + keep README disclosure once joined. Plain links for now. -->

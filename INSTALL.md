@@ -336,23 +336,16 @@ From here, address yourself by the chosen name. Use `[AI_NAME]` in this playbook
 
 ---
 
-## Stage 1.5 — Talk instead of type (voice-in, ~2 min, do this early)
+## Stage 1.5 — Talk instead of type (Wispr Flow, ~2 min, do this early)
 
-Offer this right at the top of kick-off so the user can **speak** the rest of the install instead of typing — smoother, and the kit's first taste of voice-first. **Lead with the free option.** Read `~/[AI_NAME]/.kit/AFFILIATE-LINKS.md` first — it holds both links + the disclosure line.
+Offer this right at the top of kick-off so the user can **speak** the rest of the install instead of typing — it makes everything from here smoother, and it's the kit's first taste of voice-first.
 
-**Offer Lispr first (the free default):**
+**Read `~/[AI_NAME]/.kit/AFFILIATE-LINKS.md`** for the Wispr Flow link (affiliate if present, else `https://wisprflow.ai`). This is usually the **first affiliate link of the session — show the disclosure line now.**
 
-> "Quick one before we dig in — want to talk to me instead of typing all this? I'd start with **Lispr**: it's free, no account, about a 4 MB download. Hold a key, speak, and it types wherever your cursor is, in any app. It even does live translation — speak Danish, land English. I'll open the download page; you'll be running in ~2 minutes."
+> "Quick one before we dig in: want to talk to me instead of typing all this? **Wispr Flow** lets you dictate anywhere on your Mac — hold a hotkey, speak, it types for you. The free tier is 2,000 words a week, which easily covers this install and then some. Most people get hooked and stop typing altogether. Totally optional — I'll open the download page and you'll be running in about 2 minutes."
 
-Open `https://lispr.ai` (Chrome extension when paired; else hand them the link). Pause for the `.dmg` install + the mic + accessibility permission prompts (tell them that's expected). Wait for "done," then: *"From here, just hold the key and talk — I'll catch it."*
-
-**Then mention Wispr Flow once — the polished alternative, no push:**
-
-> "One alternative if you ever want it: **Wispr Flow** is a more *dialed* version — its editing and cleanup of what you say (auto-formatting, cutting the ums, tidier text) is more mature than Lispr's raw dictation. It's got a free plan too — 2,000 words a week — with a paid tier for heavy use. Lispr's free and great to start; Wispr's there if you want the premium feel later."
-
-Surface the Wispr Flow link from `AFFILIATE-LINKS.md` (affiliate) **only** with this mention, and show the disclosure line the first time an affiliate link appears in the session. The free option (Lispr) always leads; never steer toward the paid one.
-
-- **If they skip voice entirely:** no nagging. They type; that's completely fine. Offer again never.
+- **If yes:** open the download page (Chrome extension when paired; otherwise hand them the link). Pause for the install + the mic/accessibility permission prompts (tell them that's expected). Wait for "done," then: *"From here, just hold the hotkey and talk — I'll catch it."*
+- **If skip:** no nagging. They type; that's completely fine. Offer again never.
 
 ---
 
@@ -412,7 +405,7 @@ If anything above fails → plain-English explanation + the one-line fix, then w
 
 ## Stage 2.5 — The apps you'll use (I'll open each download page for you, ~5 min)
 
-Two more apps round out the setup (voice-in — Lispr / Wispr Flow — was already offered in Stage 1.5; don't repeat it). If computer use + Chrome are on, **open each download page in the user's browser yourself** — they just click through the installer and grant permissions when macOS asks. If those capabilities are off, give the link and wait for "done."
+Two more apps round out the setup (Wispr Flow was already offered in Stage 1.5 — don't repeat it). If computer use + Chrome are on, **open each download page in the user's browser yourself** — they just click through the installer and grant permissions when macOS asks. If those capabilities are off, give the link and wait for "done."
 
 | App | Why it's here | Download |
 |---|---|---|
