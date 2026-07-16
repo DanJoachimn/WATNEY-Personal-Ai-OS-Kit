@@ -227,7 +227,7 @@ Off-platform backup. Full version history. Restore from any commit. Works even i
 Walk-through:
 1. If user has no GitHub account, open https://github.com/signup via Chrome extension, help them through signup
 2. Create a private repo named `[ai-name]-vault` via `gh repo create [ai-name]-vault --private --description "Backup of my AI's vault"`
-3. Inside the vault folder, init git + add the right `.gitignore` (exclude `_recovery/`, any `.env` files, anything secret) + initial commit + push
+3. Inside the vault folder, init git + add the right `.gitignore` + initial commit + push. Exclude: `_recovery/`, any `.env` files, anything secret, **`.smart-env/`** (Smart Connections' embeddings — large, and rebuildable from the notes; it's been indexing since Part 1 so this folder already exists), and **`.obsidian/workspace*.json`** (Obsidian's window state — churns on every pane move and would spam the history)
 4. Schedule via launchd: nightly `git add . && git commit -m "vault backup $(date)" && git push` from `~/[AI_NAME]/.kit/scripts/git-vault-backup.sh`. The script lives at `~/[AI_NAME]/` (unprotected) so launchd can run it without TCC issues. The git push is a network call that doesn't touch `~/Documents/`.
 
 Mark complete:
@@ -268,9 +268,10 @@ The problem: normal search only finds the exact words you type. Search "pricing"
 
 If yes:
 
-1. **Install the Smart Connections plugin in Obsidian.** Open Obsidian → Settings → Community plugins → Browse → search "Smart Connections" → Install → Enable. (Walk the user through via computer-use / screenshots if available.)
-2. **Confirm it's local-only.** Smart Connections → settings → verify it ships local-first (default `TaylorAI/bge-micro-v2` model, no cloud API key set). This keeps notes on the Mac.
-3. **Let it build embeddings.** It indexes automatically on first enable — a couple minutes for a typical vault. The user can keep working; just leave Obsidian open.
+1. **Smart Connections should already be installed and indexing** — Part 1 Stage 5.5 sets it up the moment the vault opens, so the index has been growing since day one. Verify: Obsidian → Settings → Community plugins → Smart Connections present + enabled, and `ls ~/[AI_NAME]/vault/.smart-env/` shows an index.
+   **If it's missing** (they declined it, or their install predates this): Settings → Community plugins → **"Turn on community plugins"** (it's OFF by default — Restricted Mode; this is the step everyone forgets) → Browse → "Smart Connections" → Install → Enable. Then give it a minute to index.
+2. **Confirm it's local-only.** Smart Connections → settings → verify it's local-first (default `TaylorAI/bge-micro-v2` model, no cloud API key set). This keeps notes on the Mac.
+3. **Check the index is warm.** By now it should have months of notes embedded, not seconds' worth — that's the payoff of installing it in Part 1.
 4. **Set up the skill's Python environment:**
    ```bash
    python3 -m venv ~/.claude/skills/vault-semantic-search/.venv

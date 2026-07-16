@@ -528,15 +528,19 @@ Save to `~/[AI_NAME]/vault/Working style.md` (one-line note).
 
 The vault has quietly been filling up — the user's voice, their project, their working style all just landed in it during kick-off. **This is the strongest part of the kit, and so far it's been invisible. Reveal it now, before Telegram** — the brain is the foundation; the phone bridge comes after. (This fixes the #1 structural finding from real installs: users met the memory *jobs* and the *messenger* before they ever saw the *building*.)
 
-### Open the vault in Obsidian
+### Open the vault in Obsidian (use the real flow — this matters)
 
-If Obsidian was installed in Stage 2.5, open the user's vault in it (computer-use, or guide them):
+**Do NOT rely on `open -a Obsidian ~/[AI_NAME]/vault`.** That just launches the app to its last vault or the picker — it does **not** register a new folder as a vault. Obsidian has to be told once, explicitly:
 
-```bash
-open -a Obsidian ~/[AI_NAME]/vault 2>/dev/null || true
-```
+1. Launch it: `open -a Obsidian`
+2. In the vault picker (or the **vault switcher** — the icon bottom-left — if it opened somewhere else), choose **"Open folder as vault."**
+3. Point it at `~/[AI_NAME]/vault` and confirm.
 
-If Obsidian was skipped, do this as a plain-language tour of the folder in Finder instead — the vault works headless either way.
+Drive this with computer-use if it's on — fastest, and the user gets to *watch* their AI do it, which is a free aha. Otherwise guide them click by click and wait for "done." Once registered, Obsidian reopens this vault automatically forever.
+
+**Verify before you reveal:** the left sidebar must show their real folders (Brand, Projects, Memory…). If it doesn't, the folder wasn't opened *as a vault* — redo step 2. Don't do the reveal against an empty window.
+
+If Obsidian was skipped in Stage 2.5, do this as a plain-language tour of the folder in Finder instead — the vault works headless either way, and you can offer Obsidian again anytime.
 
 ### The reveal (say this, plainly)
 
@@ -545,6 +549,23 @@ If Obsidian was skipped, do this as a plain-language tour of the folder in Finde
 ### The overnight crew (now dreaming + consolidating make sense)
 
 > "And two things happen while you sleep. **Dreaming** — every night around 2 AM — reads back over the day and compresses what mattered into long-term memory, so I get sharper without you lifting a finger. **Consolidating** keeps the whole brain tidy and free of duplicates. You'll see them running in the logs; now you know what they're for. They're the reason this gets *better* the longer you use it."
+
+### Switch the brain's search on (Smart Connections, ~2 min — now, not later)
+
+Install this the moment the vault opens, so it starts learning from day one and the index grows *with* the vault instead of being bolted on months later.
+
+**The gotcha first — say it plainly, never skip it:** Obsidian ships with community plugins switched **OFF** (Restricted Mode). Nothing installs until that's turned on.
+
+> "One toggle first — Obsidian keeps third-party plugins off by default, which is genuinely good security. We're switching it on for one plugin I actually need."
+
+1. **Settings → Community plugins → "Turn on community plugins."** (This is the step everyone forgets. Without it, the Browse button isn't even there.)
+2. **Browse → search "Smart Connections" → Install → Enable.**
+3. **Confirm it's local-only:** Smart Connections → settings → the default model (`TaylorAI/bge-micro-v2`) runs on the Mac, no cloud API key set. Say it out loud — *"your notes never leave your machine for this."*
+4. **Let it index.** The vault is small right now, so it's seconds. It keeps indexing as the vault grows.
+
+Drive it via computer-use if available. If the user declines, fine — note it, move on; Part 2's semantic search just won't have an index to read.
+
+> "That plugin quietly reads your notes and learns what they *mean* — so later, when you ask me about 'pricing,' I'll also find the note where you wrote 'what to charge.' It starts building that map right now, which is why we're doing it today and not in a month."
 
 Then fire the `watney-install-mentor` block for this phase (what just happened · why it matters for them · when they'll use it), anchored in their actual project — and continue to Telegram.
 
