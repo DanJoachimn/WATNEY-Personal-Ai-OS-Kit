@@ -1,5 +1,11 @@
 # Building a custom personality from someone's content — optional, advanced
 
+> **🚧 SUPERSEDED (2026-07-15) → use [BUILD-YOUR-OWN-SOUL.md](../../BUILD-YOUR-OWN-SOUL.md) at the repo root.**
+>
+> This note predates the Soul system. The kit's "default personality" it keeps referring to is now a real, shipped file — **[Soul.md](../../Soul.md)** (the WATNEY soul) — and the custom-personality workflow now has a proper home that outputs a structured `Soul.md`, wires in the kit's own transcription tools, and is offered as an explicit yes/no at kick-off (INSTALL.md Stage 5, Question 0).
+>
+> Kept for reference — the source-material guidance below is still sound.
+
 > A workflow for users who want their AI to have a specific personality (their own, or a creator they admire) instead of the kit's default. ~30-60 minutes once you have the source material. Optional — most users will skip this and stick with the kit's default personality, which is fine.
 
 ---
