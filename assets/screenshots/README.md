@@ -34,7 +34,6 @@ Claude Code Desktop renders the image inline. The user sees the exact thing they
 | `granola-install.png` | The Granola download page from granola.ai or the app's first-launch screen | granola.ai or first launch |
 | `granola-auto-record.png` | Granola's Settings → Recording panel with "Auto-record meetings" visible | Granola → Settings → Recording |
 | `whisper-flow-menubar.png` | The Whisper Flow menu bar icon, zoomed in | Top-right of menu bar after WF is running |
-| `siri-shortcuts-import.png` | Siri Shortcuts app showing the "Import from iCloud" or .shortcut file double-click moment | Shortcuts.app on macOS or iOS |
 | `obsidian-vault-open.png` | Obsidian with the user's vault open, showing the sidebar with Brand/, Memory/, Projects/ folders | Obsidian with the kit's starter vault loaded |
 
 ---

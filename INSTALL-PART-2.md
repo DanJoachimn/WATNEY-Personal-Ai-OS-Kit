@@ -35,7 +35,6 @@ If done → continue:
 > 3. **ElevenLabs upgrade** — premium voices if you want them (~5 min, optional)
 > 4. **Granola meeting capture** — auto-record + transcribe meetings (~5 min, optional)
 > 5. **Optional skills** — Hyperframes, Video Use, content pipeline, document transformations, others (~varies)
-> 6. **Siri & Apple Watch** — last because it's least essential and requires iOS work (~10 min, optional)
 >
 > Ready to start with the plugin backbone, or want to pick a different stage to go to first?"
 
@@ -328,7 +327,7 @@ If yes:
 3. Test a manual sync — files should appear in `vault/Meeting Notes/`.
 4. Schedule via launchd (12:30 + 17:00 daily).
 
-Full setup in `guides/10-meeting-capture-with-granola.md`. Mark complete: `touch ~/[AI_NAME]/.granola-configured`
+Full setup in `09 - Meeting Capture with Granola/granola.md`. Mark complete: `touch ~/[AI_NAME]/.granola-configured`
 
 ---
 
@@ -371,50 +370,7 @@ touch ~/[AI_NAME]/.youtube-transcript-mcp-configured
 
 ---
 
-## Stage 5 — Siri & Apple Watch (EXPERIMENTAL — untested by kit author, ~10 min, LAST)
-
-🚧 **Honest disclosure up front:** this stage has **not been verified by the kit author**.
-
-- The **Siri path** is based on Apple's documented Shortcuts patterns and reads like it should work, but it hasn't been tested end-to-end on a real install yet. Scheduled for first real verification soon.
-- The **Apple Watch path** is fully untested. The kit author does not own an Apple Watch. The instructions here are extrapolated from Shortcuts documentation, not from a working install.
-
-If you try this stage, you're beta-testing it. Capture anything that breaks and we'll fold it into the kit's Common Failures section.
-
-### Tell the user this — once, plainly
-
-> "Last optional step, and I want to be straight with you: this one is experimental. The Siri integration looks like it should work based on how Apple's Shortcuts framework is designed, but I haven't tested it end-to-end yet on a real install. The Apple Watch piece is even less verified — the kit's author doesn't own a Watch, so those instructions are based on Apple's docs, not on a working setup.
->
-> If you want to try it, great — you're beta-testing. If something breaks, tell me what you saw and we'll feed it back to the kit. If you'd rather skip until this is verified, totally fine — everything else in your install works without it. Want to try, or skip?"
-
-If user wants to try → walk through `guides/09-siri-apple-watch-integration.md`. Pause at every step. If anything fails, **log it and stop** — don't push through with workarounds that haven't been verified either.
-
-If user skips → mark deferred:
-
-```bash
-touch ~/[AI_NAME]/.siri-deferred-until-verified
-```
-
-If user successfully completes the setup (rare until first verified install lands):
-
-```bash
-touch ~/[AI_NAME]/.siri-configured
-echo "$(date -Iseconds) — Siri configured (UNVERIFIED PATH, user is first-mover)" >> ~/[AI_NAME]/logs/install.log
-```
-
-### Kit author's commitment
-
-Siri path will be tested by the kit author "soon" (commit date 2026-05-18). Once verified, this stage gets downgraded from EXPERIMENTAL to "tested on macOS X / iOS Y." The Watch path stays EXPERIMENTAL until someone with a Watch contributes a verified walkthrough.
-
-### Hard rules for this stage
-
-- **Never present this stage as a "feature" the user is getting.** It's an experiment they're opting into.
-- **Never claim "Apple Watch hands-free" works** — the author can't promise that. Frame as theoretical.
-- **If something fails, stop and log.** Don't improvise workarounds that haven't been verified.
-- **Capture friction in detail** — this is the highest-value friction log entry possible because it's the first real test of an untested stage.
-
----
-
-## Stage 6 — Part 2 close
+## Stage 5 — Part 2 close
 
 ```bash
 touch ~/[AI_NAME]/.part-2-complete
@@ -431,17 +387,15 @@ Read the end-of-Part-2 value-prop close:
 > - Premium voice replies (if you upgraded to ElevenLabs)
 > - Meeting auto-capture (if you wired up Granola) — every call you take, your AI gets the notes within hours
 > - The optional skills you added
-> - Siri & Apple Watch (if you set them up)
 >
 > **What this means for you:**
 > - Drafts get sharper week over week — the learnings loop is running
 > - Your meetings stop disappearing. Your AI can answer 'what did Sam and I decide last Tuesday?' three weeks later.
-> - You can talk to your AI from your watch hands-free (if Siri's set up)
 >
 > **Example use cases now possible:**
 > - *'Mine my client meetings this week for case study material'* → Research pulls verbatim moments from transcripts
 > - *'What's the pattern in what my members keep asking?'* → Research synthesizes across captured meetings
-> - *'Hey Siri, [AI_NAME] — what's on my plate tomorrow?'* → Voice reply from your watch while you're cooking
+> - *'What's on my plate tomorrow?'* — texted from your phone while you're cooking, answered in your AI's voice
 >
 > **What's next:** the kit gets better over time. Run `/update` to pull new skills as they ship. The 100-question deep voice interview is still on the table when you want it — that's a separate 90-min sitting. For now, just use what you have. It compounds."
 

@@ -200,5 +200,4 @@ Three signals it's time to upgrade:
 ## See also
 
 - [05 - Setting Up Your Partner AI](../05%20-%20Setting%20Up%20Your%20Partner%20AI/setting-up.md) — the kit's overall setup flow
-- [09 - Siri & Apple Watch Integration](../09%20-%20Siri%20%26%20Apple%20Watch%20Integration/siri-apple-watch.md) — voice-only input from your phone (different audio path)
 - [03 - API Key Hygiene](../03%20-%20API%20Key%20Hygiene/api-key-hygiene.md) — relevant if you ever swap to an API-based transcription tool

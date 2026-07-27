@@ -126,7 +126,6 @@ Split for $20 Claude Pro users — Part 1 fits comfortably in a single Pro sessi
 - Premium voices (ElevenLabs) — optional
 - Meeting auto-capture (Granola) — optional
 - Extra skills (animation, video editing, content pipelines, more) — pick what you want
-- Siri + Apple Watch hands-free control — **experimental, untested by kit author**, last
 
 You can stop after Part 1 and have a fully-working partner. Part 2 is opt-in when you're ready.
 
@@ -177,8 +176,7 @@ Ten guides, each ships value on its own:
 | 06 | The Kick-off Flow | What your AI does on first contact — 25-min onboarding that handles all setup decisions you shouldn't have to remember. |
 | 07 | Portability and Recovery | **🚧 Rewriting.** Original version pushed iCloud Drive Documents sync as the backup layer; Install #1 discovered that breaks the kit's always-on features on macOS (TCC blocks launchd from reading iCloud-synced Documents). New guide recommends Time Machine + private GitHub repo as the layered backup. Until guide is rewritten, follow the backup section in `INSTALL-PART-2.md` Stage 3.7. |
 | 08 | The Learnings Loop | The compounding mechanism — the AI gets sharper every week from your feedback, automatically. |
-| 09 | Siri & Apple Watch Integration | **🚧 Experimental.** Siri path untested end-to-end; Watch path fully untested (author doesn't own one). Based on Apple's documented Shortcuts patterns. If you try it, you're beta-testing for the kit. |
-| 10 | Meeting Capture with Granola | Auto-record + transcribe every meeting. Notes flow into your AI's vault twice daily. |
+| 09 | Meeting Capture with Granola | Auto-record + transcribe every meeting. Notes flow into your AI's vault twice daily. |
 
 ---
 

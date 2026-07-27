@@ -948,7 +948,6 @@ If anything in Stages 4-7 fails halfway through:
 - 5-question deep voice interview (Section B-Express full)
 - ElevenLabs premium voice upgrade
 - Granola meeting capture
-- Siri & Apple Watch integration (LAST in Part 2)
 - 100-question deluxe voice interview (always its own dedicated session)
 - Optional skills (Hyperframes, Video Use, content-pipeline, document-transformations, etc.)
 - People/Companies vault scaffolding deep-fill

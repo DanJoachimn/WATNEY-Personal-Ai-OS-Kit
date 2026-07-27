@@ -56,15 +56,6 @@ open "x-apple.systempreferences:com.apple.preference.notifications"
 
 Use case: enable banner notifications from the user's AI (most users prefer modal dialogs — see notification rules below).
 
-### Keyboard → Shortcuts (Siri Shortcuts route)
-
-```bash
-open "/System/Applications/Shortcuts.app"
-```
-
-Use case: install Siri Shortcuts during Guide 09 setup.
-
----
 
 ## Native dialog boxes
 
