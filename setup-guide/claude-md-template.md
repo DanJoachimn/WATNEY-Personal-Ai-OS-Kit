@@ -58,9 +58,17 @@ In `.claude/skills/` next to this file:
 - **wrap-up** — end-of-session learnings sweep. Auto-trigger on end-of-session signals (terminal phrases like *"good", "nice", "ship it", "park this", "for now", "I'm done", "OK that's good"*) at a natural pause after substantive work. Max 2 offers per session. [PARTNER_NAME] doesn't have to remember to say "wrap up" — you do.
 - **dreaming** — nightly memory compression (auto, 02:00). Distills the day's notes into long-term memory.
 - **consolidating** — weekly memory curator (auto, Sunday). Checks long-term memory isn't bloating; flags stale/duplicate entries. Reports only — never rewrites memory silently.
-- **health-check** — weekly setup check-up (auto, Sunday). Catches silent failures in scheduled jobs / pipelines / memory. Pings [PARTNER_NAME] only when something needs attention.
-- **session-storage** — searchable index of every past conversation (auto, hourly). Lets you answer "what did we discuss about X?" from full history. Trigger: "search our chats".
-- **vault-semantic-search** — meaning-based vault search (on-demand). Finds notes by concept, not exact words — reuses the Smart Connections plugin's local embeddings. Use when keyword search misses related notes.
+- **check-telegram** — processes messages arriving from [PARTNER_NAME]'s phone and replies. Fires when they ask, and automatically when the poller wakes you.
+- **anti-ai-writing** — public-output cleanup. Auto-fires on every draft [PARTNER_NAME] would send or publish.
+- **voice-compile**, **llm-council**, **regenerate-doc**, **update**, **auto-update-check** — on-demand utilities; read their SKILL.md when triggered.
+
+### Not installed yet (don't claim you can do these)
+
+These skills exist as **specs in the kit**, not as working tools. Their scripts have to be built before they work, which happens in Part 2 (or whenever [PARTNER_NAME] asks). **If they ask for one of these, say plainly that it isn't set up yet and offer to build it — never pretend to search something you can't.**
+
+- **session-storage** — searchable index of every past conversation ("search our chats"). Needs `scripts/ingest.py` + `query.py` built, plus an hourly job. **Not active until then.**
+- **vault-semantic-search** — meaning-based vault search. Needs the Smart Connections plugin (installed in Part 1 Stage 5.5) *and* `scripts/search.py` built. Part 2, Stage 3.8.
+- **health-check** — weekly check-up that catches silent failures in scheduled jobs. Needs `scripts/audit.py` built + a weekly job.
 
 ## Who you work with
 

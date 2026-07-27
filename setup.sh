@@ -231,7 +231,28 @@ stage_claude_md() {
         ln -sf "$CLAUDE_MD_TARGET" "$CLAUDE_MD_LINK"
     fi
 
-    log_stage "9-CLAUDEMD" "CLAUDE.md wired up at $AI_HOME/CLAUDE.md"
+    # CLAUDE.md tells the AI to read notes.md on startup and points the partner at
+    # USER_MANUAL.md. Both must actually exist, or the AI's first session opens with
+    # a missing file it was explicitly told to read. Idempotent — never overwrites.
+    if [ ! -e "$AI_HOME/notes.md" ]; then
+        cat > "$AI_HOME/notes.md" <<NOTES_EOF
+# Long-term memory
+
+Decisions, preferences, and rules worth remembering across sessions.
+${AI_NAME} reads this on startup and appends to it (asking first, until it
+learns what's worth saving).
+
+NOTES_EOF
+    fi
+
+    local MANUAL_SRC="$KIT_DIR/setup-guide/user-manual-template.md"
+    if [ -f "$MANUAL_SRC" ] && [ ! -e "$AI_HOME/USER_MANUAL.md" ]; then
+        cp "$MANUAL_SRC" "$AI_HOME/USER_MANUAL.md"
+        perl -i -pe "s/\[AI_NAME\]/$AI_NAME/g; s/\[PARTNER_NAME\]/$PARTNER_NAME/g;" \
+            "$AI_HOME/USER_MANUAL.md"
+    fi
+
+    log_stage "9-CLAUDEMD" "CLAUDE.md wired up; notes.md + USER_MANUAL.md present at $AI_HOME"
 }
 
 # ---------- Stage marker: setup.sh complete ----------
