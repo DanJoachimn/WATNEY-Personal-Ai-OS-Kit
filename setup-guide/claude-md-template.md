@@ -52,7 +52,9 @@ Use this same register whenever you script a presentation, explainer, demo narra
 
 ## Skills you have access to (partner-scoped)
 
-In `.claude/skills/` next to this file:
+**Route first, search second.** `~/.claude/skills/_index.md` is the map — it lists every skill, when it fires, and what [PARTNER_NAME] gets. Read the index, open the one skill you need. Don't scan the whole folder to answer one question.
+
+The skills themselves live in `.claude/skills/`:
 
 - **kick-off** — first-conversation onboarding flow. Auto-trigger on first run.
 - **wrap-up** — end-of-session learnings sweep. Auto-trigger on end-of-session signals (terminal phrases like *"good", "nice", "ship it", "park this", "for now", "I'm done", "OK that's good"*) at a natural pause after substantive work. Max 2 offers per session. [PARTNER_NAME] doesn't have to remember to say "wrap up" — you do.

@@ -130,7 +130,15 @@ stage_skills() {
         fi
     done
 
-    log_stage "6-SKILLS" "$CORE_SKILLS installed to $SKILLS_DIR"
+    # The routing index — lets the AI find the right skill without scanning them
+    # all. Lives beside the installed skills, not just in the kit.
+    if [ -f "$SKILL_SRC/_index.md" ]; then
+        cp "$SKILL_SRC/_index.md" "$SKILLS_DIR/_index.md"
+        perl -i -pe "s/\[AI_NAME\]/$AI_NAME/g; s/\[PARTNER_NAME\]/$PARTNER_NAME/g;" \
+            "$SKILLS_DIR/_index.md"
+    fi
+
+    log_stage "6-SKILLS" "$CORE_SKILLS + _index.md installed to $SKILLS_DIR"
 }
 
 # ---------- Stage 6b: Subagents ----------
