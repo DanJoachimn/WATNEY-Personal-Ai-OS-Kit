@@ -116,7 +116,7 @@ stage_skills() {
     # voice discipline that fires on every written output — core to the kit's
     # "your AI sounds like you, not generated" promise. Don't move it to
     # optional; it's foundational.
-    local CORE_SKILLS="anti-ai-writing kick-off wrap-up dreaming consolidating voice-compile update auto-update-check llm-council regenerate-doc check-telegram watney-install-mentor"
+    local CORE_SKILLS="anti-ai-writing kick-off wrap-up dreaming consolidating voice-compile update auto-update-check health-check llm-council regenerate-doc check-telegram watney-install-mentor"
 
     for skill in $CORE_SKILLS; do
         if [ -d "$SKILL_SRC/$skill" ]; then
@@ -206,6 +206,30 @@ stage_launchd() {
         log_stage "7-LAUNCHD" "consolidating (weekly memory curator) loaded"
     else
         log_stage "7-LAUNCHD" "consolidating plist template not found — skipped"
+    fi
+
+    # Health-check — the deadman switch. Daily 09:15, pure /bin/bash.
+    # Deliberately runs on NOTHING but macOS built-ins: if Python, a venv, or
+    # Claude itself breaks, this still fires and says so. Never "upgrade" it to
+    # python3 or `claude -p` — that's the bug it exists to catch.
+    local HEALTH_SH="$SKILLS_DIR/health-check/health-check.sh"
+    local HEALTH_PLIST_SRC="$SKILLS_DIR/health-check/health-check.plist.template"
+    local HEALTH_PLIST_DST="$LAUNCHAGENTS_DIR/com.${USER_NAME}.${AI_NAME_LOWER}.health-check.plist"
+
+    if [ -f "$HEALTH_SH" ] && [ -f "$HEALTH_PLIST_SRC" ]; then
+        chmod +x "$HEALTH_SH"
+
+        sed \
+            -e "s/\[USER\]/$USER_NAME/g" \
+            -e "s/\[AI_NAME\]/$AI_NAME_LOWER/g" \
+            "$HEALTH_PLIST_SRC" > "$HEALTH_PLIST_DST"
+
+        launchctl unload "$HEALTH_PLIST_DST" 2>/dev/null || true
+        launchctl load "$HEALTH_PLIST_DST" 2>/dev/null || true
+
+        log_stage "7-LAUNCHD" "health-check deadman loaded (daily 09:15, bash-only)"
+    else
+        log_stage "7-LAUNCHD" "health-check script/template not found — skipped"
     fi
 }
 

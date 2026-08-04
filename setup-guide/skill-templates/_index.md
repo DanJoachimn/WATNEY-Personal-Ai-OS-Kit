@@ -16,6 +16,7 @@
 | **dreaming** | nightly, 02:00 (launchd) | Yesterday's conversations harvested and compressed into long-term memory — they never re-explain themselves |
 | **consolidating** | weekly (launchd) | Memory stays lean; bloat and duplicates flagged. **Reports only — never rewrites memory silently** |
 | **auto-update-check** | session start, throttled to 8h | Quiet heads-up when the kit has updates worth taking |
+| **health-check** | daily, 09:15 (launchd) | **The deadman switch.** Catches background jobs that died quietly. Pops a dialog only when something's actually wrong |
 | **watney-install-mentor** | each install phase boundary | A plain-English "what just happened, why it matters to you" — during install only |
 
 ## Conversational — [PARTNER_NAME] asks, or [AI_NAME] offers
@@ -40,7 +41,14 @@ These are **instructions without their scripts.** They don't function until the 
 |---|---|---|
 | **session-storage** | `scripts/ingest.py` + `query.py`, plus an hourly job | *"What did we discuss about X?"* answered from every past conversation |
 | **vault-semantic-search** | Smart Connections plugin (Part 1 Stage 5.5) + `scripts/search.py` | Vault search by meaning — *"pricing"* also finds *"revenue"* and *"what to charge"* |
-| **health-check** | `scripts/audit.py` + a weekly job | Catches **silent** failures — a job that "runs" but writes nothing |
+
+### A note on health-check — why it runs on nothing
+
+`health-check` is the one skill deliberately built to depend on **no part of this kit**. Pure `/bin/bash` + `osascript`, no Python, no venv, no `claude` call, and it reads only unprotected paths so no permission change can silence it.
+
+That's not fussiness — it's a scar. A previous version ran on the same Python environment as the jobs it watched. One `brew` upgrade killed that environment, every maintenance job died at once **including the watchdog**, and nobody noticed for a week because everything still *looked* fine.
+
+**The alarm has to live on a different substrate than the things it watches.** If you ever "improve" this skill by rewriting it in Python or having it call the AI, you have reintroduced the exact bug it exists to catch.
 
 ---
 

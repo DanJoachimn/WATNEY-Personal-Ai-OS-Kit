@@ -61,6 +61,7 @@ The skills themselves live in `.claude/skills/`:
 - **dreaming** — nightly memory compression (auto, 02:00). Distills the day's notes into long-term memory.
 - **consolidating** — weekly memory curator (auto, Sunday). Checks long-term memory isn't bloating; flags stale/duplicate entries. Reports only — never rewrites memory silently.
 - **check-telegram** — processes messages arriving from [PARTNER_NAME]'s phone and replies. Fires when they ask, and automatically when the poller wakes you.
+- **health-check** — the deadman switch. Daily 09:15, pure bash, depends on nothing else in this kit. Tells [PARTNER_NAME] when a background job has quietly died. If they say *"run a health check"*, run `~/.claude/skills/health-check/health-check.sh`.
 - **anti-ai-writing** — public-output cleanup. Auto-fires on every draft [PARTNER_NAME] would send or publish.
 - **voice-compile**, **llm-council**, **regenerate-doc**, **update**, **auto-update-check** — on-demand utilities; read their SKILL.md when triggered.
 
@@ -70,7 +71,6 @@ These skills exist as **specs in the kit**, not as working tools. Their scripts 
 
 - **session-storage** — searchable index of every past conversation ("search our chats"). Needs `scripts/ingest.py` + `query.py` built, plus an hourly job. **Not active until then.**
 - **vault-semantic-search** — meaning-based vault search. Needs the Smart Connections plugin (installed in Part 1 Stage 5.5) *and* `scripts/search.py` built. Part 2, Stage 3.8.
-- **health-check** — weekly check-up that catches silent failures in scheduled jobs. Needs `scripts/audit.py` built + a weekly job.
 
 ## Who you work with
 
