@@ -17,7 +17,8 @@
 5. **No raw error output.** Translate every error to plain English. Never paste a stack trace unless the user explicitly asks.
 6. **Pause for physical actions.** When you need them to download an app, click a system prompt, or copy a value — wait for them to say "done."
 7. **Log every stage to `install.log`.** Bash one-liner at the end of each stage: `echo "$(date -Iseconds) — STAGE_NAME — completed" >> ~/[AI_NAME]/logs/install.log`. Captures the audit trail.
-8. **Fire the install mentor at each phase boundary.** After each stage completes, deliver the `watney-install-mentor` block — *what just happened · why it matters for **them** · when they'll use it* — anchored in what they shared. Three lines, ~15 seconds, no quiz, no "do you understand?" beat. Skip only if the user says "skip the explanations." The vault reveal (Stage 10) and the background jobs are the two that matter most to explain.
+8. **If something you try to write is blocked, hand it over as one Run button.** The app can stop you writing outside the working folder (`~/.claude/`, `~/Library/LaunchAgents/`, `~/.config/`). When that happens, show the exact command in a ```bash block for the user to click **Run** on. Never build staging folders and never hand over a long multi-step script to paste — real installs did that, and it turned a two-click job into ten minutes of terminal.
+9. **Fire the install mentor at each phase boundary.** After each stage completes, deliver the `watney-install-mentor` block — *what just happened · why it matters for **them** · when they'll use it* — anchored in what they shared. Three lines, ~15 seconds, no quiz, no "do you understand?" beat. Skip only if the user says "skip the explanations." The vault reveal (Stage 10) and the background jobs are the two that matter most to explain.
 
 ---
 
@@ -227,14 +228,14 @@ The rest of the kit is prose — guides, skill instructions, templates. Don't re
 
 ### Once they say go: install the two day-one skills (before the sandbox is deleted)
 
-Two skills are useful from the very first minute, so they don't wait for Stage 7:
+Two skills are useful from the very first minute, so they don't wait for Stage 5:
 
 | Skill | Where it lives in the kit | What [PARTNER_NAME] says |
 |---|---|---|
 | `/waitwhat` | `setup-guide/command-templates/waitwhat.md` | `/waitwhat`, or "wait, what?" |
 | `llm-council` | `setup-guide/skill-templates/llm-council/SKILL.md` | "council this: should I X or Y?" |
 
-They're installed from the copy you just audited, so nothing new is downloaded. The name isn't chosen yet, so the placeholders get neutral words for now. Stage 7 reinstalls both with the real names.
+They're installed from the copy you just audited, so nothing new is downloaded. The name isn't chosen yet, so the placeholders get neutral words for now. Stage 5 reinstalls both with the real names.
 
 ```bash
 mkdir -p "$HOME/.claude/commands" "$HOME/.claude/skills/llm-council"
@@ -252,7 +253,7 @@ Tell them in one line: *"Two things are ready now. `/waitwhat` whenever I lose y
 rm -rf "$SANDBOX"
 ```
 
-The sandbox was for inspection only. Actual install (Stage 7 onward) re-clones fresh to the final location.
+The sandbox was for inspection only. Actual install (Stage 5) re-clones fresh to the final location.
 
 ### Wait for explicit user confirmation
 
@@ -272,71 +273,41 @@ Don't proceed past Stage 3 without an explicit *"proceed" / "safe" / "go ahead" 
 
 Capture the name. Confirm spelling. Use the lowercased-no-spaces version for folder paths (e.g., "Watney" → `~/watney/`). **Always directly in the home folder.** Never `~/Documents/` or `~/Desktop/` — macOS blocks background jobs from reading those, and the overnight routines and the Telegram line would silently die.
 
-From here, address yourself by the chosen name. Use `[AI_NAME]` in this playbook to refer to the name.
+Then ask one more, straight away — the next step needs both:
+
+> "And what should I call *you*? First name is fine."
+
+Capture as `[PARTNER_NAME]`. From here, address yourself by the chosen name. `[AI_NAME]` in this playbook means the name as typed ("Gedemand") in anything you say, and the lowercase folder name (`~/gedemand/`) in every path.
 
 ---
 
-## Stage 5 — The groundwork installs (~5–10 min, one command for you)
+## Stage 5 — The one command (~10 min, one click and one password)
 
-A few tools have to exist before I can build your AI: **git** (to fetch the kit), **Homebrew** (the Mac's installer for developer tools), and a couple of small utilities (`ffmpeg`, `jq`, `node`). I install all of them for you. There is exactly **one** moment you do anything — the Homebrew install, because Apple requires your password for it and no AI can safely type that for you. One click, one password, once. Everything else is me.
+Everything technical happens in this one step: Apple's developer tools, Homebrew (the Mac's installer for helper tools), `ffmpeg` / `jq` / `node`, the kit itself, and `setup.sh`, which builds the AI's folder, installs the skills, the helpers, the overnight routines, the Telegram line and the voice scripts. It all runs in the user's own terminal, so nothing gets blocked halfway.
 
-### 5a — Check what's already there (silent)
+**Don't run this yourself through your Bash tool** — Homebrew needs their Mac password, and your tool can't type it. Hand it over as a Run button. Fill in the two names first (lowercase is handled by `setup.sh`):
 
-```bash
-sw_vers -productVersion                 # macOS 14+ expected
-ls -d "/Applications/Claude Code.app"   # Claude Code Desktop present
-which git brew ffmpeg jq node           # note which are missing
-```
-
-If everything's present → say *"good — your Mac already has what I need"* and skip to Stage 6.
-
-### 5b — git + Apple's developer tools (no password, no terminal)
-
-If `git` is missing, run:
+> "Right, this is the only technical bit, and it's one click. Click **Run** on the command below. It asks for your Mac password once at the start — type it and press Return. **Nothing shows while you type, not even dots. That's normal.** Then it runs by itself for about ten minutes. While it works, we'll get your apps sorted."
 
 ```bash
-xcode-select --install
+sudo -v && { command -v brew >/dev/null 2>&1 || NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; } && eval "$( (/opt/homebrew/bin/brew shellenv || /usr/local/bin/brew shellenv) 2>/dev/null)" && { grep -q 'brew shellenv' ~/.zprofile 2>/dev/null || echo 'eval "$( (/opt/homebrew/bin/brew shellenv || /usr/local/bin/brew shellenv) 2>/dev/null)"' >> ~/.zprofile; } && brew install ffmpeg jq node && { git clone -q https://github.com/DanJoachimn/WATNEY-Personal-Ai-OS-Kit.git ~/.partner-ai-kit-staging 2>/dev/null || git -C ~/.partner-ai-kit-staging pull -q; } && bash ~/.partner-ai-kit-staging/setup.sh "[AI_NAME]" "[PARTNER_NAME]" && echo "✅ ALL DONE — tell your AI 'done'"
 ```
 
-A small Apple window pops up. Tell the user: *"a little Apple window just opened asking to install developer tools — click **Install**, accept, and tell me when it says it's done (~5–10 min)."* This one popup gives us **git** AND the tools Homebrew needs — no password, no terminal. Use the download time to keep chatting (their name, their tone) so the wait feels productive.
+What it does, if they ask: `sudo -v` asks for the password once so nothing stops to ask again · Homebrew installs only if it's missing (and brings Apple's developer tools with it) · the helper tools · the kit downloads · `setup.sh` builds everything.
 
-### 5c — Homebrew (the one command you run)
+**If the Run panel won't take the password** (some app versions don't pass keyboard input through), the fallback is the same command in the Terminal app: ⌘-Space, type *Terminal*, paste, Return. Say so plainly, no fuss.
 
-If `brew` is missing, this is the single manual step. **Don't run it yourself through your own Bash tool** — the installer asks for a password interactively, and your tool can't answer it. Hand it to the user instead. The Claude desktop app puts a **Run** button on any command you show inside a ```bash fence, and it runs in a terminal pane inside the app where they can type the password. Frame it **calmly and exactly**:
+**When they say done:** check it yourself — `test -f ~/[AI_NAME]/.setup-sh-complete && echo ok`. If it's missing, read the last lines of `~/[AI_NAME]/logs/install.log`, explain in plain English which part stopped, and hand over the same command again (it's safe to re-run; everything already done is skipped).
 
-> "One quick thing — the only command you'll run this whole install. It installs Homebrew, the Mac's installer for helper tools. Click **Run** on this:
+**While it runs, say this once:**
 
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
+> "Your AI's home will be a folder called **[AI_NAME]** in your home folder — the one with the house icon. Not Desktop, not Documents, on purpose: macOS puts a privacy lock on those two that silently blocks background programs, and my overnight routines *are* background programs. Same reason: don't move it into iCloud Drive later. We'll set up a proper backup in Part 2."
 
-> A panel opens and it'll ask for your Mac password — type it (nothing shows as you type, not even dots — that's normal), press Return, and let it finish (~5–10 min). When it says done, tell me **'done'**."
-
-If the Run panel doesn't accept the password (some versions don't hand keyboard input to the process), fall back to the same command in the Terminal app: ⌘-Space, type *Terminal*, paste, Return. Same password step. Say so plainly and without fuss.
-
-Wait for *"done"*. Then verify with `brew --version`. If it errors, the usual fix is the PATH line Homebrew prints at the end — run it for them via Bash (`eval "$(/opt/homebrew/bin/brew shellenv)"`) and re-check.
-
-### 5d — The small utilities (no password, you do nothing)
-
-Once Homebrew exists, install the rest silently:
-
-```bash
-brew install ffmpeg jq node
-```
-
-(`setup.sh` in Stage 7 also installs `ffmpeg` if it's somehow still missing — belt and suspenders.)
-
-### 5e — Where the AI lives, and why not iCloud (say this once)
-
-> "Your AI's home will be a folder called **[AI_NAME]** in your home folder — the one with the house icon. Not Desktop, not Documents, on purpose: macOS puts a privacy lock on those two that silently blocks background programs, and your AI's overnight routines *are* background programs. Same reason: don't move it into iCloud Drive later, and don't turn on 'Desktop & Documents' sync for it. We'll set up a proper backup in Part 2."
-
-`setup.sh` puts it in the right place automatically. Nothing for them to do — this is so they don't 'tidy' it into Documents next week.
-
-If anything above fails → plain-English explanation + the one-line fix, then wait for confirmation before Stage 6. Never paste a raw error.
+Then go straight to Stage 6 while the command runs.
 
 ---
 
-## Stage 6 — The apps you'll use (I'll open each download page for you, ~5 min)
+## Stage 6 — The apps you'll use, while the command runs (~5 min)
 
 Two more apps round out the setup (Wispr Flow was already offered in Stage 1 — don't repeat it). If computer use + Chrome are on, **open each download page in the user's browser yourself** — they just click through the installer and grant permissions when macOS asks. If those capabilities are off, give the link and wait for "done."
 
@@ -352,38 +323,25 @@ Walk it:
 
 ---
 
-## Stage 7 — Foundation install via `setup.sh` (~5 min, mostly automatic)
+## Stage 7 — Check the foundation (~1 min)
 
-This is where the kit installs itself. **Bash handles all file mechanics — minimal AI tokens, fast, idempotent.**
-
-Ask the user once:
-
-> "What name should I call you by? First name is fine. I'll use it in the AI's notes and drafts."
-
-Capture as `[PARTNER_NAME]`.
-
-Now run the foundation:
+The command from Stage 5 already ran `setup.sh`. Nothing to install here — just confirm and show them what got built.
 
 ```bash
-cd "$SANDBOX/kit" 2>/dev/null || \
-  git clone https://github.com/DanJoachimn/WATNEY-Personal-Ai-OS-Kit.git ~/.partner-ai-kit-staging
-
-# Run the deterministic foundation installer
-cd ~/.partner-ai-kit-staging
-./setup.sh "[AI_NAME]" "[PARTNER_NAME]" "https://github.com/DanJoachimn/WATNEY-Personal-Ai-OS-Kit.git"
+test -f ~/[AI_NAME]/.setup-sh-complete && echo "setup ok"
+ls ~/.claude/skills/ | head -20
+launchctl list | grep -i "[AI_NAME]"
 ```
 
-The script:
-- Clones the kit to `~/[AI_NAME]/.kit/`
-- Builds the vault scaffold at `~/[AI_NAME]/vault/`
-- Installs 13 core skills to `~/.claude/skills/` — including `check-telegram` (the answering machine that processes and replies to phone messages) and the install mentor (plain-English explainer blocks at each phase)
-- Installs 5 helper subagents (Content, Research, Developer, Design, Assistant) to `~/[AI_NAME]/.claude/agents/` — they load in sessions started in that folder
-- Loads the nightly memory-compression launchd job
-- Creates `_recovery/env-template.txt`
-- Wires up `~/[AI_NAME]/CLAUDE.md`
-- Logs every stage to `~/[AI_NAME]/logs/install.log`
+`setup.sh` built:
+- The AI's folder at `~/[AI_NAME]/`, with the vault scaffold in `vault/`
+- 13 core skills in `~/.claude/skills/`, plus `/waitwhat`
+- 5 helper subagents in `~/[AI_NAME]/.claude/agents/` (they load in sessions started in that folder)
+- The overnight routines (night shift, weekly weigh-in, smoke alarm) and the Telegram poller, all loaded
+- The Telegram and voice scripts in `~/[AI_NAME]/scripts/`
+- `CLAUDE.md`, `notes.md`, `USER_MANUAL.md` and `_recovery/env-template.txt`
 
-**Watch the script's output. Each step prints `✅` as it completes.** If the script fails, the error is specific and the log file shows what went wrong.
+If something's missing, don't hand-patch it: read `~/[AI_NAME]/logs/install.log` and re-run the Stage 5 command.
 
 When it finishes, show the user a quick visual:
 
@@ -405,7 +363,7 @@ graph LR
 
 ## Stage 8 — Wake the engine (CLI authentication, ~2 min, NO terminal if possible)
 
-The background routines installed in Stage 7 (nightly dreaming, weekly curator, Telegram poller) run by calling `claude -p` from the command line. That only works if the Claude CLI is signed in. Verify and fix now, BEFORE the user discovers it silently at 2 AM.
+The background routines installed in Stage 5 (nightly dreaming, weekly curator, Telegram poller) run by calling `claude -p` from the command line. That only works if the Claude CLI is signed in. Verify and fix now, BEFORE the user discovers it silently at 2 AM.
 
 **Probe silently:** run `claude -p "say ok"` yourself via Bash. If it returns "ok" → authenticated, say nothing, move on.
 
@@ -543,7 +501,7 @@ Do NOT ask the user to open or edit any file — hidden dotfiles are invisible t
 
 > "Copy the token BotFather sent you. One thing: copy it **on this Mac** — open Telegram's desktop app or web.telegram.org, find the BotFather message, and copy the token there (a phone copy doesn't reach the Mac's clipboard unless Universal Clipboard is set up). Don't paste it anywhere — just tell me 'copied.' I'll read it straight off your clipboard into a locked config file, so it never appears in our chat log."
 
-When they say "copied," run:
+When they say "copied," run this (if writing to `~/.config/` is blocked, hand the same block over as a Run button — it still reads their clipboard, so the trick is the same):
 
 ```bash
 mkdir -p ~/.config/[ai-name]/telegram
@@ -567,60 +525,21 @@ curl -s "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getMe" | jq -r '.ok'
 
 `false` or empty → the clipboard was empty or grabbed extra text; ask them to copy just the token line (on the Mac) and repeat this step.
 
-### 11c — Install the Telegram poller
+### 11c — Confirm the poller is running
 
-```bash
-mkdir -p ~/[AI_NAME]/scripts ~/[AI_NAME]/logs ~/Library/LaunchAgents
-cp "~/[AI_NAME]/.kit/setup-guide/telegram-kit/poll-telegram.sh" \
-   "~/[AI_NAME]/scripts/poll-telegram.sh"
-chmod +x ~/[AI_NAME]/scripts/poll-telegram.sh
-
-# Generate the launchd plist DIRECTLY — no template substitution, nothing to get wrong.
-# The ONLY place you fill in the AI's name is the NAME= line; everything below reads ${NAME}.
-NAME="[AI_NAME]"                 # ← the AI's folder name, lowercase (e.g. watney)
-USER_NAME="$(whoami)"
-PLIST="$HOME/Library/LaunchAgents/com.${USER_NAME}.${NAME}.telegram-poller.plist"
-cat > "$PLIST" <<PLIST_EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>Label</key><string>com.${USER_NAME}.${NAME}.telegram-poller</string>
-  <key>ProgramArguments</key>
-  <array><string>${HOME}/${NAME}/scripts/poll-telegram.sh</string></array>
-  <key>EnvironmentVariables</key>
-  <dict>
-    <key>AI_NAME</key><string>${NAME}</string>
-    <key>HOME</key><string>${HOME}</string>
-    <key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
-  </dict>
-  <key>StartInterval</key><integer>60</integer>
-  <key>RunAtLoad</key><true/>
-  <key>KeepAlive</key><false/>
-  <key>StandardOutPath</key><string>${HOME}/${NAME}/logs/telegram-poller.out</string>
-  <key>StandardErrorPath</key><string>${HOME}/${NAME}/logs/telegram-poller.err</string>
-</dict>
-</plist>
-PLIST_EOF
-
-launchctl load "$PLIST"
-```
-
-*(The `com.telegram-poller.plist.template` file in the kit is kept as reference/documentation — the heredoc above is what actually runs, because generating the plist directly removes every place a find-replace could go wrong.)*
-
-**Hard gate — verify the job actually loaded before continuing:**
+`setup.sh` already installed the poller and loaded its job. It's been idling, waiting for the token you just filed; from its next round (within a minute) it starts collecting messages.
 
 ```bash
 launchctl list | grep telegram-poller
 ```
 
-This MUST return a row. If it doesn't: check the rendered plist contains zero leftover `[BRACKETED]` placeholders (`grep '\[' ~/Library/LaunchAgents/com.*telegram-poller.plist` must return nothing), fix, re-load. Do **not** improvise a session-bound poller process instead — that dies the first time the Mac sleeps and produces the classic "worked yesterday, dead today" failure.
+This MUST return a row. If it doesn't, re-run the Stage 5 command (safe to repeat). Do **not** improvise a session-bound poller process instead — that dies the first time the Mac sleeps.
 
 ### 11d — Verify end-to-end (message in → chat id captured)
 
 Tell the user:
 
-> "Send a quick test message from your phone to your bot — anything, like 'hello'. I'll watch the inbox. (Up to a minute — the mailman does rounds every 60 seconds.)"
+> "Send a quick test message from your phone to your bot — anything, like 'hello'. Watch for a 👀 reaction on it: that's me saying it landed. (Up to a minute — the mailman does rounds every 60 seconds.)"
 
 Wait. Check `~/[AI_NAME]/inbox/telegram/` for the incoming message file, then confirm the poller captured the reply address:
 
@@ -640,22 +559,9 @@ When both land:
 
 The aha-moment in Stage 13 is a voice note, and it MUST sound like a real person — the robotic Mac voice ruins the moment. So here we quietly set up a **free ElevenLabs voice** with a hand-picked, natural default. **Keep this light — it's "giving you your voice," not a product pitch.** The ElevenLabs reveal (and any talk of upgrading for more voices) comes *after* the aha lands, in Stage 13. Don't pre-sell it here; just get a warm voice in place so the moment hits.
 
-### 12a — Install the voice machinery (automatic)
+### 12a — The voice machinery is already in place
 
-```bash
-cp "~/[AI_NAME]/.kit/setup-guide/voice-io-kit/say-to-mac.sh" \
-   "~/[AI_NAME]/scripts/say-to-mac.sh"
-cp "~/[AI_NAME]/.kit/setup-guide/voice-io-kit/send-voice-note.sh" \
-   "~/[AI_NAME]/scripts/send-voice-note.sh"
-cp "~/[AI_NAME]/.kit/setup-guide/voice-io-kit/transcribe.sh" \
-   "~/[AI_NAME]/scripts/transcribe.sh"
-chmod +x ~/[AI_NAME]/scripts/say-to-mac.sh \
-         ~/[AI_NAME]/scripts/send-voice-note.sh \
-         ~/[AI_NAME]/scripts/transcribe.sh
-
-# The voice-io skill (transcription workflow) — installed alongside the core skills
-cp -R "~/[AI_NAME]/.kit/setup-guide/voice-io-kit" ~/.claude/skills/voice-io 2>/dev/null || true
-```
+`setup.sh` installed `say-to-mac.sh`, `send-voice-note.sh` and `transcribe.sh` into `~/[AI_NAME]/scripts/`, and the `voice-io` skill. Nothing to do here but confirm: `ls ~/[AI_NAME]/scripts/`.
 
 ### 12b — Free ElevenLabs voice (~2 min, quiet — frame as plumbing, not a product)
 
@@ -874,12 +780,12 @@ Then end the session warmly. That's it — end on the high. **No connectors, no 
 
 ## Failure recovery
 
-If anything in Stages 7-12 fails halfway through:
+If anything in Stages 5-12 fails halfway through:
 
 1. The install.log shows exactly which stage stopped
 2. Tell the user in plain English: *"Stopped at Stage X. The good news: nothing's broken on your Mac. The fix is [specific one-liner]. Once you've done that, say 'try again' and I'll pick up from where I stopped."*
 3. Re-running setup.sh is idempotent — safe to run twice
-4. Make every failure resumable. Check `.setup-sh-complete` flag at start to know if Stage 7 already finished.
+4. Make every failure resumable. Check `.setup-sh-complete` flag at start to know if Stage 5's command already finished.
 
 ---
 
@@ -902,7 +808,7 @@ All available in **Part 2** at `~/[AI_NAME]/.kit/INSTALL-PART-2.md` — user inv
 | Placeholder | Source |
 |---|---|
 | `[AI_NAME]` | Set in Stage 4 (user's chosen AI name) |
-| `[PARTNER_NAME]` | Set in Stage 7 (user's first name) |
+| `[PARTNER_NAME]` | Set in Stage 4 (user's first name) |
 
 ---
 
