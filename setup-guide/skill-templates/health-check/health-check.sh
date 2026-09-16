@@ -20,7 +20,7 @@
 
 set -u
 
-AI="[AI_NAME]"                     # the AI's folder name, lowercase
+AI="[ai-name]"                     # the AI's folder name, lowercase (filled by setup.sh)
 USER_NAME="$(whoami)"              # resolved at runtime — never a placeholder
 HOME_DIR="$HOME/${AI}"
 LOGS="${HOME_DIR}/logs"

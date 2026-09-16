@@ -89,8 +89,10 @@ TELEGRAM_BOT_TOKEN="$(read_env "${ENV_FILE}" TELEGRAM_BOT_TOKEN)"
 AUTO_REPLY="$(read_env "${ENV_FILE}" AUTO_REPLY)"; AUTO_REPLY="${AUTO_REPLY:-on}"
 
 if [ -z "${TELEGRAM_BOT_TOKEN}" ]; then
-  log "FATAL: TELEGRAM_BOT_TOKEN missing/empty in ${ENV_FILE}."
-  exit 1
+  # setup.sh installs the poller before the bot exists. No token yet means
+  # "not connected yet", not an error: exit quietly instead of logging a
+  # FATAL line every minute until the Telegram step.
+  exit 0
 fi
 
 API_BASE="https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}"
@@ -180,6 +182,16 @@ while read -r UPDATE; do
     continue
   fi
 
+  # Instant acknowledgement: a 👀 reaction on their message. Deterministic and
+  # immediate, while the real reply takes a minute or three to write. Failure
+  # is harmless (older Telegram clients just don't show it).
+  if [ -n "${MSG_ID}" ] && [ -n "${CHAT_ID}" ]; then
+    curl -s --max-time 10 -X POST "${API_BASE}/setMessageReaction" \
+      -H "Content-Type: application/json" \
+      -d "{\"chat_id\":${CHAT_ID},\"message_id\":${MSG_ID},\"reaction\":[{\"type\":\"emoji\",\"emoji\":\"👀\"}]}" \
+      >/dev/null 2>&1 || true
+  fi
+
   TIMESTAMP=$(date -u -r "${MSG_DATE}" +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || date -Iseconds)
   LOCAL_STAMP=$(date -r "${MSG_DATE}" +"%Y-%m-%d-%H%M%S" 2>/dev/null || date +"%Y-%m-%d-%H%M%S")
   INBOX_FILE="${INBOX_DIR}/${LOCAL_STAMP}-${UPDATE_ID}.md"
@@ -263,11 +275,18 @@ if [ "${NEW_MESSAGES}" -gt 0 ] && [ "${AUTO_REPLY}" != "off" ] && [ -n "${ALLOWE
     log "AUTO-REPLY: cannot cd to ${AI_HOME} — skipping."
   else
     log "AUTO-REPLY: ${NEW_MESSAGES} new message(s) — waking Claude."
-    REPLY_PROMPT="New Telegram message(s) arrived in ~/${AI_NAME}/inbox/telegram/. Use the check-telegram skill: process every unprocessed message, reply on Telegram, mark each processed. Background run — no human in this session, so skip the interactive summary and exit when the inbox is clear."
+    REPLY_PROMPT="New Telegram message(s) arrived in ${INBOX_DIR}/. Use the check-telegram skill: process every file with 'processed: false', reply on Telegram, mark each processed. Exact paths, no searching needed: send with ${AI_HOME}/scripts/send-telegram-text.sh and ${AI_HOME}/scripts/send-voice-note.sh (they read the token themselves; never source the token file or call curl). Background run — no human in this session, so skip the interactive summary and exit when the inbox is clear."
     TMO="${REPLY_TIMEOUT:-900}"
+    # A background run can't ask anyone for permission, so without this list
+    # every tool call is refused and no reply ever goes out (first real
+    # installs, 2026-09-16). Scoped on purpose: read/edit the inbox, run the
+    # kit's own scripts. No general shell, no curl — the scripts hold the token.
+    # Both path forms are listed: a rule for /Users/x/name/scripts does not match
+    # a command written as ~/name/scripts (tested).
+    ALLOWED_TOOLS=(Read Edit Write Glob Grep "Bash(${AI_HOME}/scripts/*)" "Bash(~/${AI_NAME}/scripts/*)" "Bash(date *)" "Bash(ls *)")
     TBIN="$(command -v timeout || command -v gtimeout || true)"
     if [ -n "${TBIN}" ]; then
-      if "${TBIN}" "${TMO}" "${CLAUDE_BIN}" -p "${REPLY_PROMPT}" --max-turns "${REPLY_MAX_TURNS:-15}" >> "${AUTO_REPLY_LOG}" 2>&1; then
+      if "${TBIN}" "${TMO}" "${CLAUDE_BIN}" -p "${REPLY_PROMPT}" --max-turns "${REPLY_MAX_TURNS:-40}" --allowedTools "${ALLOWED_TOOLS[@]}" >> "${AUTO_REPLY_LOG}" 2>&1; then
         log "AUTO-REPLY: run finished."
       else
         log "AUTO-REPLY: run failed or timed out (>${TMO}s) — messages stay queued for next sweep."
@@ -275,7 +294,7 @@ if [ "${NEW_MESSAGES}" -gt 0 ] && [ "${AUTO_REPLY}" != "off" ] && [ -n "${ALLOWE
     else
       # No timeout binary available — run with a manual watchdog so a hung
       # claude process can never permanently wedge the poller.
-      "${CLAUDE_BIN}" -p "${REPLY_PROMPT}" --max-turns "${REPLY_MAX_TURNS:-15}" >> "${AUTO_REPLY_LOG}" 2>&1 &
+      "${CLAUDE_BIN}" -p "${REPLY_PROMPT}" --max-turns "${REPLY_MAX_TURNS:-40}" --allowedTools "${ALLOWED_TOOLS[@]}" >> "${AUTO_REPLY_LOG}" 2>&1 &
       CLAUDE_PID=$!
       WAITED=0
       while kill -0 "${CLAUDE_PID}" 2>/dev/null; do

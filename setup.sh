@@ -55,6 +55,22 @@ log_stage() {
     echo "✅ $stage — $detail"
 }
 
+# Fill the name placeholders in files. Paths need the lowercase folder name
+# ("~/gedemand/inbox"), prose needs the name as typed ("Gedemand"). The first
+# real installs substituted the display name into paths, so the headless
+# Telegram reply went looking in a folder that didn't exist.
+fill_placeholders() {
+    [ "$#" -gt 0 ] || return 0
+    AI_NAME="$AI_NAME" AI_LOWER="$AI_NAME_LOWER" PARTNER="$PARTNER_NAME" WHO="$USER_NAME" \
+    perl -i -pe '
+        s{/\[AI_NAME\]}{/$ENV{AI_LOWER}}g;
+        s/\[ai-name\]/$ENV{AI_LOWER}/g;
+        s/\[AI_NAME\]/$ENV{AI_NAME}/g;
+        s/\[PARTNER_NAME\]/$ENV{PARTNER}/g;
+        s/\[user\]/$ENV{WHO}/gi;
+    ' "$@"
+}
+
 bail() {
     local stage="$1"
     local detail="$2"
@@ -99,10 +115,7 @@ stage_vault() {
 
     # Substitute placeholders in copied vault files
     find "$VAULT_DIR" -type f \( -name "*.md" -o -name "*.txt" \) -print0 | \
-        xargs -0 perl -i -pe "
-            s/\[AI_NAME\]/$AI_NAME/g;
-            s/\[PARTNER_NAME\]/$PARTNER_NAME/g;
-        "
+        while IFS= read -r -d '' f; do fill_placeholders "$f"; done
 
     log_stage "5-VAULT" "vault scaffold built at $VAULT_DIR with placeholders substituted"
 }
@@ -127,12 +140,10 @@ stage_skills() {
             # overwrites kit files and keeps anything extra, like learnings.md.
             mkdir -p "$SKILLS_DIR/$skill"
             cp -R "$SKILL_SRC/$skill/." "$SKILLS_DIR/$skill/"
-            # Substitute placeholders
-            find "$SKILLS_DIR/$skill" -type f -name "*.md" -print0 | \
-                xargs -0 perl -i -pe "
-                    s/\[AI_NAME\]/$AI_NAME/g;
-                    s/\[PARTNER_NAME\]/$PARTNER_NAME/g;
-                "
+            # Fill placeholders in instructions and scripts. Plist templates are
+            # left alone: stage_launchd renders those with the lowercase name.
+            find "$SKILLS_DIR/$skill" -type f \( -name "*.md" -o -name "*.sh" \) -print0 | \
+                while IFS= read -r -d '' f; do fill_placeholders "$f"; done
         fi
     done
 
@@ -140,8 +151,7 @@ stage_skills() {
     # all. Lives beside the installed skills, not just in the kit.
     if [ -f "$SKILL_SRC/_index.md" ]; then
         cp "$SKILL_SRC/_index.md" "$SKILLS_DIR/_index.md"
-        perl -i -pe "s/\[AI_NAME\]/$AI_NAME/g; s/\[PARTNER_NAME\]/$PARTNER_NAME/g;" \
-            "$SKILLS_DIR/_index.md"
+        fill_placeholders "$SKILLS_DIR/_index.md"
     fi
 
     # Slash commands — user-typed escape hatches. /waitwhat is the big one:
@@ -150,11 +160,7 @@ stage_skills() {
     if [ -d "$CMD_SRC" ]; then
         mkdir -p "$COMMANDS_DIR"
         cp "$CMD_SRC"/*.md "$COMMANDS_DIR/" 2>/dev/null || true
-        find "$COMMANDS_DIR" -type f -name "*.md" -print0 | \
-            xargs -0 perl -i -pe "
-                s/\\[AI_NAME\\]/$AI_NAME/g;
-                s/\\[PARTNER_NAME\\]/$PARTNER_NAME/g;
-            " 2>/dev/null || true
+        for f in "$CMD_SRC"/*.md; do fill_placeholders "$COMMANDS_DIR/$(basename "$f")"; done
         log_stage "6-COMMANDS" "slash commands installed to $COMMANDS_DIR (/waitwhat)"
     fi
 
@@ -175,10 +181,7 @@ stage_agents() {
 
     # Substitute placeholders in agent files
     find "$AGENTS_DIR" -type f -name "*.md" -print0 | \
-        xargs -0 perl -i -pe "
-            s/\[AI_NAME\]/$AI_NAME/g;
-            s/\[PARTNER_NAME\]/$PARTNER_NAME/g;
-        "
+        while IFS= read -r -d '' f; do fill_placeholders "$f"; done
 
     local AGENT_COUNT=$(ls -1 "$AGENTS_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ')
     log_stage "6b-AGENTS" "$AGENT_COUNT digital employees installed at $AGENTS_DIR"
@@ -253,6 +256,64 @@ stage_launchd() {
     fi
 }
 
+# ---------- Stage 7b: Telegram + voice scripts, poller job ----------
+#
+# Installed here, not by the AI mid-conversation. On the first real installs the
+# AI couldn't write to ~/Library/LaunchAgents from inside the app, so it built
+# staging folders and handed the user long scripts to paste. setup.sh runs in
+# the user's own terminal, so it can put everything where it belongs in one go.
+# The poller exits quietly until the Telegram token exists (Stage 11).
+
+stage_telegram_voice() {
+    local SCRIPTS_DIR="$AI_HOME/scripts"
+    mkdir -p "$SCRIPTS_DIR" "$LOGS_DIR" "$LAUNCHAGENTS_DIR"
+
+    local f
+    for f in "$KIT_DIR/setup-guide/telegram-kit/poll-telegram.sh" \
+             "$KIT_DIR/setup-guide/telegram-kit/send-telegram-text.sh" \
+             "$KIT_DIR/setup-guide/voice-io-kit/say-to-mac.sh" \
+             "$KIT_DIR/setup-guide/voice-io-kit/send-voice-note.sh" \
+             "$KIT_DIR/setup-guide/voice-io-kit/transcribe.sh"; do
+        [ -f "$f" ] || bail "7b-SCRIPTS" "missing kit script: $f"
+        cp "$f" "$SCRIPTS_DIR/"
+        chmod +x "$SCRIPTS_DIR/$(basename "$f")"
+    done
+
+    mkdir -p "$SKILLS_DIR/voice-io"
+    cp -R "$KIT_DIR/setup-guide/voice-io-kit/." "$SKILLS_DIR/voice-io/"
+    find "$SKILLS_DIR/voice-io" -type f -name "*.md" -print0 | \
+        while IFS= read -r -d '' f; do fill_placeholders "$f"; done
+
+    local LABEL="com.${USER_NAME}.${AI_NAME_LOWER}.telegram-poller"
+    local PLIST="$LAUNCHAGENTS_DIR/${LABEL}.plist"
+    cat > "$PLIST" <<PLIST_EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>${LABEL}</string>
+  <key>ProgramArguments</key>
+  <array><string>${SCRIPTS_DIR}/poll-telegram.sh</string></array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>AI_NAME</key><string>${AI_NAME_LOWER}</string>
+    <key>HOME</key><string>${HOME_DIR}</string>
+    <key>PATH</key><string>${HOME_DIR}/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+  </dict>
+  <key>StartInterval</key><integer>60</integer>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><false/>
+  <key>StandardOutPath</key><string>${LOGS_DIR}/telegram-poller.out</string>
+  <key>StandardErrorPath</key><string>${LOGS_DIR}/telegram-poller.err</string>
+</dict>
+</plist>
+PLIST_EOF
+    launchctl unload "$PLIST" 2>/dev/null || true
+    launchctl load "$PLIST" 2>/dev/null || true
+
+    log_stage "7b-TELEGRAM-VOICE" "poller + voice scripts in $SCRIPTS_DIR; poller job loaded (idle until the bot token exists)"
+}
+
 # ---------- Stage 8: Recovery file ----------
 
 stage_recovery() {
@@ -302,8 +363,7 @@ NOTES_EOF
     local MANUAL_SRC="$KIT_DIR/setup-guide/user-manual-template.md"
     if [ -f "$MANUAL_SRC" ] && [ ! -e "$AI_HOME/USER_MANUAL.md" ]; then
         cp "$MANUAL_SRC" "$AI_HOME/USER_MANUAL.md"
-        perl -i -pe "s/\[AI_NAME\]/$AI_NAME/g; s/\[PARTNER_NAME\]/$PARTNER_NAME/g;" \
-            "$AI_HOME/USER_MANUAL.md"
+        fill_placeholders "$AI_HOME/USER_MANUAL.md"
     fi
 
     log_stage "9-CLAUDEMD" "CLAUDE.md wired up; notes.md + USER_MANUAL.md present at $AI_HOME"
@@ -417,6 +477,7 @@ that will land here:*
 - Official: https://ffmpeg.org/documentation.html
 - Cheatsheet: https://gist.github.com/protrolium/e0dbd4bb0f1a396fcb55
 EOF
+        fill_placeholders "$TOOLS_DIR/ffmpeg.md"
         log_stage "5b-TOOLS" "scaffolded tools/ffmpeg.md (compressed reference)"
     fi
 }
@@ -432,6 +493,7 @@ stage_skills
 stage_agents
 stage_tools_cache
 stage_launchd
+stage_telegram_voice
 stage_recovery
 stage_claude_md
 stage_complete

@@ -5,14 +5,14 @@ description: Use when [PARTNER_NAME] says "check my Telegram," "any Telegram mes
 
 # Check Telegram
 
-[PARTNER_NAME]'s Telegram messages arrive as markdown files in `~/[AI_NAME]/inbox/telegram/` (written by the launchd poller every 60 seconds). This skill processes them.
+[PARTNER_NAME]'s Telegram messages arrive as markdown files in `~/[ai-name]/inbox/telegram/` (written by the launchd poller every 60 seconds). This skill processes them.
 
 ## How the inbox works
 
 Every Telegram message becomes a file like:
 
 ```
-~/[AI_NAME]/inbox/telegram/2026-04-24-143205-998012096.md
+~/[ai-name]/inbox/telegram/2026-04-24-143205-998012096.md
 ```
 
 With frontmatter:
@@ -39,7 +39,7 @@ processed: false
 ### Step 1 — List unprocessed messages
 
 ```bash
-grep -l 'processed: false' ~/[AI_NAME]/inbox/telegram/*.md
+grep -l 'processed: false' ~/[ai-name]/inbox/telegram/*.md
 ```
 
 If none: tell [PARTNER_NAME] "nothing new on Telegram" and stop.
@@ -49,37 +49,47 @@ If none: tell [PARTNER_NAME] "nothing new on Telegram" and stop.
 Read the file. Common shapes:
 
 - **Text question / request** — they're asking you something. Answer it. Reply via Telegram.
-- **Voice note** — transcribe via the `voice-io` skill, THEN treat as text.
+- **Voice note** — transcribe with `~/[ai-name]/scripts/transcribe.sh "<voice_path>"`, THEN treat the transcript as text.
 - **Quick note ("add to notes: X")** — save it, confirm back.
 - **Task dump ("I need you to draft Y")** — draft it, reply with a confirmation + where the draft landed.
 - **Ambient thinking ("just thinking about Z")** — acknowledge briefly, save one line to `vault/Memory/daily-memory.md` if relevant.
 
 ### Step 3 — Reply on Telegram when a reply is expected
 
-Read the token and the chat id from the message frontmatter:
+`CHAT_ID` comes from the message frontmatter. **Send everything through the scripts in `~/[ai-name]/scripts/`** — they read the bot token themselves. Never `source` the token file or call `curl` yourself: background runs block both, and the reply silently never goes out.
+
+**The phone already shows the message landed.** The poller puts a 👀 reaction on every message the moment it arrives, before you're even woken. You don't need to say "got it".
+
+**If the real answer will take more than about a minute** (research, a draft, anything with steps), send a one-line text first so they aren't left wondering, then do the work:
 
 ```bash
-source ~/.config/[AI_NAME]/telegram/.env
+~/[ai-name]/scripts/send-telegram-text.sh "${CHAT_ID}" "On it — give me a few minutes."
 ```
 
-**Text reply (default — cheap, instant):**
+**Then reply by voice. Voice is the default.** A short spoken reply is the whole point of having [AI_NAME] in your pocket:
 
 ```bash
-curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-  --data-urlencode "chat_id=${CHAT_ID}" \
-  --data-urlencode "text=Your reply here"
+~/[ai-name]/scripts/say-to-mac.sh "Your reply, written to be spoken" /tmp/reply.mp3
+~/[ai-name]/scripts/send-voice-note.sh "${CHAT_ID}" /tmp/reply.mp3
 ```
 
-`CHAT_ID` comes from the message frontmatter. Keep replies short — Telegram is a phone interface, not email. If a longer response is needed, reply with "drafted — see your AI folder" and put the long version in `~/[AI_NAME]/drafts/`.
+Write it the way you'd say it to a friend on the phone: short, under ~150 words (about a minute), no bullet points, no headings.
 
-**Voice reply (optional):** if the message was a voice note or [PARTNER_NAME] prefers spoken replies, render + send a voice note instead:
+**Use text instead only when the reply can't be read aloud:**
+
+| The reply contains | Send |
+|---|---|
+| Links, file paths, code, email addresses | Text |
+| Numbers they'll want to copy or compare (prices, dates in a list, figures) | Text |
+| Anything longer than a minute of speech | Short voice note + "full version in your folder", long version saved to `~/[ai-name]/drafts/` |
+| They asked for text ("text me", "in writing") | Text |
+| Everything else | **Voice** |
 
 ```bash
-~/[AI_NAME]/scripts/say-to-mac.sh "Your reply text" /tmp/reply.mp3
-~/[AI_NAME]/scripts/send-voice-note.sh "${CHAT_ID}" /tmp/reply.mp3
+~/[ai-name]/scripts/send-telegram-text.sh "${CHAT_ID}" "Your reply here"
 ```
 
-`say-to-mac.sh` uses ElevenLabs if it's set up, else the Mac's built-in voice. Don't voice-reply to every message — reserve it for when it adds something (a voice note back, a warm check-in). Text is the default.
+Don't send the same reply as both voice and text. `say-to-mac.sh` uses the ElevenLabs voice if it's set up, and falls back to the Mac's built-in voice if not.
 
 ### Step 4 — Mark the message processed
 
