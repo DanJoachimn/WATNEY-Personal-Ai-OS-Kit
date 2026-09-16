@@ -275,11 +275,18 @@ if [ "${NEW_MESSAGES}" -gt 0 ] && [ "${AUTO_REPLY}" != "off" ] && [ -n "${ALLOWE
     log "AUTO-REPLY: cannot cd to ${AI_HOME} — skipping."
   else
     log "AUTO-REPLY: ${NEW_MESSAGES} new message(s) — waking Claude."
-    REPLY_PROMPT="New Telegram message(s) arrived in ${INBOX_DIR}/. Use the check-telegram skill: process every file with 'processed: false', reply on Telegram, mark each processed. Exact paths, no searching needed: token in ${ENV_FILE}; voice scripts in ${AI_HOME}/scripts/. Background run — no human in this session, so skip the interactive summary and exit when the inbox is clear."
+    REPLY_PROMPT="New Telegram message(s) arrived in ${INBOX_DIR}/. Use the check-telegram skill: process every file with 'processed: false', reply on Telegram, mark each processed. Exact paths, no searching needed: send with ${AI_HOME}/scripts/send-telegram-text.sh and ${AI_HOME}/scripts/send-voice-note.sh (they read the token themselves; never source the token file or call curl). Background run — no human in this session, so skip the interactive summary and exit when the inbox is clear."
     TMO="${REPLY_TIMEOUT:-900}"
+    # A background run can't ask anyone for permission, so without this list
+    # every tool call is refused and no reply ever goes out (first real
+    # installs, 2026-09-16). Scoped on purpose: read/edit the inbox, run the
+    # kit's own scripts. No general shell, no curl — the scripts hold the token.
+    # Both path forms are listed: a rule for /Users/x/name/scripts does not match
+    # a command written as ~/name/scripts (tested).
+    ALLOWED_TOOLS=(Read Edit Write Glob Grep "Bash(${AI_HOME}/scripts/*)" "Bash(~/${AI_NAME}/scripts/*)" "Bash(date *)" "Bash(ls *)")
     TBIN="$(command -v timeout || command -v gtimeout || true)"
     if [ -n "${TBIN}" ]; then
-      if "${TBIN}" "${TMO}" "${CLAUDE_BIN}" -p "${REPLY_PROMPT}" --max-turns "${REPLY_MAX_TURNS:-40}" >> "${AUTO_REPLY_LOG}" 2>&1; then
+      if "${TBIN}" "${TMO}" "${CLAUDE_BIN}" -p "${REPLY_PROMPT}" --max-turns "${REPLY_MAX_TURNS:-40}" --allowedTools "${ALLOWED_TOOLS[@]}" >> "${AUTO_REPLY_LOG}" 2>&1; then
         log "AUTO-REPLY: run finished."
       else
         log "AUTO-REPLY: run failed or timed out (>${TMO}s) — messages stay queued for next sweep."
@@ -287,7 +294,7 @@ if [ "${NEW_MESSAGES}" -gt 0 ] && [ "${AUTO_REPLY}" != "off" ] && [ -n "${ALLOWE
     else
       # No timeout binary available — run with a manual watchdog so a hung
       # claude process can never permanently wedge the poller.
-      "${CLAUDE_BIN}" -p "${REPLY_PROMPT}" --max-turns "${REPLY_MAX_TURNS:-40}" >> "${AUTO_REPLY_LOG}" 2>&1 &
+      "${CLAUDE_BIN}" -p "${REPLY_PROMPT}" --max-turns "${REPLY_MAX_TURNS:-40}" --allowedTools "${ALLOWED_TOOLS[@]}" >> "${AUTO_REPLY_LOG}" 2>&1 &
       CLAUDE_PID=$!
       WAITED=0
       while kill -0 "${CLAUDE_PID}" 2>/dev/null; do

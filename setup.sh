@@ -270,6 +270,7 @@ stage_telegram_voice() {
 
     local f
     for f in "$KIT_DIR/setup-guide/telegram-kit/poll-telegram.sh" \
+             "$KIT_DIR/setup-guide/telegram-kit/send-telegram-text.sh" \
              "$KIT_DIR/setup-guide/voice-io-kit/say-to-mac.sh" \
              "$KIT_DIR/setup-guide/voice-io-kit/send-voice-note.sh" \
              "$KIT_DIR/setup-guide/voice-io-kit/transcribe.sh"; do

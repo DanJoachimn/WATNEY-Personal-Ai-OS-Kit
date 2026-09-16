@@ -49,27 +49,21 @@ If none: tell [PARTNER_NAME] "nothing new on Telegram" and stop.
 Read the file. Common shapes:
 
 - **Text question / request** — they're asking you something. Answer it. Reply via Telegram.
-- **Voice note** — transcribe via the `voice-io` skill, THEN treat as text.
+- **Voice note** — transcribe with `~/[ai-name]/scripts/transcribe.sh "<voice_path>"`, THEN treat the transcript as text.
 - **Quick note ("add to notes: X")** — save it, confirm back.
 - **Task dump ("I need you to draft Y")** — draft it, reply with a confirmation + where the draft landed.
 - **Ambient thinking ("just thinking about Z")** — acknowledge briefly, save one line to `vault/Memory/daily-memory.md` if relevant.
 
 ### Step 3 — Reply on Telegram when a reply is expected
 
-The token lives at `~/.config/[ai-name]/telegram/.env`; `CHAT_ID` and `message_id` come from the message frontmatter. Don't search for either.
-
-```bash
-source ~/.config/[ai-name]/telegram/.env
-```
+`CHAT_ID` comes from the message frontmatter. **Send everything through the scripts in `~/[ai-name]/scripts/`** — they read the bot token themselves. Never `source` the token file or call `curl` yourself: background runs block both, and the reply silently never goes out.
 
 **The phone already shows the message landed.** The poller puts a 👀 reaction on every message the moment it arrives, before you're even woken. You don't need to say "got it".
 
 **If the real answer will take more than about a minute** (research, a draft, anything with steps), send a one-line text first so they aren't left wondering, then do the work:
 
 ```bash
-curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-  --data-urlencode "chat_id=${CHAT_ID}" \
-  --data-urlencode "text=On it — give me a few minutes."
+~/[ai-name]/scripts/send-telegram-text.sh "${CHAT_ID}" "On it — give me a few minutes."
 ```
 
 **Then reply by voice. Voice is the default.** A short spoken reply is the whole point of having [AI_NAME] in your pocket:
@@ -92,9 +86,7 @@ Write it the way you'd say it to a friend on the phone: short, under ~150 words 
 | Everything else | **Voice** |
 
 ```bash
-curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-  --data-urlencode "chat_id=${CHAT_ID}" \
-  --data-urlencode "text=Your reply here"
+~/[ai-name]/scripts/send-telegram-text.sh "${CHAT_ID}" "Your reply here"
 ```
 
 Don't send the same reply as both voice and text. `say-to-mac.sh` uses the ElevenLabs voice if it's set up, and falls back to the Mac's built-in voice if not.
