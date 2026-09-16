@@ -30,13 +30,49 @@ If done → continue:
 
 > "Good to see you back. Part 2 is where I learn you deeper. Here's what we'll do (~30 min, ~30 messages, fits comfortably in one Pro session):
 >
-> 1. **Knowledge Work Plugins backbone** — install Anthropic-maintained foundation plugins (~3 min)
-> 2. **5-question voice interview** — sharper voice profile than Part 1's lightweight one (~10 min)
-> 3. **ElevenLabs upgrade** — premium voices if you want them (~5 min, optional)
-> 4. **Granola meeting capture** — auto-record + transcribe meetings (~5 min, optional)
+> 1. **Connect your apps** — Gmail, Calendar, Drive, Apple Notes, whichever you use (~5 min)
+> 2. **Knowledge Work Plugins backbone** — install Anthropic-maintained foundation plugins (~3 min)
+> 3. **5-question voice interview** — sharper voice profile than Part 1's lightweight one (~10 min)
+> 4. **ElevenLabs upgrade** — premium voices if you want them (~5 min, optional)
 > 5. **Optional skills** — Hyperframes, Video Use, content pipeline, document transformations, others (~varies)
 >
-> Ready to start with the plugin backbone, or want to pick a different stage to go to first?"
+> Ready to start with your apps, or want to pick a different stage to go to first?"
+
+---
+
+## Stage 0.3 — Connect your apps (~5 min)
+
+They've used their AI for a few days and come back for more. *This* is the moment to ask for keys to the inbox — not the first hour.
+
+**Probe silently first** — inspect the tool list for connectors already wired, and skip those:
+
+| Service | Tool suffix to look for |
+|---|---|
+| Gmail | `__search_threads`, `__list_labels`, `__create_draft` |
+| Google Calendar | `__list_events`, `__create_event`, `__list_calendars` |
+| Google Drive | `__list_recent_files`, `__read_file_content`, `__search_files` |
+| Apple Notes | `__add_note`, `__get_note_content`, `__list_notes` |
+
+Then pitch — outcome-first, and only the ones they actually use:
+
+> "Right now I can't see your inbox or your calendar. Connecting them is what turns *'what's on my plate today?'* from a guess into an answer. Each takes about a minute. Skip any you don't use.
+>
+> | App | What you'll be able to ask me |
+> |---|---|
+> | **Gmail** | *'what important emails am I dodging?'* / *'draft a reply to Sarah'* |
+> | **Calendar** | *'what's on my plate today?'* / *'find 30 min next week with Anders'* |
+> | **Drive** | *'summarize the doc I shared with Lina yesterday'* |
+> | **Apple Notes** | *'read my note about the supplier call'* |
+>
+> In the Claude desktop app: profile (top right) → **Settings → Connectors**. Tap **Add** on the ones you want — I'll watch the browser and confirm each one."
+
+For each: tell them what to click → watch the OAuth tab via the Chrome extension → verify with a no-op call (`list_labels` / `list_calendars` / etc.) → confirm in chat (*"Gmail connected — I can see your labels"*). If one errors twice, mark deferred and move on.
+
+**If they skip some or all:** *"Totally fine — everything still works. Say 'connect my Gmail' anytime and we'll do it in a minute."* Log `connectors-deferred: $LIST` to `~/[AI_NAME]/.first-run-log.txt`.
+
+**One idea to plant, not build (say it once, in passing):** *"Once your inbox is connected, one thing people love: pick a topic you care about but never have time to read — say, the three newsletters piling up — and ask me each morning for a two-minute rundown of what's new in them. Say 'brief me on my newsletters' whenever you want to try it."* Don't schedule anything. Don't set up a job. It's a use case they can try, not a feature to install.
+
+**Hard rules:** never gate anything on connectors · connect only what they actually use · verify with a real call, never trust "I clicked it" · one nudge max afterwards (the wrap-up skill checks the deferred log once after 3 days, then never again).
 
 ---
 
@@ -157,9 +193,9 @@ Mark complete: `touch ~/[AI_NAME]/.voice-express-complete`
 
 ## Stage 2 — ElevenLabs voice library (optional, ~2 min)
 
-Most users already set up their AI's real ElevenLabs voice in Part 1 (Stage 7). This stage is just the *upgrade path* — the big library.
+Most users already set up their AI's real ElevenLabs voice in Part 1 (Stage 12). This stage is just the *upgrade path* — the big library.
 
-**If they skipped ElevenLabs in Part 1** (stayed on the robotic Mac voice): run the Part 1 Stage 7b/7c flow now — read `~/[AI_NAME]/.kit/PARTNER-RECOMMENDATIONS.md`, open the ElevenLabs link (affiliate if present), free account, API key via the clipboard pattern into `~/.config/[ai-name]/elevenlabs/.env`, pick one of the three free voices, test with `say-to-mac.sh`. Show the disclosure line if it's the first affiliate link this session.
+**If they skipped ElevenLabs in Part 1** (stayed on the robotic Mac voice): run the Part 1 Stage 12b/12c flow now — read `~/[AI_NAME]/.kit/PARTNER-RECOMMENDATIONS.md`, open the ElevenLabs link (affiliate if present), free account, API key via the clipboard pattern into `~/.config/[ai-name]/elevenlabs/.env`, pick one of the three free voices, test with `say-to-mac.sh`. Show the disclosure line if it's the first affiliate link this session.
 
 **If they already did:** surface the upgrade softly, once — a nudge, not a sale:
 
@@ -173,7 +209,7 @@ Mark complete: `touch ~/[AI_NAME]/.elevenlabs-configured`
 
 ## Stage 3.5 — Obsidian Web Clipper (browser → vault, ~3 min)
 
-Vault feeder #2. Granola pumps meetings into the vault automatically. The Obsidian Web Clipper pumps the open web — articles, blog posts, YouTube pages, anything readable in a browser — into the vault as clean markdown, in one click.
+Vault feeder. The Obsidian Web Clipper pumps the open web — articles, blog posts, YouTube pages, anything readable in a browser — into the vault as clean markdown, in one click.
 
 Combined with the AI's vault-awareness, this means *"summarize what I've clipped this week"*, *"find the article I clipped about retention"*, or *"pull the strongest arguments from my last 3 clippings on X"* all just work — without the user ever copy-pasting an article body into chat.
 
@@ -199,7 +235,7 @@ After install: the AI reads everything in `vault/Clippings/` as context — same
 
 ## Stage 3.7 — Vault backup (~5 min, strongly recommended)
 
-The vault has been collecting [PARTNER_NAME]'s voice, projects, memory, brand rules, clipped articles, and (if Granola is wired) meeting notes. It's the second brain. **Without backup, a Mac failure means starting over.**
+The vault has been collecting [PARTNER_NAME]'s voice, projects, memory, brand rules, and clipped articles. It's the second brain. **Without backup, a Mac failure means starting over.**
 
 Three options ranked easiest first. Pick at least one. Picking two is the right answer for anyone who values what they're building.
 
@@ -237,7 +273,7 @@ touch ~/[AI_NAME]/.github-vault-backup-configured
 
 ### Alternative: Obsidian Sync ($5–10/mo)
 
-Vault-only sync with version history (1 year) and end-to-end encryption. Best if Julie wants her vault on multiple devices (Mac + iPad + iPhone via Obsidian Mobile).
+Vault-only sync with version history (1 year) and end-to-end encryption. Best if [PARTNER_NAME] wants the vault on multiple devices (Mac + iPad + iPhone via Obsidian Mobile).
 
 - ✅ Multi-device + versioned + encrypted (not even Obsidian can read your notes)
 - ⚠️ Paid subscription
@@ -267,7 +303,7 @@ The problem: normal search only finds the exact words you type. Search "pricing"
 
 If yes:
 
-1. **Smart Connections should already be installed and indexing** — Part 1 Stage 5.5 sets it up the moment the vault opens, so the index has been growing since day one. Verify: Obsidian → Settings → Community plugins → Smart Connections present + enabled, and `ls ~/[AI_NAME]/vault/.smart-env/` shows an index.
+1. **Smart Connections should already be installed and indexing** — Part 1 Stage 10 sets it up the moment the vault opens, so the index has been growing since day one. Verify: Obsidian → Settings → Community plugins → Smart Connections present + enabled, and `ls ~/[AI_NAME]/vault/.smart-env/` shows an index.
    **If it's missing** (they declined it, or their install predates this): Settings → Community plugins → **"Turn on community plugins"** (it's OFF by default — Restricted Mode; this is the step everyone forgets) → Browse → "Smart Connections" → Install → Enable. Then give it a minute to index.
 2. **Confirm it's local-only.** Smart Connections → settings → verify it's local-first (default `TaylorAI/bge-micro-v2` model, no cloud API key set). This keeps notes on the Mac.
 3. **Check the index is warm.** By now it should have months of notes embedded, not seconds' worth — that's the payoff of installing it in Part 1.
@@ -301,7 +337,7 @@ If yes:
    ```
    This creates `_Brain/people/`, `_Brain/companies/`, `_Brain/concepts/`, `_Brain/sources/`, and `_Brain/_pending/`, each with a README and a page template.
 2. **Tell [AI_NAME] the Brain rules** (they're documented in the vault's `CLAUDE.md`, which the scaffold install updates): every fact gets an inline citation; only notable entities (2+ mentions, or 1 substantive) get a page; singletons go to `_pending/`; the top of each page is rewritten as truth changes, the timeline below the divider is append-only and never deleted.
-3. **The Brain fills itself.** Going forward, when a meeting is captured (Granola) or a notable person/company surfaces in a session, [AI_NAME] creates or updates their `_Brain/` page with cited facts. The `wrap-up` and `dreaming` skills feed it. The user does nothing — it accretes.
+3. **The Brain fills itself.** Going forward, when a notable person or company surfaces in a session, [AI_NAME] creates or updates their `_Brain/` page with cited facts. The `wrap-up` and `dreaming` skills feed it. The user does nothing — it accretes.
 
 Mark complete:
 
@@ -310,24 +346,6 @@ touch ~/[AI_NAME]/.brain-layer-configured
 ```
 
 **The reflection firewall (important):** the `_Brain/` is the AI's filing cabinet (Substrate B). It is deliberately separate from the user's own reflective notes (Substrate A — `Notes/`, `_context/`, daily logs). Any reflection-style commands read ONLY the user's own writing, never `_Brain/` — so the AI's compiled inferences never get mistaken for the user's own thoughts. This is documented in the vault `CLAUDE.md`.
-
----
-
-## Stage 3.9 — Granola meeting capture (optional · nice-to-know · ~5 min)
-
-Purely optional — a nice-to-have, not essential. It slots in *after* the memory system on purpose: once the Brain exists, captured meetings have somewhere rich to land (cited `_Brain/` pages + `Meeting Notes/`). For anyone who takes calls (coaching, clients, sales), Granola auto-records, transcribes, and syncs them into the vault.
-
-Read `~/[AI_NAME]/.kit/PARTNER-RECOMMENDATIONS.md` for the Granola link (affiliate if present, else granola.ai). Show the disclosure line only if no affiliate link has appeared yet this session. Frame it softly, as a recommendation — never a sale:
-
-> "Totally optional one — if you take meetings, Granola records and transcribes them and drops the notes straight into your vault, so I 'remember' every call. Free for your first stretch of meetings; if the auto-capture habit sticks, that's when the paid plan pays for itself. Skip it happily if meetings aren't your thing."
-
-If yes:
-1. Download Granola from the link; grant microphone + system-audio permissions.
-2. The `granola-sync` skill is already installed (from Part 1). Configure `granola-sync/scripts/config.py` with the vault path + tag rules.
-3. Test a manual sync — files should appear in `vault/Meeting Notes/`.
-4. Schedule via launchd (12:30 + 17:00 daily).
-
-Full setup in `06 - Meeting Capture/granola.md`. Mark complete: `touch ~/[AI_NAME]/.granola-configured`
 
 ---
 
@@ -340,7 +358,7 @@ Full setup in `06 - Meeting Capture/granola.md`. Mark complete: `touch ~/[AI_NAM
 > - **Hyperframes** — animated explainer videos by conversation (~5 min install). Need an animation? Tell me the script, I draft, you tweak.
 > - **Video Use** — cut filler words + dead air from recordings (~5 min). For talking-head videos, podcasts, course content.
 > - **Content pipeline** — multi-stage content production (research → draft → quality → distribute). For users producing newsletter/long-form regularly (~10 min).
-> - **Document transformations** — mines meeting transcripts for case-study material. Pairs with Granola (~5 min).
+> - **Document transformations** — mines meeting transcripts for case-study material (~5 min).
 > - **Book mirror** — turns books you've read (via Readwise highlights) into chapter-by-chapter synthesis docs (~5 min).
 > - **Superpowers** *(for builders only)* — a process framework by Jesse Vincent that makes your AI plan → test → verify before it ships code. Genuinely strong **if you build software or run complex, multi-step technical projects**. For everyday drafting, briefs, and admin it's overkill — it adds a little overhead to simple tasks — so I'd only set it up if that's you. Free, open-source. Install: `/plugin install superpowers@claude-plugins-official`."
 
@@ -385,7 +403,6 @@ Read the end-of-Part-2 value-prop close:
 > **What you have now:**
 > - A voice profile from the 5-question interview — drafts will land closer to how you'd actually write them
 > - Premium voice replies (if you upgraded to ElevenLabs)
-> - Meeting auto-capture (if you wired up Granola) — every call you take, your AI gets the notes within hours
 > - The optional skills you added
 >
 > **What this means for you:**
@@ -399,7 +416,13 @@ Read the end-of-Part-2 value-prop close:
 >
 > **What's next:** the kit gets better over time. Run `/update` to pull new skills as they ship. The 100-question deep voice interview is still on the table when you want it — that's a separate 90-min sitting. For now, just use what you have. It compounds."
 
-**Final beat — the newsletter (CTA #2, the one and only end-plug).** This is the genuine end of the whole install. Deliver BRIEF-SETUP's **CTA #2** verbatim — the "I'll never bring it up again" All Gravy Times invite — followed immediately by the *Presented with [Beehiiv](https://www.beehiiv.com?via=daniel-joachim-nielsen)* credit line (send it as markdown so Beehiiv is a live link). After this: silence. No further newsletter mentions anywhere in the running experience. (Skip only if the user already got CTA #2 at a Part 1 close because they stopped there — two mentions total, ever.)
+**Final beat — the newsletter, once, ever.** This is the genuine end of the whole install. Say this verbatim, then never mention it again anywhere in the running experience:
+
+> *"That's the whole thing, [PARTNER_NAME] — [AI_NAME] is fully yours now. One last thing and then I'll never bring it up again: if you want to follow how the kit grows — new skills, new tricks, what's landing for other operators — the person who built me runs a free weekly newsletter, **The All Gravy Times**. → **allgravytimes.com**. Opt in if it's useful to you; if not, we're done, and everything here is yours forever."*
+>
+> *Presented with [Beehiiv](https://www.beehiiv.com?via=daniel-joachim-nielsen).*
+
+Send the credit line as markdown so Beehiiv is a live link. Point to the site; never collect their email in the conversation. The *"I'll never bring it up again"* is load-bearing — it's what makes the free-kit positioning credible.
 
 ---
 

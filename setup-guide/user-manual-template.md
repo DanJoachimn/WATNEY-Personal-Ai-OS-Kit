@@ -74,7 +74,7 @@ Hand it a messy transcript, a long email thread, a dump of raw thoughts — ask 
 
 If you tell it something important — a preference, a decision, a new client's quirk — ask it to save it:
 
-*"Add to notes.md: Lisa at Studio Halo hates the word 'synergy.' Never use it in her drafts."*
+*"Remember this: Lisa at Studio Halo hates the word 'synergy.' Never use it in her drafts."*
 
 Next session, it'll remember. That's how you build a colleague who gets you.
 
@@ -139,7 +139,7 @@ This matters because **`~/Documents/` syncs to iCloud Drive automatically** (if 
 
 - `CLAUDE.md` — [AI_NAME]'s identity & voice rules
 - `USER_MANUAL.md` — this file
-- `notes.md` — long-term memory (decisions, customers, suppliers, brand notes)
+- `vault/Memory/` — its memory: `daily-memory.md` (today's jottings) and `long-term.md` (the short summary it reads every session)
 - `.claude/agents/` — subagents
 - `.claude/skills/` — skills you build over time, plus their `learnings.md` files
 - `drafts/`, `inbox/` — working files

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "How Watney remembers",
+    "quality_profile": "showcase",
+    "viewBox": [1080, 560],
+    "views": [
+      { "id": "daytime", "label": "During the day", "focus": ["chats", "today"], "note": "While you talk, it jots down anything worth keeping. One short line each. Nothing clever yet." },
+      { "id": "overnight", "label": "While you sleep", "focus": ["today", "nightshift", "longterm", "vault"], "note": "At 2am it rereads the day, keeps what matters, throws out the rest and files details in your notes." },
+      { "id": "morning", "label": "Next time you talk", "focus": ["longterm", "vault", "next"], "note": "It reads the short summary first, and only opens the bigger notes when your question needs them." }
+    ]
+  },
+  "stages": [
+    { "label": "You talk" },
+    { "label": "Today" },
+    { "label": "Overnight" },
+    { "label": "Kept" },
+    { "label": "Next time" }
+  ],
+  "nodes": [
+    { "id": "chats", "type": "frontend", "label": "Your chats", "sublabel": "on the Mac or phone", "stage": 0, "row": 1, "tag": "you" },
+    { "id": "today", "type": "database", "label": "Today's jottings", "sublabel": "one line per thing", "stage": 1, "row": 1, "tag": "daily-memory" },
+    { "id": "nightshift", "type": "backend", "label": "The night shift", "sublabel": "2am, rereads your day", "stage": 2, "row": 1, "tag": "dreaming" },
+    { "id": "longterm", "type": "database", "label": "Long-term memory", "sublabel": "short, read every time", "stage": 3, "row": 0, "tag": "long-term" },
+    { "id": "vault", "type": "database", "label": "Your notes vault", "sublabel": "projects, people, goals", "stage": 3, "row": 2, "tag": "Obsidian" },
+    { "id": "next", "type": "frontend", "label": "Next session", "sublabel": "already knows you", "stage": 4, "row": 1, "tag": "you" }
+  ],
+  "flows": [
+    { "id": "jot", "from": "chats", "to": "today", "label": "jots it down", "variant": "emphasis" },
+    { "id": "handover", "from": "today", "to": "nightshift", "label": "hands over the day", "variant": "emphasis" },
+    { "id": "boil", "from": "nightshift", "to": "longterm", "label": "keeps what matters", "variant": "emphasis" },
+    { "id": "file", "from": "nightshift", "to": "vault", "label": "files the details", "variant": "default" },
+    { "id": "load", "from": "longterm", "to": "next", "label": "read first", "variant": "emphasis" },
+    { "id": "lookup", "from": "vault", "to": "next", "label": "looked up when needed", "variant": "dashed" }
+  ],
+  "cards": [
+    { "dot": "emerald", "title": "Why it's built in layers", "items": ["A short memory is read every time, so it stays fast", "The big notes are only opened when needed", "Stuffing everything in one file makes it forget more, not less"] },
+    { "dot": "amber", "title": "The weekly weigh-in", "items": ["Once a week it checks the memory isn't getting bloated", "It only reports; it never deletes on its own"] },
+    { "dot": "slate", "title": "It's all yours", "items": ["Every layer is a plain text file on your Mac", "Open it, read it, fix it, delete a line"] }
+  ]
+}

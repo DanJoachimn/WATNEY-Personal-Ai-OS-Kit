@@ -1,4 +1,4 @@
-# 05 — Setting Up Your Partner AI
+# 02 — How Setup Works
 
 > The full journey from "I want an AI partner" to "I have an AI partner who knows my voice, my work, and my preferences." 12 phases, ~6 hours total spread across 3–4 weeks. Don't do it all at once.
 
@@ -44,7 +44,7 @@ The setup is in **phases** because cognitive load matters. A 6-hour weekend mara
 Install Claude Code Desktop. Install Command Line Tools when prompted. Create `~/[ai-name]/` (lowercase, no spaces, INSIDE Documents — this is critical for backup).
 
 **Phase 1B — Portability.**
-Verify iCloud Drive is on (System Settings → Apple ID → iCloud → Desktop & Documents Folders ticked). This is what makes the AI recoverable on a new Mac. Don't skip. See [07 - Portability & Recovery](../04%20-%20Portability%20and%20Recovery/portability.md).
+Verify iCloud Drive is on (System Settings → Apple ID → iCloud → Desktop & Documents Folders ticked). This is what makes the AI recoverable on a new Mac. Don't skip. See [07 - Portability & Recovery](../04%20-%20Backup%20and%20Recovery/portability.md).
 
 **Phase 2 — Personality guide (optional but powerful).**
 Pick two influences: a "soul" (a character whose tone fits your AI) and a "spice" (a comedy/rhetoric style for distinctiveness). Feed 2–3 hours of their longform content (transcripts) to Claude with a "build me a personality guide" prompt. Save the result. The AI reads it on every startup.
@@ -79,8 +79,8 @@ Reusable capabilities. The AI watches for recurring tasks and offers to turn the
 
 **Phase 11 — Operational OS.**
 The compounding layer:
-- **Bootstrap kick-off** — AI walks you through setup decisions on first run (see [03 - The Kick-off Flow](../03%20-%20The%20Kick-off%20Flow/kick-off.md))
-- **Learnings loop** — every skill has a `learnings.md` it reads before running, so accumulated feedback compounds (see [05 - The Learnings Loop](../05%20-%20The%20Learnings%20Loop/learnings-loop.md))
+- **Bootstrap kick-off** — AI walks you through setup decisions on first run (see [03 - Your First Chat](../03%20-%20Your%20First%20Chat/kick-off.md))
+- **Learnings loop** — every skill has a `learnings.md` it reads before running, so accumulated feedback compounds (see [05 - How It Learns](../05%20-%20How%20It%20Learns/learnings-loop.md))
 - **Wrap-up skill** — at end of session, AI offers to log the day's lessons; you don't have to remember to ask
 - **Heartbeat hook** — auto-sync of installed skills (deferred until needed)
 

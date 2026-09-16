@@ -20,9 +20,9 @@ A two-minute ramble comes back as a clean list, sorted by what's urgent — usua
 
 ## 3. Text it from the couch
 
-Tonight, laptop closed, open Telegram and send a voice note: *"Remind me tomorrow at 9 to [the thing you keep forgetting]."*
+Tonight, from the couch, open Telegram and send a voice note: *"Draft a short message to [someone] about [the thing you keep putting off]. Don't send it, just show me."*
 
-The reminder arrives at 9. That's [AI_NAME] working while your Mac sleeps in another room. Get used to that feeling — it's the whole point.
+The draft comes back to your phone. That's [AI_NAME] working while you're nowhere near the keyboard. One thing to know: it answers while your Mac is on and awake. Asleep, your messages wait, and it catches up when you open the lid.
 
 ## 4. Borrow its brain
 
@@ -30,12 +30,12 @@ Say: *"I'm weighing [a real decision you're facing — option A vs option B]. La
 
 You'll get a straight recommendation with reasons — not a wishy-washy "it depends." Disagree with it? Say so. It argues back politely, and the thinking sharpens both of you.
 
-## 5. Ask what happens while you sleep
+## 5. Ask what it remembers
 
-Say: *"What will you do for me tonight and tomorrow morning?"*
+Tomorrow, open a new session in its folder and say: *"What do you remember about me? Show me the file."*
 
-[AI_NAME] will walk you through its overnight routine — the quiet work that happens at 2 AM, and the brief being prepared for your morning. Then tomorrow proves it.
+It'll tell you what it kept from today, and open the plain text file it lives in. Read it. Fix a line if it got something wrong. That's your AI's memory, and it's yours.
 
 ---
 
-**Tomorrow at 8:00, your first morning brief lands.** Don't prep anything. Just open it with your coffee. That's the moment this stops being software you installed and starts being a colleague who showed up early.
+**One habit that decides whether any of this works:** start every session in the **[AI_NAME]** folder in your home folder. That's where its memory and instructions live. Start on the Desktop and you get a Claude that doesn't know you.

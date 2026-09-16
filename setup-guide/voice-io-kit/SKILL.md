@@ -11,7 +11,7 @@ description: Voice both ways. Transcribe voice notes (ElevenLabs Scribe, or Open
 - `say-to-mac.sh "<text>" <out.mp3>` — render text to speech. ElevenLabs voice first, macOS `say` fallback.
 - `send-voice-note.sh <chat_id> <audio>` — send an audio file to Telegram as a native voice note.
 
-**Why ElevenLabs-first for both:** one free ElevenLabs signup (done in install Stage 7) covers transcription AND the AI's real voice, so there's usually nothing else to configure. The old Whisper/OpenAI path still works as a fallback if an `OPENAI_API_KEY` is present. Costs are pennies either way.
+**Why ElevenLabs-first for both:** one free ElevenLabs signup (done in install Stage 12) covers transcription AND the AI's real voice, so there's usually nothing else to configure. The old Whisper/OpenAI path still works as a fallback if an `OPENAI_API_KEY` is present. Costs are pennies either way.
 
 ## When to invoke
 

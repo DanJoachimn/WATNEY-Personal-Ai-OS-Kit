@@ -131,7 +131,7 @@ Offer follow-up:
 
 ## Setup checklist (the AI installs this — user just confirms)
 
-When this skill is first installed during the kit's main install (Stage 6 of INSTALL.md), the AI:
+When this skill is first installed during the kit's main install (Stage 7 of INSTALL.md, via setup.sh), the AI:
 
 1. Copies the skill to `~/.claude/skills/update/`
 2. Substitutes `[AI_NAME]` placeholder

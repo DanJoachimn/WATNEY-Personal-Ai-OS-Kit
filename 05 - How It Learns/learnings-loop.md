@@ -1,4 +1,4 @@
-# 08 — The Learnings Loop
+# 05 — How It Learns
 
 > The mechanism that makes your AI sharper every week. Without it, every iteration you do today evaporates the moment the conversation resets. With it, lessons compound.
 
@@ -164,5 +164,5 @@ When the AI catches a tuning for a skill that doesn't have a `learnings.md` yet,
 
 ## See also
 
-- [02 - Setting Up Your Partner AI](../02%20-%20Setting%20Up%20Your%20Partner%20AI/setting-up.md) — Phase 11B is where the learnings loop gets installed
-- [03 - The Kick-off Flow](../03%20-%20The%20Kick-off%20Flow/kick-off.md) — first-run setup that the loop builds on top of
+- [02 - How Setup Works](../02%20-%20How%20Setup%20Works/setting-up.md) — Phase 11B is where the learnings loop gets installed
+- [03 - Your First Chat](../03%20-%20Your%20First%20Chat/kick-off.md) — first-run setup that the loop builds on top of

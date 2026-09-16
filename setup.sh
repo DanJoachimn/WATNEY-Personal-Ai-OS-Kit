@@ -121,7 +121,12 @@ stage_skills() {
 
     for skill in $CORE_SKILLS; do
         if [ -d "$SKILL_SRC/$skill" ]; then
-            cp -R "$SKILL_SRC/$skill" "$SKILLS_DIR/$skill"
+            # Copy the folder's CONTENTS. `cp -R src dst` onto an existing dst nests
+            # it (dst/skill/skill), which is what happens on a re-run or when Stage
+            # 0.5 already installed waitwhat + llm-council early. This form
+            # overwrites kit files and keeps anything extra, like learnings.md.
+            mkdir -p "$SKILLS_DIR/$skill"
+            cp -R "$SKILL_SRC/$skill/." "$SKILLS_DIR/$skill/"
             # Substitute placeholders
             find "$SKILLS_DIR/$skill" -type f -name "*.md" -print0 | \
                 xargs -0 perl -i -pe "
@@ -278,16 +283,18 @@ stage_claude_md() {
         ln -sf "$CLAUDE_MD_TARGET" "$CLAUDE_MD_LINK"
     fi
 
-    # CLAUDE.md tells the AI to read notes.md on startup and points the partner at
-    # USER_MANUAL.md. Both must actually exist, or the AI's first session opens with
-    # a missing file it was explicitly told to read. Idempotent — never overwrites.
+    # notes.md is a signpost to vault/Memory/ (the one real memory); USER_MANUAL.md is
+    # what CLAUDE.md points the partner at. Both must exist. Idempotent — never overwrites.
     if [ ! -e "$AI_HOME/notes.md" ]; then
         cat > "$AI_HOME/notes.md" <<NOTES_EOF
-# Long-term memory
+# Memory lives in vault/Memory/
 
-Decisions, preferences, and rules worth remembering across sessions.
-${AI_NAME} reads this on startup and appends to it (asking first, until it
-learns what's worth saving).
+This file is only a signpost. ${AI_NAME}'s memory has two files:
+
+- vault/Memory/daily-memory.md — one line per thing worth keeping, written during the day
+- vault/Memory/long-term.md   — the short summary, rewritten nightly by the dreaming job, read every session
+
+Don't add memory here. It won't reach the night shift.
 
 NOTES_EOF
     fi
@@ -325,9 +332,8 @@ stage_complete() {
 # ---------- Stage 0: System dependencies ----------
 #
 # Hard dependencies the kit needs in Part 1. Checked + installed first so later
-# stages never fail with a cryptic "command not found." Verified by Install #1
-# (Julie, 2026-05-18) where ffmpeg was a silent hidden dependency for Telegram
-# voice transcription — symptom was Whisper failing to decode .ogg files.
+# stages never fail with a cryptic "command not found." ffmpeg was once a silent
+# hidden dependency for Telegram voice transcription (see CHANGELOG.md).
 
 stage_deps() {
     # Homebrew — non-negotiable. Installed before this script runs in a clean
@@ -338,7 +344,7 @@ stage_deps() {
 
     # ffmpeg — required for Telegram voice notes (voice IN: decoding .ogg from
     # Telegram for transcription; voice OUT: mp3 → ogg/opus conversion for
-    # sendVoice API). Without it, the voice-note aha-moment in Stage 8 silently
+    # sendVoice API). Without it, the voice-note aha-moment in Stage 13 silently
     # fails. Hyperframes / Video Use need the heavier `ffmpeg-full` (subtitle
     # support); they swap it themselves if/when those skills are installed.
     if ! command -v ffmpeg >/dev/null 2>&1; then

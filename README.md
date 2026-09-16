@@ -10,17 +10,13 @@
 
 **WATNEY is the kit's name** — homage to *The Martian* (the Mark Watney you'd want stranded on your Mac instead of Mars: practical, resourceful, doesn't quit, makes the best of what's there).
 
-It's not the name of your AI. The AI you install with this kit gets whatever name **you** pick during kick-off — Em, Jarvis, Maya, Sage, whatever feels right. You name the partner; WATNEY is the kit that ships it.
-
-If you've heard the kit referred to as "Partner AI Kit (Personal)" anywhere — same thing, new name. We renamed it to WATNEY after the first real install proved the pattern works.
+It's not the name of your AI. The AI you install with this kit gets whatever name **you** pick during kick-off.
 
 ---
 
 ## Why this exists
 
-Staying current on AI is a full-time job. New models, new tools, new patterns every week. Most people fall behind, then the catch-up feels like a mountain.
-
-This kit does the staying-current part once, so you don't have to. Claude Code-native, lives on your Mac, and **you own it forever.** No SaaS, no monthly seat, no vendor managing your data. Open-source. Yours.
+It runs on Claude Code, lives on your Mac, and **you own it forever.** No SaaS, no monthly seat, no vendor managing your data. Open-source. Yours.
 
 And it doesn't stay generic. It learns your work — your voice, your projects, your taste, your patterns. After a few weeks it stops feeling like a tool and starts feeling like the chief of staff you've been meaning to hire. One who's on duty 24/7, wearing the exec assistant, researcher, content drafter, and ops coordinator hats you've been wanting to bring on.
 
@@ -50,85 +46,84 @@ What you walk away with:
 - **A second brain** that remembers across sessions, so you never re-explain context
 - **Voice notes both ways** — talk to your AI, hear it talk back
 - **A body in your pocket** — text or voice-note it from your phone via Telegram (replies within a minute while your Mac's awake; asleep, messages queue and it catches up on wake)
-- **Four digital employees** — one for content/drafting, one for research, one for code, one for daily admin. You talk to the chief of staff; they dispatch the right one.
-- **Anti-AI writing discipline baked in** — every public-facing draft (emails, posts, captions, replies, anything you'd send to another person) auto-runs through a 24-rule AI-tell removal pass + 250-word banned list + the POP framework. Separate from your voice (which gets captured via interview later) — this is the cleanup filter that runs on top of your voice rules so public output never reads as AI-generated.
+- **Four helpers behind the scenes** — a writer, a researcher, a builder and an assistant. You only ever talk to your AI. It hands each job to the right helper.
 - **A learnings loop** that makes your AI sharper every week from your feedback
 
-You install it by talking. No terminal, no command line, no editing files. The AI does all of that for you.
+You install it by talking. No editing files, no command line — with one exception: installing Homebrew (the Mac's helper-tool installer) needs your Mac password, so that one command you run yourself with a Run button your AI hands you. Everything else, the AI does.
+
+---
+
+## What it costs
+
+The kit is **free, forever**. It's files you own. The services it runs on aren't:
+
+| | Cost | Required? | Why |
+|---|---|---|---|
+| **Claude subscription** | $20/mo (Pro), $100+/mo (Max) for heavy use | **Required** | The intelligence. Pro covers the install and daily use. Upgrade only if you keep hitting limits. |
+| Telegram | Free | Required for the phone line | Your AI in your pocket |
+| ElevenLabs | Free tier, ~$5/mo+ for more | Optional | A nicer voice than the Mac's built-in one |
+| fal.ai | Pennies per image | Optional | Image generation |
+| 1Password | ~$3/mo | Optional | A safer home for your keys |
+
+**Realistic minimum: $20/mo.** For an assistant that's on duty every day and gets sharper every week, that's the cheapest hire you'll ever make.
 
 ---
 
 ## How to install
 
-You need three obvious things plus two that aren't obvious — but the two non-obvious ones are **half the magic**. Don't skip them.
+### What you need
 
-## What it costs (honest numbers, upfront)
+1. **A Mac** on macOS 14 or newer
+2. **A Claude subscription.** Pro is enough.
+3. **The Claude desktop app** → [download here](https://claude.com/code)
+4. **Computer use switched on.** In the app: **Settings → Capabilities → Computer use**. Say yes when your Mac asks about Screen Recording and Accessibility.
+5. **The Claude Chrome extension** → [Chrome Web Store](https://chromewebstore.google.com/search/Claude). Click its icon once in Chrome so it links up.
 
-The kit is **free, forever** — it's files you own. The stack it runs on isn't, so here's the full picture before you start:
+**Don't skip 4 and 5.** They're the difference between an AI that describes what to click and one that clicks it. A chatbot says *"open System Settings and find the toggle."* With these switched on, your AI opens System Settings, finds the toggle and shows you. Without them the install still works, but you do the clicking.
 
-| | Cost | Required? | Why |
+You don't need to prepare anything else. Apps like Gmail, Calendar, Drive and Apple Notes get connected at the end, and your AI walks you through each one.
+
+### Then
+
+1. Open the Claude desktop app and start a new Code session
+2. Paste the install prompt below and press Enter
+3. Answer your new AI's questions
+
+### It runs in two parts
+
+**Part 1: about 75 minutes.** It's mostly your AI working while you answer questions, and it ends with your AI sending you a voice note on Telegram. You'll have:
+- An AI with a name that knows who you are and one project you're working on
+- Four helpers behind the scenes: a writer, a researcher, a builder and an assistant
+- A line from your phone, by text or voice
+- A memory that tidies itself up every night
+
+**Part 2: about 30 minutes, a few days later.** Optional extras:
+- Connect Gmail, Calendar, Drive and Apple Notes
+- A short voice interview, so drafts sound more like you
+- Better voices from ElevenLabs
+- Extra skills like video editing and content pipelines. Pick what you want.
+
+Part 1 on its own gives you a fully working AI. Part 2 is there when you want it.
+
+### Two skills to try on day one
+
+Both install during the first few minutes, straight after the safety check. They're also the quickest way to feel the difference between a chatbot and a partner.
+
+| Skill | Try it by saying | What it's for | In the kit |
 |---|---|---|---|
-| **Claude subscription** | $20/mo (Pro) — $100+/mo (Max) for heavy use | **Required** | The intelligence. Pro covers the install + daily use; upgrade only when you feel the ceiling. |
-| Telegram | Free | Required for voice channel | Your AI in your pocket |
-| Granola (meeting capture) | ~$18/mo, first 25 meetings free | Optional (Part 2) | Your AI remembers every meeting |
-| ElevenLabs (premium voice) | Free tier, ~$5/mo+ for more | Optional (Part 2) | Nicer voice than Mac's built-in |
-| fal.ai (image generation) | Pay-per-image, pennies | Optional | Design employee's image tools |
-| 1Password | ~$3/mo | Optional | Upgraded key security |
-| External drive (Time Machine) | ~$60 one-time | Strongly recommended | Backup that survives a dead Mac |
+| **`/waitwhat`** | `/waitwhat` | The last explanation didn't land. It tries again from a different angle, in plain English. | [`setup-guide/command-templates/waitwhat.md`](./setup-guide/command-templates/waitwhat.md) |
+| **LLM Council** | *"council this: should I raise my prices or add a cheaper tier?"* | A real decision gets argued by five advisors who think differently, then boiled down to one verdict. | [`setup-guide/skill-templates/llm-council/SKILL.md`](./setup-guide/skill-templates/llm-council/SKILL.md) |
 
-**Realistic minimum: $20/mo.** Realistic full stack: $40-50/mo. For an always-on chief of staff that compounds every week, that's the cheapest hire you'll ever make — but you should see the number before you start, not discover it mid-install.
+**Just want these two, without the full install?** Paste this into Claude Code:
 
-*Disclosure: some optional-tool links in this kit may become affiliate links — same price for you, small commission funds kit development. The required stack (Claude, Telegram) earns us nothing.*
-
----
-
-**The obvious three:**
-
-1. **A Mac** running macOS 14 or later
-2. **A Claude subscription** (any tier — Pro covers it)
-3. **Claude Code Desktop** installed → [download here](https://claude.com/code)
-
-**The two that turn the AI from chatbot into agent:**
-
-4. **"Computer use" turned ON inside Claude Code Desktop.** Toggle is in **Settings → Capabilities** (look for *"Computer use"* or *"Control my computer"*). Grant Screen Recording + Accessibility permissions when prompted.
-
-5. **The Claude Chrome extension** installed + paired. [Get it from the Chrome Web Store](https://chromewebstore.google.com/search/Claude). After install, click the extension icon once in Chrome so it pairs with Claude Code.
-
-**Why those two matter — it's the aha-moment, not just smoothness.**
-
-A chatbot says *"open System Settings and turn on iCloud Drive."* A partner **opens System Settings for you, takes a screenshot, points at the toggle.** A chatbot says *"go to elevenlabs.io and create an account."* A partner **opens the page, fills the form, navigates the onboarding.** The first time your AI does that during this install — and there will be a dozen moments — is when the partnership stops feeling like a metaphor.
-
-Without computer use + Chrome extension: you still get a working Partner AI, but every visual moment becomes *"tell me what you see"* and every web flow becomes *"navigate here, click this, copy that."* You'll have a smart chatbot. Not an agent.
-
-If you genuinely can't enable them (corporate-locked Mac, no Chrome), the install will still complete — just in manual mode. But if you can enable them, do.
-
-**Plus: connectors (the agent's reach).** During install your AI will offer to connect 4 starter apps in ~5 minutes: **Gmail, Calendar (Google or Apple), Drive (Google or iCloud), Apple Notes.** Each one unlocks a whole class of things you can ask for after the install — *"what important emails am I dodging?"*, *"what's on my plate today?"*, *"summarize the doc I shared with Lina yesterday."* Skip any you don't use. Don't worry about getting them ready before install — your AI will walk you through each.
-
-Then:
-
-1. Open Claude Code Desktop
-2. Paste the prompt below
-3. Hit Enter
-4. Answer the questions your new AI asks you
-
-### Install runs in two parts
-
-Split for $20 Claude Pro users — Part 1 fits comfortably in a single Pro session without burning your usage allowance.
-
-**Part 1 — Foundation (~60–75 min, single session — a bit more on a brand-new Mac)** ends with your AI sending you a personal voice note via Telegram. Nearly all of it is the AI working while you answer a few questions. By the time it's done, you have:
-- A named AI partner that knows your name, tone, and one active project
-- Four digital employees (Content, Research, Developer, Assistant) behind the scenes
-- A voice channel from your phone — voice in, voice out
-- An overnight memory routine that compresses what you discuss into long-term memory
-
-**Part 2 — Reach (~30 min, separate session days later)** deepens the kit:
-- 5-question voice interview that sharpens your AI's drafts
-- Premium voices (ElevenLabs) — optional
-- Meeting auto-capture (Granola) — optional
-- **`/waitwhat`** — type it any time an explanation doesn't land, and your AI re-explains from scratch in plain English
-- Extra skills (animation, video editing, content pipelines, more) — pick what you want
-
-You can stop after Part 1 and have a fully-working partner. Part 2 is opt-in when you're ready.
+```
+Install two skills from the WATNEY kit for me. Read each file first and tell me in one line what it does before installing:
+1. https://raw.githubusercontent.com/DanJoachimn/WATNEY-Personal-Ai-OS-Kit/main/setup-guide/command-templates/waitwhat.md
+   → save to ~/.claude/commands/waitwhat.md
+2. https://raw.githubusercontent.com/DanJoachimn/WATNEY-Personal-Ai-OS-Kit/main/setup-guide/skill-templates/llm-council/SKILL.md
+   → save to ~/.claude/skills/llm-council/SKILL.md
+Replace [AI_NAME] with "you" and [PARTNER_NAME] with my first name in both files. Then show me each one working.
+```
 
 ### The install prompt
 
@@ -165,19 +160,15 @@ Copy. Paste. Done.
 
 ## What's inside the kit
 
-Ten guides, each ships value on its own:
+Five short guides for when you want to know how something works. Your AI has read them all, so you only open one if you're curious.
 
-| # | Guide | What it gives you |
-|---|---|---|
-| 01 | Hyperframes | Animated videos by conversation. Title cards, motion graphics, captions, exports to MP4. |
-| 02 | Video Use | Cut filler words and dead air from recordings. Generates word-level transcripts. |
-| 03 | API Key Hygiene | Pattern for handling secrets safely — clipboard transfer, scoped keys, never-in-chat. Optional 1Password vault upgrade. |
-| 04 | Pre-Production Rules | Decisions to make BEFORE recording (aspect ratio, format, length). Saves rework. |
-| 05 | Setting Up Your Partner AI | The full 12-phase journey from "I want an AI" to "I have a partner who knows my voice." |
-| 06 | The Kick-off Flow | What your AI does on first contact — 25-min onboarding that handles all setup decisions you shouldn't have to remember. |
-| 07 | Portability and Recovery | **🚧 Rewriting.** Original version pushed iCloud Drive Documents sync as the backup layer; Install #1 discovered that breaks the kit's always-on features on macOS (TCC blocks launchd from reading iCloud-synced Documents). New guide recommends Time Machine + private GitHub repo as the layered backup. Until guide is rewritten, follow the backup section in `INSTALL-PART-2.md` Stage 3.7. |
-| 08 | The Learnings Loop | The compounding mechanism — the AI gets sharper every week from your feedback, automatically. |
-| 09 | Meeting Capture with Granola | Auto-record + transcribe every meeting. Notes flow into your AI's vault twice daily. |
+| Guide | What it's for |
+|---|---|
+| [01 - Keeping Keys Safe](./01%20-%20Keeping%20Keys%20Safe/api-key-hygiene.md) | How to give your AI a password or API key without pasting it into the chat |
+| [02 - How Setup Works](./02%20-%20How%20Setup%20Works/setting-up.md) | The whole journey, from a blank Mac to an AI that knows how you work |
+| [03 - Your First Chat](./03%20-%20Your%20First%20Chat/kick-off.md) | What your AI asks the first time you talk, and why |
+| [04 - Backup and Recovery](./04%20-%20Backup%20and%20Recovery/portability.md) | Keeping your AI safe if your Mac dies. Being rewritten, so for now use the backup step in Part 2. |
+| [05 - How It Learns](./05%20-%20How%20It%20Learns/learnings-loop.md) | How your feedback makes it sharper every week |
 
 ---
 
@@ -219,19 +210,6 @@ The kit gets better over time. To check for updates, tell your AI:
 Or just say *"update my kit"* or *"check for kit updates."* Your AI will pull the latest version from this repo, walk you through what's new, and ask before changing anything you've already tuned.
 
 Hard rule: updates **never silently overwrite** a skill you've tuned via the learnings loop. Your customizations are sacred. New skills are always opt-in. Bug fixes apply by default but you're told about them.
-
----
-
-## For Training Club operators
-
-WATNEY is the generic Personal version. There's a Training Club-flavored sibling kit called **PACER** at [PACER: Training Club AI-OS Kit](https://github.com/DanJoachimn/PACER-Training-Club-Ai-OS-Kit) with:
-
-- Training Club-specific framing on your digital employees (same four, tuned for Training Club ops)
-- Day-1 skills tuned for Training Club operators (weekly-retention-review, weekly-content-batch, block-builder, member-checkin-draft)
-- Vault scaffold for Training Club ops (Members/, Coaches/, Programming/, Events/)
-- HYROX brand context layer + race calendar awareness
-
-Same install pattern. Different overlay.
 
 ---
 

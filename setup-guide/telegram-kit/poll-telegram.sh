@@ -122,9 +122,22 @@ fi
 
 UPDATE_COUNT=$(echo "${RESPONSE}" | jq '.result | length' 2>/dev/null || echo 0)
 if [ "${UPDATE_COUNT:-0}" -eq 0 ]; then
-  exit 0    # nothing new
+  # Nothing new — but a message left 'processed: false' by a failed or timed-out
+  # reply run would otherwise sit until the NEXT message arrives. Count it as
+  # new mail so the answering machine below wakes for it. Throttled to once
+  # per 10 minutes by the marker, so a run already in flight isn't doubled.
+  STALE=$(find "${INBOX_DIR}" -maxdepth 1 -name '*.md' -mmin +5 -exec grep -lx 'processed: false' {} + 2>/dev/null | wc -l | tr -d ' ')
+  if [ "${STALE:-0}" -gt 0 ] && [ -z "$(find "${CONFIG_DIR}/.last-backlog-wake" -mmin -10 2>/dev/null)" ]; then
+    log "BACKLOG: ${STALE} message(s) unprocessed >5m — waking the answering machine."
+    touch "${CONFIG_DIR}/.last-backlog-wake"
+    NEW_MESSAGES="${STALE}"
+    BACKLOG_ONLY=1
+  else
+    exit 0    # nothing new
+  fi
 fi
 
+if [ "${BACKLOG_ONLY:-0}" -eq 0 ]; then
 log "Got ${UPDATE_COUNT} update(s)."
 
 # ---- Process each update -------------------------------------------------
@@ -215,7 +228,7 @@ while read -r UPDATE; do
   log "WROTE: ${INBOX_FILE}"
   NEW_MESSAGES=$((NEW_MESSAGES + 1))
 
-  # First contact: record the chat id so Stage 8's voice note + every reply
+  # First contact: record the chat id so Stage 13's voice note + every reply
   # know where to send. Atomic write, idempotent.
   if [ ! -f "${CHAT_ID_FILE}" ] && [ -n "${CHAT_ID}" ]; then
     printf '%s\n' "${CHAT_ID}" > "${CHAT_ID_FILE}.tmp" && mv "${CHAT_ID_FILE}.tmp" "${CHAT_ID_FILE}"
@@ -229,6 +242,7 @@ if [ "${MAX_UPDATE_ID}" -gt 0 ]; then
   printf '%s\n' "$((MAX_UPDATE_ID + 1))" > "${OFFSET_FILE}.tmp" && mv "${OFFSET_FILE}.tmp" "${OFFSET_FILE}"
   log "Offset -> $((MAX_UPDATE_ID + 1))."
 fi
+fi   # end of the new-mail path (skipped on a backlog-only wake)
 
 # ---- Auto-reply: the answering machine -------------------------------------
 # When new messages from an allowlisted sender arrived, wake a headless Claude

@@ -101,7 +101,6 @@ The kit's own skills (the ones in `setup-guide/skill-templates/`) are NOT replac
 - Telegram bridge + voice I/O
 - Daily-memory dreaming
 - The Learnings Loop
-- Meeting capture via Granola
 - Personal vault scaffolding
 
 The upstream plugins handle the universal stuff (search, productivity, voice extraction). The kit handles the parts unique to running a personal AI.

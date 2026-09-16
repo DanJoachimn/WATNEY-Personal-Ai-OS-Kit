@@ -33,7 +33,7 @@ ls .first-run-complete 2>/dev/null
 ```
 
 - **Missing** → [PARTNER_NAME] is new. Trigger kick-off BEFORE anything else, even if they just typed "hi." Don't ask permission — just start the warm opening.
-- **Exists** → kick-off is done. Read `notes.md`, proceed normally.
+- **Exists** → kick-off is done. Read `vault/Memory/long-term.md`, proceed normally.
 
 ### Manual triggers
 
@@ -149,7 +149,7 @@ The kit deliberately stages voice fidelity in three tiers, each higher-resolutio
 
 | Tier | Where it lives | Time | Output |
 |---|---|---|---|
-| **Foundation (3-Q)** | Inlined in Part 1's INSTALL.md Stage 5 | ~5 min | Three-sentence Voice guide. Enough to land the Part 1 aha-moment. NOT in this skill — Part 1's playbook owns it. |
+| **Foundation (3-Q)** | Inlined in Part 1's INSTALL.md Stage 9 | ~5 min | Three-sentence Voice guide. Enough to land the Part 1 aha-moment. NOT in this skill — Part 1's playbook owns it. |
 | **Express (5-Q)** | Section B-Express below | ~8 min | Voice guide + Reference brands + Do-not-use list. Default for Part 2. |
 | **Deluxe (100-Q)** | Section B-Deluxe below | ~90 min | High-fidelity portable `about-me.md`. Best done as its own session, never wedged into install. |
 

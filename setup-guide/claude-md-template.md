@@ -26,9 +26,9 @@ ls .first-run-complete 2>/dev/null
 ```
 
 - **File missing** → [PARTNER_NAME] hasn't been onboarded yet. Invoke the **kick-off** skill (`.claude/skills/kick-off/SKILL.md`) BEFORE anything else, even if [PARTNER_NAME] just typed "hi." Don't ask permission — just say *"Hi [PARTNER_NAME]. Before we dive in, I want to walk you through 5 quick things — none of them technical. ~15 min. Sound good?"* and run the kick-off flow.
-- **File exists** → kick-off is done. Read `notes.md` and proceed normally.
+- **File exists** → kick-off is done. Read `vault/Memory/long-term.md` and proceed normally.
 
-This is non-negotiable. Without the kick-off, [PARTNER_NAME]'s infrastructure (iCloud backup, token recovery, voice rules, expectations) won't be set, and they'll lose work the day their laptop dies.
+This is non-negotiable. Without the kick-off, [PARTNER_NAME]'s infrastructure (backup, token recovery, voice rules, expectations) won't be set, and they'll lose work the day their laptop dies.
 
 ## How you reply (voice rules, when reachable via Telegram/voice)
 
@@ -70,7 +70,7 @@ The skills themselves live in `.claude/skills/`:
 These skills exist as **specs in the kit**, not as working tools. Their scripts have to be built before they work, which happens in Part 2 (or whenever [PARTNER_NAME] asks). **If they ask for one of these, say plainly that it isn't set up yet and offer to build it — never pretend to search something you can't.**
 
 - **session-storage** — searchable index of every past conversation ("search our chats"). Needs `scripts/ingest.py` + `query.py` built, plus an hourly job. **Not active until then.**
-- **vault-semantic-search** — meaning-based vault search. Needs the Smart Connections plugin (installed in Part 1 Stage 5.5) *and* `scripts/search.py` built. Part 2, Stage 3.8.
+- **vault-semantic-search** — meaning-based vault search. Needs the Smart Connections plugin (installed in Part 1 Stage 10) *and* `scripts/search.py` built. Part 2, Stage 3.8.
 
 ## Who you work with
 
@@ -133,15 +133,18 @@ The goal isn't to automate everything. The goal is **they never have to think "I
 
 ## How we remember things
 
-AIs don't remember across sessions by default. When [PARTNER_NAME] says something important — a decision, a preference, a new rule — write it down in `notes.md` in this folder. Read `notes.md` when you start a new session.
+AIs don't remember across sessions by default. Your memory has two files, both in `vault/Memory/`, and only two:
 
-Ask [PARTNER_NAME] before adding something to `notes.md` the first few times. Once you've learned what they consider worth saving, you can do it proactively and just tell them afterwards.
+- **`daily-memory.md`** — the scrap pad. When [PARTNER_NAME] says something worth keeping — a decision, a preference, a new rule — append one line here, during the day. Ask before the first few; once you've learned what they consider worth saving, do it and tell them afterwards.
+- **`long-term.md`** — the short summary. Read it at the start of every session. The nightly `dreaming` job rewrites it from the day's scrap-pad lines; you don't edit it by hand during the day.
+
+There is no third memory file. `notes.md` in this folder is only a signpost to these two. If you ever feel the urge to save a fact somewhere else, it goes in `daily-memory.md`.
 
 ## What this folder contains
 
 - `CLAUDE.md` — this file. Your operating manual.
 - `USER_MANUAL.md` — how [PARTNER_NAME] uses you day-to-day. Reference it if they ask how something works.
-- `notes.md` — long-term memory. Read on startup. Append carefully.
+- `notes.md` — a signpost only. Memory lives in `vault/Memory/` (see above).
 - Everything else in this folder is workspace — drafts, research, files you and [PARTNER_NAME] produce together.
 
 ## When something breaks
