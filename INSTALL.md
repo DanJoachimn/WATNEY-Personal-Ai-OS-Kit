@@ -66,7 +66,7 @@ When in doubt, add the gate. The friction is small; the cost of a wrong-send is 
 
 That last line is the load-bearing one. **Say it.** The whole reason a non-developer stops asking questions is embarrassment — naming it up front is what keeps them asking for the next hour.
 
-`/waitwhat` installs automatically with the kit (setup.sh, Stage 6). It works in every session forever, not just during the install.
+**Timing, so you don't promise something that isn't there yet:** `/waitwhat` gets installed at the end of the safety check (Stage 0.5), a few minutes from now. Until then, treat *"wait, what?"*, *"you lost me"* or a typed `/waitwhat` as the same request and re-explain anyway. You already have the method: one line of context, a different angle, plain words, no apology. After Stage 0.5 it's a real command that works in every session forever.
 
 THEN verify the two capabilities that turn this kit from a chatbot install into an agent install: **computer use** + **Claude Chrome extension**.
 
@@ -243,7 +243,7 @@ git clone https://github.com/DanJoachimn/WATNEY-Personal-Ai-OS-Kit.git "$SANDBOX
 Read every file in `$SANDBOX/kit/`. Scan for the 9 categories of red flags documented previously (kept here briefly — full detail in audit-protocol.md):
 
 1. Files touching paths outside the install scope (legitimate: `~/[AI_NAME]/`, `~/.claude/skills/`, `~/Library/LaunchAgents/com.[user].[ai-name].*.plist`, `~/.config/[ai-name]/`, sandbox)
-2. Network calls to non-trusted domains (legitimate: github.com, anthropic.com, claude.com, api.openai.com, api.elevenlabs.io, api.telegram.org, granola.ai, apple.com, icloud.com, 1password.com)
+2. Network calls to non-trusted domains (legitimate: github.com, anthropic.com, claude.com, api.openai.com, api.elevenlabs.io, api.telegram.org, apple.com, icloud.com, 1password.com)
 3. Privilege escalation (`sudo`, `chmod 777`, reading `/etc/passwd`)
 4. Obfuscation (base64 `eval`, escaped pipes, hidden URL construction)
 5. Persistent backdoors (launchd fetching external URLs at runtime)
@@ -259,13 +259,34 @@ Read every file in `$SANDBOX/kit/`. Scan for the 9 categories of red flags docum
 > "✅ Security check complete. Read every file. Here's what I found:
 >
 > - Every shell command stays within your AI's home folder + Claude Code's skill folder. Nothing touches SSH keys, keychain, AWS credentials, or system files.
-> - The only outbound URLs point to GitHub, Anthropic, and optional services (OpenAI, ElevenLabs, Telegram, Granola) you'd wire up later if you want.
+> - The only outbound URLs point to GitHub, Anthropic, and optional services (OpenAI, ElevenLabs, Telegram) you'd wire up later if you want.
 > - No `sudo`, no privilege escalation, no system changes.
 > - No obfuscated code, no hidden execution.
 > - The scheduled job (overnight memory compression) only calls Claude with a static prompt — never fetches external code at runtime.
 > - The recovery file lists API key names with empty values — checklist only, no secrets stored.
 >
 > **In case you're wondering if it's safe: I did the read-through and can confirm this kit is safe to install. No red flags. Want me to proceed?**"
+
+### Once they say go: install the two day-one skills (before the sandbox is deleted)
+
+Two skills are useful from the very first minute, so they don't wait for Stage 4:
+
+| Skill | Where it lives in the kit | What [PARTNER_NAME] says |
+|---|---|---|
+| `/waitwhat` | `setup-guide/command-templates/waitwhat.md` | `/waitwhat`, or "wait, what?" |
+| `llm-council` | `setup-guide/skill-templates/llm-council/SKILL.md` | "council this: should I X or Y?" |
+
+They're installed from the copy you just audited, so nothing new is downloaded. The name isn't chosen yet, so the placeholders get neutral words for now. Stage 4 reinstalls both with the real names.
+
+```bash
+mkdir -p "$HOME/.claude/commands" "$HOME/.claude/skills/llm-council"
+cp "$SANDBOX/kit/setup-guide/command-templates/waitwhat.md" "$HOME/.claude/commands/waitwhat.md"
+cp "$SANDBOX/kit/setup-guide/skill-templates/llm-council/SKILL.md" "$HOME/.claude/skills/llm-council/SKILL.md"
+perl -i -pe 's/\[AI_NAME\]/your AI/g; s/\[PARTNER_NAME\]/your partner/g;' \
+  "$HOME/.claude/commands/waitwhat.md" "$HOME/.claude/skills/llm-council/SKILL.md"
+```
+
+Tell them in one line: *"Two things are ready now. `/waitwhat` whenever I lose you, and 'council this' when you've got a real decision to chew on. I'll show you the council at the end."* If this session doesn't pick up the new command straight away, keep treating a typed `/waitwhat` as the request, as in Stage 0a.
 
 ### Clean up sandbox after audit
 
@@ -864,7 +885,11 @@ Read this verbatim (adapt slightly to fit the user's actual project):
 > - *'What's the most useful thing I could spend 15 minutes on right now?'* → Assistant reads your projects, suggests
 > - *'I'm stuck on [thing]. Talk it through with me.'* → AI thinks out loud with you in your tone
 >
-> **What's next:** Part 2 is when I learn you deeper — a 5-question voice interview, premium voices if you want them, meeting capture for your calls, optional integrations. When you've used Part 1 for a few days and want more, just say **'run Part 2'**."
+> **One habit that matters more than anything else:** every time you start a new conversation with me, pick the **[AI_NAME]** folder (it sits in your home folder, the one with the house icon, and Finder shows the name in lowercase) as the folder to work in. That folder is where my instructions and memory live. Start somewhere else, like your Desktop, and you get a Claude that doesn't know you, and it'll feel like the install broke. It didn't. You just opened the wrong door.
+>
+> **What's next:** Part 2 is when I learn you deeper — a 5-question voice interview, premium voices if you want them, optional integrations. When you've used Part 1 for a few days and want more, just say **'run Part 2'**."
+
+**Before marking complete, check they've got the folder habit.** Ask them to show you, or tell you, which folder they'd choose next time. If they can't find it, open Finder on it for them (`open ~/[AI_NAME]`) and suggest dragging it into the Finder sidebar so it's always one click away.
 
 Mark Part 1 complete:
 
@@ -882,7 +907,7 @@ touch ~/[AI_NAME]/.first-run-complete
 cat > ~/[AI_NAME]/.first-run-log.txt <<EOF
 First-run completed via Part 1 install: $(date -Iseconds)
 Voice tier: 3-Q foundation (Part 1 lightweight)
-Pending: Part 2 (5-Q express + premium voice + meeting capture + optional skills)
+Pending: Part 2 (5-Q express + premium voice + optional skills)
 User invokes Part 2 when ready: "run Part 2"
 EOF
 
@@ -959,7 +984,6 @@ If anything in Stages 4-7 fails halfway through:
 
 - 5-question deep voice interview (Section B-Express full)
 - ElevenLabs premium voice upgrade
-- Granola meeting capture
 - 100-question deluxe voice interview (always its own dedicated session)
 - Optional skills (Hyperframes, Video Use, content-pipeline, document-transformations, etc.)
 - People/Companies vault scaffolding deep-fill

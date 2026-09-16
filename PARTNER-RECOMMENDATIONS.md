@@ -6,7 +6,7 @@
 
 ## The rule (how the kit uses these) — a nudge, never a sale
 
-- The installing AI surfaces the relevant link at the **natural moment** — voice-in setup → Wispr Flow; voice-out setup → ElevenLabs; meeting capture → Granola; the newsletter plug → Beehiiv. Never a hard pitch, never gated. A recommendation from a friend, offered once, in passing.
+- The installing AI surfaces the relevant link at the **natural moment** — voice-in setup → Wispr Flow; voice-out setup → ElevenLabs; the newsletter plug → Beehiiv. Never a hard pitch, never gated. A recommendation from a friend, offered once, in passing.
 - **The user always gets the free tier first.** They only ever upgrade if *they* decide the tool is worth it — at which point the affiliate credit applies. **The user never pays a cent extra.**
 - The **disclosure line (below) is shown the first time an affiliate link appears in a session.** Transparent by design — that honesty is the whole positioning.
 
@@ -16,7 +16,6 @@
 |---|---|---|---|---|
 | **Wispr Flow** | voice IN — dictate instead of type | **Phase 0** — Stage 1.5, at kick-off (so they dictate the whole install) | https://ref.wisprflow.ai/daniel-joachim-nielsen | https://wisprflow.ai |
 | **ElevenLabs** | voice OUT — your AI's real voice | quiet setup at Part 1 Stage 7; the **reveal + upgrade lands at Stage 8.5, AFTER the aha** | https://try.elevenlabs.io/ppfxpf0bci79 | https://elevenlabs.io |
-| **Granola** | meeting capture → vault | Part 2 Stage 3 (optional) | https://www.granola.ai/?via=daniel-joachim-nielsen | https://granola.ai |
 | **Beehiiv** | newsletter platform | **end only** — "Presented with Beehiiv" under the All Gravy Times plug (see rule below) | https://www.beehiiv.com?via=daniel-joachim-nielsen | https://beehiiv.com |
 | **Readwise** | book/article highlights → vault | when book-mirror is used | `[READWISE_AFFILIATE_URL]` | https://readwise.io |
 | **1Password** | secure API-key storage | optional, later | `[1PASSWORD_AFFILIATE_URL]` | https://1password.com |
@@ -25,7 +24,6 @@
 
 - **Wispr Flow** — free tier is **2,000 words/week**. People get hooked on talking instead of typing; the efficiency sells the upgrade by itself. Surface it early so they dictate the rest of the install.
 - **ElevenLabs** — the install sets ONE warm default voice with no menu, so the aha-moment sounds human instantly: **Bella** (`hpp4J3VqNfWAUOO0d1Us`, "Professional, Bright, Warm"), or **Brian** (`nPczCjzI2devNBz1zQrb`, deep/calm) if the persona reads male. Both are free premade voices. The free tier covers voice notes; the **large voice library + more speaking time** is the paid plan. The reveal + upgrade is deferred to Stage 8.5 (after the aha) — never sell it before the user has *heard* the voice.
-- **Granola** — free for the first stretch of meetings, then the "every call auto-captured to my vault" habit is what converts. Same shape as Wispr: the habit sells it.
 
 ### Beehiiv — special placement rule (end only)
 

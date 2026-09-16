@@ -121,7 +121,12 @@ stage_skills() {
 
     for skill in $CORE_SKILLS; do
         if [ -d "$SKILL_SRC/$skill" ]; then
-            cp -R "$SKILL_SRC/$skill" "$SKILLS_DIR/$skill"
+            # Copy the folder's CONTENTS. `cp -R src dst` onto an existing dst nests
+            # it (dst/skill/skill), which is what happens on a re-run or when Stage
+            # 0.5 already installed waitwhat + llm-council early. This form
+            # overwrites kit files and keeps anything extra, like learnings.md.
+            mkdir -p "$SKILLS_DIR/$skill"
+            cp -R "$SKILL_SRC/$skill/." "$SKILLS_DIR/$skill/"
             # Substitute placeholders
             find "$SKILLS_DIR/$skill" -type f -name "*.md" -print0 | \
                 xargs -0 perl -i -pe "

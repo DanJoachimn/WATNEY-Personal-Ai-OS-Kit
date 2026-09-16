@@ -2,7 +2,7 @@
 
 > **Your kit works fully without a single thing on this page.** Everything here is optional. Add one *only* when a real, recurring need shows up — never because the list looks tempting.
 >
-> **For the installing AI — hard rule:** do NOT push, bundle, or auto-install anything below. Mention the *one* relevant tool only when [PARTNER_NAME] hits the need it solves (e.g. they complain about taking meeting notes → *then* mention Granola). Never run a download [PARTNER_NAME] didn't ask for. Forcing non-essential installs is the fastest way to make the kit feel bloated and pushy — the opposite of the point.
+> **For the installing AI — hard rule:** do NOT push, bundle, or auto-install anything below. Mention the *one* relevant tool only when [PARTNER_NAME] hits the need it solves (e.g. they keep asking for images → *then* mention fal.ai). Never run a download [PARTNER_NAME] didn't ask for. Forcing non-essential installs is the fastest way to make the kit feel bloated and pushy — the opposite of the point.
 
 > **Note — voice is NOT on this list, because it's core.** [AI_NAME]'s voice (ElevenLabs) and your voice dictation (Wispr Flow) are part of the **essential** kit, set up during install on their **free tiers**. They live in the core voice setup, not here. This page is only for the genuinely optional stuff.
 
@@ -10,33 +10,11 @@
 
 ## 🧰 Apps & tools
 
-### 🎙 Granola — AI meeting notes
-- **What it does:** sits in your meetings, writes the notes for you, and can flow them into your vault so [AI_NAME] remembers every conversation.
-- **Use it when:** you're in enough calls that taking notes (or forgetting what was said) is a real cost.
-- **Cost:** app is **free** (Basic). Automatic vault-sync needs **Business $14/mo** (the API) — or the free MCP path with limits (30-day window, summaries not transcripts, private notes only).
-- **Link:** [granola.ai](https://www.granola.ai)
-
 ### 🎨 Refero — design reference library
 - **What it does:** a huge library of real product screens/flows. When [AI_NAME] builds you a landing page or dashboard, it researches real patterns first instead of inventing generic "AI slop."
 - **Use it when:** you're having [AI_NAME] build anything a human will *look at* — pages, dashboards, emails-as-pages.
 - **Cost:** paid subscription (design tool). [AI_NAME]'s design work still functions without it — it just falls back to general pattern knowledge.
 - **Link:** [refero.design](https://refero.design)
-
-### 🌙 Agents Never Sleep — keep [AI_NAME] awake, lid closed **(our pick)**
-- **What it does:** the same job as Amphetamine, built for exactly this use case — keeps the Mac awake with the lid closed so long agent runs finish while you're away. Menu-bar app, native and tiny, collects no data.
-- **Use it when:** you want lid-closed always-on and you'd rather pay a fiver than walk the four-step Amphetamine toggle dance (uncheck Closed-Display Mode, build a power-adapter Trigger, and so on — the part of the install [AI_NAME] *can't* click for you).
-- **Cost:** **$4.99**, 14-day money-back guarantee.
-- **Why it exists:** `caffeinate` and the usual sleep-blockers stop working the moment the lid shuts. This is purpose-built for that gap.
-- **Before you buy — one thing to check:** the safe Amphetamine config ties wakefulness to the **power adapter**, so a closed laptop in a bag just sleeps (no heat, no battery drain). Agents Never Sleep does not say on its site whether it can do the same. **Check for a plugged-in-only option before relying on it in a bag.** If it has one, it's a straight upgrade. If not, treat it as desk-only.
-- **Link:** https://agentsneversleep.app
-
-### ☕ Amphetamine — the free alternative
-- **What it does:** same job as Agents Never Sleep above — stops your Mac sleeping when you close the lid, so [AI_NAME] stays reachable on a bare laptop.
-- **Use it when:** you'd rather spend ten minutes than five dollars.
-- **Cost:** **free** (Mac App Store).
-- **The trade-off:** the setup is four fiddly toggles in a menu-bar app [AI_NAME] can't click for you. It does have one thing the paid app doesn't advertise: a **power-adapter trigger**, so it's awake *only when plugged in* — which is what makes lid-closed safe in a bag.
-- **Setup:** the safe config → **[AMPHETAMINE-SETUP.md](./AMPHETAMINE-SETUP.md)**.
-- **Link:** [Amphetamine on the Mac App Store](https://apps.apple.com/app/amphetamine/id937984704)
 
 ### 🖼 fal.ai — image & video generation
 - **What it does:** powers the `genmedia` skill — [AI_NAME] can generate images, social graphics, and short video clips on demand.

@@ -33,8 +33,7 @@ If done → continue:
 > 1. **Knowledge Work Plugins backbone** — install Anthropic-maintained foundation plugins (~3 min)
 > 2. **5-question voice interview** — sharper voice profile than Part 1's lightweight one (~10 min)
 > 3. **ElevenLabs upgrade** — premium voices if you want them (~5 min, optional)
-> 4. **Granola meeting capture** — auto-record + transcribe meetings (~5 min, optional)
-> 5. **Optional skills** — Hyperframes, Video Use, content pipeline, document transformations, others (~varies)
+> 4. **Optional skills** — Hyperframes, Video Use, content pipeline, document transformations, others (~varies)
 >
 > Ready to start with the plugin backbone, or want to pick a different stage to go to first?"
 
@@ -173,7 +172,7 @@ Mark complete: `touch ~/[AI_NAME]/.elevenlabs-configured`
 
 ## Stage 3.5 — Obsidian Web Clipper (browser → vault, ~3 min)
 
-Vault feeder #2. Granola pumps meetings into the vault automatically. The Obsidian Web Clipper pumps the open web — articles, blog posts, YouTube pages, anything readable in a browser — into the vault as clean markdown, in one click.
+Vault feeder. The Obsidian Web Clipper pumps the open web — articles, blog posts, YouTube pages, anything readable in a browser — into the vault as clean markdown, in one click.
 
 Combined with the AI's vault-awareness, this means *"summarize what I've clipped this week"*, *"find the article I clipped about retention"*, or *"pull the strongest arguments from my last 3 clippings on X"* all just work — without the user ever copy-pasting an article body into chat.
 
@@ -199,7 +198,7 @@ After install: the AI reads everything in `vault/Clippings/` as context — same
 
 ## Stage 3.7 — Vault backup (~5 min, strongly recommended)
 
-The vault has been collecting [PARTNER_NAME]'s voice, projects, memory, brand rules, clipped articles, and (if Granola is wired) meeting notes. It's the second brain. **Without backup, a Mac failure means starting over.**
+The vault has been collecting [PARTNER_NAME]'s voice, projects, memory, brand rules, and clipped articles. It's the second brain. **Without backup, a Mac failure means starting over.**
 
 Three options ranked easiest first. Pick at least one. Picking two is the right answer for anyone who values what they're building.
 
@@ -301,7 +300,7 @@ If yes:
    ```
    This creates `_Brain/people/`, `_Brain/companies/`, `_Brain/concepts/`, `_Brain/sources/`, and `_Brain/_pending/`, each with a README and a page template.
 2. **Tell [AI_NAME] the Brain rules** (they're documented in the vault's `CLAUDE.md`, which the scaffold install updates): every fact gets an inline citation; only notable entities (2+ mentions, or 1 substantive) get a page; singletons go to `_pending/`; the top of each page is rewritten as truth changes, the timeline below the divider is append-only and never deleted.
-3. **The Brain fills itself.** Going forward, when a meeting is captured (Granola) or a notable person/company surfaces in a session, [AI_NAME] creates or updates their `_Brain/` page with cited facts. The `wrap-up` and `dreaming` skills feed it. The user does nothing — it accretes.
+3. **The Brain fills itself.** Going forward, when a notable person or company surfaces in a session, [AI_NAME] creates or updates their `_Brain/` page with cited facts. The `wrap-up` and `dreaming` skills feed it. The user does nothing — it accretes.
 
 Mark complete:
 
@@ -310,24 +309,6 @@ touch ~/[AI_NAME]/.brain-layer-configured
 ```
 
 **The reflection firewall (important):** the `_Brain/` is the AI's filing cabinet (Substrate B). It is deliberately separate from the user's own reflective notes (Substrate A — `Notes/`, `_context/`, daily logs). Any reflection-style commands read ONLY the user's own writing, never `_Brain/` — so the AI's compiled inferences never get mistaken for the user's own thoughts. This is documented in the vault `CLAUDE.md`.
-
----
-
-## Stage 3.9 — Granola meeting capture (optional · nice-to-know · ~5 min)
-
-Purely optional — a nice-to-have, not essential. It slots in *after* the memory system on purpose: once the Brain exists, captured meetings have somewhere rich to land (cited `_Brain/` pages + `Meeting Notes/`). For anyone who takes calls (coaching, clients, sales), Granola auto-records, transcribes, and syncs them into the vault.
-
-Read `~/[AI_NAME]/.kit/PARTNER-RECOMMENDATIONS.md` for the Granola link (affiliate if present, else granola.ai). Show the disclosure line only if no affiliate link has appeared yet this session. Frame it softly, as a recommendation — never a sale:
-
-> "Totally optional one — if you take meetings, Granola records and transcribes them and drops the notes straight into your vault, so I 'remember' every call. Free for your first stretch of meetings; if the auto-capture habit sticks, that's when the paid plan pays for itself. Skip it happily if meetings aren't your thing."
-
-If yes:
-1. Download Granola from the link; grant microphone + system-audio permissions.
-2. The `granola-sync` skill is already installed (from Part 1). Configure `granola-sync/scripts/config.py` with the vault path + tag rules.
-3. Test a manual sync — files should appear in `vault/Meeting Notes/`.
-4. Schedule via launchd (12:30 + 17:00 daily).
-
-Full setup in `06 - Meeting Capture/granola.md`. Mark complete: `touch ~/[AI_NAME]/.granola-configured`
 
 ---
 
@@ -340,7 +321,7 @@ Full setup in `06 - Meeting Capture/granola.md`. Mark complete: `touch ~/[AI_NAM
 > - **Hyperframes** — animated explainer videos by conversation (~5 min install). Need an animation? Tell me the script, I draft, you tweak.
 > - **Video Use** — cut filler words + dead air from recordings (~5 min). For talking-head videos, podcasts, course content.
 > - **Content pipeline** — multi-stage content production (research → draft → quality → distribute). For users producing newsletter/long-form regularly (~10 min).
-> - **Document transformations** — mines meeting transcripts for case-study material. Pairs with Granola (~5 min).
+> - **Document transformations** — mines meeting transcripts for case-study material (~5 min).
 > - **Book mirror** — turns books you've read (via Readwise highlights) into chapter-by-chapter synthesis docs (~5 min).
 > - **Superpowers** *(for builders only)* — a process framework by Jesse Vincent that makes your AI plan → test → verify before it ships code. Genuinely strong **if you build software or run complex, multi-step technical projects**. For everyday drafting, briefs, and admin it's overkill — it adds a little overhead to simple tasks — so I'd only set it up if that's you. Free, open-source. Install: `/plugin install superpowers@claude-plugins-official`."
 
@@ -385,7 +366,6 @@ Read the end-of-Part-2 value-prop close:
 > **What you have now:**
 > - A voice profile from the 5-question interview — drafts will land closer to how you'd actually write them
 > - Premium voice replies (if you upgraded to ElevenLabs)
-> - Meeting auto-capture (if you wired up Granola) — every call you take, your AI gets the notes within hours
 > - The optional skills you added
 >
 > **What this means for you:**

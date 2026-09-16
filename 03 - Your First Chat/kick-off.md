@@ -1,4 +1,4 @@
-# 06 — The Kick-off Flow
+# 03 — Your First Chat
 
 > What your AI does the first time you say "hi." A 15-minute conversation that handles all the setup decisions you shouldn't have to remember.
 
@@ -115,6 +115,6 @@ You never see the kit folder structure, the YAML frontmatter, or the SKILL.md in
 
 ## See also
 
-- [02 - Setting Up Your Partner AI](../02%20-%20Setting%20Up%20Your%20Partner%20AI/setting-up.md) — the full 12-phase setup
-- [04 - Portability and Recovery](../04%20-%20Portability%20and%20Recovery/portability.md) — what the kick-off Section A protects
-- [05 - The Learnings Loop](../05%20-%20The%20Learnings%20Loop/learnings-loop.md) — the compounding system that activates after kick-off
+- [02 - How Setup Works](../02%20-%20How%20Setup%20Works/setting-up.md) — the full 12-phase setup
+- [04 - Backup and Recovery](../04%20-%20Backup%20and%20Recovery/portability.md) — what the kick-off Section A protects
+- [05 - How It Learns](../05%20-%20How%20It%20Learns/learnings-loop.md) — the compounding system that activates after kick-off
