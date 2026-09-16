@@ -561,7 +561,11 @@ source ~/.config/[ai-name]/telegram/.env
 curl -s "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getMe" | jq -r '.ok'
 ```
 
-`true` → tell the user *"token filed and verified — and I've cleared your clipboard."* `false` or empty → the clipboard was empty or grabbed extra text; ask them to copy just the token line (on the Mac) and repeat this step.
+`true` → tell the user *"token filed and verified — and I've cleared your clipboard."* Then teach the habit, once, because it's for life:
+
+> "That's a trick worth keeping: **whenever I need an API key, a token or a password for some service, copy it and just tell me 'copied'. Never paste it into our chat.** I read it straight off your clipboard into a locked file and wipe the clipboard after, so it never ends up in a chat log. (Your Mac password is the one exception: you only ever type that yourself, straight into the box that asks for it.) We'll do it once more in a minute, for your voice."
+
+`false` or empty → the clipboard was empty or grabbed extra text; ask them to copy just the token line (on the Mac) and repeat this step.
 
 ### 11c — Install the Telegram poller
 
@@ -661,7 +665,7 @@ Frame it as invisible setup — NOT a sales moment (the ElevenLabs reveal is in 
 
 > "One quick bit of setup so I don't sound like a robot — I'm giving you a real, natural voice. Two minutes, free, no card needed."
 
-**The ONLY thing the user does here is grab their API key.** No voice to pick, nothing to configure — I handle the rest. Open the signup (Chrome extension when paired), then have them go to profile → API key → **copy the key**. Clipboard pattern, never in chat:
+**The ONLY thing the user does here is grab their API key — same clipboard trick as the Telegram token: copy, say 'copied', never paste.** No voice to pick, nothing to configure — I handle the rest. Open the signup (Chrome extension when paired), then have them go to profile → API key → **copy the key**. Clipboard pattern, never in chat:
 
 ```bash
 mkdir -p ~/.config/[ai-name]/elevenlabs
@@ -734,14 +738,22 @@ This is the climax of Part 1. **The user does NOT prompt this.** You draft a per
    2. 2-3 sentences about the project they shared, written in [PARTNER_NAME]'s
       tone, sounding like a colleague who just heard about it and has an
       angle to bring. Reference something specific from what they said.
-   3. Close with one forward-looking line — something like "talk soon" or
+   3. One dad joke, for a giggle. A well-known, clean, groan-worthy one,
+      delivered deadpan and owned as terrible: "Right, I promised myself I'd
+      open with a dad joke. Why don't skeletons fight each other? They don't
+      have the guts. ...I'll see myself out." Pick one that fits their world
+      if an obvious one exists (a gym owner gets a gym joke); otherwise any
+      classic. One line of setup, one punchline, one line owning it. Never
+      aimed at them.
+   4. Close with one forward-looking line — something like "talk soon" or
       "looking forward to digging in." Make it sound like a real person.
 
    If no project was shared (Stage 9 Q2 was skipped or vague), substitute with:
-   "Just wanted to say hi from your pocket. Whenever you're ready, throw me
-   something — a draft, a question, a task you've been putting off. Talk soon."
+   "Just wanted to say hi from your pocket." Then the dad joke (step 3), then:
+   "Whenever you're ready, throw me something — a draft, a question, a task
+   you've been putting off. Talk soon."
 
-   Keep total length to ~25-40 seconds spoken (roughly 75-120 words).
+   Keep total length to ~35-50 seconds spoken (roughly 100-140 words, joke included).
    Match the tone preference exactly. No corporate fluff. No "exciting opportunities."
    Just one person leaving a voice note for another person.
 
