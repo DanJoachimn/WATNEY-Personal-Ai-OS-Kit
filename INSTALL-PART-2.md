@@ -195,13 +195,13 @@ Mark complete: `touch ~/[AI_NAME]/.voice-express-complete`
 
 Most users already set up their AI's real ElevenLabs voice in Part 1 (Stage 12). This stage is just the *upgrade path* — the big library.
 
-**If they skipped ElevenLabs in Part 1** (stayed on the robotic Mac voice): run the Part 1 Stage 12b/12c flow now — read `~/[AI_NAME]/.kit/PARTNER-RECOMMENDATIONS.md`, open the ElevenLabs link (affiliate if present), free account, API key via the clipboard pattern into `~/.config/[ai-name]/elevenlabs/.env`, pick one of the three free voices, test with `say-to-mac.sh`. Show the disclosure line if it's the first affiliate link this session.
+**If they skipped ElevenLabs in Part 1** (stayed on the robotic Mac voice): run the Part 1 Stage 12b/12c flow now — open Dani's referral link `https://try.elevenlabs.io/ppfxpf0bci79`, free account, API key via the clipboard trick into `~/.config/[ai-name]/elevenlabs/.env`, set **Brian** as the voice, test with `say-to-mac.sh`. Show the one-line referral disclosure if it's the first referral link this session.
 
 **If they already did:** surface the upgrade softly, once — a nudge, not a sale:
 
-> "Quick one — you're on the ElevenLabs free tier, which covers your voice notes nicely. If you ever want the *big* library — thousands of voices, every accent and character, plus more speaking time — that's their paid plan. Totally optional; the voice you picked works great. You can browse the whole library free with the account you already made."
+> "Quick one — you're on the ElevenLabs free tier, which covers your voice notes nicely. If you ever want the *big* library — thousands of voices, every accent and character, plus more speaking time — that's their paid plan. Totally optional; Brian stays unless you pick someone else. You can browse the whole library free with the account you already made."
 
-Point them at the ElevenLabs link from `PARTNER-RECOMMENDATIONS.md` to browse. No gate, no pressure.
+If they want to look, give them Dani's referral link: `https://try.elevenlabs.io/ppfxpf0bci79`. If they upgrade and choose a new voice, write its ID to `ELEVENLABS_VOICE_ID` in their elevenlabs `.env`. No gate, no pressure.
 
 Mark complete: `touch ~/[AI_NAME]/.elevenlabs-configured`
 

@@ -659,7 +659,7 @@ cp -R "~/[AI_NAME]/.kit/setup-guide/voice-io-kit" ~/.claude/skills/voice-io 2>/d
 
 ### 12b — Free ElevenLabs voice (~2 min, quiet — frame as plumbing, not a product)
 
-**Before surfacing the link: read `~/[AI_NAME]/.kit/PARTNER-RECOMMENDATIONS.md`** and use the ElevenLabs link (affiliate if present, else plain). If Wispr Flow already triggered the affiliate disclosure line in Phase 0, don't repeat it.
+**The sign-up link is Dani's referral link: `https://try.elevenlabs.io/ppfxpf0bci79`.** Always use it, never plain elevenlabs.io (`PARTNER-RECOMMENDATIONS.md` holds the same link). The one-line disclosure was already given with Wispr Flow in Stage 1, so don't repeat it.
 
 Frame it as invisible setup — NOT a sales moment (the ElevenLabs reveal is in Stage 13, after the aha):
 
@@ -678,11 +678,11 @@ pbcopy < /dev/null
 
 ### 12c — Set the default voice (no menu — just a great, warm default)
 
-Don't make the user pick a voice before they've heard anything — that's friction at the worst moment. Assign a hand-picked, warm, natural default so the aha just *sounds human*. Default is **Bella** (warm, bright, professional). If the AI's chosen name/persona clearly reads male, use **Brian** (deep, calm) instead — otherwise Bella.
+Don't make the user pick a voice before they've heard anything — that's friction at the worst moment. Assign a hand-picked, warm, natural default so the aha just *sounds human*. The default is **Brian** (deep, calm, warm), for everyone. It only changes if [PARTNER_NAME] later upgrades and picks another voice themselves. Don't swap it based on the AI's name or persona.
 
 ```bash
-# Bella (warm female) is the default; swap to Brian (nPczCjzI2devNBz1zQrb) if the persona reads male.
-printf 'ELEVENLABS_VOICE_ID=hpp4J3VqNfWAUOO0d1Us\n' >> ~/.config/[ai-name]/elevenlabs/.env
+# Brian (deep, calm) is the default for everyone. Free premade voice.
+printf 'ELEVENLABS_VOICE_ID=nPczCjzI2devNBz1zQrb\n' >> ~/.config/[ai-name]/elevenlabs/.env
 ```
 
 **Verify the pipeline SILENTLY — do not play it aloud.** The first time [PARTNER_NAME] *hears* the voice should be the aha note on their phone, not a test clip here:
@@ -801,11 +801,9 @@ Ninety seconds after the setup ends, they have a personal message on their phone
 
 Only now that they've *heard* it do you name what powered it — softly, a nice-to-know, never a pitch:
 
-> "Oh — and that voice? That's **ElevenLabs**, on their free tier. I set you up with a warm default so your first hello sounded like a person, not a robot. Two things, whenever you feel like it:
-> - **Change it** — I've got other free voices (a deep calm one, a warm British storyteller, a clear friendly one). Just say *'change my voice.'*
-> - **The big library** — if you ever want to pick from *thousands* of voices — every accent, every character — that's their paid plan. Totally optional; your free voice sounds great. You can browse the whole library free with the account you already made."
+> "Oh — and that voice? That's **Brian**, from **ElevenLabs**, on their free plan. I gave you a voice that sounds like a person, not a robot. If you ever want to pick from *thousands* of others — every accent, every character — that's their paid plan, and you choose yourself. Totally optional; Brian's staying put unless you say otherwise."
 
-If they want to browse or upgrade, read the ElevenLabs link from `~/[AI_NAME]/.kit/PARTNER-RECOMMENDATIONS.md`. No pressure, no gate — a recommendation in passing, then move on.
+If they want to browse or upgrade, give them Dani's referral link: `https://try.elevenlabs.io/ppfxpf0bci79`. No pressure, no gate — a recommendation in passing, then move on.
 
 > "✅ **Part 1 complete.**"
 
