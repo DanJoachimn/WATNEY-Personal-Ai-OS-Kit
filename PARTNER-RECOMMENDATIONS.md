@@ -23,7 +23,7 @@
 ### The natural upgrade story per tool (why the free tier converts on its own)
 
 - **Wispr Flow** — free tier is **2,000 words/week**. People get hooked on talking instead of typing; the efficiency sells the upgrade by itself. Surface it early so they dictate the rest of the install.
-- **ElevenLabs** — the install sets ONE warm default voice with no menu, so the aha-moment sounds human instantly: **Bella** (`hpp4J3VqNfWAUOO0d1Us`, "Professional, Bright, Warm"), or **Brian** (`nPczCjzI2devNBz1zQrb`, deep/calm) if the persona reads male. Both are free premade voices. The free tier covers voice notes; the **large voice library + more speaking time** is the paid plan. The reveal + upgrade is deferred to Stage 13 (after the aha) — never sell it before the user has *heard* the voice.
+- **ElevenLabs** — the install sets ONE default voice for everyone, no menu, so the aha-moment sounds human instantly: **Brian** (`nPczCjzI2devNBz1zQrb`, "Deep, Resonant and Comforting"), a free premade voice. It only changes if the user upgrades and picks another voice themselves. The free tier covers voice notes; the **large voice library + more speaking time** is the paid plan. The reveal + upgrade is deferred to Stage 13 (after the aha) — never sell it before the user has *heard* the voice.
 
 ### Beehiiv — special placement rule (end only)
 
