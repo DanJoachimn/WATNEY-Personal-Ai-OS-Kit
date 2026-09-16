@@ -14,8 +14,8 @@
 
 | Tool | Role in the kit | When surfaced | Affiliate link | Plain fallback |
 |---|---|---|---|---|
-| **Wispr Flow** | voice IN — dictate instead of type | **Phase 0** — Stage 1.5, at kick-off (so they dictate the whole install) | https://ref.wisprflow.ai/daniel-joachim-nielsen | https://wisprflow.ai |
-| **ElevenLabs** | voice OUT — your AI's real voice | quiet setup at Part 1 Stage 7; the **reveal + upgrade lands at Stage 8.5, AFTER the aha** | https://try.elevenlabs.io/ppfxpf0bci79 | https://elevenlabs.io |
+| **Wispr Flow** | voice IN — dictate instead of type | **Stage 1**, minute one (so they dictate the whole install) | https://ref.wisprflow.ai/daniel-joachim-nielsen | https://wisprflow.ai |
+| **ElevenLabs** | voice OUT — your AI's real voice | quiet setup at Part 1 Stage 12; the **reveal + upgrade lands in Stage 13, AFTER the aha** | https://try.elevenlabs.io/ppfxpf0bci79 | https://elevenlabs.io |
 | **Beehiiv** | newsletter platform | **end only** — "Presented with Beehiiv" under the All Gravy Times plug (see rule below) | https://www.beehiiv.com?via=daniel-joachim-nielsen | https://beehiiv.com |
 | **Readwise** | book/article highlights → vault | when book-mirror is used | `[READWISE_AFFILIATE_URL]` | https://readwise.io |
 | **1Password** | secure API-key storage | optional, later | `[1PASSWORD_AFFILIATE_URL]` | https://1password.com |
@@ -23,7 +23,7 @@
 ### The natural upgrade story per tool (why the free tier converts on its own)
 
 - **Wispr Flow** — free tier is **2,000 words/week**. People get hooked on talking instead of typing; the efficiency sells the upgrade by itself. Surface it early so they dictate the rest of the install.
-- **ElevenLabs** — the install sets ONE warm default voice with no menu, so the aha-moment sounds human instantly: **Bella** (`hpp4J3VqNfWAUOO0d1Us`, "Professional, Bright, Warm"), or **Brian** (`nPczCjzI2devNBz1zQrb`, deep/calm) if the persona reads male. Both are free premade voices. The free tier covers voice notes; the **large voice library + more speaking time** is the paid plan. The reveal + upgrade is deferred to Stage 8.5 (after the aha) — never sell it before the user has *heard* the voice.
+- **ElevenLabs** — the install sets ONE warm default voice with no menu, so the aha-moment sounds human instantly: **Bella** (`hpp4J3VqNfWAUOO0d1Us`, "Professional, Bright, Warm"), or **Brian** (`nPczCjzI2devNBz1zQrb`, deep/calm) if the persona reads male. Both are free premade voices. The free tier covers voice notes; the **large voice library + more speaking time** is the paid plan. The reveal + upgrade is deferred to Stage 13 (after the aha) — never sell it before the user has *heard* the voice.
 
 ### Beehiiv — special placement rule (end only)
 

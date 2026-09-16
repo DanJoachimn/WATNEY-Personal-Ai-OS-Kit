@@ -52,7 +52,7 @@ Read the file. Common shapes:
 - **Voice note** — transcribe via the `voice-io` skill, THEN treat as text.
 - **Quick note ("add to notes: X")** — save it, confirm back.
 - **Task dump ("I need you to draft Y")** — draft it, reply with a confirmation + where the draft landed.
-- **Ambient thinking ("just thinking about Z")** — acknowledge briefly, save to `notes.md` if relevant.
+- **Ambient thinking ("just thinking about Z")** — acknowledge briefly, save one line to `vault/Memory/daily-memory.md` if relevant.
 
 ### Step 3 — Reply on Telegram when they expect a reply
 
@@ -90,7 +90,7 @@ When they're in a Claude Code session and asked you to check Telegram, don't jus
 Processed 4 Telegram messages:
 - [12:03, voice] they asked for a product caption draft — drafted in `drafts/product-caption-12-03.md`, replied "draft ready, see your folder"
 - [13:47, text] they asked what a competitor charges for their entry plan — replied with the number ($29/mo)
-- [14:02, text] note saved to notes.md: "the [Brand] collab is a north-star, not a next-quarter plan"
+- [14:02, text] note saved to daily-memory.md: "the [Brand] collab is a north-star, not a next-quarter plan"
 - [14:31, voice] quick thought, no action needed — replied "noted"
 
 Anything else you want me to handle?

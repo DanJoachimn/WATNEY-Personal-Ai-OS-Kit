@@ -30,12 +30,49 @@ If done → continue:
 
 > "Good to see you back. Part 2 is where I learn you deeper. Here's what we'll do (~30 min, ~30 messages, fits comfortably in one Pro session):
 >
-> 1. **Knowledge Work Plugins backbone** — install Anthropic-maintained foundation plugins (~3 min)
-> 2. **5-question voice interview** — sharper voice profile than Part 1's lightweight one (~10 min)
-> 3. **ElevenLabs upgrade** — premium voices if you want them (~5 min, optional)
-> 4. **Optional skills** — Hyperframes, Video Use, content pipeline, document transformations, others (~varies)
+> 1. **Connect your apps** — Gmail, Calendar, Drive, Apple Notes, whichever you use (~5 min)
+> 2. **Knowledge Work Plugins backbone** — install Anthropic-maintained foundation plugins (~3 min)
+> 3. **5-question voice interview** — sharper voice profile than Part 1's lightweight one (~10 min)
+> 4. **ElevenLabs upgrade** — premium voices if you want them (~5 min, optional)
+> 5. **Optional skills** — Hyperframes, Video Use, content pipeline, document transformations, others (~varies)
 >
-> Ready to start with the plugin backbone, or want to pick a different stage to go to first?"
+> Ready to start with your apps, or want to pick a different stage to go to first?"
+
+---
+
+## Stage 0.3 — Connect your apps (~5 min)
+
+They've used their AI for a few days and come back for more. *This* is the moment to ask for keys to the inbox — not the first hour.
+
+**Probe silently first** — inspect the tool list for connectors already wired, and skip those:
+
+| Service | Tool suffix to look for |
+|---|---|
+| Gmail | `__search_threads`, `__list_labels`, `__create_draft` |
+| Google Calendar | `__list_events`, `__create_event`, `__list_calendars` |
+| Google Drive | `__list_recent_files`, `__read_file_content`, `__search_files` |
+| Apple Notes | `__add_note`, `__get_note_content`, `__list_notes` |
+
+Then pitch — outcome-first, and only the ones they actually use:
+
+> "Right now I can't see your inbox or your calendar. Connecting them is what turns *'what's on my plate today?'* from a guess into an answer. Each takes about a minute. Skip any you don't use.
+>
+> | App | What you'll be able to ask me |
+> |---|---|
+> | **Gmail** | *'what important emails am I dodging?'* / *'draft a reply to Sarah'* |
+> | **Calendar** | *'what's on my plate today?'* / *'find 30 min next week with Anders'* |
+> | **Drive** | *'summarize the doc I shared with Lina yesterday'* |
+> | **Apple Notes** | *'read my note about the supplier call'* |
+>
+> In the Claude desktop app: profile (top right) → **Settings → Connectors**. Tap **Add** on the ones you want — I'll watch the browser and confirm each one."
+
+For each: tell them what to click → watch the OAuth tab via the Chrome extension → verify with a no-op call (`list_labels` / `list_calendars` / etc.) → confirm in chat (*"Gmail connected — I can see your labels"*). If one errors twice, mark deferred and move on.
+
+**If they skip some or all:** *"Totally fine — everything still works. Say 'connect my Gmail' anytime and we'll do it in a minute."* Log `connectors-deferred: $LIST` to `~/[AI_NAME]/.first-run-log.txt`.
+
+**One idea to plant, not build (say it once, in passing):** *"Once your inbox is connected, one thing people love: pick a topic you care about but never have time to read — say, the three newsletters piling up — and ask me each morning for a two-minute rundown of what's new in them. Say 'brief me on my newsletters' whenever you want to try it."* Don't schedule anything. Don't set up a job. It's a use case they can try, not a feature to install.
+
+**Hard rules:** never gate anything on connectors · connect only what they actually use · verify with a real call, never trust "I clicked it" · one nudge max afterwards (the wrap-up skill checks the deferred log once after 3 days, then never again).
 
 ---
 
@@ -156,9 +193,9 @@ Mark complete: `touch ~/[AI_NAME]/.voice-express-complete`
 
 ## Stage 2 — ElevenLabs voice library (optional, ~2 min)
 
-Most users already set up their AI's real ElevenLabs voice in Part 1 (Stage 7). This stage is just the *upgrade path* — the big library.
+Most users already set up their AI's real ElevenLabs voice in Part 1 (Stage 12). This stage is just the *upgrade path* — the big library.
 
-**If they skipped ElevenLabs in Part 1** (stayed on the robotic Mac voice): run the Part 1 Stage 7b/7c flow now — read `~/[AI_NAME]/.kit/PARTNER-RECOMMENDATIONS.md`, open the ElevenLabs link (affiliate if present), free account, API key via the clipboard pattern into `~/.config/[ai-name]/elevenlabs/.env`, pick one of the three free voices, test with `say-to-mac.sh`. Show the disclosure line if it's the first affiliate link this session.
+**If they skipped ElevenLabs in Part 1** (stayed on the robotic Mac voice): run the Part 1 Stage 12b/12c flow now — read `~/[AI_NAME]/.kit/PARTNER-RECOMMENDATIONS.md`, open the ElevenLabs link (affiliate if present), free account, API key via the clipboard pattern into `~/.config/[ai-name]/elevenlabs/.env`, pick one of the three free voices, test with `say-to-mac.sh`. Show the disclosure line if it's the first affiliate link this session.
 
 **If they already did:** surface the upgrade softly, once — a nudge, not a sale:
 
@@ -236,7 +273,7 @@ touch ~/[AI_NAME]/.github-vault-backup-configured
 
 ### Alternative: Obsidian Sync ($5–10/mo)
 
-Vault-only sync with version history (1 year) and end-to-end encryption. Best if Julie wants her vault on multiple devices (Mac + iPad + iPhone via Obsidian Mobile).
+Vault-only sync with version history (1 year) and end-to-end encryption. Best if [PARTNER_NAME] wants the vault on multiple devices (Mac + iPad + iPhone via Obsidian Mobile).
 
 - ✅ Multi-device + versioned + encrypted (not even Obsidian can read your notes)
 - ⚠️ Paid subscription
@@ -266,7 +303,7 @@ The problem: normal search only finds the exact words you type. Search "pricing"
 
 If yes:
 
-1. **Smart Connections should already be installed and indexing** — Part 1 Stage 5.5 sets it up the moment the vault opens, so the index has been growing since day one. Verify: Obsidian → Settings → Community plugins → Smart Connections present + enabled, and `ls ~/[AI_NAME]/vault/.smart-env/` shows an index.
+1. **Smart Connections should already be installed and indexing** — Part 1 Stage 10 sets it up the moment the vault opens, so the index has been growing since day one. Verify: Obsidian → Settings → Community plugins → Smart Connections present + enabled, and `ls ~/[AI_NAME]/vault/.smart-env/` shows an index.
    **If it's missing** (they declined it, or their install predates this): Settings → Community plugins → **"Turn on community plugins"** (it's OFF by default — Restricted Mode; this is the step everyone forgets) → Browse → "Smart Connections" → Install → Enable. Then give it a minute to index.
 2. **Confirm it's local-only.** Smart Connections → settings → verify it's local-first (default `TaylorAI/bge-micro-v2` model, no cloud API key set). This keeps notes on the Mac.
 3. **Check the index is warm.** By now it should have months of notes embedded, not seconds' worth — that's the payoff of installing it in Part 1.
@@ -379,7 +416,13 @@ Read the end-of-Part-2 value-prop close:
 >
 > **What's next:** the kit gets better over time. Run `/update` to pull new skills as they ship. The 100-question deep voice interview is still on the table when you want it — that's a separate 90-min sitting. For now, just use what you have. It compounds."
 
-**Final beat — the newsletter (CTA #2, the one and only end-plug).** This is the genuine end of the whole install. Deliver BRIEF-SETUP's **CTA #2** verbatim — the "I'll never bring it up again" All Gravy Times invite — followed immediately by the *Presented with [Beehiiv](https://www.beehiiv.com?via=daniel-joachim-nielsen)* credit line (send it as markdown so Beehiiv is a live link). After this: silence. No further newsletter mentions anywhere in the running experience. (Skip only if the user already got CTA #2 at a Part 1 close because they stopped there — two mentions total, ever.)
+**Final beat — the newsletter, once, ever.** This is the genuine end of the whole install. Say this verbatim, then never mention it again anywhere in the running experience:
+
+> *"That's the whole thing, [PARTNER_NAME] — [AI_NAME] is fully yours now. One last thing and then I'll never bring it up again: if you want to follow how the kit grows — new skills, new tricks, what's landing for other operators — the person who built me runs a free weekly newsletter, **The All Gravy Times**. → **allgravytimes.com**. Opt in if it's useful to you; if not, we're done, and everything here is yours forever."*
+>
+> *Presented with [Beehiiv](https://www.beehiiv.com?via=daniel-joachim-nielsen).*
+
+Send the credit line as markdown so Beehiiv is a live link. Point to the site; never collect their email in the conversation. The *"I'll never bring it up again"* is load-bearing — it's what makes the free-kit positioning credible.
 
 ---
 

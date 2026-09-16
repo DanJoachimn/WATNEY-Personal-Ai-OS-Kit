@@ -49,7 +49,7 @@ What you walk away with:
 - **Four helpers behind the scenes** — a writer, a researcher, a builder and an assistant. You only ever talk to your AI. It hands each job to the right helper.
 - **A learnings loop** that makes your AI sharper every week from your feedback
 
-You install it by talking. No terminal, no command line, no editing files. The AI does all of that for you.
+You install it by talking. No editing files, no command line — with one exception: installing Homebrew (the Mac's helper-tool installer) needs your Mac password, so that one command you run yourself with a Run button your AI hands you. Everything else, the AI does.
 
 ---
 
@@ -98,6 +98,7 @@ You don't need to prepare anything else. Apps like Gmail, Calendar, Drive and Ap
 - A memory that tidies itself up every night
 
 **Part 2: about 30 minutes, a few days later.** Optional extras:
+- Connect Gmail, Calendar, Drive and Apple Notes
 - A short voice interview, so drafts sound more like you
 - Better voices from ElevenLabs
 - Extra skills like video editing and content pipelines. Pick what you want.

@@ -4,7 +4,7 @@
 
 ---
 
-## The full install at a glance (show at Stage 0 — greeting)
+## The full install at a glance (show at Stage 2 — the plan)
 
 ```mermaid
 graph LR
@@ -20,7 +20,7 @@ graph LR
 
 ---
 
-## What gets created on your Mac (show at Stage 5 — vault scaffold)
+## What gets created on your Mac (show at Stage 7 — foundation install)
 
 ```mermaid
 graph TD
@@ -41,7 +41,7 @@ graph TD
 
 ---
 
-## The memory layer (show at Stage 6 — when explaining dreaming)
+## The memory layer (show at Stage 10 — when explaining dreaming)
 
 ```mermaid
 graph TB
