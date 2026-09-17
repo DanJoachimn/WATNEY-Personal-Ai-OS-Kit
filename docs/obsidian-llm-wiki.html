@@ -214,14 +214,11 @@ You are the user's AI. This job turns the user's Obsidian vault into an LLM wiki
 
 ## Step 2: Look before you plan
 
-1. **Check what the vault's `CLAUDE.md` really is.** Run `ls -la "$(dirname "[VAULT]")/CLAUDE.md" "[VAULT]/CLAUDE.md"`. Two things to find out:
-   - Is the `CLAUDE.md` in your home folder a link (`-&gt;`) pointing at the vault's `CLAUDE.md`? Some installs set it up that way.
-   - Does the vault's `CLAUDE.md` hold **your own core instructions** (who you are, your soul, your skills, kick-off, how you work with the user) rather than only rules about vault folders?
-   If either is true, the vault's `CLAUDE.md` is also your brain, so Step 6 must not simply replace it. Note it for the plan; Step 6 says what to do.
+1. **Check how your instructions file is wired.** Run `ls -la "$(dirname "[VAULT]")/CLAUDE.md"`. On a WATNEY kit install it's a link (`-&gt;`) to `[VAULT]/CLAUDE.md`: the vault's rules file is also the file you read at the start of every session. That's expected. **Leave the link alone.** Step 6 replaces the file's contents, and the link then points at the new rules by itself. Never turn the link into a copy: a copy would freeze the old rules, and every session would read those instead of the new ones.
 2. Read the vault's current `CLAUDE.md` (if any) and every `README.md`. List the top-level folders.
 3. Note which of these exist: `Daily/`, `Daily logs/`, `Brand/`, `People/`, `Companies/`, `_Brain/`, `_context/`, `Clippings/`, `wiki/`. For every file in `Brand/`, `People/` and `Companies/`, note whether it has real content or is still an untouched template (placeholders like `[BRAND]`, `YYYY-MM-DD`, `*[...]*`).
 4. Look for daily notes sitting at the top of the vault (files named like `2026-09-16.md`).
-5. Note anything in the current `CLAUDE.md` that the user clearly added themselves (rules or preferences that aren't about folder structure). The new file replaces it, so those need carrying over.
+5. Note anything in the current `CLAUDE.md` that isn't about vault folders: how you work, rules or preferences the user added. The new file replaces it, so those need carrying over.
 6. Search your skills and scripts for the old folder names, since some may read or write there:
    `grep -rn -e 'Daily/' -e 'Brand/' -e 'People/' -e 'Companies/' ~/.claude "$(dirname "[VAULT]")" --include='*.md' --include='*.sh' --include='*.py' --include='*.json' 2&gt;/dev/null | grep -v -F "[VAULT]"`
    Write down every hit. Don't change anything yet.
@@ -235,7 +232,6 @@ You are the user's AI. This job turns the user's Obsidian vault into an LLM wiki
    - what moves where (the table in Step 4, filled in with the real files, only the rows that apply)
    - which Brand/People/Companies files have real content and which are empty templates
    - anything from the current `CLAUDE.md` you plan to carry over into the new one
-   - whether the vault's `CLAUDE.md` is also your main instructions file (from Step 2), and which Step 6 option you'll use
    - which skills or scripts mention the old folder names
 3. Wait until the user says go.
 
@@ -410,15 +406,10 @@ Fill in today's date wherever a starter file says `YYYY-MM-DD` in frontmatter.
 
 ## Step 6: Replace CLAUDE.md
 
-**First, protect your own instructions.** If Step 2 found that the vault's `CLAUDE.md` is also your main instructions file (a link from your home folder, or a file holding who you are and how you work), do this before anything else, and only after the user agreed in Step 3:
-   - If `$(dirname "[VAULT]")/CLAUDE.md` is a link: replace the link with a real copy of the current file: `cp -L "$(dirname "[VAULT]")/CLAUDE.md" "$(dirname "[VAULT]")/CLAUDE.md.real" &amp;&amp; mv "$(dirname "[VAULT]")/CLAUDE.md.real" "$(dirname "[VAULT]")/CLAUDE.md"`. Check with `ls -la` that it's now a normal file and still has your instructions.
-   - If your core instructions only exist inside the vault's `CLAUDE.md` (no separate home-folder file), copy it to `$(dirname "[VAULT]")/CLAUDE.md` first and check it.
-   - Add one line near the top of that home-folder `CLAUDE.md`: `Vault rules: read vault/CLAUDE.md before reading or writing anything in the vault.`
-   - Then continue below. The vault's `CLAUDE.md` becomes vault rules only; your identity lives in the home-folder file.
-
-1. If the vault has a `CLAUDE.md`, move it: `mv "[VAULT]/CLAUDE.md" "[VAULT]/Archive/CLAUDE-old-$(date +%F).md"`
-2. Write the new `[VAULT]/CLAUDE.md` with the content between the markers below, with every `[VAULT]` replaced by the real path.
-3. If the user agreed in Step 3 to carry anything over from the old file, add it at the end under `## The user's own rules`.
+1. If the vault has a `CLAUDE.md`, **copy** it to the archive: `cp "[VAULT]/CLAUDE.md" "[VAULT]/Archive/CLAUDE-old-$(date +%F).md"`. Copy, don't move: if your home-folder `CLAUDE.md` links to this file, it must never disappear, not even for a moment.
+2. Overwrite `[VAULT]/CLAUDE.md` itself (not the link in your home folder) with the content between the markers below, with every `[VAULT]` replaced by the real path.
+3. If the user agreed in Step 3 to carry anything over, add it at the end under `## Carried over from the old CLAUDE.md`.
+4. Check: if Step 2 found a link, `ls -la "$(dirname "[VAULT]")/CLAUDE.md"` still shows it, and `head -1 "$(dirname "[VAULT]")/CLAUDE.md"` shows `# Vault rules`. If the link is gone or shows the old title, stop and tell the user.
 
 ===== NEW CLAUDE.md STARTS =====
 

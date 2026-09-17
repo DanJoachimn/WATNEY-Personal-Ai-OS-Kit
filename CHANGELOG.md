@@ -10,7 +10,7 @@ The playbooks say what to do. This file keeps the *why*, so the install stays sh
 - `wiki/overview.md` holds what the wiki currently believes, with a running record of how that changed. It's the page where the user sees the wiki getting smarter.
 - The semantic search script now ships (`setup-guide/skill-templates/vault-semantic-search/scripts/search.py`) instead of being written by each install's AI from a description. It takes `--vault`.
 - Archive has rules: when the AI may archive (asked to, merging duplicate pages, unfilled templates), how, and what never gets archived.
-- The setup prompt checks whether `~/<name>/CLAUDE.md` is a link to `vault/CLAUDE.md` before replacing the vault's rules. `setup.sh` creates that link when the AI's own file is missing, and replacing the target would have removed the AI's instructions.
+- `setup.sh` always makes `~/<name>/CLAUDE.md` a link to `vault/CLAUDE.md`, so the vault rules are what every session loads. The setup prompt keeps that link and replaces the file's contents (copy to Archive first, never move). An earlier draft turned the link into a copy; that would have frozen the old rules as the file every session reads.
 
 ## 2026-09-16 — workshop prep
 
