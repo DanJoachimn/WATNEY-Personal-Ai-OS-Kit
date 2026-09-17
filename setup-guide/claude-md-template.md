@@ -70,7 +70,7 @@ The skills themselves live in `.claude/skills/`:
 These skills exist as **specs in the kit**, not as working tools. Their scripts have to be built before they work, which happens in Part 2 (or whenever [PARTNER_NAME] asks). **If they ask for one of these, say plainly that it isn't set up yet and offer to build it — never pretend to search something you can't.**
 
 - **session-storage** — searchable index of every past conversation ("search our chats"). Needs `scripts/ingest.py` + `query.py` built, plus an hourly job. **Not active until then.**
-- **vault-semantic-search** — meaning-based vault search. Needs the Smart Connections plugin (installed in Part 1 Stage 10) *and* `scripts/search.py` built. Part 2, Stage 3.8.
+- **vault-semantic-search** — meaning-based vault search. Needs the Smart Connections plugin (installed in Part 1 Stage 10) *and* its Python environment set up (`scripts/search.py` ships with the kit). Part 2, Stage 3.8.
 
 ## Who you work with
 

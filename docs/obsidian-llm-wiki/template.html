@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Obsidian LLM wiki</title>
+<style>
+  :root {
+    --bg: #f7f6f3; --surface: #ffffff; --text: #1d1d1b; --muted: #62615c;
+    --line: #e3e1db; --accent: #1f5f4a; --accent-text: #ffffff; --code-bg: #f0eee9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #151514; --surface: #1e1e1c; --text: #ecebe7; --muted: #a09e97;
+      --line: #33322f; --accent: #6cc3a0; --accent-text: #0f1a15; --code-bg: #242422;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 56px 16px 80px; }
+  h1 { font-size: 32px; line-height: 1.2; margin: 0 0 16px; letter-spacing: -0.01em; }
+  h2 { font-size: 20px; margin: 48px 0 12px; }
+  p, li { color: var(--text); }
+  .lede { font-size: 18px; color: var(--muted); margin: 0 0 8px; }
+  ul { padding-left: 20px; }
+  li { margin: 6px 0; }
+  a { color: var(--accent); }
+  code { font: 14px/1.4 ui-monospace, "SF Mono", Menlo, monospace; background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+  .compare div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .compare strong { display: block; margin-bottom: 6px; }
+  .compare ul { margin: 0; padding-left: 18px; font-size: 15px; }
+  .diff { width: 100%; border-collapse: collapse; font-size: 15px; margin: 16px 0; }
+  .diff th, .diff td { text-align: left; vertical-align: top; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--line); }
+  .diff th { font-size: 14px; color: var(--muted); font-weight: 600; }
+  .table-scroll { overflow-x: auto; }
+  figure.diagram { margin: 24px 0; }
+  figure.diagram img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  figure.diagram figcaption { color: var(--muted); font-size: 14px; margin-top: 8px; }
+  ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 16px 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding: 0 0 20px 44px; margin: 0; }
+  ol.steps > li::before {
+    content: counter(s); position: absolute; left: 0; top: 0; width: 28px; height: 28px;
+    border-radius: 50%; border: 1px solid var(--line); background: var(--surface);
+    display: grid; place-items: center; font-size: 14px; font-weight: 600;
+  }
+  ol.steps strong { display: block; }
+  .note { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 8px; padding: 12px 16px; margin: 16px 0; }
+  .prompt-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 16px 0; }
+  .prompt-bar { display: flex; gap: 8px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .prompt-bar span { color: var(--muted); font-size: 14px; }
+  .buttons { display: flex; gap: 8px; }
+  button {
+    font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; border-radius: 8px;
+    padding: 10px 16px; border: 1px solid var(--line); background: var(--surface); color: var(--text);
+  }
+  button.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  pre.tree { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; overflow-x: auto; font: 13px/1.6 ui-monospace, "SF Mono", Menlo, monospace; }
+  pre#prompt {
+    margin: 0; padding: 16px; max-height: 360px; overflow: auto; background: var(--code-bg);
+    font: 13px/1.5 ui-monospace, "SF Mono", Menlo, monospace; white-space: pre-wrap; word-break: break-word;
+  }
+  @media (max-width: 560px) {
+    h1 { font-size: 26px; }
+    .compare { grid-template-columns: 1fr; }
+    .buttons { width: 100%; }
+    .buttons button { flex: 1; }
+  }
+  .uses { margin: 16px 0; border-top: 1px solid var(--line); }
+  .uses > div { display: grid; grid-template-columns: 200px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .uses dt { font-weight: 600; margin: 0; }
+  .uses dd { margin: 0; }
+  .uses dd .say { display: block; font-weight: 600; margin-bottom: 2px; }
+  .rules { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px 24px 24px; margin: 16px 0; font-size: 15px; }
+  .rules h1 { font-size: 22px; margin: 16px 0 8px; }
+  .rules h2 { font-size: 18px; margin: 32px 0 8px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .rules h3 { font-size: 16px; margin: 20px 0 6px; }
+  .rules pre { background: var(--code-bg); padding: 12px; border-radius: 8px; overflow-x: auto; font-size: 12.5px; line-height: 1.45; }
+  .rules pre code { background: none; padding: 0; font-size: inherit; }
+  .rules .table-wrap { overflow-x: auto; }
+  .rules table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  .rules th, .rules td { text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); padding: 8px 10px 8px 0; }
+  .rules-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .rules-bar span { color: var(--muted); font-size: 14px; }
+  @media (max-width: 560px) {
+    .uses > div { grid-template-columns: 1fr; gap: 4px; }
+    .rules { padding: 4px 16px 16px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Your Obsidian vault as an LLM wiki</h1>
+  <p class="lede">How to turn your vault into a wiki your AI builds and keeps up to date for you: what it is, how to set it up, how to use it, and the rules your AI follows.</p>
+
+  <h2>What this is</h2>
+  <p><strong>What's a wiki?</strong> A collection of pages that link to each other, like Wikipedia. Each page covers one thing: a person, an idea, an article you read. When one page mentions something that has its own page, it links there, so you can click from an idea to the author who wrote about it to the study they cited. Yours is private, lives in Obsidian, and only contains what you chose to feed it.</p>
+  <p><strong>What's an LLM wiki?</strong> The setup comes from <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f">Andrej Karpathy's LLM Wiki</a>. Most AI tools re-read your documents from scratch every time you ask something, so nothing builds up. Here it works the other way round. You clip things you read. Your AI reads each one once, files what matters into linked pages, and keeps those pages current as new sources arrive. Ask something next month and the answer is already organised, with the contradictions flagged and the links in place.</p>
+  <p><strong>Who does what.</strong> You pick the sources, ask the questions and decide what it all means. Your AI does the summarising, linking and bookkeeping that makes people give up on note systems. Obsidian is where you browse the result.</p>
+
+  <div class="compare">
+    <div>
+      <strong>You</strong>
+      <ul>
+        <li>Clip articles worth keeping</li>
+        <li>Ask questions</li>
+        <li>Steer what matters</li>
+      </ul>
+    </div>
+    <div>
+      <strong>Your AI</strong>
+      <ul>
+        <li>Reads and files every source</li>
+        <li>Keeps pages, links and index current</li>
+        <li>Flags contradictions and gaps</li>
+      </ul>
+    </div>
+  </div>
+
+  {{DIAGRAM}}
+
+  <h3>The vault, once it's set up</h3>
+  <pre class="tree">Clippings/        raw material: articles, pages. Never edited.
+wiki/             the wiki your AI builds from that material
+  index.md        the catalogue of every page. Read first.
+  overview.md     what the wiki currently believes, on one page
+  log.md          what was added, and when
+  sources/        one summary page per clipping
+  entities/       people, organisations, places from your sources
+  concepts/       ideas and patterns
+  explorations/   good answers worth keeping
+_Brain/           your AI's notes on your real world, every fact cited
+Notes/, _context/, Daily logs/ (optional)
+                  your own thinking. Your AI reads, never writes.
+Archive/          nothing is deleted; it moves here</pre>
+
+  <h3>How it differs from Karpathy's original</h3>
+  <p>The wiki itself follows his pattern closely. The differences are about the rest of the vault, where your own thinking lives.</p>
+  <div class="table-scroll">
+  <table class="diff">
+    <tr><th></th><th>Karpathy</th><th>This setup</th></tr>
+    <tr><td><strong>What feeds the wiki</strong></td><td>Anything, including journal entries</td><td>Only <code>Clippings/</code>. Your own writing is never rewritten into AI pages.</td></tr>
+    <tr><td><strong>Your own thinking</strong></td><td>No separate space</td><td><code>Notes/</code>, <code>_context/</code> and any journal are yours alone. Your AI reads them, never writes there.</td></tr>
+    <tr><td><strong>People in your life</strong></td><td>Entity pages in the wiki</td><td>People from articles go in the wiki; people you actually know go in <code>_Brain/</code>, with a source for every fact.</td></tr>
+    <tr><td><strong>Details</strong></td><td>Deliberately left to "your domain"</td><td>Structure and formats are fixed so every session files the same way. What the wiki is <em>for</em> is set in a short conversation with you.</td></tr>
+    <tr><td><strong>Search</strong></td><td>Index file, then a tool called qmd</td><td>Index file, plus search by meaning through the Smart Connections plugin</td></tr>
+  </table>
+  </div>
+
+  <div class="note">Setting it up changes where files live, so it starts with a full backup. Nothing gets deleted, and your AI shows you the plan and waits for your go before it moves a single file.</div>
+
+  <h2>Part 1: Set it up</h2>
+  <p><strong>Before you start:</strong> a WATNEY kit install (your AI running in Claude Code, with a vault in Obsidian). It also works on another Obsidian vault; your AI will ask where it is. Allow about 20 minutes.</p>
+  <ol class="steps">
+    <li><strong>Quit Obsidian.</strong> It can trip over files being moved while it's open.</li>
+    <li><strong>Start a Claude Code session with your AI</strong> and paste in the prompt below.</li>
+    <li><strong>Answer one question:</strong> do you keep a daily journal in Obsidian? If yes, it gets its own folder that only you write in. If no, daily notes are switched off.</li>
+    <li><strong>Read the plan your AI shows you,</strong> then say "go". If something in the plan looks wrong, say so first.</li>
+    <li><strong>Say yes or no to the skill fixes.</strong> Some of your AI's skills may point at old folder names. It asks about each one.</li>
+    <li><strong>Change a few things in Obsidian</strong> once it's done:
+      <ul>
+        <li>Journal: Settings → Daily notes → New file location: <code>Daily logs</code>. No journal: Settings → Core plugins → switch off <strong>Daily notes</strong>.</li>
+        <li>Install the Obsidian Web Clipper browser extension and set its save folder to <code>Clippings</code></li>
+        <li>Settings → Files and links → Attachment folder path: <code>Clippings/assets</code></li>
+        <li>Settings → Hotkeys → search "Download attachments for current file" and give it a shortcut. After clipping an article, press it so the images are saved where your AI can see them.</li>
+      </ul>
+    </li>
+    <li><strong>Switch on search by meaning.</strong> Your AI walks you through installing the free Smart Connections plugin (the first toggle, "Turn on community plugins", is the one people miss). It asks before a one-time download of about 700 MB. After that, searching "pricing" also finds the page that says "what to charge". Everything stays on your Mac.</li>
+    <li><strong>Tell it what the wiki is for.</strong> Your AI asks six short questions: what you want help with, what you'll clip, what you hope to ask it later. Answer in your own words. It turns your answers into the wiki's focus and a short list of tags, shows you, and saves it once you're happy. This is what makes it your wiki instead of a generic one.</li>
+    <li><strong>Try it.</strong> Clip one article you like, then say "ingest the new clipping". You get a few takeaways and a question about what to focus on, then new pages in <code>wiki/</code>. Ask something about the article afterwards; a good answer can be saved as a wiki page too.</li>
+  </ol>
+
+  <h3>The setup prompt for your AI</h3>
+  <div class="prompt-card">
+    <div class="prompt-bar">
+      <span>Includes the full rules file</span>
+      <div class="buttons">
+        <button class="primary" id="copy">Copy prompt</button>
+        <button id="download">Download .md</button>
+      </div>
+    </div>
+    <pre id="prompt">{{PROMPT}}</pre>
+  </div>
+  <p class="lede">If anything goes sideways, the backup sits next to your vault, named after it plus <code>-backup-</code> and the date. Ask your AI to put it back.</p>
+
+  <h2>Part 2: How to use it, day to day</h2>
+  <p>You do two things: feed it and ask it. Your AI does the filing. Plain language works; you don't need exact phrases.</p>
+
+  <dl class="uses">
+    <div><dt>Save something you read</dt><dd><span class="say">"Ingest this"</span>Clip the article with Web Clipper first, or paste a link and say "file this". Your AI shares the key points, asks what matters to you, then files it into the wiki and tells you which pages changed.</dd></div>
+    <div><dt>Catch up on a pile</dt><dd><span class="say">"Ingest everything new"</span>Works through every clipping that isn't filed yet, with less back-and-forth.</dd></div>
+    <div><dt>Ask a question</dt><dd><span class="say">"What do my sources say about pricing a workshop?"</span>Your AI answers from the wiki and links the pages it used. If the wiki doesn't know enough, it says so and suggests what to read.</dd></div>
+    <div><dt>Keep a good answer</dt><dd><span class="say">"Save that"</span>The answer becomes its own page in <code>wiki/explorations/</code>, so it isn't lost in the chat.</dd></div>
+    <div><dt>Find anything</dt><dd><span class="say">"Have I read anything about sleep?"</span>Your AI searches by meaning, so it finds the right pages even when they use different words than you do. In Obsidian, the Smart Connections panel does the same for whatever note you have open.</dd></div>
+    <div><dt>See what you've learned</dt><dd><span class="say">"What have we learned so far?"</span>Your AI keeps one page, <code>wiki/overview.md</code>, that sums up everything the wiki knows, topic by topic, and how sure it is. Every new article updates it, and a running list at the bottom shows each time your sources changed the picture.</dd></div>
+    <div><dt>Keep it healthy</dt><dd><span class="say">"Check the wiki"</span>Every few weeks. Finds contradictions, out-of-date claims, duplicate pages and loose ends, and suggests what to read next.</dd></div>
+    <div><dt>See what's new</dt><dd><span class="say">"What's been added lately?"</span>A quick summary from the log.</dd></div>
+    <div><dt>Tell it about your world</dt><dd><span class="say">"My accountant is Sam, we meet every quarter"</span>Real people and companies in your life go into <code>_Brain/</code>, with a note of where each fact came from.</dd></div>
+    <div><dt>Think out loud</dt><dd><span class="say">"What patterns do you see in my notes?"</span>For this it reads only your own writing, never its own notes, so what comes back is really yours.</dd></div>
+    <div><dt>Rethink the focus</dt><dd><span class="say">"Let's rethink what the wiki is for"</span>Runs the setup questions again. Worth doing every few months, or when your interests shift.</dd></div>
+    <div><dt>Change how it works</dt><dd><span class="say">"From now on, do X"</span>It suggests the exact change to its rules and waits for your yes.</dd></div>
+  </dl>
+
+  <h3>Where to look in Obsidian</h3>
+  <ul>
+    <li><code>wiki/overview.md</code> is the one page to read: what the wiki currently believes, and how that has changed.</li>
+    <li><code>wiki/index.md</code> is the catalogue: every page in the wiki, one line each.</li>
+    <li><code>wiki/log.md</code> shows what was added and when.</li>
+    <li>Graph view shows how pages connect. A dot with no lines is a page nothing links to yet.</li>
+  </ul>
+
+  <h3>What your AI won't do</h3>
+  <ul>
+    <li>Change or delete anything you clipped.</li>
+    <li>Write in <code>Notes/</code>, <code>_context/</code> or your journal. If you want something changed there, it writes the text in chat for you to paste.</li>
+    <li>Delete anything. Files that should leave the active vault move to <code>Archive/</code>, unchanged and still findable, and only when you ask or when two wiki pages get merged into one. It never archives something just because it looks old; it asks first.</li>
+  </ul>
+
+  <h2>Part 3: The rules your AI follows</h2>
+  <p>This is the <code>CLAUDE.md</code> file the setup prompt puts at the top of your vault. Your AI reads it at the start of every session; it's how your AI knows everything in Part 2. You don't need to learn it. It's here so you can see exactly what your AI has been told, and change it when something should work differently.</p>
+  <div class="rules-bar">
+    <span>Based on Andrej Karpathy's LLM Wiki</span>
+    <div class="buttons">
+      <button class="primary" id="copy-rules">Copy rules</button>
+      <button id="download-rules">Download CLAUDE.md</button>
+    </div>
+  </div>
+  <pre id="rules-src" hidden>{{CLAUDE}}</pre>
+  <div class="rules" id="rules"></div>
+</main>
+<script>{{MARKED}}</script>
+<script>
+  function copyText(text, btn, label) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    btn.textContent = ok ? 'Copied' : 'Select the text and copy';
+    setTimeout(function () { btn.textContent = label; }, 2000);
+  }
+  function downloadText(text, name) {
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text], { type: 'text/markdown' }));
+    a.download = name; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  }
+  var rulesText = document.getElementById('rules-src').textContent;
+  var rulesEl = document.getElementById('rules');
+  rulesEl.innerHTML = marked.parse(rulesText);
+  rulesEl.querySelectorAll('table').forEach(function (tb) {
+    var w = document.createElement('div'); w.className = 'table-wrap';
+    tb.parentNode.insertBefore(w, tb); w.appendChild(tb);
+  });
+  var copyRules = document.getElementById('copy-rules');
+  copyRules.addEventListener('click', function () { copyText(rulesText, copyRules, 'Copy rules'); });
+  document.getElementById('download-rules').addEventListener('click', function () { downloadText(rulesText, 'CLAUDE.md'); });
+</script>
+<script>
+  var pre = document.getElementById('prompt');
+  var copyBtn = document.getElementById('copy');
+  copyBtn.addEventListener('click', function () {
+    var ta = document.createElement('textarea');
+    ta.value = pre.textContent;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    copyBtn.textContent = ok ? 'Copied' : 'Select the text and copy';
+    setTimeout(function () { copyBtn.textContent = 'Copy prompt'; }, 2000);
+  });
+  document.getElementById('download').addEventListener('click', function () {
+    var blob = new Blob([pre.textContent], { type: 'text/markdown' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'vault-restructure-prompt.md';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+</script>
+</body>
+</html>

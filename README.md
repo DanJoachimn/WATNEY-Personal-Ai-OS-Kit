@@ -160,7 +160,7 @@ Copy. Paste. Done.
 
 ## What's inside the kit
 
-Five short guides for when you want to know how something works. Your AI has read them all, so you only open one if you're curious.
+Six short guides for when you want to know how something works. Your AI has read them all, so you only open one if you're curious.
 
 | Guide | What it's for |
 |---|---|
@@ -169,6 +169,7 @@ Five short guides for when you want to know how something works. Your AI has rea
 | [03 - Your First Chat](./03%20-%20Your%20First%20Chat/kick-off.md) | What your AI asks the first time you talk, and why |
 | [04 - Backup and Recovery](./04%20-%20Backup%20and%20Recovery/portability.md) | Keeping your AI safe if your Mac dies. Being rewritten, so for now use the backup step in Part 2. |
 | [05 - How It Learns](./05%20-%20How%20It%20Learns/learnings-loop.md) | How your feedback makes it sharper every week |
+| [Your Vault as a Wiki](./docs/obsidian-llm-wiki.html) | Turn your Obsidian vault into a wiki your AI builds and keeps current: what it is, the setup prompt, day-to-day use, and the rules. Download the file and open it in a browser. |
 
 ---
 

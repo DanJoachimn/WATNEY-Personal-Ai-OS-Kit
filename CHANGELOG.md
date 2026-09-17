@@ -2,6 +2,16 @@
 
 The playbooks say what to do. This file keeps the *why*, so the install stays short and the reasons aren't lost.
 
+## 2026-09-17 — the vault becomes a wiki
+
+- New guide: `docs/obsidian-llm-wiki.html`, built from `docs/obsidian-llm-wiki/`. It turns the vault into an LLM wiki (Andrej Karpathy's pattern: raw clippings, a wiki the AI owns, a rules file) and explains setup, daily use and the rules in one file. Part 2 gets Stage 3.9 to run it.
+- The wiki takes only `Clippings/` as sources. `Notes/`, `_context/` and any journal stay the user's own writing, so reflection never reads the AI's words back as the user's.
+- Karpathy leaves the details to "your domain". Left alone, every session invented its own page names and formats. The rules now fix structure and formats, and a six-question setup conversation writes down what the wiki is for.
+- `wiki/overview.md` holds what the wiki currently believes, with a running record of how that changed. It's the page where the user sees the wiki getting smarter.
+- The semantic search script now ships (`setup-guide/skill-templates/vault-semantic-search/scripts/search.py`) instead of being written by each install's AI from a description. It takes `--vault`.
+- Archive has rules: when the AI may archive (asked to, merging duplicate pages, unfilled templates), how, and what never gets archived.
+- The setup prompt checks whether `~/<name>/CLAUDE.md` is a link to `vault/CLAUDE.md` before replacing the vault's rules. `setup.sh` creates that link when the AI's own file is missing, and replacing the target would have removed the AI's instructions.
+
 ## 2026-09-16 — workshop prep
 
 - Stages renumbered 1–14 in one pass. The old 0a / 0b / 0c / 0 / 0.5 / 1.5 / 2.5 / 4.5 / 5.5 / 8.5 / 9.3 numbering was a fossil of how the install grew.

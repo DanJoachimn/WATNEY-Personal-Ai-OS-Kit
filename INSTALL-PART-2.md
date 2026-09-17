@@ -231,6 +231,8 @@ touch ~/[AI_NAME]/.obsidian-clipper-configured
 
 After install: the AI reads everything in `vault/Clippings/` as context — same way it reads the rest of the vault. User clips, AI absorbs, queries spanning "what's in my head + what I've been reading" become trivial.
 
+If the user sets up the LLM wiki (Stage 3.9), `Clippings/` becomes the wiki's intake: every clip can be filed into linked wiki pages with *"ingest this"*.
+
 ---
 
 ## Stage 3.7 — Vault backup (~5 min, strongly recommended)
@@ -312,7 +314,7 @@ If yes:
    python3 -m venv ~/.claude/skills/vault-semantic-search/.venv
    ~/.claude/skills/vault-semantic-search/.venv/bin/pip install sentence-transformers
    ```
-5. **Install the skill + build its search script.** Copy the `vault-semantic-search` skill from `~/[AI_NAME]/.kit/setup-guide/skill-templates/vault-semantic-search/` into `~/.claude/skills/`, then have [AI_NAME] build `scripts/search.py` per the skill's spec (reads the Smart Connections fingerprints from `vault/.smart-env/`, embeds the query with the same model, returns the most-related notes).
+5. **Install the skill.** Copy the `vault-semantic-search` skill folder from `~/[AI_NAME]/.kit/setup-guide/skill-templates/vault-semantic-search/` into `~/.claude/skills/`. Its search script ships in `scripts/search.py`, already tested; nothing to build. It needs the vault's location: run it with `--vault ~/[AI_NAME]/vault`.
 6. **Gitignore the embeddings** if the vault is in a git repo: add `.smart-env/` to `.gitignore` (it's large + rebuildable).
 7. **Test it:** *"Semantic search the vault for [a concept you've written about in different words]."* Confirm it surfaces conceptually-related notes that keyword search would miss.
 
@@ -346,6 +348,31 @@ touch ~/[AI_NAME]/.brain-layer-configured
 ```
 
 **The reflection firewall (important):** the `_Brain/` is the AI's filing cabinet (Substrate B). It is deliberately separate from the user's own reflective notes (Substrate A — `Notes/`, `_context/`, daily logs). Any reflection-style commands read ONLY the user's own writing, never `_Brain/` — so the AI's compiled inferences never get mistaken for the user's own thoughts. This is documented in the vault `CLAUDE.md`.
+
+---
+
+## Stage 3.9 — Your vault as a wiki (~20 min, recommended)
+
+Best after Stage 3.5 (Web Clipper) and 3.8 (semantic search and the Brain). The full guide, written for the user, is `docs/obsidian-llm-wiki.html`.
+
+The problem: clippings pile up and nothing connects them. This stage turns the vault into an LLM wiki, following Andrej Karpathy's pattern. [PARTNER_NAME] clips what's worth keeping. [AI_NAME] reads each source once, files it into linked pages (sources, people and organisations, ideas), keeps a one-page overview of what the wiki currently believes, and answers questions with links to the pages behind the answer.
+
+> "Want to turn your vault into a wiki? You clip articles you care about. I read each one once, file it into linked pages, and keep a one-page overview of what we've learned. Next month you ask a question and the answer is already organised, with links as proof. It moves a few template folders around, but only after a full backup and your OK. About 20 minutes."
+
+If yes:
+
+1. **Obsidian first.** The wiki is made to be browsed in Obsidian. If Obsidian was skipped in Part 1 (Stage 6), offer it again now: https://obsidian.md/download, then open `~/[AI_NAME]/vault` with **"Open folder as vault"** exactly as in Part 1, Stage 10, and check the sidebar shows the vault's folders. If they still decline, say plainly that the wiki works without it, but they won't be able to browse it.
+2. **Show the guide:** `open ~/[AI_NAME]/.kit/docs/obsidian-llm-wiki.html`. Its Part 1 is what's about to happen; Part 2 is how they'll use it.
+3. **Run the setup prompt.** Read `~/[AI_NAME]/.kit/docs/obsidian-llm-wiki/setup-prompt.md` and follow it step by step in this session. It backs up the vault, asks whether they keep a daily journal, protects [AI_NAME]'s own `CLAUDE.md`, shows the plan and waits for "go", then installs the wiki rules as the vault's `CLAUDE.md`. If Stage 3.8 already set up semantic search, it keeps that.
+4. **Obsidian settings are the user's clicks** (daily notes, Web Clipper folder, attachment folder, download-attachments hotkey). Guide them one at a time, or drive them with computer use if it's on.
+5. **The setup conversation.** The prompt ends by offering six short questions about what the wiki is for. Run it: that's what makes the wiki theirs.
+6. **Test:** clip one article, say *"ingest the new clipping"*, then ask a question about it.
+
+Mark complete:
+
+```bash
+touch ~/[AI_NAME]/.llm-wiki-configured
+```
 
 ---
 
