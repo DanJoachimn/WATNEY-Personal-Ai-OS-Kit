@@ -1,0 +1,205 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "How a second brain that files itself works",
+    "locale": "en",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "feed-it",
+        "label": "Feed it",
+        "focus": [
+          "clip",
+          "work",
+          "clippings",
+          "nightly",
+          "brain",
+          "overview"
+        ],
+        "note": "Clip what you care about and keep working. Every night your AI files what mattered into linked pages."
+      },
+      {
+        "id": "ask-it",
+        "label": "Ask it",
+        "focus": [
+          "ask",
+          "overview",
+          "answer"
+        ],
+        "note": "Ask in your own words. Your AI starts from the overview and answers with links to the pages it used."
+      },
+      {
+        "id": "it-compounds",
+        "label": "It compounds",
+        "focus": [
+          "answer",
+          "saved",
+          "brain"
+        ],
+        "note": "Good answers are saved as pages too, so next month's question starts from a smarter brain."
+      }
+    ],
+    "legend": {
+      "mode": "hidden"
+    },
+    "viewBox": [
+      920,
+      528
+    ]
+  },
+  "lanes": [
+    {
+      "id": "you",
+      "label": "You"
+    },
+    {
+      "id": "ai",
+      "label": "Your AI"
+    },
+    {
+      "id": "vault",
+      "label": "Your vault"
+    }
+  ],
+  "mainPath": [
+    "clip",
+    "clippings",
+    "nightly",
+    "brain",
+    "overview",
+    "answer",
+    "saved"
+  ],
+  "nodes": [
+    {
+      "id": "clip",
+      "lane": "you",
+      "col": 0,
+      "type": "external",
+      "label": "You clip it",
+      "sublabel": "pick what's worth it"
+    },
+    {
+      "id": "work",
+      "lane": "you",
+      "col": 2,
+      "type": "external",
+      "label": "You work",
+      "sublabel": "decisions in chats"
+    },
+    {
+      "id": "clippings",
+      "lane": "vault",
+      "col": 1,
+      "type": "database",
+      "label": "Clippings",
+      "sublabel": "kept as-is, untouched"
+    },
+    {
+      "id": "nightly",
+      "lane": "ai",
+      "col": 2,
+      "type": "backend",
+      "label": "Nightly filing",
+      "sublabel": "cited, logged, undoable"
+    },
+    {
+      "id": "brain",
+      "lane": "vault",
+      "col": 3,
+      "type": "database",
+      "label": "Brain pages",
+      "sublabel": "linked, kept current"
+    },
+    {
+      "id": "overview",
+      "lane": "vault",
+      "col": 4,
+      "type": "database",
+      "label": "Overview",
+      "sublabel": "what it believes now"
+    },
+    {
+      "id": "ask",
+      "lane": "you",
+      "col": 4,
+      "type": "external",
+      "label": "You ask",
+      "sublabel": "in your own words"
+    },
+    {
+      "id": "answer",
+      "lane": "ai",
+      "col": 5,
+      "type": "backend",
+      "label": "AI answers",
+      "sublabel": "with links as proof"
+    },
+    {
+      "id": "saved",
+      "lane": "vault",
+      "col": 5,
+      "type": "database",
+      "label": "Saved answers",
+      "sublabel": "good answers kept"
+    }
+  ],
+  "edges": [
+    {
+      "id": "clip-save",
+      "from": "clip",
+      "to": "clippings",
+      "variant": "default"
+    },
+    {
+      "id": "clips-in",
+      "from": "clippings",
+      "to": "nightly",
+      "label": "new clips",
+      "variant": "emphasis"
+    },
+    {
+      "id": "chats-in",
+      "from": "work",
+      "to": "nightly",
+      "label": "what mattered",
+      "variant": "default",
+      "role": "branch"
+    },
+    {
+      "id": "file-pages",
+      "from": "nightly",
+      "to": "brain",
+      "label": "file + link",
+      "variant": "emphasis"
+    },
+    {
+      "id": "sum-up",
+      "from": "brain",
+      "to": "overview",
+      "variant": "default"
+    },
+    {
+      "id": "read-first",
+      "from": "overview",
+      "to": "answer",
+      "label": "read first",
+      "variant": "default"
+    },
+    {
+      "id": "question",
+      "from": "ask",
+      "to": "answer",
+      "variant": "default",
+      "role": "branch"
+    },
+    {
+      "id": "save-that",
+      "from": "answer",
+      "to": "saved",
+      "label": "save that",
+      "variant": "dashed"
+    }
+  ]
+}

@@ -28,14 +28,17 @@ This skill **reuses those fingerprints.** It doesn't build or maintain its own v
    ~/.claude/skills/vault-semantic-search/.venv/bin/pip install sentence-transformers
    ```
 
-## How to build it (the operator's Claude Code session writes `scripts/search.py`)
+## The script (ships with the kit, already tested)
 
-- Take a query string + `--limit` + optional `--json`.
-- Load the embedding model (`TaylorAI/bge-micro-v2` — **must match Smart Connections' model**, or query and note fingerprints won't be comparable).
-- Embed the query.
-- Read every note's fingerprint from `vault/.smart-env/multi/*.ajson` (each file holds a note path + one or more `"vec":[...]` arrays — take the last vector per note).
-- Score each note by cosine similarity to the query.
-- Return the top-N note paths, with a short preview line from each.
+`scripts/search.py` is included in this skill folder. Nothing to build: copy the skill into `~/.claude/skills/` and set up the Python environment above.
+
+```bash
+~/.claude/skills/vault-semantic-search/.venv/bin/python ~/.claude/skills/vault-semantic-search/scripts/search.py "what to charge" --limit 8 --vault ~/[AI_NAME]/vault
+```
+
+- `--vault` (or the `VAULT_PATH` environment variable) says which vault to search. It's required.
+- `--json` gives machine-readable output; `--limit` sets how many results.
+- It loads `TaylorAI/bge-micro-v2` (**must match Smart Connections' model**), embeds the query, reads every note's fingerprint from `vault/.smart-env/multi/*.ajson`, scores by cosine similarity and returns the closest notes with a preview line.
 
 Pure-Python cosine similarity is fine at typical vault scale (hundreds of notes). No external service.
 

@@ -69,6 +69,16 @@ Then continue to Step 1 — the normal compression now files these into long-ter
 - **Skim, don't dump.** Transcripts are large. Pull the durable points; never copy whole conversations into memory. A full day of chats should yield a handful of lines, not a wall. On heavy days, prioritise the 2–3 most substantive sessions to keep the 02:00 run token-light.
 - **Dedupe.** If it's already in `daily-memory.md`, don't log it again.
 
+### Step 0.5 — File into the brain
+
+Only if `~/[ai-name]/vault/_Brain/index.md` exists (the second brain from Part 2, Stage 3.9 is set up). Otherwise skip to Step 1.
+
+Follow the section **"Nightly filing (automatic)"** in `~/[ai-name]/vault/CLAUDE.md` exactly: file the durable points the harvest just found, plus up to 3 new clippings, into `_Brain/`. Snapshot every existing page to `~/[ai-name]/_recovery/brain-snapshots/YYYY-MM-DD/` and confirm the copy before changing it; no confirmed snapshot, no change. Skip points from conversations in folders marked `.private`. At most 15 pages, every fact cited, every page logged in `_Brain/log.md` as `file (nightly)` (new pages marked `(new)`). Never write anywhere else in the vault.
+
+**Fail-safe.** If anything errors, stop filing, log one line in `daily-memory.md`, and continue with Step 1. Filing must never stop memory compression.
+
+**Why this exists:** a knowledge base that waits for [PARTNER_NAME] to say "file this" never grows. Nobody remembers. The harvest already finds what matters; this step puts it on the page it belongs to, so the brain compounds on its own.
+
 ### Step 1 — Read inputs
 
 Read both:

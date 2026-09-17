@@ -40,7 +40,7 @@ These are **instructions without their scripts.** They don't function until the 
 | Skill | Needs before it works | What it would give |
 |---|---|---|
 | **session-storage** | `scripts/ingest.py` + `query.py`, plus an hourly job | *"What did we discuss about X?"* answered from every past conversation |
-| **vault-semantic-search** | Smart Connections plugin (Part 1 Stage 10) + `scripts/search.py` | Vault search by meaning — *"pricing"* also finds *"revenue"* and *"what to charge"* |
+| **vault-semantic-search** | Smart Connections plugin (Part 1 Stage 10) + a Python environment (`scripts/search.py` ships with the kit) | Vault search by meaning — *"pricing"* also finds *"revenue"* and *"what to charge"* |
 
 ### A note on health-check — why it runs on nothing
 
