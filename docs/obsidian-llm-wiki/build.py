@@ -1,4 +1,4 @@
-"""Build the Obsidian LLM wiki guide.
+"""Build the second-brain guide (Obsidian LLM wiki that files itself).
 
 Outputs:
   docs/obsidian-llm-wiki.html               the guide (one self-contained file)
@@ -53,9 +53,9 @@ def data_uri(name):
 diagram = f"""<figure class="diagram">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="{data_uri('diagram-dark.png')}">
-      <img src="{data_uri('diagram-light.png')}" alt="Diagram: you clip an article into Clippings; your AI reads it once and files it into linked wiki pages, which feed the overview. You ask a question; your AI reads the overview first and answers with links; good answers are saved as pages.">
+      <img src="{data_uri('diagram-light.png')}" alt="Diagram: you clip articles into Clippings and work with your AI in chats. Every night your AI files new clippings and what mattered in your chats into linked brain pages, cited, logged and undoable, which feed the overview. You ask a question; your AI reads the overview first and answers with links; good answers are saved as pages.">
     </picture>
-    <figcaption>Feed it, ask it, and good answers become pages too. The interactive version, with guided views, is <code>docs/obsidian-llm-wiki.workflow.html</code> in the kit.</figcaption>
+    <figcaption>You clip and work; it files every night; you ask; good answers become pages too. The interactive version, with guided views, is <code>docs/obsidian-llm-wiki.workflow.html</code> in the kit.</figcaption>
   </figure>"""
 
 page = (here / "template.html").read_text()

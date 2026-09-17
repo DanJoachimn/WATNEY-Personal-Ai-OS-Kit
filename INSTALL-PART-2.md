@@ -231,7 +231,7 @@ touch ~/[AI_NAME]/.obsidian-clipper-configured
 
 After install: the AI reads everything in `vault/Clippings/` as context — same way it reads the rest of the vault. User clips, AI absorbs, queries spanning "what's in my head + what I've been reading" become trivial.
 
-If the user sets up the LLM wiki (Stage 3.9), `Clippings/` becomes the wiki's intake: every clip can be filed into linked wiki pages with *"ingest this"*.
+If the user sets up the second brain (Stage 3.9), `Clippings/` becomes its intake: every clip gets filed into linked pages overnight, no command needed.
 
 ---
 
@@ -351,22 +351,22 @@ touch ~/[AI_NAME]/.brain-layer-configured
 
 ---
 
-## Stage 3.9 — Your vault as a wiki (~20 min, recommended)
+## Stage 3.9 — A second brain that files itself (~20 min, recommended)
 
 Best after Stage 3.5 (Web Clipper) and 3.8 (semantic search and the Brain). The full guide, written for the user, is `docs/obsidian-llm-wiki.html`.
 
-The problem: clippings pile up and nothing connects them. This stage turns the vault into an LLM wiki, following Andrej Karpathy's pattern. [PARTNER_NAME] clips what's worth keeping. [AI_NAME] reads each source once, files it into linked pages (sources, people and organisations, ideas), keeps a one-page overview of what the wiki currently believes, and answers questions with links to the pages behind the answer.
+The problem: clippings pile up, good decisions get lost in old chats, and nothing connects them. A wiki that waits for the user to say "file this" never grows, because nobody remembers. This stage turns `_Brain/` into a second brain following Andrej Karpathy's LLM Wiki pattern, and makes the nightly `dreaming` job file into it automatically: what mattered in yesterday's conversations, plus new clippings. Every page gets a source for every fact, an index, a log, and a one-page overview of what the brain currently believes. Every nightly change is logged and can be undone.
 
-> "Want to turn your vault into a wiki? You clip articles you care about. I read each one once, file it into linked pages, and keep a one-page overview of what we've learned. Next month you ask a question and the answer is already organised, with links as proof. It moves a few template folders around, but only after a full backup and your OK. About 20 minutes."
+> "Want a second brain that files itself? Clip what you care about and just keep working with me. Every night I file what mattered into linked pages, with a source for every fact, and keep a one-page overview of what we've learned. You never have to say 'file this'. Everything I change is logged and can be undone. It moves a few template folders around, but only after a full backup and your OK. About 20 minutes."
 
 If yes:
 
-1. **Obsidian first.** The wiki is made to be browsed in Obsidian. If Obsidian was skipped in Part 1 (Stage 6), offer it again now: https://obsidian.md/download, then open `~/[AI_NAME]/vault` with **"Open folder as vault"** exactly as in Part 1, Stage 10, and check the sidebar shows the vault's folders. If they still decline, say plainly that the wiki works without it, but they won't be able to browse it.
+1. **Obsidian first.** The brain is made to be browsed in Obsidian. If Obsidian was skipped in Part 1 (Stage 6), offer it again now: https://obsidian.md/download, then open `~/[AI_NAME]/vault` with **"Open folder as vault"** exactly as in Part 1, Stage 10, and check the sidebar shows the vault's folders. If they still decline, say plainly that the brain works without it, but they won't be able to browse it.
 2. **Show the guide:** `open ~/[AI_NAME]/.kit/docs/obsidian-llm-wiki.html`. Its Part 1 is what's about to happen; Part 2 is how they'll use it.
-3. **Run the setup prompt.** Read `~/[AI_NAME]/.kit/docs/obsidian-llm-wiki/setup-prompt.md` and follow it step by step in this session. It backs up the vault, asks whether they keep a daily journal, protects [AI_NAME]'s own `CLAUDE.md`, shows the plan and waits for "go", then installs the wiki rules as the vault's `CLAUDE.md`. If Stage 3.8 already set up semantic search, it keeps that.
+3. **Run the setup prompt.** Read `~/[AI_NAME]/.kit/docs/obsidian-llm-wiki/setup-prompt.md` and follow it step by step in this session. It backs up the vault, asks whether they keep a daily journal, keeps [AI_NAME]'s `CLAUDE.md` link intact, shows the plan and waits for "go", installs the brain rules as the vault's `CLAUDE.md`, and adds the filing step to the nightly `dreaming` skill. If Stage 3.8 already set up semantic search, it keeps that.
 4. **Obsidian settings are the user's clicks** (daily notes, Web Clipper folder, attachment folder, download-attachments hotkey). Guide them one at a time, or drive them with computer use if it's on.
-5. **The setup conversation.** The prompt ends by offering six short questions about what the wiki is for. Run it: that's what makes the wiki theirs.
-6. **Test:** clip one article, say *"ingest the new clipping"*, then ask a question about it.
+5. **The setup conversation.** Six short questions about what the brain is for, and what never to file. Run it before the first night: that's what makes the brain theirs.
+6. **Test:** the prompt files up to 3 pages from today's conversation by hand. Show the user those pages, the log entry, and how "undo that" works. Tomorrow morning, check `_Brain/log.md` for `file (nightly)` entries.
 
 Mark complete:
 

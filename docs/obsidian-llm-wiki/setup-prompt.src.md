@@ -1,6 +1,6 @@
-# Set up an LLM wiki in this Obsidian vault: instructions for the AI
+# Set up a second brain that files itself: instructions for the AI
 
-You are the user's AI. This job turns the user's Obsidian vault into an LLM wiki (Andrej Karpathy's pattern) with clear rules about who writes where, plus search by meaning. Do it in order. Show the user the plan before you move anything.
+You are the user's AI. This job turns the user's Obsidian vault into a second brain that you build and keep current (Andrej Karpathy's LLM Wiki pattern), filed automatically every night, with clear rules about who writes where, plus search by meaning. Do it in order. Show the user the plan before you move anything.
 
 ## Safety rules for this job
 
@@ -12,7 +12,7 @@ You are the user's AI. This job turns the user's Obsidian vault into an LLM wiki
 
 ## Step 1: Find the vault and back it up
 
-1. Find the vault. A WATNEY kit install keeps it at `~/<your-name>/vault/`; your own `CLAUDE.md` or `tools.md` usually says where. If you can't find it, ask the user. **Everywhere below, `[VAULT]` means the vault's full path.** When you write files from this prompt, replace every `[VAULT]` with that real path.
+1. Find the vault. A WATNEY kit install keeps it at `~/<your-name>/vault/`; your own `CLAUDE.md` or `tools.md` usually says where. If you can't find it, ask the user. **Everywhere below, `[VAULT]` means the vault's full path and `[HOME]` means your home folder, the folder that contains the vault.** When you write files from this prompt, replace every `[VAULT]` and `[HOME]` with the real paths.
 2. Ask the user to quit Obsidian while you work, so it doesn't fight the moves.
 3. Make a full copy:
    `cp -R "[VAULT]" "[VAULT]-backup-$(date +%F)"`
@@ -23,7 +23,7 @@ You are the user's AI. This job turns the user's Obsidian vault into an LLM wiki
 
 ## Step 2: Look before you plan
 
-1. **Check how your instructions file is wired.** Run `ls -la "$(dirname "[VAULT]")/CLAUDE.md"`. On a WATNEY kit install it's a link (`->`) to `[VAULT]/CLAUDE.md`: the vault's rules file is also the file you read at the start of every session. That's expected. **Leave the link alone.** Step 6 replaces the file's contents, and the link then points at the new rules by itself. Never turn the link into a copy: a copy would freeze the old rules, and every session would read those instead of the new ones.
+1. **Check how your instructions file is wired.** Run `ls -la "$(dirname "[VAULT]")/CLAUDE.md"`. On a WATNEY kit install it's a link (`->`) to `[VAULT]/CLAUDE.md`: the vault's rules file is also the file you read at the start of every session. That's expected. **Leave the link alone.** Step 6 replaces the file's contents, and the link then points at the new rules by itself. Never turn the link into a copy: a copy would freeze the old rules, and every session would read those instead of the new ones. If it's a normal file instead (not a kit install, or set up by hand), that's fine too: Step 6 only replaces the vault's `CLAUDE.md` and never touches the one in your home folder. Mention it in the plan so the user knows where each file is.
 2. Read the vault's current `CLAUDE.md` (if any) and every `README.md`. List the top-level folders.
 3. Note which of these exist: `Daily/`, `Daily logs/`, `Brand/`, `People/`, `Companies/`, `_Brain/`, `_context/`, `Clippings/`, `wiki/`. For every file in `Brand/`, `People/` and `Companies/`, note whether it has real content or is still an untouched template (placeholders like `[BRAND]`, `YYYY-MM-DD`, `*[...]*`).
 4. Look for daily notes sitting at the top of the vault (files named like `2026-09-16.md`).
@@ -37,12 +37,13 @@ You are the user's AI. This job turns the user's Obsidian vault into an LLM wiki
 1. Ask the user: **"Do you keep, or want to keep, a daily journal in Obsidian?"**
    - Yes: the journal lives in `Daily logs/`. It is the user's own space; you only read it.
    - No: there's no journal folder, and Obsidian's daily notes get switched off.
-2. Tell the user in plain English:
+2. Tell the user, in one or two sentences, that from now on you'll file what matters from their clippings and your conversations into the brain every night, that every change is logged and can be undone, and that they can say "don't file anything about X".
+3. Tell the user in plain English:
    - what moves where (the table in Step 4, filled in with the real files, only the rows that apply)
    - which Brand/People/Companies files have real content and which are empty templates
    - anything from the current `CLAUDE.md` you plan to carry over into the new one
    - which skills or scripts mention the old folder names
-3. Wait until the user says go.
+4. Wait until the user says go.
 
 ## Step 4: Move things
 
@@ -58,6 +59,9 @@ Only the rows that apply to this vault:
 | `People/` entries with real content | `_Brain/people/`, reshaped to the Brain page format in `_Brain/README.md` |
 | `Companies/` entries with real content | `_Brain/companies/`, same reshaping |
 | `People/` and `Companies/` templates and READMEs | `Archive/People/` and `Archive/Companies/` |
+| `wiki/sources/`, `wiki/concepts/`, `wiki/explorations/` pages (from an earlier version of this setup) | `_Brain/sources/`, `_Brain/concepts/`, `_Brain/explorations/` |
+| `wiki/entities/` pages | people → `_Brain/people/`, organisations → `_Brain/companies/`, places and works → `_Brain/concepts/`; add `relation: read-about` |
+| `wiki/index.md`, `wiki/log.md` | merge their entries into the new `_Brain/index.md` and `_Brain/log.md` (Step 5), then move the originals to `Archive/wiki/` |
 
 If `_Brain/` already exists, add to it; never overwrite a page that's already there. If a person or company already has a page, merge the new facts into it with their citations.
 
@@ -72,22 +76,20 @@ Create these folders if they don't exist:
 ```
 Clippings/
 Clippings/assets/
-wiki/sources/
-wiki/entities/
-wiki/concepts/
-wiki/explorations/
+_Brain/sources/
 _Brain/people/
 _Brain/companies/
 _Brain/concepts/
-_Brain/sources/
+_Brain/explorations/
 _Brain/_pending/
 _context/
 Archive/
+[HOME]/_recovery/brain-snapshots/
 ```
 
-If a starter file below already exists, don't overwrite it: tell the user and leave it.
+If a starter file below already exists, don't overwrite it: tell the user and leave it. If `_Brain/` already has pages, list every existing page in `_Brain/index.md` (one line each, from its title and first line) so the index is complete from day one.
 
-Create `wiki/index.md` with exactly this:
+Create `_Brain/index.md` with exactly this:
 
 ~~~~markdown
 ---
@@ -99,18 +101,20 @@ updated: YYYY-MM-DD
 
 # Index
 
-> The catalog of every wiki page: link, one-line summary, optional date or source count. Updated on every ingest. Read this first, every time.
+> The catalogue of every page in the brain: link, one-line summary, optional date or source count. Updated whenever a page is created. Read this first, every time.
 
 ## Sources
 
-## Entities
+## People
+
+## Companies
 
 ## Concepts
 
 ## Explorations
 ~~~~
 
-Create `wiki/log.md` with exactly this:
+Create `_Brain/log.md` with exactly this:
 
 ~~~~markdown
 ---
@@ -122,12 +126,12 @@ updated: YYYY-MM-DD
 
 # Log
 
-> Append-only. One entry per ingest, filed query or lint pass, newest at the bottom.
-> Format: `## [YYYY-MM-DD] ingest | Title` (or `query |`, `lint |`, `setup |`, `archive |`), then one short paragraph.
-> Last five entries: `grep "^## \[" wiki/log.md | tail -5`
+> Append-only. One entry per page filed, saved answer, lint pass, undo or archive, newest at the bottom.
+> Format: `## [YYYY-MM-DD] file (nightly) | Page name` (or `file |`, `query |`, `lint |`, `undo |`, `setup |`, `archive |`), then one short line.
+> Last five entries: `grep "^## \[" _Brain/log.md | tail -5`
 ~~~~
 
-Create `wiki/overview.md` with exactly this:
+Create `_Brain/overview.md` with exactly this:
 
 ~~~~markdown
 ---
@@ -138,9 +142,9 @@ updated: YYYY-MM-DD
 sources: 0
 ---
 
-# What the wiki knows so far
+# What the brain knows so far
 
-> One page, rewritten on every ingest: the current best understanding, with links to the pages behind it. Topics get added after the setup conversation.
+> One page, rewritten whenever filing changes a view: the current best understanding, with links to the pages behind it. Topics get added after the setup conversation.
 
 ## The big picture
 Nothing filed yet.
@@ -164,12 +168,12 @@ generated_by: claude-code
 
 Raw sources. Articles, web pages, PDFs, transcripts. The Obsidian Web Clipper saves here, and downloaded images go in `assets/`.
 
-**The AI never edits, renames or moves anything in this folder.** It reads clippings and writes summaries of them into `wiki/`.
+**The AI never edits, renames or moves anything in this folder.** It reads clippings and files what matters into `_Brain/`, usually overnight.
 
-To add something: clip it, then tell your AI "ingest the new clipping".
+To add something: just clip it. Your AI files new clippings every night. Want it filed now, with a chat about it? Say "file this now".
 ~~~~
 
-Create `_Brain/README.md` with exactly this (skip if it exists):
+Create `_Brain/README.md` with exactly this (if one exists, move it to `Archive/_Brain/README-old.md` first; the old folder list is out of date):
 
 ~~~~markdown
 ---
@@ -179,13 +183,17 @@ generated_by: claude-code
 
 # _Brain/
 
-The AI's filing cabinet about the user's real world: the people, companies and ideas that come up in the user's actual life and work. Every fact has a source.
+The second brain the AI builds and keeps current from clippings and conversations, filed automatically every night. Every fact has a source.
 
+- `index.md`: the catalogue of every page. Start here.
+- `overview.md`: what the brain currently believes, and how that changed.
+- `log.md`: every page filed, and when.
+- `sources/`: one summary page per clipping
 - `people/`: one page per person
 - `companies/`: one page per organisation
-- `concepts/`: frameworks and methods the user uses
-- `sources/`: raw captured material (meeting transcripts, emails), one subfolder per type
-- `_pending/`: someone or something mentioned only once, waiting for a second mention
+- `concepts/`: ideas, methods, patterns, and works
+- `explorations/`: good answers worth keeping
+- `_pending/`: mentioned once, waiting for a second mention
 
 ## Page shape
 
@@ -216,7 +224,7 @@ Fill in today's date wherever a starter file says `YYYY-MM-DD` in frontmatter.
 ## Step 6: Replace CLAUDE.md
 
 1. If the vault has a `CLAUDE.md`, **copy** it to the archive: `cp "[VAULT]/CLAUDE.md" "[VAULT]/Archive/CLAUDE-old-$(date +%F).md"`. Copy, don't move: if your home-folder `CLAUDE.md` links to this file, it must never disappear, not even for a moment.
-2. Overwrite `[VAULT]/CLAUDE.md` itself (not the link in your home folder) with the content between the markers below, with every `[VAULT]` replaced by the real path.
+2. Overwrite `[VAULT]/CLAUDE.md` itself (not the link in your home folder) with the content between the markers below, with every `[VAULT]` and `[HOME]` replaced by the real paths.
 3. If the user agreed in Step 3 to carry anything over, add it at the end under `## Carried over from the old CLAUDE.md`.
 4. Check: if Step 2 found a link, `ls -la "$(dirname "[VAULT]")/CLAUDE.md"` still shows it, and `head -1 "$(dirname "[VAULT]")/CLAUDE.md"` shows `# Vault rules`. If the link is gone or shows the old title, stop and tell the user.
 
@@ -247,10 +255,27 @@ Watch for skills that **write** into the daily journal (a morning brief, a wrap-
 2. Count files again. The vault should have at least the backup's count, minus any `.DS_Store` files you removed. If it has fewer, stop and tell the user. The backup is untouched.
 3. Tell the user, in plain words: what moved, what's new, what went to `Archive/`, and where the backup is.
 4. If `Memory/daily-memory.md` exists, add one line:
-   `YYYY-MM-DD HH:MM: Restructured vault into an LLM wiki. Backup at [VAULT]-backup-YYYY-MM-DD.`
+   `YYYY-MM-DD HH:MM: Set up the second brain with nightly filing. Backup at [VAULT]-backup-YYYY-MM-DD.`
 5. Remind the user to make the Obsidian settings changes from the guide (daily notes, Web Clipper folder, attachment folder, download-attachments hotkey).
 
-## Step 10: Switch on search by meaning
+## Step 10: Teach your nightly job to file
+
+Your `dreaming` skill already runs every night and harvests yesterday's conversations into `Memory/daily-memory.md`. Now it also files into the brain.
+
+1. Open `~/.claude/skills/dreaming/SKILL.md`. If it doesn't exist, tell the user nightly filing isn't possible yet (their install has no nightly job), skip to Step 11, and say so plainly in the final report.
+2. Right after the conversation harvest step (and before memory compression), add this step, word for word:
+
+~~~~markdown
+### Step 0.5 — File into the brain
+
+If `[VAULT]/_Brain/index.md` exists, follow the section **"Nightly filing (automatic)"** in `[VAULT]/CLAUDE.md` exactly: file the durable points you just harvested and up to 3 new clippings into `_Brain/`. Snapshot every existing page to `[HOME]/_recovery/brain-snapshots/YYYY-MM-DD/` and confirm the copy before you change it; no confirmed snapshot, no change. Skip points from conversations in folders marked `.private`. At most 15 pages, every fact cited, every page logged in `_Brain/log.md` as `file (nightly)` (new pages marked `(new)`). Never write anywhere else in the vault. If anything errors, stop filing, log it in `Memory/daily-memory.md`, and continue with the rest of dreaming. Filing must never stop memory compression.
+~~~~
+
+3. Check the nightly job is allowed to write files: `grep -o 'allowedTools[^-]*' ~/Library/LaunchAgents/*dreaming*.plist`. It should include `Read Edit Write Glob Grep`. If it doesn't, don't edit the plist yourself: tell the user and stop this step.
+4. **Test once, now, on today:** run the filing step by hand on today's conversation (this one). File at most 3 pages, and make sure at least one is an update to an existing page so a snapshot gets written. Check the snapshot folder was created and the copy matches. Show the user what you filed and where the snapshot is, then run "undo" on one page and show that it came back exactly.
+5. **Private folders:** tell the user in one sentence that any project folder with a file named `.private` in it is never filed, and offer to create that file in any client or shared-data folders they name.
+
+## Step 11: Switch on search by meaning
 
 This lets you find pages by what they're about, not only the exact words. It uses the Smart Connections plugin in Obsidian, and everything stays on the Mac.
 
@@ -283,6 +308,6 @@ This lets you find pages by what they're about, not only the exact words. It use
 9. **If the vault is a git repository** (`git -C "[VAULT]" status` works), make sure `.smart-env/` is in its `.gitignore`. The index is large and rebuilds itself.
 10. **Record it:** add a row for `vault-semantic-search` to `tools.md` if you have one (what it does, the command above), and add one line to `Memory/daily-memory.md` if it exists.
 
-## Step 11: Make it the user's wiki
+## Step 12: Make it the user's brain
 
-Offer to run the setup conversation from the new `CLAUDE.md` now (section "The wiki's focus"), so the wiki fits what the user actually wants before the first clipping goes in.
+Run the setup conversation from the new `CLAUDE.md` now (section "The brain's focus"), so the brain knows what matters to the user, and what never to file, before its first night.

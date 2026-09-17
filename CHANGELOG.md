@@ -2,14 +2,16 @@
 
 The playbooks say what to do. This file keeps the *why*, so the install stays short and the reasons aren't lost.
 
-## 2026-09-17 — the vault becomes a wiki
+## 2026-09-17 — a second brain that files itself
 
-- New guide: `docs/obsidian-llm-wiki.html`, built from `docs/obsidian-llm-wiki/`. It turns the vault into an LLM wiki (Andrej Karpathy's pattern: raw clippings, a wiki the AI owns, a rules file) and explains setup, daily use and the rules in one file. Part 2 gets Stage 3.9 to run it.
-- The wiki takes only `Clippings/` as sources. `Notes/`, `_context/` and any journal stay the user's own writing, so reflection never reads the AI's words back as the user's.
-- Karpathy leaves the details to "your domain". Left alone, every session invented its own page names and formats. The rules now fix structure and formats, and a six-question setup conversation writes down what the wiki is for.
-- `wiki/overview.md` holds what the wiki currently believes, with a running record of how that changed. It's the page where the user sees the wiki getting smarter.
+- New guide: `docs/obsidian-llm-wiki.html`, built from `docs/obsidian-llm-wiki/`. It turns `_Brain/` into a second brain following Andrej Karpathy's LLM Wiki pattern (raw clippings, pages the AI owns, index, log, rules file) and explains setup, daily use and the rules in one file. Part 2 gets Stage 3.9 to run it.
+- **Filing is automatic.** The first version asked the user to say "ingest this" after every clip. Dani's own vault showed what happens: two ingests in five months, then nothing, while the nightly harvest wrote 51 dated lists that never reached a page. `dreaming` now has Step 0.5: after the harvest, it files what mattered and up to 3 new clippings into `_Brain/`, at most 15 pages a night, every fact cited, every page logged, every existing page copied to `_recovery/brain-snapshots/` first so "undo last night" works.
+- **One cabinet.** No separate `wiki/`. A split between "people I read about" and "people I know" made nobody sure where to look. People and organisations get one page each with `relation: knows | read-about`.
+- Only clippings and conversations feed the brain. `Notes/`, `_context/` and any journal stay the user's own writing, so reflection never reads the AI's words back as the user's.
+- Karpathy leaves the details to "your domain". Left alone, every session invented its own page names and formats. The rules fix structure and formats, and a six-question setup conversation writes down what the brain is for and what never to file.
+- `_Brain/overview.md` holds what the brain currently believes, with a running record of how that changed.
 - The semantic search script now ships (`setup-guide/skill-templates/vault-semantic-search/scripts/search.py`) instead of being written by each install's AI from a description. It takes `--vault`.
-- Archive has rules: when the AI may archive (asked to, merging duplicate pages, unfilled templates), how, and what never gets archived.
+- Archive has rules: when the AI may archive (asked to, merging duplicate pages, undoing a page it created, unfilled templates), how, and what never gets archived.
 - `setup.sh` always makes `~/<name>/CLAUDE.md` a link to `vault/CLAUDE.md`, so the vault rules are what every session loads. The setup prompt keeps that link and replaces the file's contents (copy to Archive first, never move). An earlier draft turned the link into a copy; that would have frozen the old rules as the file every session reads.
 
 ## 2026-09-16 — workshop prep

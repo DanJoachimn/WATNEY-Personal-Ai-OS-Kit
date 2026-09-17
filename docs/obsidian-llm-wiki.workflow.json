@@ -2,7 +2,7 @@
   "schema_version": 2,
   "diagram_type": "workflow",
   "meta": {
-    "title": "How the Obsidian LLM wiki works",
+    "title": "How a second brain that files itself works",
     "locale": "en",
     "quality_profile": "showcase",
     "views": [
@@ -11,12 +11,13 @@
         "label": "Feed it",
         "focus": [
           "clip",
+          "work",
           "clippings",
-          "ingest",
-          "wiki",
+          "nightly",
+          "brain",
           "overview"
         ],
-        "note": "You pick what's worth keeping. Your AI reads it once, files it into linked pages and updates the overview."
+        "note": "Clip what you care about and keep working. Every night your AI files what mattered into linked pages."
       },
       {
         "id": "ask-it",
@@ -33,17 +34,17 @@
         "label": "It compounds",
         "focus": [
           "answer",
-          "explore",
-          "wiki"
+          "saved",
+          "brain"
         ],
-        "note": "Good answers are saved as pages too, so next month's question starts from a smarter wiki."
+        "note": "Good answers are saved as pages too, so next month's question starts from a smarter brain."
       }
     ],
     "legend": {
       "mode": "hidden"
     },
     "viewBox": [
-      1000,
+      920,
       528
     ]
   },
@@ -64,11 +65,11 @@
   "mainPath": [
     "clip",
     "clippings",
-    "ingest",
-    "wiki",
+    "nightly",
+    "brain",
     "overview",
     "answer",
-    "explore"
+    "saved"
   ],
   "nodes": [
     {
@@ -80,6 +81,14 @@
       "sublabel": "pick what's worth it"
     },
     {
+      "id": "work",
+      "lane": "you",
+      "col": 2,
+      "type": "external",
+      "label": "You work",
+      "sublabel": "decisions in chats"
+    },
+    {
       "id": "clippings",
       "lane": "vault",
       "col": 1,
@@ -88,19 +97,19 @@
       "sublabel": "kept as-is, untouched"
     },
     {
-      "id": "ingest",
+      "id": "nightly",
       "lane": "ai",
       "col": 2,
       "type": "backend",
-      "label": "AI files it",
-      "sublabel": "reads once, asks you"
+      "label": "Nightly filing",
+      "sublabel": "cited, logged, undoable"
     },
     {
-      "id": "wiki",
+      "id": "brain",
       "lane": "vault",
       "col": 3,
       "type": "database",
-      "label": "Wiki pages",
+      "label": "Brain pages",
       "sublabel": "linked, kept current"
     },
     {
@@ -128,7 +137,7 @@
       "sublabel": "with links as proof"
     },
     {
-      "id": "explore",
+      "id": "saved",
       "lane": "vault",
       "col": 5,
       "type": "database",
@@ -144,22 +153,30 @@
       "variant": "default"
     },
     {
-      "id": "read-once",
+      "id": "clips-in",
       "from": "clippings",
-      "to": "ingest",
-      "label": "read once",
+      "to": "nightly",
+      "label": "new clips",
       "variant": "emphasis"
     },
     {
+      "id": "chats-in",
+      "from": "work",
+      "to": "nightly",
+      "label": "what mattered",
+      "variant": "default",
+      "role": "branch"
+    },
+    {
       "id": "file-pages",
-      "from": "ingest",
-      "to": "wiki",
+      "from": "nightly",
+      "to": "brain",
       "label": "file + link",
       "variant": "emphasis"
     },
     {
       "id": "sum-up",
-      "from": "wiki",
+      "from": "brain",
       "to": "overview",
       "variant": "default"
     },
@@ -180,7 +197,7 @@
     {
       "id": "save-that",
       "from": "answer",
-      "to": "explore",
+      "to": "saved",
       "label": "save that",
       "variant": "dashed"
     }

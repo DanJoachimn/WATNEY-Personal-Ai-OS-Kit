@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Obsidian LLM wiki</title>
+<title>Second brain guide</title>
 <style>
   :root {
     --bg: #f7f6f3; --surface: #ffffff; --text: #1d1d1b; --muted: #62615c;
@@ -94,29 +94,29 @@
 </head>
 <body>
 <main>
-  <h1>Your Obsidian vault as an LLM wiki</h1>
-  <p class="lede">How to turn your vault into a wiki your AI builds and keeps up to date for you: what it is, how to set it up, how to use it, and the rules your AI follows.</p>
+  <h1>A second brain that files itself</h1>
+  <p class="lede">How to turn your Obsidian vault into a brain your AI builds and keeps current for you, every night, without being asked: what it is, how to set it up, how to use it, and the rules your AI follows.</p>
 
   <h2>What this is</h2>
-  <p><strong>What's a wiki?</strong> A collection of pages that link to each other, like Wikipedia. Each page covers one thing: a person, an idea, an article you read. When one page mentions something that has its own page, it links there, so you can click from an idea to the author who wrote about it to the study they cited. Yours is private, lives in Obsidian, and only contains what you chose to feed it.</p>
-  <p><strong>What's an LLM wiki?</strong> The setup comes from <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f">Andrej Karpathy's LLM Wiki</a>. Most AI tools re-read your documents from scratch every time you ask something, so nothing builds up. Here it works the other way round. You clip things you read. Your AI reads each one once, files what matters into linked pages, and keeps those pages current as new sources arrive. Ask something next month and the answer is already organised, with the contradictions flagged and the links in place.</p>
-  <p><strong>Who does what.</strong> You pick the sources, ask the questions and decide what it all means. Your AI does the summarising, linking and bookkeeping that makes people give up on note systems. Obsidian is where you browse the result.</p>
+  <p><strong>What's a wiki?</strong> A collection of pages that link to each other, like Wikipedia. Each page covers one thing: a person, an idea, an article you read. When one page mentions something that has its own page, it links there, so you can click from an idea to the author who wrote about it to the study they cited. Yours is private, lives in Obsidian as plain files on your Mac, and only contains what came from your own reading and work.</p>
+  <p><strong>What's an LLM wiki?</strong> The idea comes from <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f">Andrej Karpathy's LLM Wiki</a>. Most AI tools re-read your documents from scratch every time you ask something, so nothing builds up. Here it works the other way round. Your AI reads each source once, files what matters into linked pages, and keeps those pages current as new material arrives. Ask something next month and the answer is already organised, with the contradictions flagged and the links in place.</p>
+  <p><strong>Why "files itself".</strong> A wiki that waits for you to say "file this" doesn't grow. Nobody remembers to. So every night your AI files what mattered from yesterday's conversations and your new clippings. You just clip things and keep working. Every change is logged, every fact has a source, and anything can be undone.</p>
 
   <div class="compare">
     <div>
       <strong>You</strong>
       <ul>
         <li>Clip articles worth keeping</li>
-        <li>Ask questions</li>
-        <li>Steer what matters</li>
+        <li>Work and talk with your AI</li>
+        <li>Ask questions, steer what matters</li>
       </ul>
     </div>
     <div>
-      <strong>Your AI</strong>
+      <strong>Your AI, every night</strong>
       <ul>
-        <li>Reads and files every source</li>
+        <li>Files what mattered, with sources</li>
         <li>Keeps pages, links and index current</li>
-        <li>Flags contradictions and gaps</li>
+        <li>Updates the overview of what it knows</li>
       </ul>
     </div>
   </div>
@@ -125,36 +125,37 @@
 
   <h3>The vault, once it's set up</h3>
   <pre class="tree">Clippings/        raw material: articles, pages. Never edited.
-wiki/             the wiki your AI builds from that material
+_Brain/           the brain your AI builds and keeps current
   index.md        the catalogue of every page. Read first.
-  overview.md     what the wiki currently believes, on one page
-  log.md          what was added, and when
+  overview.md     what the brain currently believes, on one page
+  log.md          what was filed, and when (nightly filing included)
   sources/        one summary page per clipping
-  entities/       people, organisations, places from your sources
-  concepts/       ideas and patterns
+  people/         one page per person
+  companies/      one page per organisation
+  concepts/       ideas, patterns, books, products
   explorations/   good answers worth keeping
-_Brain/           your AI's notes on your real world, every fact cited
 Notes/, _context/, Daily logs/ (optional)
                   your own thinking. Your AI reads, never writes.
 Archive/          nothing is deleted; it moves here</pre>
 
   <h3>How it differs from Karpathy's original</h3>
-  <p>The wiki itself follows his pattern closely. The differences are about the rest of the vault, where your own thinking lives.</p>
+  <p>The core follows his pattern closely: raw sources that are never edited, pages the AI owns, an index, a log, and a rules file. The differences:</p>
   <div class="table-scroll">
   <table class="diff">
     <tr><th></th><th>Karpathy</th><th>This setup</th></tr>
-    <tr><td><strong>What feeds the wiki</strong></td><td>Anything, including journal entries</td><td>Only <code>Clippings/</code>. Your own writing is never rewritten into AI pages.</td></tr>
+    <tr><td><strong>Filing</strong></td><td>You drop a source in and tell the AI to process it</td><td>Automatic every night, from clippings and your conversations. "File this now" still works.</td></tr>
+    <tr><td><strong>What feeds it</strong></td><td>Anything, including journal entries</td><td>Clippings and conversations. Your own notes are never rewritten into AI pages.</td></tr>
     <tr><td><strong>Your own thinking</strong></td><td>No separate space</td><td><code>Notes/</code>, <code>_context/</code> and any journal are yours alone. Your AI reads them, never writes there.</td></tr>
-    <tr><td><strong>People in your life</strong></td><td>Entity pages in the wiki</td><td>People from articles go in the wiki; people you actually know go in <code>_Brain/</code>, with a source for every fact.</td></tr>
-    <tr><td><strong>Details</strong></td><td>Deliberately left to "your domain"</td><td>Structure and formats are fixed so every session files the same way. What the wiki is <em>for</em> is set in a short conversation with you.</td></tr>
+    <tr><td><strong>Trust</strong></td><td>You review as you go</td><td>A source on every fact, a log of every change, a copy of every page before it changes, and "undo last night".</td></tr>
+    <tr><td><strong>Details</strong></td><td>Deliberately left to "your domain"</td><td>Structure and formats are fixed so every night files the same way. What the brain is <em>for</em> is set in a short conversation with you.</td></tr>
     <tr><td><strong>Search</strong></td><td>Index file, then a tool called qmd</td><td>Index file, plus search by meaning through the Smart Connections plugin</td></tr>
   </table>
   </div>
 
-  <div class="note">Setting it up changes where files live, so it starts with a full backup. Nothing gets deleted, and your AI shows you the plan and waits for your go before it moves a single file.</div>
+  <div class="note">Setting it up changes where some files live, so it starts with a full backup. Nothing gets deleted, and your AI shows you the plan and waits for your go before it moves a single file.</div>
 
   <h2>Part 1: Set it up</h2>
-  <p><strong>Before you start:</strong> a WATNEY kit install (your AI running in Claude Code, with a vault in Obsidian). It also works on another Obsidian vault; your AI will ask where it is. Allow about 20 minutes.</p>
+  <p><strong>Before you start:</strong> a WATNEY kit install (your AI running in Claude Code, with a vault in Obsidian and the nightly memory job). It also works on another Obsidian vault; your AI will ask where it is. Allow about 20 minutes.</p>
   <ol class="steps">
     <li><strong>Quit Obsidian.</strong> It can trip over files being moved while it's open.</li>
     <li><strong>Start a Claude Code session with your AI</strong> and paste in the prompt below.</li>
@@ -169,9 +170,10 @@ Archive/          nothing is deleted; it moves here</pre>
         <li>Settings → Hotkeys → search "Download attachments for current file" and give it a shortcut. After clipping an article, press it so the images are saved where your AI can see them.</li>
       </ul>
     </li>
+    <li><strong>Watch it file once.</strong> Your AI adds the filing step to its nightly job, then files up to 3 things from your setup conversation by hand, so you can see what a filed page looks like and how "undo that" works.</li>
     <li><strong>Switch on search by meaning.</strong> Your AI walks you through installing the free Smart Connections plugin (the first toggle, "Turn on community plugins", is the one people miss). It asks before a one-time download of about 700 MB. After that, searching "pricing" also finds the page that says "what to charge". Everything stays on your Mac.</li>
-    <li><strong>Tell it what the wiki is for.</strong> Your AI asks six short questions: what you want help with, what you'll clip, what you hope to ask it later. Answer in your own words. It turns your answers into the wiki's focus and a short list of tags, shows you, and saves it once you're happy. This is what makes it your wiki instead of a generic one.</li>
-    <li><strong>Try it.</strong> Clip one article you like, then say "ingest the new clipping". You get a few takeaways and a question about what to focus on, then new pages in <code>wiki/</code>. Ask something about the article afterwards; a good answer can be saved as a wiki page too.</li>
+    <li><strong>Tell it what the brain is for.</strong> Your AI asks six short questions: what you want help with, what you'll clip, what you hope to ask it later, and what it should never file. Answer in your own words. That's what makes it your brain instead of a generic one.</li>
+    <li><strong>Check tomorrow morning.</strong> Ask "what did you file last night?"</li>
   </ol>
 
   <h3>The setup prompt for your AI</h3>
@@ -188,28 +190,29 @@ Archive/          nothing is deleted; it moves here</pre>
   <p class="lede">If anything goes sideways, the backup sits next to your vault, named after it plus <code>-backup-</code> and the date. Ask your AI to put it back.</p>
 
   <h2>Part 2: How to use it, day to day</h2>
-  <p>You do two things: feed it and ask it. Your AI does the filing. Plain language works; you don't need exact phrases.</p>
+  <p>Mostly: nothing. Clip what you care about and keep working. Your AI files overnight. When you want something, plain language works.</p>
 
   <dl class="uses">
-    <div><dt>Save something you read</dt><dd><span class="say">"Ingest this"</span>Clip the article with Web Clipper first, or paste a link and say "file this". Your AI shares the key points, asks what matters to you, then files it into the wiki and tells you which pages changed.</dd></div>
-    <div><dt>Catch up on a pile</dt><dd><span class="say">"Ingest everything new"</span>Works through every clipping that isn't filed yet, with less back-and-forth.</dd></div>
-    <div><dt>Ask a question</dt><dd><span class="say">"What do my sources say about pricing a workshop?"</span>Your AI answers from the wiki and links the pages it used. If the wiki doesn't know enough, it says so and suggests what to read.</dd></div>
-    <div><dt>Keep a good answer</dt><dd><span class="say">"Save that"</span>The answer becomes its own page in <code>wiki/explorations/</code>, so it isn't lost in the chat.</dd></div>
+    <div><dt>Save something you read</dt><dd><span class="say">Just clip it</span>New clippings are filed overnight. Want it now, with a chat about what matters? Say "file this now". Or paste a link and say "file this".</dd></div>
+    <div><dt>Keep a decision</dt><dd><span class="say">Just say it in a chat</span>"We're going with the annual plan." The nightly run picks up decisions, new facts about people and projects, and insights worth keeping, and files them on the right page with the date.</dd></div>
+    <div><dt>See what got filed</dt><dd><span class="say">"What did you file last night?"</span>A short summary from the log. Your AI also mentions it in one line at the start of your first chat of the day.</dd></div>
+    <div><dt>Undo it</dt><dd><span class="say">"Undo last night's filing"</span>Every page is copied before it changes, so your AI can put last night's pages back exactly as they were. Or point at one page: "that's wrong, put it back".</dd></div>
+    <div><dt>Keep something out</dt><dd><span class="say">"Don't file anything about my health"</span>Added to the brain's "never file" list after your AI confirms.</dd></div>
+    <div><dt>Ask a question</dt><dd><span class="say">"What do my sources say about pricing a workshop?"</span>Your AI answers from the brain and links the pages it used. If it doesn't know enough, it says so and suggests what to read.</dd></div>
+    <div><dt>Keep a good answer</dt><dd><span class="say">"Save that"</span>The answer becomes its own page in <code>_Brain/explorations/</code>, so it isn't lost in the chat.</dd></div>
     <div><dt>Find anything</dt><dd><span class="say">"Have I read anything about sleep?"</span>Your AI searches by meaning, so it finds the right pages even when they use different words than you do. In Obsidian, the Smart Connections panel does the same for whatever note you have open.</dd></div>
-    <div><dt>See what you've learned</dt><dd><span class="say">"What have we learned so far?"</span>Your AI keeps one page, <code>wiki/overview.md</code>, that sums up everything the wiki knows, topic by topic, and how sure it is. Every new article updates it, and a running list at the bottom shows each time your sources changed the picture.</dd></div>
-    <div><dt>Keep it healthy</dt><dd><span class="say">"Check the wiki"</span>Every few weeks. Finds contradictions, out-of-date claims, duplicate pages and loose ends, and suggests what to read next.</dd></div>
-    <div><dt>See what's new</dt><dd><span class="say">"What's been added lately?"</span>A quick summary from the log.</dd></div>
-    <div><dt>Tell it about your world</dt><dd><span class="say">"My accountant is Sam, we meet every quarter"</span>Real people and companies in your life go into <code>_Brain/</code>, with a note of where each fact came from.</dd></div>
-    <div><dt>Think out loud</dt><dd><span class="say">"What patterns do you see in my notes?"</span>For this it reads only your own writing, never its own notes, so what comes back is really yours.</dd></div>
-    <div><dt>Rethink the focus</dt><dd><span class="say">"Let's rethink what the wiki is for"</span>Runs the setup questions again. Worth doing every few months, or when your interests shift.</dd></div>
+    <div><dt>See what you've learned</dt><dd><span class="say">"What have we learned so far?"</span>Your AI keeps one page, <code>_Brain/overview.md</code>, that sums up what the brain knows, topic by topic, and how sure it is. A running list at the bottom shows each time new material changed the picture.</dd></div>
+    <div><dt>Keep it healthy</dt><dd><span class="say">"Check my brain"</span>Every few weeks. Finds contradictions, out-of-date claims, duplicate pages and loose ends, and suggests what to read next.</dd></div>
+    <div><dt>Think out loud</dt><dd><span class="say">"What patterns do you see in my notes?"</span>For this it reads only your own writing, never its own pages, so what comes back is really yours.</dd></div>
+    <div><dt>Rethink the focus</dt><dd><span class="say">"Let's rethink what the brain is for"</span>Runs the setup questions again. Worth doing every few months, or when your interests shift.</dd></div>
     <div><dt>Change how it works</dt><dd><span class="say">"From now on, do X"</span>It suggests the exact change to its rules and waits for your yes.</dd></div>
   </dl>
 
   <h3>Where to look in Obsidian</h3>
   <ul>
-    <li><code>wiki/overview.md</code> is the one page to read: what the wiki currently believes, and how that has changed.</li>
-    <li><code>wiki/index.md</code> is the catalogue: every page in the wiki, one line each.</li>
-    <li><code>wiki/log.md</code> shows what was added and when.</li>
+    <li><code>_Brain/overview.md</code> is the one page to read: what the brain currently believes, and how that has changed.</li>
+    <li><code>_Brain/index.md</code> is the catalogue: every page, one line each.</li>
+    <li><code>_Brain/log.md</code> shows what was filed and when, including every nightly run.</li>
     <li>Graph view shows how pages connect. A dot with no lines is a page nothing links to yet.</li>
   </ul>
 
@@ -217,7 +220,8 @@ Archive/          nothing is deleted; it moves here</pre>
   <ul>
     <li>Change or delete anything you clipped.</li>
     <li>Write in <code>Notes/</code>, <code>_context/</code> or your journal. If you want something changed there, it writes the text in chat for you to paste.</li>
-    <li>Delete anything. Files that should leave the active vault move to <code>Archive/</code>, unchanged and still findable, and only when you ask or when two wiki pages get merged into one. It never archives something just because it looks old; it asks first.</li>
+    <li>File anything on your "never file" list, or more than 15 pages in one night.</li>
+    <li>Delete anything. Files that should leave the active vault move to <code>Archive/</code>, unchanged and still findable, and only when you ask, when two pages get merged into one, or when you undo a page it created. It never archives something just because it looks old; it asks first.</li>
   </ul>
 
   <h2>Part 3: The rules your AI follows</h2>
